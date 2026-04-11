@@ -1,11 +1,11 @@
-"""Qt-based image utilities: thumbnail generation, format detection, full-image dialog."""
+"""Qt-based image utilities: thumbnails, format detection, full-image dialog."""
 
 from __future__ import annotations
 
 import logging
 from typing import TYPE_CHECKING, Any
 
-from PyQt5.QtCore import QByteArray, QBuffer, QIODevice, Qt, QSize
+from PyQt5.QtCore import QBuffer, QByteArray, QIODevice, Qt
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtWidgets import (
     QDialog,
@@ -47,9 +47,7 @@ def generate_thumbnail(image_data: bytes, width: int, height: int) -> bytes | No
     if not img.loadFromData(QByteArray(image_data)):
         logger.warning("generate_thumbnail: failed to load image data.")
         return None
-    scaled = img.scaled(
-        width, height, Qt.KeepAspectRatio, Qt.SmoothTransformation
-    )
+    scaled = img.scaled(width, height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
     ba = QByteArray()
     buf = QBuffer(ba)
     buf.open(QIODevice.WriteOnly)

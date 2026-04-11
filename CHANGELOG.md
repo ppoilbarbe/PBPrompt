@@ -3,6 +3,13 @@
 All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.2] – 2026-04-11
+
+### Fixed
+- Pre-commit hooks updated (`pre-commit-hooks` v6.0.0, `ruff` v0.15.10); all
+  ruff lint and format errors corrected (E501 lines shortened, auto-formatted
+  files committed).
+
 ## [1.0.1] – 2026-04-11
 
 ### Added
