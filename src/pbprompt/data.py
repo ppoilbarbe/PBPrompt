@@ -221,8 +221,8 @@ class PromptCollection:
     supported exclusively as an import/export interchange format.
     """
 
-    def __init__(self) -> None:
-        self.entries: list[PromptEntry] = []
+    def __init__(self, entries: list[PromptEntry] | None = None) -> None:
+        self.entries: list[PromptEntry] = list(entries) if entries is not None else []
         self.file_path: Path | None = None
         self.modified: bool = False
 

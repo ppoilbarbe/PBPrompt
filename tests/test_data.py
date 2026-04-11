@@ -57,7 +57,7 @@ class TestPromptCollection:
         assert col.modified
 
     def test_save_and_load(self, tmp_path: Path) -> None:
-        path = tmp_path / "test.yaml"
+        path = tmp_path / "test.sqlite"
         col = PromptCollection(
             entries=[PromptEntry(ai="GPT", group="G", name="N", local="L", english="E")]
         )
@@ -71,8 +71,8 @@ class TestPromptCollection:
         assert not loaded.modified
 
     def test_load_empty_file(self, tmp_path: Path) -> None:
-        path = tmp_path / "empty.yaml"
-        path.write_text("", encoding="utf-8")
+        path = tmp_path / "empty.sqlite"
+        PromptCollection().save(path)
         col = PromptCollection.load(path)
         assert col.entries == []
 

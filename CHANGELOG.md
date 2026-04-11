@@ -3,6 +3,17 @@
 All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.4] – 2026-04-11
+
+### Fixed
+- `PromptCollection.__init__()` now accepts an optional `entries` parameter
+  (`list[PromptEntry] | None`), restoring the API expected by the test suite.
+- `test_save_and_load` updated to use `.sqlite` extension (consistent with the
+  SQLite-first storage model).
+- `test_load_empty_file` rewritten to create a valid empty PBPrompt database via
+  `PromptCollection().save()` instead of an empty YAML file, which now correctly
+  raises `ValueError`.  All 31 tests pass.
+
 ## [1.0.3] – 2026-04-11
 
 ### Fixed
