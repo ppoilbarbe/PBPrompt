@@ -3,36 +3,54 @@
 All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
-## [1.0.1] – 2024
+## [1.0.0] – 2026-04-11
 
 ### Added
-- **Duplicate row** – toolbar button and `Ctrl+D` shortcut to duplicate the
-  current row and insert it immediately below.
-- **Current cell highlight** – the active cell is visually distinguished from
-  other cells in the selected row by a coloured 2-px border.
-- **argparse CLI** – `--version`, `--log-level`, and an optional `FILE`
-  positional argument.  A file on the command line takes priority over the
-  auto-loaded last file; read errors show an informative dialog.
-- **SVG icons** – custom 24×24 outline icons for all toolbar actions with a
+- **Six-column prompt table** – AI, Group, Name, Image, Local language, English.
+- **IMAGE column** – thumbnail display in the grid; double-click shows full image;
+  right-click context menu: Load from file, Paste, Clear; drag & drop supported.
+  Full image stored as SQLite BLOB; thumbnail auto-generated on import.
+  YAML export encodes the full image as Base64; thumbnails are not exported.
+  Thumbnail size (width × height) is configurable in Settings (default 64 × 64 px).
+  *Refresh Thumbnails* action in the Tools menu regenerates all thumbnails.
+- **YAML deduplication on import** – rows whose five text fields exactly match an
+  existing entry are skipped; prevents duplicating a database by importing the same
+  file twice.
+- **Image file dialog with preview** – the Load Image dialog shows a live thumbnail
+  of the selected file before confirming.
+- **Multi-line inline editor** – `Enter` confirms; `Ctrl+Enter` / `Shift+Enter`
+  inserts a real newline; `Tab` / `Shift+Tab` moves to the adjacent cell.
+- **Per-column regex filtering** with AND logic across all text columns.
+- **Multi-key column sort** with automatic sub-sort (e.g. AI → Group → Name).
+- **SQLite persistence** (WAL mode) with automatic schema migration.
+- **YAML import / export** – `Ctrl+I` (add), `Ctrl+Shift+I` (replace all),
+  `Ctrl+E` (export).
+- **12 translation services** via deep-translator + custom Reverso adapter.
+- **Duplicate row** – toolbar button and `Ctrl+D` shortcut to duplicate the current
+  row and insert it immediately below.
+- **Current cell highlight** – the active cell is visually distinguished from other
+  cells in the selected row by a coloured 2-px border.
+- **argparse CLI** – `--version`, `--log-level`, and an optional `FILE` positional
+  argument.  A file on the command line takes priority over the auto-loaded last
+  file; read errors show an informative dialog.
+- **SVG icons** – custom 24 × 24 outline icons for all toolbar actions with a
   four-level fallback chain (desktop theme → QRC → filesystem → Qt standard).
-- **Semver version management** – `scripts/bump_version.py` and Makefile
-  targets `bump-patch`, `bump-minor`, `bump-major`.
-- **Five new UI languages** – Español (es), Italiano (it), Русский (ru),
-  Tiếng Việt (vi), 中文(简体) (zh\_CN).
-- **Dynamic language discovery** – the Settings display-language combo is built
-  at runtime by scanning compiled `.mo` files; no hard-coded list required.
+- **Semver version management** – `scripts/bump_version.py` and Makefile targets
+  `bump-patch`, `bump-minor`, `bump-major`.
+- **Seven UI languages** – English, Français (fr), Español (es), Italiano (it),
+  Русский (ru), Tiếng Việt (vi), 中文(简体) (zh\_CN).
+- **Dynamic language discovery** – the Settings display-language combo is built at
+  runtime by scanning compiled `.mo` files; no hard-coded list required.
 - **"System default" option** – both display-language and translation-language
-  combos now offer *System default* (`""` in config) as the first and default
-  item.
+  combos offer *System default* (`""` in config) as the first and default item.
 - **Local language column header** – shows the actual language name and code
-  (e.g. *Français (fr)*) from startup.
-- **PyInstaller support** – `get_locale_dir()` in `i18n.py` resolves
-  `locales/` correctly from both normal execution and PyInstaller bundles via
-  `sys._MEIPASS`.
+  (e.g. *Français (fr)*) from startup and after a language change.
+- **PyInstaller support** – `get_locale_dir()` in `i18n.py` resolves `locales/`
+  correctly from both normal execution and PyInstaller one-file bundles.
 - **Makefile `dist` target** – produces `dist/pbprompt-x.y.z.tar.gz` and
   `dist/pbprompt-x.y.z.zip`.
 - **Makefile `help` target** – lists all targets with descriptions in colour.
-- **ReadTheDocs** – project documentation published to Read the Docs.
+- **Sphinx documentation** published on Read the Docs.
 - `LICENSES` file with full license texts for all dependencies.
 - `CONTRIBUTING.md` contributor guide.
 
@@ -52,20 +70,3 @@ This project adheres to [Semantic Versioning](https://semver.org/).
   pattern updated to handle both quote styles.
 - `build-backend` set to the legacy setuptools backend incompatible with
   setuptools ≥ 68; changed to `"setuptools.build_meta"`.
-
-## [1.0.0] – 2024
-
-### Added
-- Initial release.
-- Five-column prompt table (AI, Group, Name, Local language, English).
-- Multi-line inline editor for *Local language* and *English* cells.
-- Per-column regex filtering with AND logic.
-- Multi-key column sort with automatic sub-sort.
-- YAML 1.2 persistence via ruamel.yaml.
-- 12 translation services via deep-translator + Reverso.
-- Recent-files submenu with auto-load on startup.
-- Settings dialog (language, service, credentials, log level, max recent
-  files).
-- Gettext i18n: English and French UI.
-- Platform-aware configuration directory (Linux, Windows, macOS).
-- PyInstaller spec for standalone executables.

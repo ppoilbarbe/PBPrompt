@@ -24,6 +24,7 @@ from pbprompt.gui.icons import get_icon
 from pbprompt.gui.models import (
     Column,
     CurrentCellHighlightDelegate,
+    ImageDelegate,
     MultiFilterProxyModel,
     MultiLineDelegate,
     PromptTableModel,
@@ -80,6 +81,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self._("AI"),
                 self._("Group"),
                 self._("Name"),
+                self._("Image"),
                 language_label(self._config.translation_language or system_language()),
                 self._("English"),
             ]
@@ -93,6 +95,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self._("AI model name.\nSort: primary AI → Group → Name"),
                 self._("Prompt group / category.\nSort: primary Group → Name → AI"),
                 self._("Prompt title.\nSort: primary Name → Group → AI"),
+                self._("Double-click to view · Right-click for options"),
                 self._("Prompt in local language.\n") + _edit_tip,
                 self._("Prompt in English.\n") + _edit_tip,
             ]
@@ -103,6 +106,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         hdr.setSectionResizeMode(Column.AI, QHeaderView.ResizeToContents)
         hdr.setSectionResizeMode(Column.GROUP, QHeaderView.ResizeToContents)
         hdr.setSectionResizeMode(Column.NAME, QHeaderView.ResizeToContents)
+        hdr.setSectionResizeMode(Column.IMAGE, QHeaderView.Fixed)
+        self.tableView.setColumnWidth(Column.IMAGE, self._config.thumbnail_width + 12)
         hdr.setSectionResizeMode(Column.LOCAL, QHeaderView.Stretch)
         hdr.setSectionResizeMode(Column.ENGLISH, QHeaderView.Stretch)
         hdr.setSortIndicatorShown(True)
@@ -112,6 +117,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tableView.setItemDelegateForColumn(Column.LOCAL, _ml_delegate)
         self.tableView.setItemDelegateForColumn(Column.ENGLISH, _ml_delegate)
         self.tableView.setWordWrap(True)
+
+        # Image delegate for the IMAGE column
+        self._image_delegate = ImageDelegate(
+            self.tableView,
+            thumb_w=self._config.thumbnail_width,
+            thumb_h=self._config.thumbnail_height,
+            parent=self,
+        )
+        self.tableView.setItemDelegateForColumn(Column.IMAGE, self._image_delegate)
 
         # Current-cell highlight delegate for the three short columns
         _cc_delegate = CurrentCellHighlightDelegate(self.tableView, parent=self)
@@ -216,6 +230,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionImportYamlReplace.setToolTip(_("Import YAML file (replace all)"))
         self.actionExportYaml.setText(_("Export &YAML…"))
         self.actionExportYaml.setToolTip(_("Export YAML file"))
+        self.actionRefreshThumbnails.setText(_("Refresh Thumbnails"))
+        self.actionRefreshThumbnails.setToolTip(
+            _("Regenerate all thumbnails from stored images")
+        )
 
         self.menuRecentFiles.setTitle(_("Recent &Files"))
 
@@ -246,6 +264,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     _("AI"),
                     _("Group"),
                     _("Name"),
+                    _("Image"),
                     language_label(
                         self._config.translation_language or system_language()
                     ),
@@ -261,6 +280,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     _("AI model name.\nSort: primary AI → Group → Name"),
                     _("Prompt group / category.\nSort: primary Group → Name → AI"),
                     _("Prompt title.\nSort: primary Name → Group → AI"),
+                    _("Double-click to view · Right-click for options"),
                     _("Prompt in local language.\n") + _edit_tip,
                     _("Prompt in English.\n") + _edit_tip,
                 ]
@@ -311,6 +331,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionImportYamlAdd.setIcon(get_icon("import_yaml"))
         self.actionImportYamlReplace.setIcon(get_icon("import_yaml"))
         self.actionExportYaml.setIcon(get_icon("export_yaml"))
+        self.actionRefreshThumbnails.setIcon(get_icon("refresh_thumbnails"))
 
     # ------------------------------------------------------------------
     # Signal connections
@@ -335,6 +356,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Tools / Help
         self.actionToolsOptions.triggered.connect(self._on_open_settings)
         self.actionHelpAbout.triggered.connect(self._on_open_about)
+        self.actionRefreshThumbnails.triggered.connect(self._on_refresh_thumbnails)
 
         # Prompt actions
         self.actionNewPrompt.triggered.connect(self._on_new_prompt)
@@ -385,6 +407,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self._("Copied: %s") % text[:60], 3000
             )
         )
+        self.tableView.image_activated.connect(self._on_image_activated)
+        self.tableView.image_drop_requested.connect(self._on_image_drop)
 
     # ------------------------------------------------------------------
     # Header sort
@@ -392,8 +416,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def _on_header_clicked(self, column: int) -> None:
         """Select sort column (ascending); if already active, toggle direction."""
-        if column >= Column.LOCAL:
-            return  # Local and English are not sortable
+        if column not in (Column.AI, Column.GROUP, Column.NAME):
+            return  # IMAGE, LOCAL, and ENGLISH are not sortable
         if self._sort_col == column:
             self._sort_order = (
                 Qt.DescendingOrder
@@ -509,13 +533,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not path_str:
             return
         try:
-            n = self._collection.import_yaml(Path(path_str), replace=replace)
+            from pbprompt.gui.image_utils import generate_thumbnail  # noqa: PLC0415
+
+            def _thumb_factory(data: bytes) -> bytes | None:
+                return generate_thumbnail(
+                    data,
+                    self._config.thumbnail_width,
+                    self._config.thumbnail_height,
+                )
+
+            imported, skipped = self._collection.import_yaml(
+                Path(path_str),
+                replace=replace,
+                thumbnail_factory=_thumb_factory,
+            )
             self._source_model.set_collection(self._collection)
             self._update_title()
-            self.statusBar().showMessage(
-                self._("Imported {n} entries from {path}").format(n=n, path=path_str),
-                4000,
+            msg = self._("Imported {n} entries from {path}").format(
+                n=imported, path=path_str
             )
+            if skipped:
+                msg += "  " + self._("({k} duplicate(s) skipped)").format(k=skipped)
+            self.statusBar().showMessage(msg, 4000)
         except Exception as exc:
             logger.exception("Failed to import YAML from %s", path_str)
             QMessageBox.critical(
@@ -677,10 +716,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     # ------------------------------------------------------------------
 
     def _on_context_menu(self, pos: object) -> None:
-        """Show a clipboard context menu at *pos* (viewport coordinates)."""
+        """Show a context menu at *pos* (viewport coordinates)."""
         _ = self._
-        menu = QMenu(self.tableView)
+        idx = self.tableView.indexAt(pos)
+        if idx.isValid():
+            source_idx = self._proxy_model.mapToSource(idx)
+            if source_idx.column() == int(Column.IMAGE):
+                self._show_image_context_menu(pos, source_idx)
+                return
 
+        menu = QMenu(self.tableView)
         act_copy = menu.addAction(_("Copy"))
         act_copy.setShortcut(QKeySequence(QKeySequence.Copy))
         act_cut = menu.addAction(_("Cut"))
@@ -688,7 +733,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         act_paste = menu.addAction(_("Paste"))
         act_paste.setShortcut(QKeySequence(QKeySequence.Paste))
 
-        idx = self.tableView.indexAt(pos)
         has_selection = idx.isValid()
         act_copy.setEnabled(has_selection)
         act_cut.setEnabled(has_selection)
@@ -699,6 +743,217 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         act_paste.triggered.connect(self.tableView._do_paste)
 
         menu.exec_(self.tableView.viewport().mapToGlobal(pos))
+
+    # ------------------------------------------------------------------
+    # Image operations
+    # ------------------------------------------------------------------
+
+    def _on_refresh_thumbnails(self) -> None:
+        """Regenerate all thumbnails from stored full images."""
+        from pbprompt.gui.image_utils import generate_thumbnail  # noqa: PLC0415
+
+        updated = 0
+        for row, entry in enumerate(self._collection.entries):
+            if not entry.image:
+                continue
+            thumb = generate_thumbnail(
+                entry.image,
+                self._config.thumbnail_width,
+                self._config.thumbnail_height,
+            )
+            self._source_model.set_image(row, entry.image, thumb)
+            updated += 1
+        self.statusBar().showMessage(
+            self._("Thumbnails refreshed: {n} image(s) updated").format(n=updated),
+            4000,
+        )
+
+    def _on_image_activated(self, source_idx: object) -> None:
+        """Show the full image in a dialog."""
+        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+        from pbprompt.gui.image_utils import ImageViewDialog  # noqa: PLC0415
+
+        if not isinstance(source_idx, QModelIndex):
+            return
+        row = source_idx.row()
+        if row >= len(self._collection.entries):
+            return
+        entry = self._collection.entries[row]
+        if not entry.image:
+            return
+        dlg = ImageViewDialog(entry.image, parent=self)
+        dlg.exec_()
+
+    def _on_image_drop(self, source_idx: object, mime_data: object) -> None:
+        """Handle a dropped image or file URL onto an IMAGE cell."""
+        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+        from PyQt5.QtGui import QImage  # noqa: PLC0415
+        from pbprompt.gui.image_utils import (  # noqa: PLC0415
+            generate_thumbnail,
+            qimage_to_bytes,
+            detect_image_format,
+        )
+
+        if not isinstance(source_idx, QModelIndex):
+            return
+
+        image_bytes: bytes | None = None
+
+        if hasattr(mime_data, "hasImage") and mime_data.hasImage():
+            qimg = mime_data.imageData()
+            if isinstance(qimg, QImage) and not qimg.isNull():
+                image_bytes = qimage_to_bytes(qimg)
+
+        if image_bytes is None and hasattr(mime_data, "hasUrls") and mime_data.hasUrls():
+            for url in mime_data.urls():
+                if url.isLocalFile():
+                    try:
+                        with open(url.toLocalFile(), "rb") as fh:
+                            data = fh.read()
+                        if detect_image_format(data):
+                            image_bytes = data
+                            break
+                    except OSError:
+                        pass
+
+        if image_bytes is None:
+            return
+        if not detect_image_format(image_bytes):
+            QMessageBox.warning(
+                self,
+                self._("Unsupported Format"),
+                self._("Unsupported image format"),
+            )
+            return
+
+        thumb = generate_thumbnail(
+            image_bytes,
+            self._config.thumbnail_width,
+            self._config.thumbnail_height,
+        )
+        self._source_model.set_image(source_idx.row(), image_bytes, thumb)
+
+    def _show_image_context_menu(self, pos: object, source_idx: object) -> None:
+        """Show the image-specific context menu."""
+        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+
+        if not isinstance(source_idx, QModelIndex):
+            return
+        _ = self._
+        menu = QMenu(self.tableView)
+        act_load = menu.addAction(_("Load image from file…"))
+        act_paste = menu.addAction(_("Paste image"))
+        menu.addSeparator()
+        act_clear = menu.addAction(_("Clear image"))
+        act_load.triggered.connect(lambda: self._on_image_load_from_file(source_idx))
+        act_paste.triggered.connect(lambda: self._on_image_paste(source_idx))
+        act_clear.triggered.connect(lambda: self._on_image_clear(source_idx))
+        menu.exec_(self.tableView.viewport().mapToGlobal(pos))
+
+    def _on_image_load_from_file(self, source_idx: object) -> None:
+        """Load an image from disk into the IMAGE cell."""
+        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+        from pbprompt.gui.image_utils import (  # noqa: PLC0415
+            generate_thumbnail,
+            detect_image_format,
+            open_image_file_dialog,
+        )
+
+        if not isinstance(source_idx, QModelIndex):
+            return
+        path_str = open_image_file_dialog(
+            self,
+            self._("Load Image"),
+            self._("Image files (*.jpg *.jpeg *.png);;All files (*.*)"),
+            no_preview_text=self._("No preview"),
+        )
+        if not path_str:
+            return
+        try:
+            with open(path_str, "rb") as fh:
+                data = fh.read()
+        except OSError as exc:
+            QMessageBox.critical(
+                self,
+                self._("Error"),
+                self._("Could not read file:\n{error}").format(error=str(exc)),
+            )
+            return
+        if not detect_image_format(data):
+            QMessageBox.warning(
+                self,
+                self._("Unsupported Format"),
+                self._("Unsupported image format"),
+            )
+            return
+        thumb = generate_thumbnail(
+            data,
+            self._config.thumbnail_width,
+            self._config.thumbnail_height,
+        )
+        self._source_model.set_image(source_idx.row(), data, thumb)
+
+    def _on_image_paste(self, source_idx: object) -> None:
+        """Paste an image or file path from the clipboard."""
+        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+        from PyQt5.QtGui import QImage  # noqa: PLC0415
+        from pbprompt.gui.image_utils import (  # noqa: PLC0415
+            generate_thumbnail,
+            qimage_to_bytes,
+            detect_image_format,
+        )
+
+        if not isinstance(source_idx, QModelIndex):
+            return
+
+        clipboard = QApplication.clipboard()
+        image_bytes: bytes | None = None
+
+        # Try image data first
+        qimg = clipboard.image()
+        if not qimg.isNull():
+            image_bytes = qimage_to_bytes(qimg)
+
+        # Fall back to text (treated as file path)
+        if image_bytes is None:
+            text = clipboard.text().strip()
+            if text:
+                try:
+                    with open(text, "rb") as fh:
+                        data = fh.read()
+                    if detect_image_format(data):
+                        image_bytes = data
+                except OSError:
+                    pass
+
+        if image_bytes is None:
+            QMessageBox.information(
+                self,
+                self._("No Image"),
+                self._("No image in clipboard"),
+            )
+            return
+        if not detect_image_format(image_bytes):
+            QMessageBox.warning(
+                self,
+                self._("Unsupported Format"),
+                self._("Unsupported image format"),
+            )
+            return
+        thumb = generate_thumbnail(
+            image_bytes,
+            self._config.thumbnail_width,
+            self._config.thumbnail_height,
+        )
+        self._source_model.set_image(source_idx.row(), image_bytes, thumb)
+
+    def _on_image_clear(self, source_idx: object) -> None:
+        """Clear the image from the IMAGE cell."""
+        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+
+        if not isinstance(source_idx, QModelIndex):
+            return
+        self._source_model.set_image(source_idx.row(), None, None)
 
     # ------------------------------------------------------------------
     # Translation
@@ -788,6 +1043,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             reload_i18n(self._config.display_language)
             self.retranslateUi(self)
+            # Update image delegate size
+            self._image_delegate.update_size(
+                self._config.thumbnail_width,
+                self._config.thumbnail_height,
+            )
+            self.tableView.setColumnWidth(
+                Column.IMAGE, self._config.thumbnail_width + 12
+            )
             # Trim recent files list if max was reduced
             if len(self._config.recent_files) > self._config.recent_files_max:
                 self._config.recent_files = self._config.recent_files[

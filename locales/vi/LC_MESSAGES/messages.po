@@ -396,3 +396,65 @@ msgstr "Nhập thất bại:\n{error}"
 
 msgid "Export failed:\n{error}"
 msgstr "Xuất thất bại:\n{error}"
+
+# IMAGE column
+msgid "Image"
+msgstr "Hình ảnh"
+
+msgid "Double-click to view · Right-click for options"
+msgstr "Nhấp đúp để xem · Nhấp phải cho tùy chọn"
+
+msgid "Refresh Thumbnails"
+msgstr "Làm mới hình thu nhỏ"
+
+msgid "Regenerate all thumbnails from stored images"
+msgstr "Tạo lại tất cả hình thu nhỏ từ ảnh đã lưu"
+
+msgid "Thumbnails refreshed: {n} image(s) updated"
+msgstr "Đã làm mới hình thu nhỏ: {n} ảnh được cập nhật"
+
+msgid "Load image from file…"
+msgstr "Tải ảnh từ tệp…"
+
+msgid "Paste image"
+msgstr "Dán hình ảnh"
+
+msgid "Clear image"
+msgstr "Xóa hình ảnh"
+
+msgid "Load Image"
+msgstr "Tải ảnh"
+
+msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
+msgstr "Tệp ảnh (*.jpg *.jpeg *.png);;Tất cả tệp (*.*)"
+
+msgid "No image in clipboard"
+msgstr "Không có hình ảnh trong clipboard"
+
+msgid "Unsupported Format"
+msgstr "Định dạng không được hỗ trợ"
+
+msgid "Unsupported image format"
+msgstr "Định dạng hình ảnh không được hỗ trợ"
+
+msgid "Could not read file:\n{error}"
+msgstr "Không thể đọc tệp:\n{error}"
+
+msgid "No Image"
+msgstr "Không có ảnh"
+
+msgid "({k} duplicate(s) skipped)"
+msgstr "({k} bản trùng lặp bị bỏ qua)"
+
+# Settings dialog – Images group
+msgid "Images"
+msgstr "Hình ảnh"
+
+msgid "Thumbnail width (px):"
+msgstr "Chiều rộng hình thu nhỏ (px):"
+
+msgid "Thumbnail height (px):"
+msgstr "Chiều cao hình thu nhỏ (px):"
+
+msgid "No preview"
+msgstr "Không có xem trước"

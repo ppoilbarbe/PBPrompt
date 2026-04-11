@@ -175,6 +175,8 @@
      <string>&amp;Tools</string>
     </property>
     <addaction name="actionToolsOptions"/>
+    <addaction name="separator"/>
+    <addaction name="actionRefreshThumbnails"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -373,6 +375,14 @@
    </property>
    <property name="toolTip">
     <string>Export YAML file</string>
+   </property>
+  </action>
+  <action name="actionRefreshThumbnails">
+   <property name="text">
+    <string>Refresh Thumbnails</string>
+   </property>
+   <property name="toolTip">
+    <string>Regenerate all thumbnails from stored images</string>
    </property>
   </action>
  </widget>

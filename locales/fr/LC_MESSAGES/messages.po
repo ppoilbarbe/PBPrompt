@@ -398,3 +398,65 @@ msgstr "Échec de l'import :\n{error}"
 
 msgid "Export failed:\n{error}"
 msgstr "Échec de l'export :\n{error}"
+
+# IMAGE column
+msgid "Image"
+msgstr "Image"
+
+msgid "Double-click to view · Right-click for options"
+msgstr "Double-clic pour afficher · Clic droit pour les options"
+
+msgid "Refresh Thumbnails"
+msgstr "Rafraîchir les imagettes"
+
+msgid "Regenerate all thumbnails from stored images"
+msgstr "Recréer toutes les imagettes à partir des images stockées"
+
+msgid "Thumbnails refreshed: {n} image(s) updated"
+msgstr "Imagettes rafraîchies : {n} image(s) mise(s) à jour"
+
+msgid "Load image from file…"
+msgstr "Charger une image depuis un fichier…"
+
+msgid "Paste image"
+msgstr "Coller l'image"
+
+msgid "Clear image"
+msgstr "Effacer l'image"
+
+msgid "Load Image"
+msgstr "Charger une image"
+
+msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
+msgstr "Fichiers image (*.jpg *.jpeg *.png);;Tous les fichiers (*.*)"
+
+msgid "No image in clipboard"
+msgstr "Aucune image dans le presse-papiers"
+
+msgid "Unsupported Format"
+msgstr "Format non pris en charge"
+
+msgid "Unsupported image format"
+msgstr "Format d'image non pris en charge"
+
+msgid "Could not read file:\n{error}"
+msgstr "Impossible de lire le fichier :\n{error}"
+
+msgid "No Image"
+msgstr "Aucune image"
+
+msgid "({k} duplicate(s) skipped)"
+msgstr "({k} doublon(s) ignoré(s))"
+
+# Settings dialog – Images group
+msgid "Images"
+msgstr "Images"
+
+msgid "Thumbnail width (px):"
+msgstr "Largeur des imagettes (px) :"
+
+msgid "Thumbnail height (px):"
+msgstr "Hauteur des imagettes (px) :"
+
+msgid "No preview"
+msgstr "Pas d'aperçu"

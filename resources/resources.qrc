@@ -19,5 +19,6 @@
     <file alias="duplicate.svg">icons/duplicate.svg</file>
     <file alias="import_yaml.svg">icons/import_yaml.svg</file>
     <file alias="export_yaml.svg">icons/export_yaml.svg</file>
+    <file alias="refresh_thumbnails.svg">icons/refresh_thumbnails.svg</file>
   </qresource>
 </RCC>

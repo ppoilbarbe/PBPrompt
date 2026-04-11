@@ -398,3 +398,65 @@ msgstr "Import failed:\n{error}"
 
 msgid "Export failed:\n{error}"
 msgstr "Export failed:\n{error}"
+
+# IMAGE column
+msgid "Image"
+msgstr "Image"
+
+msgid "Double-click to view · Right-click for options"
+msgstr "Double-click to view · Right-click for options"
+
+msgid "Refresh Thumbnails"
+msgstr "Refresh Thumbnails"
+
+msgid "Regenerate all thumbnails from stored images"
+msgstr "Regenerate all thumbnails from stored images"
+
+msgid "Thumbnails refreshed: {n} image(s) updated"
+msgstr "Thumbnails refreshed: {n} image(s) updated"
+
+msgid "Load image from file…"
+msgstr "Load image from file…"
+
+msgid "Paste image"
+msgstr "Paste image"
+
+msgid "Clear image"
+msgstr "Clear image"
+
+msgid "Load Image"
+msgstr "Load Image"
+
+msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
+msgstr "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
+
+msgid "No image in clipboard"
+msgstr "No image in clipboard"
+
+msgid "Unsupported Format"
+msgstr "Unsupported Format"
+
+msgid "Unsupported image format"
+msgstr "Unsupported image format"
+
+msgid "Could not read file:\n{error}"
+msgstr "Could not read file:\n{error}"
+
+msgid "No Image"
+msgstr "No Image"
+
+msgid "({k} duplicate(s) skipped)"
+msgstr "({k} duplicate(s) skipped)"
+
+# Settings dialog – Images group
+msgid "Images"
+msgstr "Images"
+
+msgid "Thumbnail width (px):"
+msgstr "Thumbnail width (px):"
+
+msgid "Thumbnail height (px):"
+msgstr "Thumbnail height (px):"
+
+msgid "No preview"
+msgstr "No preview"

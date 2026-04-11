@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+import base64
 import logging
 import sqlite3
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from ruamel.yaml import YAML
 
@@ -19,8 +20,11 @@ logger = logging.getLogger(__name__)
 # Schema constants
 # ---------------------------------------------------------------------------
 
-#: Canonical column order for the prompts table, YAML serialisation, and display.
+#: Canonical text column order for YAML serialisation and display.
 PROMPTS_COLUMNS: tuple[str, ...] = ("ai", "group", "name", "local", "english")
+
+#: Binary (BLOB) columns — handled separately from text columns.
+PROMPTS_BLOB_COLUMNS: tuple[str, ...] = ("image", "thumbnail")
 
 _SQL_CREATE_PBPROMPT = """
 CREATE TABLE IF NOT EXISTS pbprompt (
@@ -32,18 +36,21 @@ CREATE TABLE IF NOT EXISTS pbprompt (
 # "group" is a SQL keyword and must be quoted throughout.
 _SQL_CREATE_PROMPTS = """
 CREATE TABLE IF NOT EXISTS prompts (
-    id      INTEGER PRIMARY KEY AUTOINCREMENT,
-    ai      TEXT NOT NULL DEFAULT '',
-    "group" TEXT NOT NULL DEFAULT '',
-    name    TEXT NOT NULL DEFAULT '',
-    local   TEXT NOT NULL DEFAULT '',
-    english TEXT NOT NULL DEFAULT ''
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    ai        TEXT NOT NULL DEFAULT '',
+    "group"   TEXT NOT NULL DEFAULT '',
+    name      TEXT NOT NULL DEFAULT '',
+    image     BLOB,
+    thumbnail BLOB,
+    local     TEXT NOT NULL DEFAULT '',
+    english   TEXT NOT NULL DEFAULT ''
 )
 """
 
-# Pre-built SELECT clause (same order as PROMPTS_COLUMNS).
+# Pre-built SELECT clause — text and BLOB columns in declaration order.
 _SQL_SELECT_PROMPTS = (
-    'SELECT "ai", "group", "name", "local", "english" FROM prompts ORDER BY id'
+    'SELECT ai, "group", name, image, thumbnail, local, english'
+    " FROM prompts ORDER BY id"
 )
 
 
@@ -59,23 +66,38 @@ class PromptEntry:
     ai: str = ""
     group: str = ""
     name: str = ""
+    image: bytes | None = None       # Full JPEG or PNG image
+    thumbnail: bytes | None = None   # Pre-scaled thumbnail (PNG)
     local: str = ""
     english: str = ""
 
-    def to_dict(self) -> dict[str, str]:
-        """Return a plain dict with all :data:`PROMPTS_COLUMNS` keys.
+    def to_dict(self) -> dict[str, Any]:
+        """Return a plain dict suitable for YAML export.
 
-        Used for YAML export: all columns are always present, even when empty.
+        All text columns are always present, even when empty.
+        The full *image* is base64-encoded when present.
+        The thumbnail is never exported (always regenerated on import).
         """
-        return {col: getattr(self, col) for col in PROMPTS_COLUMNS}
+        d: dict[str, Any] = {col: getattr(self, col) for col in PROMPTS_COLUMNS}
+        if self.image:
+            d["image"] = base64.b64encode(self.image).decode("ascii")
+        return d
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> PromptEntry:
-        """Build a :class:`PromptEntry` from a raw dict.
+        """Build a :class:`PromptEntry` from a raw dict (e.g. from YAML).
 
-        Unknown keys are silently ignored.  Missing keys default to ``""``.
+        Unknown keys are silently ignored.  Missing text keys default to ``""``.
+        The ``image`` key, if present, is expected to be a base64-encoded string.
         """
-        return cls(**{col: str(d.get(col, "")) for col in PROMPTS_COLUMNS})
+        entry = cls(**{col: str(d.get(col, "")) for col in PROMPTS_COLUMNS})
+        raw_img = d.get("image")
+        if raw_img and isinstance(raw_img, str):
+            try:
+                entry.image = base64.b64decode(raw_img)
+            except Exception:
+                logger.warning("Failed to decode base64 image data from YAML entry.")
+        return entry
 
 
 # ---------------------------------------------------------------------------
@@ -128,11 +150,19 @@ def _migrate_prompts_table(conn: sqlite3.Connection) -> list[str]:
     existing: set[str] = {row[1] for row in cur.fetchall()}
 
     added: list[str] = []
+
+    # TEXT columns: NOT NULL DEFAULT ''
     for col in PROMPTS_COLUMNS:
         if col not in existing:
             conn.execute(
                 f'ALTER TABLE prompts ADD COLUMN "{col}" TEXT NOT NULL DEFAULT ""'
             )
+            added.append(col)
+
+    # BLOB columns: nullable, no DEFAULT
+    for col in PROMPTS_BLOB_COLUMNS:
+        if col not in existing:
+            conn.execute(f'ALTER TABLE prompts ADD COLUMN "{col}" BLOB')
             added.append(col)
 
     if added:
@@ -144,16 +174,32 @@ def _migrate_prompts_table(conn: sqlite3.Connection) -> list[str]:
 def _read_entries(conn: sqlite3.Connection) -> list[PromptEntry]:
     """Return all rows from ``prompts``, preserving insertion order."""
     cur = conn.execute(_SQL_SELECT_PROMPTS)
-    return [PromptEntry.from_dict(dict(row)) for row in cur.fetchall()]
+    entries: list[PromptEntry] = []
+    for row in cur.fetchall():
+        entries.append(
+            PromptEntry(
+                ai=str(row["ai"] or ""),
+                group=str(row["group"] or ""),
+                name=str(row["name"] or ""),
+                image=row["image"],       # bytes | None (BLOB)
+                thumbnail=row["thumbnail"],  # bytes | None (BLOB)
+                local=str(row["local"] or ""),
+                english=str(row["english"] or ""),
+            )
+        )
+    return entries
 
 
 def _write_entries(conn: sqlite3.Connection, entries: list[PromptEntry]) -> None:
     """Replace all ``prompts`` rows and update the version stamp."""
     conn.execute("DELETE FROM prompts")
     conn.executemany(
-        'INSERT INTO prompts (ai, "group", name, local, english) '
-        "VALUES (?, ?, ?, ?, ?)",
-        [(e.ai, e.group, e.name, e.local, e.english) for e in entries],
+        'INSERT INTO prompts (ai, "group", name, image, thumbnail, local, english) '
+        "VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [
+            (e.ai, e.group, e.name, e.image, e.thumbnail, e.local, e.english)
+            for e in entries
+        ],
     )
     conn.execute(
         "INSERT OR REPLACE INTO pbprompt (key, value) VALUES ('version', ?)",
@@ -202,7 +248,6 @@ class PromptCollection:
                 raise ValueError(f"Not a PBPrompt database: {path}")
             migrated = _migrate_prompts_table(conn)
             if migrated:
-                # Stamp the new version after migration.
                 conn.execute(
                     "INSERT OR REPLACE INTO pbprompt (key, value) "
                     "VALUES ('version', ?)",
@@ -221,12 +266,7 @@ class PromptCollection:
         return col
 
     def save(self, path: Path | None = None) -> None:
-        """Persist all entries to a SQLite database.
-
-        The file (and any missing parent directories) is created if absent.
-        On success :attr:`file_path` is updated to *path* and :attr:`modified`
-        is reset to ``False``.
-        """
+        """Persist all entries to a SQLite database."""
         target = path or self.file_path
         if target is None:
             raise ValueError("No file path specified for saving.")
@@ -247,23 +287,27 @@ class PromptCollection:
     # YAML import / export
     # ------------------------------------------------------------------
 
-    def import_yaml(self, path: Path, replace: bool = False) -> int:
+    def import_yaml(
+        self,
+        path: Path,
+        replace: bool = False,
+        thumbnail_factory: Callable[[bytes], bytes | None] | None = None,
+    ) -> tuple[int, int]:
         """Import entries from a YAML file.
 
         Args:
-            path: Path to a YAML file that contains a list of dicts.
+            path: Path to a YAML file containing a list of dicts.
             replace: When ``True`` the current :attr:`entries` list is
-                discarded before importing (full replacement).  When
-                ``False`` the imported entries are appended.
+                discarded before importing (full replacement, no dedup).
+                When ``False`` imported entries are appended with
+                deduplication against existing entries.
+            thumbnail_factory: Optional callable that receives full image
+                bytes and returns thumbnail bytes (or ``None`` on failure).
+                Called for every imported entry that has an image.
 
         Returns:
-            The number of entries actually imported.
-
-        Notes:
-            - Dict keys that are not in :data:`PROMPTS_COLUMNS` are ignored.
-            - Missing keys default to ``""``.
-            - :attr:`modified` is set to ``True`` only when at least one
-              entry is imported.
+            ``(imported_count, skipped_count)`` where *skipped_count* is the
+            number of entries skipped due to deduplication (append mode only).
         """
         yaml = YAML()
         with path.open("r", encoding="utf-8") as fh:
@@ -273,9 +317,30 @@ class PromptCollection:
             logger.warning("Expected a YAML list in %s; got %s", path, type(raw))
             raw = []
 
-        imported = [
-            PromptEntry.from_dict(item) for item in raw if isinstance(item, dict)
-        ]
+        # Build deduplication key set from current entries (append mode only).
+        existing_keys: set[tuple[str, str, str, str, str]] = set()
+        if not replace:
+            existing_keys = {
+                (e.ai, e.group, e.name, e.local, e.english) for e in self.entries
+            }
+
+        imported: list[PromptEntry] = []
+        skipped = 0
+
+        for item in raw:
+            if not isinstance(item, dict):
+                continue
+            entry = PromptEntry.from_dict(item)
+            key = (entry.ai, entry.group, entry.name, entry.local, entry.english)
+            if not replace and key in existing_keys:
+                skipped += 1
+                continue
+            if entry.image and thumbnail_factory is not None:
+                entry.thumbnail = thumbnail_factory(entry.image)
+            imported.append(entry)
+            if not replace:
+                # Prevent within-file duplicates in append mode too.
+                existing_keys.add(key)
 
         if replace:
             self.entries = imported
@@ -286,15 +351,19 @@ class PromptCollection:
             self.modified = True
 
         logger.info(
-            "Imported %d entries from %s (replace=%s)", len(imported), path, replace
+            "Imported %d entries (%d skipped) from %s (replace=%s)",
+            len(imported),
+            skipped,
+            path,
+            replace,
         )
-        return len(imported)
+        return len(imported), skipped
 
     def export_yaml(self, path: Path) -> None:
         """Export all entries to a YAML file.
 
-        Every column in :data:`PROMPTS_COLUMNS` is written for each entry,
-        even when its value is an empty string.
+        Every text column in :data:`PROMPTS_COLUMNS` is always written.
+        Images are base64-encoded when present.  Thumbnails are never exported.
         """
         data = [e.to_dict() for e in self.entries]
         yaml = YAML()

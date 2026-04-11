@@ -564,7 +564,100 @@ Points critiques pour les tests :
     autre que i18n.py.
 
 
-12) Qualité du code
+12) Colonne IMAGE
+
+La grille possède six colonnes : AI, Group, Name, Image, Local language, English.
+(Column enum : AI=0, GROUP=1, NAME=2, IMAGE=3, LOCAL=4, ENGLISH=5)
+
+Stockage en base :
+  * Deux colonnes BLOB dans la table "prompts" : image (image complète) et thumbnail
+    (imagette pour l'affichage dans la grille).
+  * Ces colonnes sont nullable, sans DEFAULT (contrairement aux colonnes texte).
+  * La migration SQL ajoute ces colonnes avec ALTER TABLE (sans DEFAULT pour les BLOB).
+  * PROMPTS_COLUMNS = ("ai", "group", "name", "local", "english") — texte seulement.
+  * PROMPTS_BLOB_COLUMNS = ("image", "thumbnail").
+
+PromptEntry (data.py) :
+  * Nouveaux champs : image: bytes | None = None, thumbnail: bytes | None = None
+    placés entre name et local.
+  * to_dict() : encode l'image complète en Base64 ASCII si présente.
+  * from_dict() : décode le Base64 si présent.
+  * Les thumbnails ne sont PAS exportées en YAML (seulement l'image complète).
+
+Imagettes (thumbnails) :
+  * Taille configurable dans Options (largeur × hauteur en pixels, défaut 64×64).
+  * Créées automatiquement à l'ajout d'une image (chargement fichier, coller, import YAML).
+  * Modification de la taille dans Options ne recrée PAS les imagettes existantes.
+  * Action "Refresh Thumbnails" (menu Outils) → recréer toutes les imagettes de la base.
+  * Génération : QImage.scaled(w, h, KeepAspectRatio, SmoothTransformation) → PNG bytes.
+  * Détection du format : par magic bytes (pas par extension) :
+    - JPEG : data[:3] == b'\xff\xd8\xff'
+    - PNG  : data[:8] == b'\x89PNG\r\n\x1a\n'
+
+Module image_utils.py (src/pbprompt/gui/) :
+  * detect_image_format(data) → "jpeg" | "png" | None
+  * generate_thumbnail(image_data, width, height) → bytes | None (PNG)
+  * pixmap_from_bytes(data) → QPixmap | None
+  * qimage_to_bytes(image, fmt="PNG") → bytes | None
+  * ImageViewDialog(QDialog) — dialogue de visualisation plein écran avec scroll.
+
+Affichage et interactions :
+  * ImageDelegate : peint l'imagette centrée, ou un cadre pointillé "pas d'image".
+  * Double-clic → ImageViewDialog (image complète).
+  * Clic droit → menu contextuel spécifique image :
+    - "Load image from file…" : QFileDialog, filtre *.jpg *.jpeg *.png
+    - "Paste image" : image du presse-papiers OU chemin de fichier en texte
+    - (separator)
+    - "Clear image" : efface image + thumbnail
+  * Glisser-déposer : image QMimeData ou URL de fichier local sur la cellule IMAGE.
+    - dragEnterEvent / dragMoveEvent : accepte hasImage() ou hasUrls() (fichier local).
+    - dropEvent : émet image_drop_requested(source_idx, mime_data).
+  * La colonne IMAGE n'est pas éditable en ligne (createEditor retourne None).
+  * La colonne IMAGE n'est pas triable ni filtrable.
+  * Largeur de colonne fixe : thumbnail_width + 12 px.
+
+Signaux PromptTableView :
+  * image_activated = pyqtSignal(QModelIndex) — double-clic sur colonne IMAGE
+  * image_drop_requested = pyqtSignal(object, object) — drop mime data
+
+Modèle :
+  * PromptTableModel.set_image(source_row, full_image, thumbnail) :
+    - Met à jour entry.image et entry.thumbnail
+    - Émet dataChanged(…, [Qt.DecorationRole])
+    - Émet collection_modified
+
+Import/export YAML :
+  * Export : seule l'image complète est écrite en Base64 (pas la thumbnail).
+  * Import : thumbnail_factory (callable ou None) est passé à import_yaml() pour créer
+    les imagettes au moment de l'import.
+  * import_yaml(path, replace=False, thumbnail_factory=None) → tuple[int, int]
+    (importées, ignorées).
+  * Déduplication : une ligne YAML dont les 5 champs texte (ai, group, name, local,
+    english) correspondent exactement à une entrée existante est ignorée (skipped).
+    Cela vaut aussi pour les doublons dans le fichier YAML lui-même.
+
+AppConfig :
+  * thumbnail_width: int = 80
+  * thumbnail_height: int = 80
+  * Persistés dans config.yaml.
+  * Plage valide : 16–512 px.
+
+Settings dialog (groupImages) :
+  * Deux QSpinBox : spinBoxThumbnailWidth et spinBoxThumbnailHeight (16–512, défaut 64).
+  * Après fermeture avec Save, MainWindow met à jour l'ImageDelegate et la largeur de
+    la colonne IMAGE.
+
+Icône refresh_thumbnails :
+  * resources/icons/refresh_thumbnails.svg (24×24, stroke #404040, style cohérent).
+  * FreeDesktop theme : "view-refresh".
+  * Fallback Qt standard : SP_BrowserReload.
+
+_on_context_menu() dans MainWindow :
+  * Vérifie si la cellule cliquée est la colonne IMAGE → _show_image_context_menu().
+  * Sinon, menu normal Copy/Cut/Paste.
+
+
+12.1) Qualité du code
 - Code typé (type hints), docstrings pour fonctions/classes publiques, logging configurable.
 - PEP8/ruff, longueur de lignes 88 caractères.
 - Aucune clé secrète ni info sensible dans le projet.

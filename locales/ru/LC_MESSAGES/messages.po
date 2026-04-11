@@ -396,3 +396,65 @@ msgstr "Ошибка импорта:\n{error}"
 
 msgid "Export failed:\n{error}"
 msgstr "Ошибка экспорта:\n{error}"
+
+# IMAGE column
+msgid "Image"
+msgstr "Изображение"
+
+msgid "Double-click to view · Right-click for options"
+msgstr "Двойной щелчок для просмотра · Правый щелчок для параметров"
+
+msgid "Refresh Thumbnails"
+msgstr "Обновить миниатюры"
+
+msgid "Regenerate all thumbnails from stored images"
+msgstr "Создать заново все миниатюры из сохранённых изображений"
+
+msgid "Thumbnails refreshed: {n} image(s) updated"
+msgstr "Миниатюры обновлены: {n} изображение(й) обновлено"
+
+msgid "Load image from file…"
+msgstr "Загрузить изображение из файла…"
+
+msgid "Paste image"
+msgstr "Вставить изображение"
+
+msgid "Clear image"
+msgstr "Очистить изображение"
+
+msgid "Load Image"
+msgstr "Загрузить изображение"
+
+msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
+msgstr "Файлы изображений (*.jpg *.jpeg *.png);;Все файлы (*.*)"
+
+msgid "No image in clipboard"
+msgstr "В буфере обмена нет изображения"
+
+msgid "Unsupported Format"
+msgstr "Неподдерживаемый формат"
+
+msgid "Unsupported image format"
+msgstr "Неподдерживаемый формат изображения"
+
+msgid "Could not read file:\n{error}"
+msgstr "Не удалось прочитать файл:\n{error}"
+
+msgid "No Image"
+msgstr "Нет изображения"
+
+msgid "({k} duplicate(s) skipped)"
+msgstr "({k} дубликат(ов) пропущено)"
+
+# Settings dialog – Images group
+msgid "Images"
+msgstr "Изображения"
+
+msgid "Thumbnail width (px):"
+msgstr "Ширина миниатюры (пкс):"
+
+msgid "Thumbnail height (px):"
+msgstr "Высота миниатюры (пкс):"
+
+msgid "No preview"
+msgstr "Нет предпросмотра"

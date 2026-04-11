@@ -123,6 +123,8 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
             log_level=config.log_level,
             recent_files=list(config.recent_files),
             recent_files_max=config.recent_files_max,
+            thumbnail_width=config.thumbnail_width,
+            thumbnail_height=config.thumbnail_height,
         )
 
         self._populate_combos()
@@ -163,6 +165,9 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
         self.labelLogLevel.setText(_("Log level:"))
         self.groupFiles.setTitle(_("Files"))
         self.labelMaxRecentFiles.setText(_("Maximum recent files:"))
+        self.groupImages.setTitle(_("Images"))
+        self.labelThumbnailWidth.setText(_("Thumbnail width (px):"))
+        self.labelThumbnailHeight.setText(_("Thumbnail height (px):"))
 
     # ------------------------------------------------------------------
     # Helpers
@@ -201,6 +206,8 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
         self.lineEditAppId.setText(self._config.translation_app_id)
         self.lineEditAppSecret.setText(self._config.translation_app_secret)
         self.spinBoxMaxRecentFiles.setValue(self._config.recent_files_max)
+        self.spinBoxThumbnailWidth.setValue(self._config.thumbnail_width)
+        self.spinBoxThumbnailHeight.setValue(self._config.thumbnail_height)
 
     # ------------------------------------------------------------------
     # QDialog override
@@ -218,6 +225,8 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
         self._config.translation_app_secret = self.lineEditAppSecret.text().strip()
         self._config.log_level = self.comboLogLevel.currentData() or "INFO"
         self._config.recent_files_max = self.spinBoxMaxRecentFiles.value()
+        self._config.thumbnail_width = self.spinBoxThumbnailWidth.value()
+        self._config.thumbnail_height = self.spinBoxThumbnailHeight.value()
 
         try:
             self._config.save()

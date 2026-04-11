@@ -1,7 +1,7 @@
 PBPrompt — Implementation Summary
 ==================================
-Version: 1.0.1
-Last updated: 2026-04-11
+Version: 1.0.0
+Last updated: 2026-04-11 (image column added)
 
 
 Overview
@@ -34,7 +34,10 @@ PBPrompt/
 │   │   ├── about_dialog.ui    / ui_about_dialog.py    / about_dialog.py
 │   │   ├── models.py          # PromptTableModel, MultiFilterProxyModel,
 │   │   │                      #   MultiLineDelegate, CurrentCellHighlightDelegate,
-│   │   │                      #   PromptTableView, Column (IntEnum)
+│   │   │                      #   ImageDelegate, PromptTableView, Column (IntEnum)
+│   │   ├── image_utils.py     # detect_image_format(), generate_thumbnail(),
+│   │   │                      #   pixmap_from_bytes(), qimage_to_bytes(),
+│   │   │                      #   ImageViewDialog
 │   │   ├── icons.py           # get_icon(): theme → QRC → file-system → Qt standard
 │   │   └── resources_rc.py    # Compiled by pyrcc5 (not in VCS, make resources)
 │   ├── platform/
@@ -77,12 +80,15 @@ PBPrompt/
 Data layer (data.py)
 --------------------
 PROMPTS_COLUMNS = ("ai", "group", "name", "local", "english")
-  Single source of truth for column order in SQL, YAML, and display.
+  Text columns only — single source of truth for SQL, YAML and display order.
+PROMPTS_BLOB_COLUMNS = ("image", "thumbnail")
+  Stored as SQLite BLOBs; image exported as Base64 in YAML; thumbnail not exported.
 
 PromptEntry(dataclass)
-  Fields: ai, group, name, local, english (all str, default "")
-  to_dict() → always includes all PROMPTS_COLUMNS keys (for YAML export)
-  from_dict() → ignores unknown keys, missing keys default to ""
+  Fields: ai, group, name, image (bytes|None), thumbnail (bytes|None),
+          local, english  (all str default ""; bytes default None)
+  to_dict() → encodes image as base64 ASCII if present; omits None image
+  from_dict() → decodes base64 image if present; ignores unknown keys
 
 PromptCollection
   entries: list[PromptEntry]
@@ -94,10 +100,15 @@ PromptCollection
                   (raises ValueError if absent), auto-migrates missing columns,
                   reads all rows ORDER BY id
     save(path?) → CREATE TABLE IF NOT EXISTS + DELETE + INSERT + version stamp
+    Migration: TEXT columns get NOT NULL DEFAULT ""; BLOB columns get no DEFAULT.
 
   YAML I/O:
-    import_yaml(path, replace=False) → append or replace; returns count imported
-    export_yaml(path) → writes YAML 1.2 list of dicts, all columns always written
+    import_yaml(path, replace=False, thumbnail_factory=None) → tuple[int, int]
+                  (imported_count, skipped_count)
+                  Deduplication: rows whose (ai,group,name,local,english) matches
+                  an existing entry are skipped (also within-file dedup in append mode).
+                  thumbnail_factory: callable(bytes) → bytes | None, called for each image.
+    export_yaml(path) → writes YAML 1.2 list of dicts; full image as base64; no thumbnail.
 
   Mutation helpers (called from Qt model):
     append(), remove_at(), remove_indices(), update_field()
@@ -108,9 +119,10 @@ SQLite schema:
   CREATE TABLE prompts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     ai TEXT NOT NULL DEFAULT '', "group" TEXT NOT NULL DEFAULT '',
-    name TEXT NOT NULL DEFAULT '', local TEXT NOT NULL DEFAULT '',
-    english TEXT NOT NULL DEFAULT '')
-  Note: "group" is always quoted (SQL keyword).
+    name TEXT NOT NULL DEFAULT '',
+    image BLOB, thumbnail BLOB,
+    local TEXT NOT NULL DEFAULT '', english TEXT NOT NULL DEFAULT '')
+  Note: "group" is always quoted (SQL keyword).  BLOB columns are nullable, no DEFAULT.
   PRAGMA journal_mode=WAL; row_factory = sqlite3.Row.
 
 
@@ -124,6 +136,8 @@ AppConfig(dataclass) — fields:
   log_level: str = "INFO"
   recent_files: list[str] = []
   recent_files_max: int = 10
+  thumbnail_width: int = 64         # IMAGE column thumbnail width (px), range 16-512
+  thumbnail_height: int = 64        # IMAGE column thumbnail height (px), range 16-512
   window_{x,y,width,height}: int | None = None  # None = first launch
 
   load() → reads config.yaml via ruamel.yaml; validates all fields;
@@ -191,23 +205,46 @@ File menu structure:
   Close (Ctrl+W), ---, Quit (Ctrl+Q)
 
 
+GUI — image_utils.py
+---------------------
+detect_image_format(data: bytes) → "jpeg" | "png" | None
+  Magic bytes: JPEG=b'\xff\xd8\xff', PNG=b'\x89PNG\r\n\x1a\n'
+generate_thumbnail(image_data, width, height) → bytes | None
+  QImage.scaled(KeepAspectRatio, SmoothTransformation), saved as PNG bytes.
+pixmap_from_bytes(data) → QPixmap | None
+qimage_to_bytes(image, fmt="PNG") → bytes | None
+ImageViewDialog(QDialog) — scrollable full-image viewer, shown on double-click.
+
+
 GUI — Models (models.py)
 --------------------------
-Column(IntEnum): AI=0, GROUP=1, NAME=2, LOCAL=3, ENGLISH=4
+Column(IntEnum): AI=0, GROUP=1, NAME=2, IMAGE=3, LOCAL=4, ENGLISH=5
 
 PromptTableModel(QAbstractTableModel)
   Wraps PromptCollection; exposes data/setData/flags/headerData.
   headerData() handles Qt.DisplayRole and Qt.ToolTipRole.
-  set_header_labels(list[str]) / set_header_tooltips(list[str]) — symmetric API.
-  Editable columns: all five.  EditRole = DisplayRole.
+  set_header_labels(list[str]) / set_header_tooltips(list[str]) — 6-element lists.
+  Editable columns: all except IMAGE.  EditRole = DisplayRole.
+  IMAGE column: data() returns QPixmap via Qt.DecorationRole (from thumbnail bytes).
+  set_image(source_row, full_image, thumbnail) — sets both, emits dataChanged+DecorationRole.
+
+ImageDelegate(CurrentCellHighlightDelegate)
+  Delegate for Column.IMAGE.
+  paint(): draws thumbnail centred, or dashed placeholder if no image.
+  sizeHint(): returns (thumb_w+8, thumb_h+8).
+  createEditor(): returns None (IMAGE not inline-editable).
+  editorEvent(): consumes MouseButtonDblClick (view handles it).
+  update_size(w, h): called after settings change.
 
 MultiFilterProxyModel(QSortFilterProxyModel)
   Per-column regex filters.  filterAcceptsRow() applies all active patterns (AND).
+  IMAGE column is skipped in filterAcceptsRow().
   lessThan() implements multi-key sort: converts Column to int() explicitly before
   calling model.index() (PyQt5/SIP bug: IntEnum may return invalid index otherwise).
+  sort() no-ops for IMAGE/LOCAL/ENGLISH columns.
 
 MultiLineDelegate(CurrentCellHighlightDelegate)
-  In-place QPlainTextEdit for LOCAL and ENGLISH columns.
+  In-place QPlainTextEdit for LOCAL and ENGLISH columns (col 4 and 5).
   eventFilter():
     Enter/Return alone → commitData + closeEditor (validates)
     Ctrl+Enter or Shift+Enter → insertPlainText("\n")
@@ -220,9 +257,14 @@ CurrentCellHighlightDelegate(QStyledItemDelegate)
   Color: palette Highlight darkened to 160%.
 
 PromptTableView(QTableView)
-  Custom subclass declared in .ui as a custom widget.
+  Custom subclass. setAcceptDrops(True), setDragDropMode(DropOnly).
   Handles Ctrl+C/X/V for clipboard operations.
-  Context menu: Copy / Cut / Paste (translated).
+  Context menu: dispatches to image menu for IMAGE col, otherwise Copy/Cut/Paste.
+  Signals:
+    image_activated = pyqtSignal(QModelIndex)     — double-click on IMAGE col
+    image_drop_requested = pyqtSignal(object, object)  — drop: (source_idx, mime_data)
+  mouseDoubleClickEvent(): emits image_activated for IMAGE column.
+  dragEnterEvent/dragMoveEvent/dropEvent: accept image data or local file URLs.
 
 Row height management:
   showEvent() → QTimer.singleShot(0, resizeRowsToContents)  [after first layout]
@@ -239,13 +281,16 @@ get_icon(name) lookup chain:
 
 FreeDesktop mappings include:
   import_yaml → document-import, export_yaml → document-export
+  refresh_thumbnails → view-refresh
 
 Standard icon fallbacks include:
   import_yaml → SP_DialogOpenButton, export_yaml → SP_DialogSaveButton
+  refresh_thumbnails → SP_BrowserReload
 
 All SVG icons: 24×24, fill=none, stroke=#404040, stroke-width=1.5, round linecap/join.
 import_yaml.svg: YAML doc (left) + right arrow + data table (right)
 export_yaml.svg: data table (left) + right arrow + YAML doc (right)
+refresh_thumbnails.svg: circular refresh arrows with small image frame inside
 
 
 i18n (i18n.py)
@@ -273,6 +318,22 @@ Supported services: google, mymemory, deepl, microsoft, yandex, libretranslate,
   baidu, papago, qcri, pons, linguee, reverso.
 
 
+GUI — MainWindow image operations
+-----------------------------------
+_on_refresh_thumbnails(): regenerates all thumbnails using current thumbnail_width/height.
+_on_image_activated(source_idx): opens ImageViewDialog for the entry's full image.
+_on_image_drop(source_idx, mime_data): handles QMimeData image or local file URL.
+_show_image_context_menu(pos, source_idx): Load/Paste/Clear menu.
+_on_image_load_from_file(source_idx): QFileDialog → load image bytes → set_image().
+_on_image_paste(source_idx): QApplication.clipboard() → image() or text() (file path).
+_on_image_clear(source_idx): set_image(row, None, None).
+_on_import_yaml(): now unpacks (imported, skipped) tuple; passes thumbnail_factory.
+_on_open_settings(): after settings change, calls _image_delegate.update_size() and
+  tableView.setColumnWidth(Column.IMAGE, thumbnail_width + 12).
+_on_context_menu(): checks column == IMAGE first, dispatches accordingly.
+_on_header_clicked(): checks `column not in (Column.AI, Column.GROUP, Column.NAME)`.
+
+
 Known limitations / open issues
 ---------------------------------
 - Google Translate and Reverso use unofficial/undocumented endpoints.
@@ -282,3 +343,5 @@ Known limitations / open issues
 - In conda environments: pip install -e . --no-deps to avoid reinstalling conda packages.
 - The Duplicate toolbar button tooltip says "Duplicate the current row" but acts on
   the current selection (first selected row is duplicated if multiple are selected).
+- Changing thumbnail size in Options does not auto-regenerate existing thumbnails;
+  use "Refresh Thumbnails" from the Tools menu.

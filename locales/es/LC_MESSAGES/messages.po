@@ -396,3 +396,65 @@ msgstr "Error de importación:\n{error}"
 
 msgid "Export failed:\n{error}"
 msgstr "Error de exportación:\n{error}"
+
+# IMAGE column
+msgid "Image"
+msgstr "Imagen"
+
+msgid "Double-click to view · Right-click for options"
+msgstr "Doble clic para ver · Clic derecho para opciones"
+
+msgid "Refresh Thumbnails"
+msgstr "Actualizar miniaturas"
+
+msgid "Regenerate all thumbnails from stored images"
+msgstr "Regenerar todas las miniaturas desde las imágenes almacenadas"
+
+msgid "Thumbnails refreshed: {n} image(s) updated"
+msgstr "Miniaturas actualizadas: {n} imagen(es) procesada(s)"
+
+msgid "Load image from file…"
+msgstr "Cargar imagen desde archivo…"
+
+msgid "Paste image"
+msgstr "Pegar imagen"
+
+msgid "Clear image"
+msgstr "Borrar imagen"
+
+msgid "Load Image"
+msgstr "Cargar imagen"
+
+msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
+msgstr "Archivos de imagen (*.jpg *.jpeg *.png);;Todos los archivos (*.*)"
+
+msgid "No image in clipboard"
+msgstr "No hay imagen en el portapapeles"
+
+msgid "Unsupported Format"
+msgstr "Formato no compatible"
+
+msgid "Unsupported image format"
+msgstr "Formato de imagen no compatible"
+
+msgid "Could not read file:\n{error}"
+msgstr "No se pudo leer el archivo:\n{error}"
+
+msgid "No Image"
+msgstr "Sin imagen"
+
+msgid "({k} duplicate(s) skipped)"
+msgstr "({k} duplicado(s) omitido(s))"
+
+# Settings dialog – Images group
+msgid "Images"
+msgstr "Imágenes"
+
+msgid "Thumbnail width (px):"
+msgstr "Anchura de miniatura (px):"
+
+msgid "Thumbnail height (px):"
+msgstr "Altura de miniatura (px):"
+
+msgid "No preview"
+msgstr "Sin vista previa"

@@ -396,3 +396,65 @@ msgstr "导入失败：\n{error}"
 
 msgid "Export failed:\n{error}"
 msgstr "导出失败：\n{error}"
+
+# IMAGE column
+msgid "Image"
+msgstr "图片"
+
+msgid "Double-click to view · Right-click for options"
+msgstr "双击查看 · 右键获取选项"
+
+msgid "Refresh Thumbnails"
+msgstr "刷新缩略图"
+
+msgid "Regenerate all thumbnails from stored images"
+msgstr "从存储的图像重新生成所有缩略图"
+
+msgid "Thumbnails refreshed: {n} image(s) updated"
+msgstr "缩略图已刷新：已更新 {n} 张图片"
+
+msgid "Load image from file…"
+msgstr "从文件加载图片…"
+
+msgid "Paste image"
+msgstr "粘贴图片"
+
+msgid "Clear image"
+msgstr "清除图片"
+
+msgid "Load Image"
+msgstr "加载图片"
+
+msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
+msgstr "图片文件 (*.jpg *.jpeg *.png);;所有文件 (*.*)"
+
+msgid "No image in clipboard"
+msgstr "剪贴板中没有图片"
+
+msgid "Unsupported Format"
+msgstr "不支持的格式"
+
+msgid "Unsupported image format"
+msgstr "不支持的图片格式"
+
+msgid "Could not read file:\n{error}"
+msgstr "无法读取文件：\n{error}"
+
+msgid "No Image"
+msgstr "无图片"
+
+msgid "({k} duplicate(s) skipped)"
+msgstr "（跳过了 {k} 个重复项）"
+
+# Settings dialog – Images group
+msgid "Images"
+msgstr "图片"
+
+msgid "Thumbnail width (px):"
+msgstr "缩略图宽度 (px)："
+
+msgid "Thumbnail height (px):"
+msgstr "缩略图高度 (px)："
+
+msgid "No preview"
+msgstr "无预览"

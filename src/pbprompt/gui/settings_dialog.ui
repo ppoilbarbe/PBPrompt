@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>440</width>
-    <height>360</height>
+    <height>440</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -164,6 +164,43 @@
         <property name="value">
          <number>10</number>
         </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupImages">
+     <property name="title">
+      <string>Images</string>
+     </property>
+     <layout class="QFormLayout" name="formLayoutImages">
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelThumbnailWidth">
+        <property name="text">
+         <string>Thumbnail width (px):</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="spinBoxThumbnailWidth">
+        <property name="minimum"><number>16</number></property>
+        <property name="maximum"><number>512</number></property>
+        <property name="value"><number>80</number></property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelThumbnailHeight">
+        <property name="text">
+         <string>Thumbnail height (px):</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="spinBoxThumbnailHeight">
+        <property name="minimum"><number>16</number></property>
+        <property name="maximum"><number>512</number></property>
+        <property name="value"><number>80</number></property>
        </widget>
       </item>
      </layout>

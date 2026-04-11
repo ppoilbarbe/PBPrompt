@@ -20,20 +20,18 @@ logger = logging.getLogger(__name__)
 VALID_LOG_LEVELS = ("DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL")
 
 TRANSLATION_SERVICES = (
-    # deep-translator back-ends
-    "google",  # Google Translate – no key
-    "mymemory",  # MyMemory – no key (10 k chars/day free)
-    "deepl",  # DeepL – API key required
-    "microsoft",  # Microsoft Translator – API key required
-    "yandex",  # Yandex Translate – API key required
-    "libretranslate",  # LibreTranslate – self-host or API key
-    "baidu",  # Baidu Translate – app_id + app_secret
-    "papago",  # Papago (Naver) – app_id + app_secret
-    "qcri",  # QCRI (Arabic focus) – API key required
-    "pons",  # PONS dictionary – no key
-    "linguee",  # Linguee dictionary – no key
-    # Custom back-end (not from deep-translator)
-    "reverso",  # Reverso – no key (unofficial API)
+    "google",
+    "mymemory",
+    "deepl",
+    "microsoft",
+    "yandex",
+    "libretranslate",
+    "baidu",
+    "papago",
+    "qcri",
+    "pons",
+    "linguee",
+    "reverso",
 )
 
 CONFIG_FILENAME = "config.yaml"
@@ -48,43 +46,22 @@ CONFIG_FILENAME = "config.yaml"
 class AppConfig:
     """All user-configurable settings for PBPrompt."""
 
-    # UI display language (locale code, e.g. "fr", "en"; "" means system default)
     display_language: str = ""
-
-    # Language code for the "local" (non-English) column ("" = system default)
     translation_language: str = ""
-
-    # Active translation back-end
     translation_service: str = "google"
-
-    # Optional API key (DeepL, Yandex, Microsoft, QCRI, LibreTranslate …)
     translation_api_key: str = ""
-
-    # App ID – Baidu (appid) and Papago (client_id)
     translation_app_id: str = ""
-
-    # App secret – Baidu (appkey) and Papago (secret_key)
     translation_app_secret: str = ""
-
-    # URL for self-hosted LibreTranslate instances
     libretranslate_url: str = "https://libretranslate.com"
-
-    # Log level string
     log_level: str = "INFO"
-
-    # Recent files list (ordered, most recent first)
     recent_files: list[str] = field(default_factory=list)
-
-    # Maximum number of recent files to keep
     recent_files_max: int = 10
-
-    # Main window geometry (None = not yet saved, use Qt default)
+    thumbnail_width: int = 64
+    thumbnail_height: int = 64
     window_x: int | None = None
     window_y: int | None = None
     window_width: int | None = None
     window_height: int | None = None
-
-    # Extra keys from the file are preserved here so they survive a round-trip
     _extra: dict[str, Any] = field(default_factory=dict, repr=False, compare=False)
 
     # ------------------------------------------------------------------
@@ -114,10 +91,7 @@ class AppConfig:
             )
             return cfg
 
-        # Map raw YAML keys to fields with validation
-        cfg.display_language = cls._str_or(
-            raw, "display_language", cfg.display_language
-        )
+        cfg.display_language = cls._str_or(raw, "display_language", cfg.display_language)
         cfg.translation_language = cls._str_or(
             raw, "translation_language", cfg.translation_language
         )
@@ -136,40 +110,28 @@ class AppConfig:
         cfg.libretranslate_url = cls._str_or(
             raw, "libretranslate_url", cfg.libretranslate_url
         )
-        cfg.log_level = cls._choice_or(
-            raw, "log_level", VALID_LOG_LEVELS, cfg.log_level
-        )
+        cfg.log_level = cls._choice_or(raw, "log_level", VALID_LOG_LEVELS, cfg.log_level)
         cfg.recent_files_max = cls._int_or(raw, "recent_files_max", 10, 1, 50)
         raw_recent = raw.get("recent_files", [])
         if isinstance(raw_recent, list):
             cfg.recent_files = [str(p) for p in raw_recent if isinstance(p, str)][
                 : cfg.recent_files_max
             ]
-
+        cfg.thumbnail_width = cls._int_or(raw, "thumbnail_width", 64, 16, 512)
+        cfg.thumbnail_height = cls._int_or(raw, "thumbnail_height", 64, 16, 512)
         cfg.window_x = cls._opt_int(raw, "window_x")
         cfg.window_y = cls._opt_int(raw, "window_y")
         cfg.window_width = cls._opt_int(raw, "window_width", min_val=100)
         cfg.window_height = cls._opt_int(raw, "window_height", min_val=100)
 
-        # Preserve unknown keys
         known = {
-            "display_language",
-            "translation_language",
-            "translation_service",
-            "translation_api_key",
-            "translation_app_id",
-            "translation_app_secret",
-            "libretranslate_url",
-            "log_level",
-            "recent_files",
-            "recent_files_max",
-            "window_x",
-            "window_y",
-            "window_width",
-            "window_height",
+            "display_language", "translation_language", "translation_service",
+            "translation_api_key", "translation_app_id", "translation_app_secret",
+            "libretranslate_url", "log_level", "recent_files", "recent_files_max",
+            "thumbnail_width", "thumbnail_height",
+            "window_x", "window_y", "window_width", "window_height",
         }
         cfg._extra = {k: v for k, v in raw.items() if k not in known}
-
         logger.debug("Config loaded from %s: %r", path, cfg)
         return cfg
 
@@ -189,6 +151,8 @@ class AppConfig:
             "log_level": self.log_level,
             "recent_files_max": self.recent_files_max,
             "recent_files": self.recent_files,
+            "thumbnail_width": self.thumbnail_width,
+            "thumbnail_height": self.thumbnail_height,
         }
         for key in ("window_x", "window_y", "window_width", "window_height"):
             val = getattr(self, key)
@@ -229,7 +193,9 @@ class AppConfig:
         return str(val) if isinstance(val, str) and val in choices else default
 
     @staticmethod
-    def _opt_int(d: dict[str, Any], key: str, min_val: int | None = None) -> int | None:
+    def _opt_int(
+        d: dict[str, Any], key: str, min_val: int | None = None
+    ) -> int | None:
         val = d.get(key)
         if not isinstance(val, int):
             return None
