@@ -12,7 +12,11 @@ stages:
   - lint
   - test
   - docs
+  - build
+  - release
 
+# Global before_script applies to Linux jobs only.
+# Platform build jobs (Windows, macOS) override it with before_script: [].
 before_script:
   - apt-get update -q && apt-get install -y --no-install-recommends
       libglib2.0-0 libxkbcommon-x11-0 libdbus-1-3
@@ -29,6 +33,9 @@ lint:
     - pre-commit run --all-files
   variables:
     SKIP: no-commit-to-branch
+  rules:
+    - if: '$CI_COMMIT_BRANCH'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 # ---------------------------------------------------------------------------
 # Tests
@@ -46,6 +53,10 @@ test:
     reports:
       junit: pytest-report.xml
     when: always
+  rules:
+    - if: '$CI_COMMIT_BRANCH'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
 
 # ---------------------------------------------------------------------------
 # Documentation
@@ -59,8 +70,6 @@ docs:
                -o locales/$lang/LC_MESSAGES/messages.mo
       done
     - make docs
-    # Trigger a Read the Docs build on the default branch only.
-    # Set READTHEDOCS_TOKEN as a masked CI/CD variable in GitLab project settings.
     - |
       if [ "$CI_COMMIT_BRANCH" = "$CI_DEFAULT_BRANCH" ] && [ -n "$READTHEDOCS_TOKEN" ]; then
         curl -s -X POST \
@@ -76,3 +85,199 @@ docs:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH'
+
+# ---------------------------------------------------------------------------
+# Platform builds  (triggered only on strict semver tags: vX.Y.Z)
+#
+# Runner requirements
+# -------------------
+# build-linux  : any Linux runner (shared runner is fine)
+# build-windows: a GitLab Runner registered with the tag "windows" on a
+#                Windows host (pip, pyuic5, pyrcc5 must be available)
+# build-macos  : a GitLab Runner registered with the tag "macos" on a
+#                macOS host (pip, pyuic5, pyrcc5 must be available)
+# ---------------------------------------------------------------------------
+
+# Shared compilation steps used by all three build jobs.
+.compile: &compile
+  - pip install --upgrade pip && pip install ".[dev]" pyinstaller babel
+  - pyuic5 src/pbprompt/gui/main_window.ui    -o src/pbprompt/gui/ui_main_window.py
+  - pyuic5 src/pbprompt/gui/settings_dialog.ui -o src/pbprompt/gui/ui_settings_dialog.py
+  - pyuic5 src/pbprompt/gui/about_dialog.ui    -o src/pbprompt/gui/ui_about_dialog.py
+  - pyrcc5 resources/resources.qrc             -o src/pbprompt/gui/resources_rc.py
+  - pybabel compile -d locales -D messages
+
+build-linux:
+  stage: build
+  before_script:
+    - apt-get update -q && apt-get install -y --no-install-recommends
+        libglib2.0-0 libxkbcommon-x11-0 libdbus-1-3
+  script:
+    - *compile
+    - pyinstaller
+        --onefile --windowed
+        --name pbprompt
+        --add-data "locales:locales"
+        --add-data "resources:resources"
+        --paths src
+        src/pbprompt/__main__.py
+    # Upload to the Generic Package Registry so the release job can link to it.
+    - |
+      curl --fail --silent \
+           --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+           --upload-file dist/pbprompt \
+           "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/pbprompt/${CI_COMMIT_TAG}/pbprompt-${CI_COMMIT_TAG}-linux-amd64"
+  artifacts:
+    paths:
+      - dist/pbprompt
+    expire_in: 1 day
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
+
+build-windows:
+  stage: build
+  # Route to a Windows runner.  Register a runner with this tag on a Windows
+  # host: https://docs.gitlab.com/runner/register/
+  tags:
+    - windows
+  before_script: []   # The global before_script is Linux-specific.
+  script:
+    - pip install --upgrade pip
+    - pip install ".[dev]" pyinstaller babel
+    - pyuic5 src/pbprompt/gui/main_window.ui    -o src/pbprompt/gui/ui_main_window.py
+    - pyuic5 src/pbprompt/gui/settings_dialog.ui -o src/pbprompt/gui/ui_settings_dialog.py
+    - pyuic5 src/pbprompt/gui/about_dialog.ui    -o src/pbprompt/gui/ui_about_dialog.py
+    - pyrcc5 resources/resources.qrc             -o src/pbprompt/gui/resources_rc.py
+    - pybabel compile -d locales -D messages
+    - >
+      pyinstaller
+      --onefile --windowed
+      --name pbprompt
+      --add-data "locales:locales"
+      --add-data "resources:resources"
+      --paths src
+      src/pbprompt/__main__.py
+    - >
+      curl --fail --silent
+      --header "JOB-TOKEN: %CI_JOB_TOKEN%"
+      --upload-file dist/pbprompt.exe
+      "%CI_API_V4_URL%/projects/%CI_PROJECT_ID%/packages/generic/pbprompt/%CI_COMMIT_TAG%/pbprompt-%CI_COMMIT_TAG%-windows-amd64.exe"
+  artifacts:
+    paths:
+      - dist/pbprompt.exe
+    expire_in: 1 day
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
+
+build-macos:
+  stage: build
+  # Route to a macOS runner.  Register a runner with this tag on a macOS host.
+  tags:
+    - macos
+  before_script: []   # The global before_script is Linux-specific.
+  script:
+    - pip3 install --upgrade pip
+    - pip3 install ".[dev]" pyinstaller babel
+    - pyuic5 src/pbprompt/gui/main_window.ui    -o src/pbprompt/gui/ui_main_window.py
+    - pyuic5 src/pbprompt/gui/settings_dialog.ui -o src/pbprompt/gui/ui_settings_dialog.py
+    - pyuic5 src/pbprompt/gui/about_dialog.ui    -o src/pbprompt/gui/ui_about_dialog.py
+    - pyrcc5 resources/resources.qrc             -o src/pbprompt/gui/resources_rc.py
+    - pybabel compile -d locales -D messages
+    - pyinstaller
+        --onefile --windowed
+        --name pbprompt
+        --osx-bundle-identifier com.pbsoft.pbprompt
+        --add-data "locales:locales"
+        --add-data "resources:resources"
+        --paths src
+        src/pbprompt/__main__.py
+    - |
+      curl --fail --silent \
+           --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+           --upload-file dist/pbprompt \
+           "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/pbprompt/${CI_COMMIT_TAG}/pbprompt-${CI_COMMIT_TAG}-macos-amd64"
+  artifacts:
+    paths:
+      - dist/pbprompt
+    expire_in: 1 day
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
+
+build-source:
+  stage: build
+  script:
+    - |
+      for lang in en fr es it ru vi zh_CN; do
+        msgfmt locales/$lang/LC_MESSAGES/messages.po \
+               -o locales/$lang/LC_MESSAGES/messages.mo
+      done
+    - make dist
+    # Upload source archives.  make dist names them pbprompt-X.Y.Z.{tar.gz,zip}
+    # (no 'v' prefix); we publish them under the tag name for consistent URLs.
+    - |
+      VERSION="${CI_COMMIT_TAG#v}"
+      curl --fail --silent \
+           --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+           --upload-file "dist/pbprompt-${VERSION}.tar.gz" \
+           "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/pbprompt/${CI_COMMIT_TAG}/pbprompt-${CI_COMMIT_TAG}.tar.gz"
+      curl --fail --silent \
+           --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+           --upload-file "dist/pbprompt-${VERSION}.zip" \
+           "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/pbprompt/${CI_COMMIT_TAG}/pbprompt-${CI_COMMIT_TAG}.zip"
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
+
+# ---------------------------------------------------------------------------
+# Release  (triggered only on strict semver tags)
+#
+# Creates a GitLab Release with changelog notes and links to the packages
+# uploaded by the build jobs above.
+#
+# Uses the official release-cli image which is the recommended way to create
+# releases from CI (https://docs.gitlab.com/ee/ci/yaml/#release).
+# ---------------------------------------------------------------------------
+release-job:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  needs:
+    - job: build-linux
+      artifacts: false
+    - job: build-windows
+      artifacts: false
+    - job: build-macos
+      artifacts: false
+    - job: build-source
+      artifacts: false
+  # Override the global before_script: the release-cli image is Alpine-based
+  # and does not need (or support) the Linux apt-get setup.
+  before_script:
+    - apk add --no-cache python3
+  script:
+    # Generate RELEASE_NOTES.md from CHANGELOG.md for this tag.
+    - python3 scripts/extract_changelog.py "${CI_COMMIT_TAG}" > RELEASE_NOTES.md
+    - echo "Release notes written to RELEASE_NOTES.md"
+    - cat RELEASE_NOTES.md
+  release:
+    tag_name: "$CI_COMMIT_TAG"
+    name: "PBPrompt $CI_COMMIT_TAG"
+    # File path (starting with './') is supported since GitLab 15.1.
+    description: "./RELEASE_NOTES.md"
+    assets:
+      links:
+        - name: "pbprompt-$CI_COMMIT_TAG-linux-amd64"
+          url: "$CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/pbprompt/$CI_COMMIT_TAG/pbprompt-$CI_COMMIT_TAG-linux-amd64"
+          link_type: package
+        - name: "pbprompt-$CI_COMMIT_TAG-windows-amd64.exe"
+          url: "$CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/pbprompt/$CI_COMMIT_TAG/pbprompt-$CI_COMMIT_TAG-windows-amd64.exe"
+          link_type: package
+        - name: "pbprompt-$CI_COMMIT_TAG-macos-amd64"
+          url: "$CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/pbprompt/$CI_COMMIT_TAG/pbprompt-$CI_COMMIT_TAG-macos-amd64"
+          link_type: package
+        - name: "pbprompt-$CI_COMMIT_TAG.tar.gz"
+          url: "$CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/pbprompt/$CI_COMMIT_TAG/pbprompt-$CI_COMMIT_TAG.tar.gz"
+          link_type: package
+        - name: "pbprompt-$CI_COMMIT_TAG.zip"
+          url: "$CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/pbprompt/$CI_COMMIT_TAG/pbprompt-$CI_COMMIT_TAG.zip"
+          link_type: package
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'

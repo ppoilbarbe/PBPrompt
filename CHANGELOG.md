@@ -3,6 +3,19 @@
 All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.1] – 2026-04-11
+
+### Added
+- **Automated multi-platform releases** – pushing a `vX.Y.Z` tag now triggers
+  a full release pipeline on both GitHub Actions and GitLab CI: tests run,
+  standalone executables are built for Linux (amd64), Windows (amd64), and
+  macOS (x86\_64 / Rosetta), and a release is published automatically with the
+  matching changelog section as description and all assets attached.
+- `scripts/extract_changelog.py` – standalone helper that parses `CHANGELOG.md`
+  and extracts the release notes for a given version.  Used by both CI
+  pipelines; also writes a GitHub Actions `notes` output variable when
+  `$GITHUB_OUTPUT` is set.
+
 ## [1.0.0] – 2026-04-11
 
 ### Added
