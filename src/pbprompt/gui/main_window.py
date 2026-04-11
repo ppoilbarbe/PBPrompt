@@ -771,6 +771,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def _on_image_activated(self, source_idx: object) -> None:
         """Show the full image in a dialog."""
         from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+
         from pbprompt.gui.image_utils import ImageViewDialog  # noqa: PLC0415
 
         if not isinstance(source_idx, QModelIndex):
@@ -788,10 +789,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Handle a dropped image or file URL onto an IMAGE cell."""
         from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
         from PyQt5.QtGui import QImage  # noqa: PLC0415
+
         from pbprompt.gui.image_utils import (  # noqa: PLC0415
+            detect_image_format,
             generate_thumbnail,
             qimage_to_bytes,
-            detect_image_format,
         )
 
         if not isinstance(source_idx, QModelIndex):
@@ -804,7 +806,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if isinstance(qimg, QImage) and not qimg.isNull():
                 image_bytes = qimage_to_bytes(qimg)
 
-        if image_bytes is None and hasattr(mime_data, "hasUrls") and mime_data.hasUrls():
+        if (
+            image_bytes is None
+            and hasattr(mime_data, "hasUrls")
+            and mime_data.hasUrls()
+        ):
             for url in mime_data.urls():
                 if url.isLocalFile():
                     try:
@@ -853,9 +859,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def _on_image_load_from_file(self, source_idx: object) -> None:
         """Load an image from disk into the IMAGE cell."""
         from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+
         from pbprompt.gui.image_utils import (  # noqa: PLC0415
-            generate_thumbnail,
             detect_image_format,
+            generate_thumbnail,
             open_image_file_dialog,
         )
 
@@ -896,11 +903,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def _on_image_paste(self, source_idx: object) -> None:
         """Paste an image or file path from the clipboard."""
         from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
-        from PyQt5.QtGui import QImage  # noqa: PLC0415
+
         from pbprompt.gui.image_utils import (  # noqa: PLC0415
+            detect_image_format,
             generate_thumbnail,
             qimage_to_bytes,
-            detect_image_format,
         )
 
         if not isinstance(source_idx, QModelIndex):

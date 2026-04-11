@@ -51,7 +51,7 @@ class Column(IntEnum):
     AI = 0
     GROUP = 1
     NAME = 2
-    IMAGE = 3   # thumbnail display / full-image operations
+    IMAGE = 3  # thumbnail display / full-image operations
     LOCAL = 4
     ENGLISH = 5
 
@@ -124,7 +124,10 @@ class PromptTableModel(QAbstractTableModel):
             if role == Qt.DecorationRole:
                 thumb = entry.thumbnail
                 if thumb:
-                    from pbprompt.gui.image_utils import pixmap_from_bytes  # noqa: PLC0415
+                    from pbprompt.gui.image_utils import (
+                        pixmap_from_bytes,  # noqa: PLC0415
+                    )
+
                     pm = pixmap_from_bytes(thumb)
                     return pm if pm and not pm.isNull() else None
                 return None
@@ -511,7 +514,10 @@ class MultiLineDelegate(CurrentCellHighlightDelegate):
         margin = 4
         fm = option.fontMetrics
         bounding = fm.boundingRect(
-            0, 0, max(width - 2 * margin, 1), 10000,
+            0,
+            0,
+            max(width - 2 * margin, 1),
+            10000,
             Qt.TextWordWrap | Qt.AlignTop | Qt.AlignLeft,
             display,
         )
@@ -519,7 +525,9 @@ class MultiLineDelegate(CurrentCellHighlightDelegate):
         base = super().sizeHint(option, index)
         return QSize(base.width(), max(h, base.height()))
 
-    def createEditor(self, parent: Any, option: QStyleOptionViewItem, index: QModelIndex) -> Any:
+    def createEditor(
+        self, parent: Any, option: QStyleOptionViewItem, index: QModelIndex
+    ) -> Any:
         col = index.column()
         if col not in (Column.LOCAL, Column.ENGLISH):
             return super().createEditor(parent, option, index)

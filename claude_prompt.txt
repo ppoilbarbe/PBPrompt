@@ -460,6 +460,10 @@ avec leur description (grep sur ## dans le Makefile).
 - Configurations ruff dans pyproject.toml.
 - Tests unitaires basiques (pytest) pour la logique, la sélection du module plateforme.
 - Fichier GitHub Actions (ci.yml) et GitLab CI (.gitlab-ci.yml).
+- OBLIGATOIRE avant tout commit ou release : exécuter `pre-commit run --all-files`
+  sur l'intégralité de l'arbre de travail (pas seulement les fichiers stagés) et
+  vérifier que tous les hooks passent. Ne jamais publier une version si cette
+  commande retourne un code de sortie non nul ou si elle a modifié des fichiers.
 
 Points critiques pour les tests :
   * Les valeurs par défaut de AppConfig sont display_language="" et

@@ -49,9 +49,7 @@ def extract_notes(version: str) -> str:
             break
 
     if start is None:
-        print(
-            f"error: version '{version}' not found in CHANGELOG.md", file=sys.stderr
-        )
+        print(f"error: version '{version}' not found in CHANGELOG.md", file=sys.stderr)
         sys.exit(1)
 
     # Collect lines until the next ## section (or end of file).

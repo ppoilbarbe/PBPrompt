@@ -91,7 +91,9 @@ class AppConfig:
             )
             return cfg
 
-        cfg.display_language = cls._str_or(raw, "display_language", cfg.display_language)
+        cfg.display_language = cls._str_or(
+            raw, "display_language", cfg.display_language
+        )
         cfg.translation_language = cls._str_or(
             raw, "translation_language", cfg.translation_language
         )
@@ -110,7 +112,9 @@ class AppConfig:
         cfg.libretranslate_url = cls._str_or(
             raw, "libretranslate_url", cfg.libretranslate_url
         )
-        cfg.log_level = cls._choice_or(raw, "log_level", VALID_LOG_LEVELS, cfg.log_level)
+        cfg.log_level = cls._choice_or(
+            raw, "log_level", VALID_LOG_LEVELS, cfg.log_level
+        )
         cfg.recent_files_max = cls._int_or(raw, "recent_files_max", 10, 1, 50)
         raw_recent = raw.get("recent_files", [])
         if isinstance(raw_recent, list):
@@ -125,11 +129,22 @@ class AppConfig:
         cfg.window_height = cls._opt_int(raw, "window_height", min_val=100)
 
         known = {
-            "display_language", "translation_language", "translation_service",
-            "translation_api_key", "translation_app_id", "translation_app_secret",
-            "libretranslate_url", "log_level", "recent_files", "recent_files_max",
-            "thumbnail_width", "thumbnail_height",
-            "window_x", "window_y", "window_width", "window_height",
+            "display_language",
+            "translation_language",
+            "translation_service",
+            "translation_api_key",
+            "translation_app_id",
+            "translation_app_secret",
+            "libretranslate_url",
+            "log_level",
+            "recent_files",
+            "recent_files_max",
+            "thumbnail_width",
+            "thumbnail_height",
+            "window_x",
+            "window_y",
+            "window_width",
+            "window_height",
         }
         cfg._extra = {k: v for k, v in raw.items() if k not in known}
         logger.debug("Config loaded from %s: %r", path, cfg)
@@ -193,9 +208,7 @@ class AppConfig:
         return str(val) if isinstance(val, str) and val in choices else default
 
     @staticmethod
-    def _opt_int(
-        d: dict[str, Any], key: str, min_val: int | None = None
-    ) -> int | None:
+    def _opt_int(d: dict[str, Any], key: str, min_val: int | None = None) -> int | None:
         val = d.get(key)
         if not isinstance(val, int):
             return None

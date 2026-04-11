@@ -5,9 +5,10 @@ from __future__ import annotations
 import base64
 import logging
 import sqlite3
-from dataclasses import dataclass, field
+from collections.abc import Callable
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from ruamel.yaml import YAML
 
@@ -66,8 +67,8 @@ class PromptEntry:
     ai: str = ""
     group: str = ""
     name: str = ""
-    image: bytes | None = None       # Full JPEG or PNG image
-    thumbnail: bytes | None = None   # Pre-scaled thumbnail (PNG)
+    image: bytes | None = None  # Full JPEG or PNG image
+    thumbnail: bytes | None = None  # Pre-scaled thumbnail (PNG)
     local: str = ""
     english: str = ""
 
@@ -181,7 +182,7 @@ def _read_entries(conn: sqlite3.Connection) -> list[PromptEntry]:
                 ai=str(row["ai"] or ""),
                 group=str(row["group"] or ""),
                 name=str(row["name"] or ""),
-                image=row["image"],       # bytes | None (BLOB)
+                image=row["image"],  # bytes | None (BLOB)
                 thumbnail=row["thumbnail"],  # bytes | None (BLOB)
                 local=str(row["local"] or ""),
                 english=str(row["english"] or ""),

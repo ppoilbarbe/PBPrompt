@@ -3,6 +3,17 @@
 All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.3] – 2026-04-11
+
+### Fixed
+- Apply all pending ruff format and lint fixes that were missing from the 1.0.2
+  release: import ordering (`detect_image_format`, `generate_thumbnail`), line
+  wrapping for long expressions, blank lines after local imports, and inline
+  comment spacing.  `pre-commit run --all-files` now passes cleanly on every
+  tracked file.
+- Add explicit rule to the project spec: `pre-commit run --all-files` must
+  return exit code 0 and must not modify any file before any commit or release.
+
 ## [1.0.2] – 2026-04-11
 
 ### Fixed
