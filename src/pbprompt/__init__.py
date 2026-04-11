@@ -3,7 +3,7 @@
 Copyright (c) 2024 PBSoft. MIT License.
 """
 
-__version__ = "1.0.4"
+__version__ = "1.0.5"
 __author__ = "PBSoft"
 __app_name__ = "PBPrompt"
 __description__ = "A program to register and categorize AI prompts to keep tries."

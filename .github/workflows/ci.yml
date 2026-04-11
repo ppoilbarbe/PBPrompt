@@ -225,10 +225,13 @@ jobs:
           if-no-files-found: error
 
   build-macos:
-    name: Build – macOS (x86_64)
-    # macos-13 provides an Intel (x86_64) runner; the resulting binary runs on
-    # both native Intel Macs and Apple Silicon Macs via Rosetta 2.
-    runs-on: macos-13
+    name: Build – macOS (arm64)
+    # macos-14 provides an Apple Silicon (arm64/M1) runner.
+    # macos-13 (Intel x86_64) is being deprecated and frequently cancelled on
+    # the free tier; macos-14 is faster, more available, and natively supported
+    # on all Apple Silicon Macs (M1/M2/M3).
+    runs-on: macos-14
+    timeout-minutes: 30
     if: startsWith(github.ref, 'refs/tags/')
     needs: test
 
@@ -271,6 +274,7 @@ jobs:
           name: executable-macos
           path: dist/pbprompt
           if-no-files-found: error
+          # Note: artifact contains the arm64 binary built on macos-14 (M1).
 
   # -------------------------------------------------------------------------
   # Release  – assembles all artefacts and publishes a GitHub Release
@@ -321,8 +325,8 @@ jobs:
           TAG="${{ github.ref_name }}"
           mv executable-linux/pbprompt       dist/pbprompt-${TAG}-linux-amd64
           mv executable-windows/pbprompt.exe dist/pbprompt-${TAG}-windows-amd64.exe
-          mv executable-macos/pbprompt       dist/pbprompt-${TAG}-macos-amd64
-          chmod +x dist/pbprompt-${TAG}-linux-amd64 dist/pbprompt-${TAG}-macos-amd64
+          mv executable-macos/pbprompt       dist/pbprompt-${TAG}-macos-arm64
+          chmod +x dist/pbprompt-${TAG}-linux-amd64 dist/pbprompt-${TAG}-macos-arm64
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
@@ -334,4 +338,4 @@ jobs:
             dist/pbprompt-*.zip
             dist/pbprompt-*-linux-amd64
             dist/pbprompt-*-windows-amd64.exe
-            dist/pbprompt-*-macos-amd64
+            dist/pbprompt-*-macos-arm64

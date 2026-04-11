@@ -3,6 +3,15 @@
 All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.5] – 2026-04-11
+
+### Fixed
+- Switch macOS CI runner from `macos-13` (Intel x86_64, being deprecated on the
+  free tier) to `macos-14` (Apple Silicon arm64/M1), which is faster and more
+  reliably available.  The macOS release binary is now `pbprompt-vX.Y.Z-macos-arm64`.
+- Add `timeout-minutes: 30` to the `build-macos` job to fail fast instead of
+  hanging indefinitely if the runner is slow.
+
 ## [1.0.4] – 2026-04-11
 
 ### Fixed
