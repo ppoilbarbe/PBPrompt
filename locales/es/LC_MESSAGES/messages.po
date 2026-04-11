@@ -1,0 +1,398 @@
+# PBPrompt – Spanish translations
+# Copyright (C) 2024 PBSoft
+# SPDX-License-Identifier: MIT
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PBPrompt 1.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"Last-Translator: PBSoft\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Main window – menu
+msgid "&File"
+msgstr "&Archivo"
+
+msgid "&New"
+msgstr "&Nuevo"
+
+msgid "&Open…"
+msgstr "&Abrir…"
+
+msgid "&Save"
+msgstr "&Guardar"
+
+msgid "Save &As…"
+msgstr "Guardar &como…"
+
+msgid "&Close"
+msgstr "&Cerrar"
+
+msgid "&Quit"
+msgstr "&Salir"
+
+msgid "&Tools"
+msgstr "&Herramientas"
+
+msgid "&Options…"
+msgstr "&Opciones…"
+
+msgid "&Help"
+msgstr "A&yuda"
+
+msgid "&About…"
+msgstr "&Acerca de…"
+
+# Main window – toolbar / actions
+msgid "New file"
+msgstr "Nuevo archivo"
+
+msgid "Open a prompt file"
+msgstr "Abrir un archivo de prompts"
+
+msgid "Save the current file"
+msgstr "Guardar el archivo actual"
+
+msgid "Save to a new file"
+msgstr "Guardar en un nuevo archivo"
+
+msgid "Close current file"
+msgstr "Cerrar el archivo actual"
+
+msgid "Quit PBPrompt"
+msgstr "Salir de PBPrompt"
+
+msgid "Open settings dialog"
+msgstr "Abrir el diálogo de configuración"
+
+msgid "About PBPrompt"
+msgstr "Acerca de PBPrompt"
+
+msgid "New Prompt"
+msgstr "Nuevo prompt"
+
+msgid "Add a new prompt entry"
+msgstr "Añadir un nuevo prompt"
+
+msgid "Duplicate"
+msgstr "Duplicar"
+
+msgid "Duplicate the current row"
+msgstr "Duplicar la fila actual"
+
+msgid "Delete"
+msgstr "Eliminar"
+
+msgid "Delete selected prompts"
+msgstr "Eliminar los prompts seleccionados"
+
+msgid "→ English"
+msgstr "→ Inglés"
+
+msgid "Translate selected rows to English"
+msgstr "Traducir las filas seleccionadas al inglés"
+
+msgid "← Local"
+msgstr "← Local"
+
+msgid "Translate selected rows from English"
+msgstr "Traducir las filas seleccionadas desde el inglés"
+
+# Main window – filters
+msgid "Filter:"
+msgstr "Filtro:"
+
+msgid "AI…"
+msgstr "IA…"
+
+msgid "Group…"
+msgstr "Grupo…"
+
+msgid "Name…"
+msgstr "Nombre…"
+
+msgid "Local language…"
+msgstr "Idioma local…"
+
+msgid "English…"
+msgstr "Inglés…"
+
+msgid "Clear"
+msgstr "Limpiar"
+
+msgid "Clear all filters"
+msgstr "Limpiar todos los filtros"
+
+# Column headers
+msgid "AI"
+msgstr "IA"
+
+msgid "Group"
+msgstr "Grupo"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "English"
+msgstr "Inglés"
+
+# Status messages
+msgid "Ready"
+msgstr "Listo"
+
+msgid "Copied to clipboard"
+msgstr "Copiado al portapapeles"
+
+# Context menu
+msgid "Copy"
+msgstr "Copiar"
+
+msgid "Cut"
+msgstr "Cortar"
+
+msgid "Paste"
+msgstr "Pegar"
+
+msgid "Copied: %s"
+msgstr "Copiado: %s"
+
+msgid "File saved successfully"
+msgstr "Archivo guardado correctamente"
+
+msgid "File closed"
+msgstr "Archivo cerrado"
+
+msgid "New file created"
+msgstr "Nuevo archivo creado"
+
+msgid "Untitled"
+msgstr "Sin título"
+
+msgid "No rows selected"
+msgstr "Ninguna fila seleccionada"
+
+msgid "Loaded {n} entries from {path}"
+msgstr "{n} entrada(s) cargada(s) desde {path}"
+
+msgid "Translated {n} row(s)"
+msgstr "{n} fila(s) traducida(s)"
+
+msgid "Translation failed:\n{error}"
+msgstr "Error de traducción:\n{error}"
+
+msgid "Deleted {n} row(s)"
+msgstr "{n} fila(s) eliminada(s)"
+
+msgid "Row duplicated"
+msgstr "Fila duplicada"
+
+# Dialogs – file operations
+msgid "Open Prompt File"
+msgstr "Abrir archivo de prompts"
+
+msgid "Save Prompt File"
+msgstr "Guardar archivo de prompts"
+
+msgid "YAML files (*.yaml *.yml);;All files (*.*)"
+msgstr "Archivos YAML (*.yaml *.yml);;Todos los archivos (*.*)"
+
+# Dialogs – confirmation
+msgid "Unsaved Changes"
+msgstr "Cambios sin guardar"
+
+msgid "The document has been modified.\nDo you want to save your changes?"
+msgstr "El documento ha sido modificado.\n¿Desea guardar los cambios?"
+
+msgid "Confirm Delete"
+msgstr "Confirmar eliminación"
+
+msgid "Are you sure you want to delete {n} selected row(s)?"
+msgstr "¿Está seguro de que desea eliminar {n} fila(s) seleccionada(s)?"
+
+# Dialogs – errors
+msgid "Error"
+msgstr "Error"
+
+msgid "Error Opening File"
+msgstr "Error al abrir el archivo"
+
+msgid "Could not open file:\n{path}"
+msgstr "No se pudo abrir el archivo:\n{path}"
+
+msgid "Could not open file:\n{path}\n\n{error}"
+msgstr "No se pudo abrir el archivo:\n{path}\n\n{error}"
+
+msgid "Could not save file:\n{path}"
+msgstr "No se pudo guardar el archivo:\n{path}"
+
+msgid "Translation Error"
+msgstr "Error de traducción"
+
+msgid "Could not initialise the translation service.\nCheck your API key in Options."
+msgstr "No se pudo inicializar el servicio de traducción.\nCompruebe su clave API en Opciones."
+
+# Settings dialog
+msgid "Settings"
+msgstr "Configuración"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Display language:"
+msgstr "Idioma de visualización:"
+
+msgid "Language used in the user interface"
+msgstr "Idioma utilizado en la interfaz de usuario"
+
+msgid "Translation language:"
+msgstr "Idioma de traducción:"
+
+msgid "Source/target language for the local column"
+msgstr "Idioma origen/destino para la columna local"
+
+msgid "Translation service"
+msgstr "Servicio de traducción"
+
+msgid "Service:"
+msgstr "Servicio:"
+
+msgid "API key:"
+msgstr "Clave API:"
+
+msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+msgstr "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+
+msgid "App ID:"
+msgstr "ID de aplicación:"
+
+msgid "Baidu (appid) · Papago (client_id)"
+msgstr "Baidu (appid) · Papago (client_id)"
+
+msgid "App secret:"
+msgstr "Secreto de aplicación:"
+
+msgid "Baidu (appkey) · Papago (secret_key)"
+msgstr "Baidu (appkey) · Papago (secret_key)"
+
+msgid "Recent &Files"
+msgstr "Archivos &recientes"
+
+msgid "No recent files"
+msgstr "No hay archivos recientes"
+
+msgid "Clear list"
+msgstr "Vaciar lista"
+
+msgid "File Not Found"
+msgstr "Archivo no encontrado"
+
+msgid "The file no longer exists:\n{path}"
+msgstr "El archivo ya no existe:\n{path}"
+
+msgid "Files"
+msgstr "Archivos"
+
+msgid "Maximum recent files:"
+msgstr "Máximo de archivos recientes:"
+
+msgid "Logging"
+msgstr "Registro"
+
+msgid "Log level:"
+msgstr "Nivel de registro:"
+
+# About dialog
+msgid "About {app}"
+msgstr "Acerca de {app}"
+
+msgid "Version:"
+msgstr "Versión:"
+
+msgid "Author:"
+msgstr "Autor:"
+
+msgid "MIT License"
+msgstr "Licencia MIT"
+
+msgid "A program to register and categorize AI prompts to keep tries."
+msgstr "Un programa para registrar y categorizar prompts de IA."
+
+# Settings dialog – language selector
+msgid "System default"
+msgstr "Predeterminado del sistema"
+
+# Column header tooltips
+msgid ""
+"Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
+"Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
+msgstr ""
+"Intro: confirmar  ·  Ctrl+Intro o Mayús+Intro: insertar nueva línea\n"
+"Tab / Mayús+Tab: celda siguiente / anterior  ·  Esc: cancelar"
+
+msgid "AI model name.\nSort: primary AI → Group → Name"
+msgstr "Nombre del modelo IA.\nOrden: primario IA → Grupo → Nombre"
+
+msgid "Prompt group / category.\nSort: primary Group → Name → AI"
+msgstr "Grupo / categoría de prompt.\nOrden: primario Grupo → Nombre → IA"
+
+msgid "Prompt title.\nSort: primary Name → Group → AI"
+msgstr "Título del prompt.\nOrden: primario Nombre → Grupo → IA"
+
+msgid "Prompt in local language.\n"
+msgstr "Prompt en idioma local.\n"
+
+msgid "Prompt in English.\n"
+msgstr "Prompt en inglés.\n"
+
+# File menu – YAML import/export
+msgid "Import &YAML"
+msgstr "Importar &YAML"
+
+msgid "Add entries…"
+msgstr "Agregar entradas…"
+
+msgid "Replace all…"
+msgstr "Reemplazar todo…"
+
+msgid "Export &YAML…"
+msgstr "Exportar &YAML…"
+
+msgid "Import YAML file (append)"
+msgstr "Importar archivo YAML (agregar)"
+
+msgid "Import YAML file (replace all)"
+msgstr "Importar archivo YAML (reemplazar todo)"
+
+msgid "Export YAML file"
+msgstr "Exportar archivo YAML"
+
+# Dialogs – file operations (SQLite)
+msgid "PBPrompt database (*.sqlite);;All files (*.*)"
+msgstr "Base de datos PBPrompt (*.sqlite);;Todos los archivos (*.*)"
+
+msgid "Import YAML"
+msgstr "Importar YAML"
+
+msgid "Export YAML"
+msgstr "Exportar YAML"
+
+# Status messages (YAML import/export)
+msgid "Imported {n} entries from {path}"
+msgstr "Importadas {n} entrada(s) desde {path}"
+
+msgid "Exported {n} entries to {path}"
+msgstr "Exportadas {n} entrada(s) a {path}"
+
+# Dialogs – errors (YAML import/export)
+msgid "Import failed:\n{error}"
+msgstr "Error de importación:\n{error}"
+
+msgid "Export failed:\n{error}"
+msgstr "Error de exportación:\n{error}"

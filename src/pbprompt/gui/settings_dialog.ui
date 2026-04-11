@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingsDialog</class>
+ <widget class="QDialog" name="SettingsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>440</width>
+    <height>360</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Settings</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="groupLanguage">
+     <property name="title">
+      <string>Language</string>
+     </property>
+     <layout class="QFormLayout" name="formLayoutLang">
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelDisplayLang">
+        <property name="text">
+         <string>Display language:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="comboDisplayLanguage">
+        <property name="toolTip">
+         <string>Language used in the user interface</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelTranslationLang">
+        <property name="text">
+         <string>Translation language:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="comboTranslationLanguage">
+        <property name="toolTip">
+         <string>Source/target language for the local column</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupTranslation">
+     <property name="title">
+      <string>Translation service</string>
+     </property>
+     <layout class="QFormLayout" name="formLayoutTranslation">
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelService">
+        <property name="text">
+         <string>Service:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="comboService"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelApiKey">
+        <property name="text">
+         <string>API key:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="lineEditApiKey">
+        <property name="placeholderText">
+         <string>DeepL, Microsoft, Yandex, QCRI, LibreTranslate</string>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="labelAppId">
+        <property name="text">
+         <string>App ID:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="lineEditAppId">
+        <property name="placeholderText">
+         <string>Baidu (appid) · Papago (client_id)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="labelAppSecret">
+        <property name="text">
+         <string>App secret:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="lineEditAppSecret">
+        <property name="placeholderText">
+         <string>Baidu (appkey) · Papago (secret_key)</string>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupLogging">
+     <property name="title">
+      <string>Logging</string>
+     </property>
+     <layout class="QFormLayout" name="formLayoutLog">
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelLogLevel">
+        <property name="text">
+         <string>Log level:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="comboLogLevel"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupFiles">
+     <property name="title">
+      <string>Files</string>
+     </property>
+     <layout class="QFormLayout" name="formLayoutFiles">
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelMaxRecentFiles">
+        <property name="text">
+         <string>Maximum recent files:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="spinBoxMaxRecentFiles">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>50</number>
+        </property>
+        <property name="value">
+         <number>10</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>10</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>accept()</slot>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>reject()</slot>
+  </connection>
+ </connections>
+</ui>

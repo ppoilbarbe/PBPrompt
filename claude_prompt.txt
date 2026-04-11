@@ -1,0 +1,612 @@
+Génère un projet Python complet pour une application graphique nommée PBPrompt qui utilise PyQt5.
+La description du projet est "A program to register and categorize AI prompts to keep tries."
+Le nom de l'éditeur du programme est PBSoft.
+
+
+Caractéristiques requises :
+
+1) Ce que fait le programme
+- Le programme contient une liste de "prompts" d'I.A. à conserver.
+- Il y a 5 colonnes dans la liste: IA (nom de l'I.A. utilisée), Groupe (un groupe de prompts), Nom (nom de l'entrée), Langue locale (Prompt en langue locale), Anglais (prompt en anglais).
+- Les lignes peuvent être sélectionnées. On peut sélectionner plusieurs lignes.
+- Les cellules des colonnes Langue locale et Anglais sont éditables en multiligne :
+  un double-clic ouvre un éditeur en ligne (QPlainTextEdit) permettant la saisie
+  sur plusieurs lignes. La touche Entrée valide l'édition et ferme l'éditeur (identique
+  à Tab). Ctrl+Entrée ou Maj+Entrée insèrent un saut de ligne réel à la position du
+  curseur. Tab / Maj+Tab valident et passent à la cellule suivante / précédente,
+  Échap annule, un clic en dehors valide.
+- La hauteur de chaque ligne s'adapte automatiquement à la longueur du texte
+  (y compris les retours à la ligne) afin que tout le contenu soit entièrement visible.
+- Les lignes longues qui ne tiennent pas en largeur sont renvoyées automatiquement
+  à la ligne suivante en affichage uniquement (sans modifier les données).
+- Les vrais sauts de ligne présents dans les données sont matérialisés à l'affichage
+  par le caractère Unicode ↵ (U+21B5) placé juste avant le saut de ligne.
+- Un clic droit sur une cellule affiche un menu contextuel avec les actions
+  Copier / Couper / Coller pour le presse-papiers. Les raccourcis clavier
+  Ctrl+C / Ctrl+X / Ctrl+V sont également disponibles depuis la liste.
+  Le menu contextuel est traduit via le système i18n (gettext).
+- Il y a un filtre pour chaque colonne pour rechercher des éléments par expression régulière et n'afficher que ceux-là. Tous les filtres de colonnes sont cumulatifs (une ligne doit valider tous les filtres définis pour être affichée).
+- Il y a des boutons dans la barre d'outils :
+  - Nouveau prompt (pour créer une nouvelle ligne vide, raccourci Ins),
+  - Dupliquer (pour dupliquer la ligne courante et l'insérer immédiatement en dessous,
+    raccourci Ctrl+D), placé entre le bouton Nouveau prompt et le bouton Supprimer,
+  - Supprimer (pour supprimer les lignes sélectionnées après confirmation, raccourci Del),
+  - Flèche vers la droite pour traduire de la langue de la colonne "Langue locale"
+    (définie dans les paramètres) vers l'anglais (raccourci F6),
+  - Flèche vers la gauche pour traduire de l'anglais vers la langue de la colonne
+    "Langue locale" (raccourci F7).
+- Lorsqu'on clique sur un des deux boutons de traduction, l'édition en cours est
+  validée avant de réaliser la traduction. Implémentation : récupérer le widget
+  actuellement focalisé via QApplication.focusWidget() ; s'il est un descendant
+  de la vue (tableView.isAncestorOf(fw)), appeler fw.clearFocus() pour déclencher
+  un FocusOut inconditionnel → commitData + closeEditor via l'eventFilter du delegate.
+  Ne pas utiliser tableView.setFocus() : Qt annule le commit si le widget cible est
+  un ancêtre de l'éditeur.
+- La cellule courante (currentIndex) doit apparaître visuellement différente de toutes
+  les autres cellules de la même ligne sélectionnée. Implémenter cela via un delegate
+  dédié CurrentCellHighlightDelegate(QStyledItemDelegate) qui :
+  * stocke une référence à la vue (self._view),
+  * dans paint(), compare l'index avec self._view.currentIndex() et, si la ligne est
+    sélectionnée (State_Selected), dessine une bordure colorée de 2 px autour de la
+    cellule courante (couleur : palette Highlight assombrie à 160 %).
+  * S'applique aux colonnes AI, Group, Name via setItemDelegateForColumn().
+  * MultiLineDelegate (colonnes Local et English) hérite de CurrentCellHighlightDelegate
+    (pas de QStyledItemDelegate directement). Son constructeur prend (view, parent) et
+    appelle super().__init__(view, parent). La méthode paint() appelle
+    self._draw_current_highlight() à la fin du tracé du texte.
+- Si une traduction échoue (clé API manquante ou invalide, erreur réseau, quota
+  dépassé, etc.), une boîte de dialogue d'erreur (QMessageBox.critical) s'affiche
+  avec le message exact retourné par le service. Le traitement s'arrête à la
+  première erreur. Les lignes déjà traduites avant l'erreur conservent leur résultat.
+  Le texte original n'est jamais recopié à la place d'une traduction manquante.
+- Le format de stockage primaire est SQLite (.sqlite). Les fichiers YAML servent
+  uniquement d'import/export (pas de sauvegarde directe en YAML).
+- Chaque ligne est une entrée dans la table "prompts" avec les colonnes :
+  ai, group, name, local, english (toutes TEXT NOT NULL DEFAULT '').
+  "group" est un mot-clé SQL et doit être systématiquement entre guillemets dans
+  toutes les requêtes SQL.
+- Le fichier SQLite contient aussi une table "pbprompt" (signature) avec les colonnes
+  key TEXT PRIMARY KEY et value TEXT NOT NULL DEFAULT ''. Elle stocke notamment
+  key='version' avec le numéro de version de l'application qui a écrit le fichier.
+  Schéma complet :
+    CREATE TABLE IF NOT EXISTS pbprompt (key TEXT PRIMARY KEY, value TEXT NOT NULL DEFAULT '')
+    CREATE TABLE IF NOT EXISTS prompts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        ai TEXT NOT NULL DEFAULT '', "group" TEXT NOT NULL DEFAULT '',
+        name TEXT NOT NULL DEFAULT '', local TEXT NOT NULL DEFAULT '',
+        english TEXT NOT NULL DEFAULT '')
+  Mode WAL activé (PRAGMA journal_mode=WAL). Row factory = sqlite3.Row.
+- Logique d'ouverture d'un fichier SQLite (PromptCollection.load) :
+  * Si la table "pbprompt" n'existe pas → ValueError("Not a PBPrompt database: {path}")
+    L'IHM attrape ValueError séparément et affiche le message d'erreur + chemin
+    (could not open file:\n{path}\n\n{error}) puis charge une collection vide.
+  * Si "pbprompt" existe mais que la table "prompts" manque des colonnes →
+    ALTER TABLE ADD COLUMN "col" TEXT NOT NULL DEFAULT "" pour chaque colonne manquante,
+    puis tamponner la version. Retourner la liste des colonnes ajoutées.
+  * Lire toutes les lignes avec SELECT ai, "group", name, local, english FROM prompts ORDER BY id.
+- Sauvegarde (PromptCollection.save) : crée/met à jour le fichier SQLite via
+  _create_schema (CREATE TABLE IF NOT EXISTS) + DELETE FROM prompts + INSERT pour
+  chaque entrée + INSERT OR REPLACE INTO pbprompt key='version'.
+- Lors de la sauvegarde (Enregistrer sous), si le nom de fichier saisi ne comporte
+  pas l'extension .sqlite, l'extension .sqlite est ajoutée automatiquement.
+- Import YAML (menu Fichier → Importer YAML → sous-menu) :
+  * "Ajouter des entrées…" : les entrées du YAML sont ajoutées (append) à la collection.
+  * "Remplacer tout…" : la collection est vidée puis remplacée par le contenu du YAML.
+  * Les clés du YAML inconnues (ne correspondant pas à une colonne) sont ignorées.
+  * Les clés manquantes dans le YAML prennent la valeur par défaut "".
+  * Après import, set_collection() est appelé pour rafraîchir l'affichage Qt.
+- Export YAML (menu Fichier → Exporter YAML…) :
+  * Toutes les colonnes de PROMPTS_COLUMNS sont toujours écrites, même si vides.
+  * L'extension .yaml est ajoutée automatiquement si le nom ne se termine pas par
+    .yaml ou .yml.
+- La constante PROMPTS_COLUMNS: tuple[str, ...] = ("ai", "group", "name", "local", "english")
+  est l'unique source de vérité pour l'ordre des colonnes dans SQL, YAML et l'affichage.
+- L'historique des fichiers récents reflète les fichiers SQLite (plus les YAML).
+- Le menu Fichier contient un sous-menu "Fichiers récents" listant les fichiers de
+  données récemment chargés. Ce sous-menu se termine par une ligne de séparation
+  puis une entrée "Vider la liste" qui efface la liste. Cliquer sur un fichier de la
+  liste l'ouvre (avec détection des modifications non sauvegardées). Si le fichier
+  n'existe plus, un avertissement s'affiche, l'entrée est supprimée de la liste et
+  une collection vide est présentée.
+- Au démarrage de l'application, si aucun fichier n'est fourni sur la ligne de
+  commande, le dernier fichier utilisé est chargé automatiquement et silencieusement.
+  S'il n'existe plus, la liste est mise à jour (entrée supprimée) et une collection
+  vide est présentée.
+- La liste des fichiers récents (chemins complets, ordre chronologique inversé) est
+  persistée dans le fichier de configuration YAML.
+- Les en-têtes de colonnes affichent des infobulles (tooltip) décrivant chaque colonne
+  et indiquant les raccourcis clavier non standards :
+  * AI, Groupe, Nom : description de la colonne + comportement de tri secondaire
+    (ex : "Tri primaire sur IA → Groupe → Nom").
+  * Langue locale, Anglais : description + raccourcis de l'éditeur multiligne
+    (Entrée : valider · Ctrl+Entrée ou Maj+Entrée : saut de ligne ·
+    Tab / Maj+Tab : cellule suivante/précédente · Échap : annuler).
+  Les tooltips sont traduits via le système i18n (gettext).
+  Implémentation : PromptTableModel.headerData() gère Qt.ToolTipRole via un champ
+  _header_tooltips (list[str]) et une méthode set_header_tooltips(tooltips: list[str])
+  symétrique à set_header_labels(). Les tooltips sont définis dans retranslateUi() et
+  dans __init__() (après création de _source_model), exactement comme set_header_labels().
+
+
+2) Ligne de commande (argparse)
+
+Le point d'entrée (__main__.py) doit examiner les options avec argparse :
+
+  pbprompt [FILE] [--version] [--log-level LEVEL]
+
+- --help / -h : affiche la description du programme et toutes les options, puis quitte.
+- --version : affiche "pbprompt X.Y.Z" (lu depuis __version__) et quitte.
+- --log-level LEVEL : surcharge le niveau de log défini dans le fichier de
+  configuration. Valeurs acceptées : DEBUG, INFO, WARNING, ERROR, CRITICAL.
+- FILE (argument positionnel optionnel) : fichier SQLite PBPrompt à ouvrir au démarrage.
+  * Prend la priorité sur le dernier fichier utilisé (l'autoload est ignoré).
+  * Si le fichier peut être lu : il est chargé et ajouté aux fichiers récents.
+  * Si le fichier ne peut pas être lu : une boîte de dialogue indique le chemin
+    ET le message d'erreur exact (str(exc)), puis une liste vide est chargée.
+  * Implémenter via un paramètre initial_file: Path | None = None dans
+    MainWindow.__init__, et une méthode _open_initial_file(path) distincte
+    de _autoload_last_file().
+
+MainWindow.__init__ a la signature :
+  __init__(self, config: AppConfig, initial_file: Path | None = None, parent: None = None)
+
+La version dans setApplicationVersion() doit lire __version__ depuis pbprompt/__init__.py,
+pas être codée en dur.
+
+
+3) Structure du projet
+- Fournis une arborescence de fichiers complète avec code source, tests et fichiers de configuration.
+- Inclure: pyproject.toml, README.md, main.py (point d'entrée), un package principal
+  (src/pbprompt/), modules séparés pour l'UI, la logique métier, la configuration et
+  l'accès système par plateforme.
+
+
+4) Fonctionnalités UI
+- Fenêtre principale simple avec un titre (nom du programme), la liste de lignes, toolbar et status bar.
+  * menu Fichier qui contient les entrées suivantes (avec raccourcis et icônes) :
+    - Nouveau (Ctrl+N) : crée une nouvelle collection vide
+    - Ouvrir… (Ctrl+O) : ouvre un fichier SQLite
+    - Fichiers récents : sous-menu avec les fichiers récents
+    - Enregistrer (Ctrl+S) : enregistre le fichier courant
+    - Enregistrer sous… (Ctrl+Shift+S) : enregistre dans un nouveau fichier
+    - Importer YAML : sous-menu avec :
+        · Ajouter des entrées… (Ctrl+I) : importe un YAML en ajoutant
+        · Remplacer tout… (Ctrl+Shift+I) : importe un YAML en remplaçant tout
+    - Exporter YAML… (Ctrl+E) : exporte toutes les entrées en YAML
+    - Fermer (Ctrl+W) : ferme le fichier courant
+    - Quitter (Ctrl+Q) : quitte l'application
+  * menu Outils qui contient une entrée Options… (Ctrl+,) qui ouvre la boîte de dialogue
+    de paramètres.
+  * menu Aide contient une entrée À propos qui ouvre une boîte de dialogue À propos.
+  * Les lignes peuvent être triées selon la valeur d'une colonne (en cliquant sur l'en-tête
+    de cette colonne). Un autre clic renverse le sens du tri. Le premier clic donne un tri
+    ascendant.
+  * les tris de colonnes se font sur les trois colonnes IA, groupe et nom. La colonne
+    sélectionnée comme tri primaire et les tris secondaires sont dans le même sens.
+    + Tri primaire sur IA: sous-critère de tri sur "groupe" puis "nom".
+    + Tri primaire sur Groupe: sous-critère de tri sur "nom" puis "ia".
+    + Tri primaire sur Nom: sous-critère de tri sur "groupe" puis "ia".
+  * Un petit marqueur dans l'en-tête de colonne indique le tri primaire et son sens.
+  * Le tri par défaut au démarrage est la colonne IA en ascendant.
+  * Implémentation du tri — points critiques pour éviter les bugs :
+    - L'état du tri (_sort_col, _sort_order) est stocké dans des variables d'instance
+      sur la fenêtre principale. Ne jamais interroger QHeaderView.sortIndicatorOrder() :
+      cet état interne peut être réinitialisé par les signaux Qt émis pendant
+      QSortFilterProxyModel.sort().
+    - Dans lessThan() du proxy model, les valeurs Column (IntEnum) doivent être
+      converties explicitement en int() avant tout appel à model.index(). Certaines
+      versions de PyQt5/SIP retournent silencieusement un QModelIndex invalide sinon.
+      Appeler model.data(idx, role) directement plutôt que idx.data(role).
+- Boîte de dialogue "Paramètres" avec les options suivantes:
+  * Langue d'affichage de l'interface (comboDisplayLanguage) :
+    - La liste est construite dynamiquement en scannant locales/*/LC_MESSAGES/messages.mo
+      à l'exécution (pas de liste codée en dur).
+    - "Langue par défaut du système" (userData="") est toujours le premier élément,
+      sélectionné par défaut si display_language vaut "" dans la config.
+  * Langue de traduction de la colonne "Langue locale" (comboTranslationLanguage) :
+    - "Langue par défaut du système" (userData="") est toujours le premier élément,
+      sélectionné par défaut si translation_language vaut "" dans la config.
+  * Sélection du service de traduction parmi tous les services supportés par
+    deep-translator, plus Reverso (API publique non officielle).
+  * Champs de credentials : Clé API, App ID, App secret selon le service.
+  * Niveau de log.
+  * Nombre maximum de fichiers récents (entier 1–50, défaut 10).
+  * Boutons "Enregistrer" / "Annuler".
+- Boîte de dialogue "À propos" contenant icône, nom, version, auteur et lien de licence.
+- La fenêtre principale mémorise sa position et sa taille entre les sessions :
+  * À la fermeture (closeEvent, après confirmation si modifications non sauvegardées) :
+    enregistrer self.x(), self.y(), self.width(), self.height() dans AppConfig puis
+    appeler self._config.save().
+  * Au démarrage (dans __init__, après setupUi) : si window_width et window_height sont
+    définis dans la config, appeler self.resize(w, h) ; si window_x et window_y sont
+    définis, appeler self.move(x, y). Ne rien faire si les valeurs sont None (premier
+    lancement : Qt choisit la position et la taille par défaut).
+- La fenêtre principale, les boîtes de dialogue "Paramètres" et "À propos" sont définies
+  dans le dossier gui/ à partir des fichiers XML Qt Designer, transformés avec pyuic5.
+  Les classes comportementales dérivent des classes générées.
+
+Points critiques pour les fichiers .ui (Qt Designer XML) :
+  * Ne jamais insérer de commentaires XML (<!-- ... -->) à l'intérieur d'éléments
+    <layout> ou <widget> : pyuic5 peut planter sur ces nœuds commentaires.
+    Les commentaires XML ne sont autorisés qu'en dehors des éléments enfants de widgets.
+  * Pour les marges d'un layout, NE PAS utiliser <contentsMargins> ni <margins> ni
+    <number> multiples. Utiliser quatre propriétés séparées :
+      <property name="leftMargin"><number>6</number></property>
+      <property name="topMargin"><number>6</number></property>
+      <property name="rightMargin"><number>6</number></property>
+      <property name="bottomMargin"><number>4</number></property>
+    Toute autre forme (<rect>, <margins>, <number> seul) génère une erreur ou
+    un appel PyQt5 invalide à l'exécution.
+  * Toute sous-classe de widget Qt utilisée dans un .ui (ex : PromptTableView qui
+    hérite de QTableView) doit être déclarée dans une section <customwidgets> :
+      <customwidgets>
+        <customwidget>
+          <class>PromptTableView</class>
+          <extends>QTableView</extends>
+          <header>pbprompt.gui.models</header>
+          <container>0</container>
+        </customwidget>
+      </customwidgets>
+    La valeur de <header> est le chemin Python pointé (module path) d'où importer
+    la classe. pyuic5 génère alors : from pbprompt.gui.models import PromptTableView.
+  * Toutes les actions (y compris actionDuplicatePrompt avec Ctrl+D) doivent être
+    définies directement dans le fichier .ui. Ne jamais les ajouter à la main dans
+    le fichier .py généré par pyuic5 : ces modifications seraient perdues au prochain
+    make clean/all.
+
+Points critiques pour les raccourcis clavier — bug MRO Python :
+  * La classe MainWindow hérite à la fois de QMainWindow et de Ui_MainWindow.
+    Python's Method Resolution Order (MRO) fait que MainWindow.retranslateUi()
+    MASQUE Ui_MainWindow.retranslateUi() : lorsque setupUi() appelle self.retranslateUi(),
+    Python dispatche vers MainWindow.retranslateUi() et n'appelle JAMAIS
+    Ui_MainWindow.retranslateUi().
+  * Conséquence : tous les setShortcut() définis dans Ui_MainWindow.retranslateUi()
+    sont du code mort — les raccourcis clavier définis dans le fichier .py généré
+    par pyuic5 ne sont JAMAIS installés à l'exécution.
+  * Correction : placer TOUS les setShortcut(QKeySequence(...)) directement dans
+    MainWindow.retranslateUi() avec un commentaire explicatif :
+
+    # Keyboard shortcuts — set here because Ui_MainWindow.retranslateUi is
+    # shadowed by this override (Python MRO) and therefore never called at runtime.
+    self.actionFileNew.setShortcut(QKeySequence("Ctrl+N"))
+    self.actionFileOpen.setShortcut(QKeySequence("Ctrl+O"))
+    self.actionFileSave.setShortcut(QKeySequence("Ctrl+S"))
+    self.actionFileSaveAs.setShortcut(QKeySequence("Ctrl+Shift+S"))
+    self.actionFileClose.setShortcut(QKeySequence("Ctrl+W"))
+    self.actionFileQuit.setShortcut(QKeySequence("Ctrl+Q"))
+    self.actionToolsOptions.setShortcut(QKeySequence("Ctrl+,"))
+    self.actionNewPrompt.setShortcut(QKeySequence("Ins"))
+    self.actionDuplicatePrompt.setShortcut(QKeySequence("Ctrl+D"))
+    self.actionDeletePrompts.setShortcut(QKeySequence("Del"))
+    self.actionTranslateToEnglish.setShortcut(QKeySequence("F6"))
+    self.actionTranslateFromEnglish.setShortcut(QKeySequence("F7"))
+    self.actionImportYamlAdd.setShortcut(QKeySequence("Ctrl+I"))
+    self.actionImportYamlReplace.setShortcut(QKeySequence("Ctrl+Shift+I"))
+    self.actionExportYaml.setShortcut(QKeySequence("Ctrl+E"))
+
+  * QKeySequence doit être importé depuis PyQt5.QtWidgets (ou PyQt5.QtGui).
+
+Points critiques pour la status bar et les tooltips d'actions :
+  * Qt affiche automatiquement le statusTip d'une QAction dans la status bar
+    quand l'utilisateur survole un élément de menu OU un bouton de barre d'outils.
+    (Le toolTip est réservé aux infobulles flottantes des boutons de toolbar.)
+  * Pour afficher tooltip + raccourci dans la status bar, ajouter la méthode
+    _update_status_tips() dans MainWindow et l'appeler à la fin de retranslateUi() :
+
+    def _update_status_tips(self) -> None:
+        for action in self.findChildren(QAction):
+            tip = action.toolTip()
+            if not tip:
+                continue
+            sc = action.shortcut().toString()
+            action.setStatusTip(f"{tip}  ({sc})" if sc else tip)
+
+  * findChildren(QAction) retourne toutes les QAction enfants de la fenêtre,
+    incluant celles des menus et de la toolbar.
+
+Points critiques pour les hauteurs de lignes :
+  * resizeRowsToContents() doit être appelé APRÈS que Qt a finalisé les largeurs des
+    colonnes Stretch (colonnes Langue locale et Anglais). Si appelé trop tôt (avant
+    le premier layout), columnWidth() retourne une valeur incorrecte → sizeHint()
+    calcule des hauteurs absurdes.
+  * Implémentation correcte dans MainWindow :
+    - _resize_rows() : appelle resizeRowsToContents() uniquement si isVisible() est True ;
+      ne se re-programme pas via singleShot si la fenêtre n'est pas visible.
+    - showEvent() (override) : appelle QTimer.singleShot(0, self.tableView.resizeRowsToContents)
+      pour déclencher le redimensionnement après le premier passage de layout Qt
+      (les colonnes Stretch ont alors leur vraie largeur).
+    - _on_section_resized(col, old, new) : appelle resizeRowsToContents() quand
+      les colonnes LOCAL ou ENGLISH sont redimensionnées (gère les redimensionnements
+      dynamiques par l'utilisateur).
+  * MultiLineDelegate.sizeHint() utilise self._view.columnWidth(col) pour calculer
+    la hauteur nécessaire au texte avec word-wrap. Un fallback à 100 px est appliqué
+    si la largeur retournée est ≤ 8 px (avant le premier layout).
+
+Points critiques pour l'éditeur multiligne (MultiLineDelegate.eventFilter) :
+  * Enter / Return seul → valide l'édition (commitData + closeEditor).
+  * Ctrl+Enter ou Maj+Enter → insère un saut de ligne réel (insertPlainText("\n")).
+    Implémentation : if event.modifiers() & (Qt.ControlModifier | Qt.ShiftModifier)
+  * Tab → valide et passe à la cellule suivante (EditNextItem).
+  * Backtab (Maj+Tab) → valide et passe à la cellule précédente (EditPreviousItem).
+  * Up / Down → mouvement naturel du curseur dans QPlainTextEdit (return False).
+  * Escape / FocusOut → géré par la classe de base (annule sur Escape).
+
+
+5) Icônes
+
+Créer un jeu complet d'icônes SVG 24×24 (style outline, trait #404040, stroke-width 1.5)
+pour chacune des actions suivantes : new, open, save, save_as, close, quit, delete,
+options, about, translate_right, translate_left, new_prompt, duplicate,
+import_yaml, export_yaml.
+Plus trois variantes de l'icône application : app_color.svg, app_light.svg, app_dark.svg.
+
+Les placer dans resources/icons/ et les référencer dans resources/resources.qrc.
+Compiler avec pyrcc5 → src/pbprompt/gui/resources_rc.py (cible "make resources").
+
+Implémentation de get_icon(name) dans gui/icons.py — ordre de résolution :
+1. QIcon.fromTheme(theme_name) avec mapping FreeDesktop :
+     new→document-new, open→document-open, save→document-save,
+     save_as→document-save-as, close→window-close, quit→application-exit,
+     delete→edit-delete, options→preferences-system, about→help-about,
+     translate_right→go-next, translate_left→go-previous,
+     new_prompt→list-add, duplicate→edit-copy,
+     import_yaml→document-import, export_yaml→document-export
+2. QRC — vérifier QFile.exists(qrc_path) AVANT QIcon(qrc_path) pour éviter
+   les warnings Qt "Cannot open file ':/icons/...', because: No such file or directory".
+3. Fichier SVG sur le disque (variantes _light, plain, _color).
+4. Qt standard icon (QStyle.StandardPixmap) comme ultime recours :
+     import_yaml→SP_DialogOpenButton, export_yaml→SP_DialogSaveButton
+
+Ne jamais appeler QIcon(":/icons/name.svg") sans vérifier d'abord QFile.exists().
+
+Description des icônes import_yaml et export_yaml (24×24, stroke #404040,
+stroke-width 1.5, fill none, round linecap/linejoin) :
+- import_yaml.svg : document YAML (gauche, x=1–9) + flèche droite (centre)
+  + tableau de données avec lignes (droite, x=15–23). Les lignes de texte du
+  document YAML utilisent stroke-width=1.2. Symbolise "YAML → application".
+- export_yaml.svg : miroir de import_yaml : tableau (gauche) + flèche droite
+  + document YAML (droite). Symbolise "application → YAML".
+
+
+6) Gestion de version semver
+
+Créer scripts/bump_version.py qui :
+- Lit la version courante depuis src/pbprompt/__init__.py (__version__ = "X.Y.Z").
+- Accepte un argument positionnel : major, minor ou patch.
+- Incrémente la partie choisie (major remet minor et patch à 0, minor remet patch à 0).
+- Met à jour simultanément :
+  * src/pbprompt/__init__.py : pattern __version__ = "..."
+  * pyproject.toml : pattern ^version = "..." (nécessite re.MULTILINE)
+- Affiche : "Version bumped (part): old → new"
+
+Ajouter dans le Makefile les cibles :
+  version     — affiche la version courante (grep __version__ dans __init__.py)
+  bump-patch  — python scripts/bump_version.py patch
+  bump-minor  — python scripts/bump_version.py minor
+  bump-major  — python scripts/bump_version.py major
+
+Et améliorer la cible "help" pour qu'elle affiche un en-tête et liste toutes les cibles
+avec leur description (grep sur ## dans le Makefile).
+
+
+7) Internationalisation (i18n)
+- Architecture multilingue : fichiers gettext (.po/.mo) pour au moins français, anglais,
+  espagnol, italien, russe, vietnamien, chinois simplifié (zh_CN).
+- Mécanisme pour changer la langue dans Paramètres et recharger l'UI sans redémarrage.
+- La langue au démarrage est celle du fichier de configuration ou la langue système.
+  Si non trouvée, fallback vers anglais.
+- Exposer une fonction publique system_language() -> str dans i18n.py qui détecte
+  la langue système (locale.getlocale(), fallback "en"). L'alias privé _system_language
+  peut pointer sur la même fonction.
+- La valeur "" dans display_language ou translation_language signifie "langue par
+  défaut du système". Partout où ces valeurs sont utilisées (en-tête de colonne,
+  appel au service de traduction), résoudre "" par or system_language() :
+    lang = config.translation_language or system_language()
+- L'en-tête de la colonne "Langue locale" doit afficher dès le démarrage le nom
+  de la langue de traduction (ex : "Français (fr)"), pas "Langue locale".
+  Cela requiert un appel explicite à set_header_labels() juste après la création
+  de _source_model dans MainWindow.__init__(), indépendamment de retranslateUi()
+  qui s'exécute avant que le modèle existe.
+- Le nom affiché pour chaque langue suit le format "Nom natif (code)" (ex :
+  "Français (fr)", "中文(简体) (zh_CN)"). Centraliser ce formatage dans une
+  fonction language_label(code: str) -> str dans i18n.py, s'appuyant sur un dict
+  _LANGUAGE_NAMES avec les noms natifs.
+- Les valeurs par défaut dans AppConfig :
+    display_language: str = ""      # "" = langue système
+    translation_language: str = ""  # "" = langue système
+    window_x: int | None = None     # position et taille de la fenêtre principale
+    window_y: int | None = None     # None = pas encore sauvegardé (premier lancement)
+    window_width: int | None = None
+    window_height: int | None = None
+  AppConfig.load() lit ces quatre champs via un helper _opt_int(d, key, min_val=None)
+  qui retourne None si la valeur absente ou non entière ; min_val=100 pour width/height
+  afin de rejeter des valeurs aberrantes. AppConfig.save() ne les écrit que s'ils sont
+  différents de None (fichier propre au premier lancement).
+- Exposer une fonction publique get_locale_dir() -> Path dans i18n.py qui retourne
+  le répertoire locales/ en tenant compte d'un éventuel bundle PyInstaller :
+    import sys
+    def get_locale_dir() -> Path:
+        if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+            return Path(sys._MEIPASS) / "locales"
+        return Path(__file__).parent.parent.parent / "locales"
+  Utiliser get_locale_dir() partout où le chemin du répertoire locales/ est nécessaire
+  (dans i18n.py lui-même pour _LOCALE_DIR, et dans settings_dialog.py pour scanner
+  les langues disponibles). Ne jamais calculer ce chemin via Path(__file__).parent...
+  directement dans d'autres modules.
+
+
+8) Modularité et séparation des accès système
+- Les chemins de configuration spécifiques à chaque OS sont isolés dans pbprompt/platform/*.py.
+- Interface commune : get_config_dir() → Path.
+- pbprompt/platform/__init__.py n'exporte QUE get_config_dir via __all__. Ne pas y
+  déclarer notify() ni aucune autre fonction non implémentée : les tests qui feraient
+  `from pbprompt.platform import notify` échoueraient avec ImportError.
+- Le YAML est géré avec Ruamel YAML. Écriture en YAML 1.2.
+  Note : Ruamel YAML est utilisé pour la configuration (AppConfig) ET pour l'import/export
+  des données de prompts. Il ne sert plus de format de sauvegarde principal (remplacé par SQLite).
+- Classe racine BaseTranslator (ABC) dans pbprompt/translate/base.py avec :
+    to_english(text, source_language) et from_english(text, target_language).
+  Les méthodes ne doivent PAS capturer les exceptions en interne. Toute exception
+  remonte jusqu'à _on_translate() dans la fenêtre principale qui affiche la
+  QMessageBox.critical.
+- Services de traduction supportés :
+  google, mymemory, deepl, microsoft, yandex, libretranslate (LibreTranslator),
+  baidu, papago, qcri, pons, linguee, reverso (API non officielle).
+  Note : dans deep_translator la classe LibreTranslate s'appelle LibreTranslator.
+
+
+9) Tests et CI
+- Utiliser pre-commit avec hooks ruff (lint et format) et check-yaml.
+- Configurations ruff dans pyproject.toml.
+- Tests unitaires basiques (pytest) pour la logique, la sélection du module plateforme.
+- Fichier GitHub Actions (ci.yml) et GitLab CI (.gitlab-ci.yml).
+
+Points critiques pour les tests :
+  * Les valeurs par défaut de AppConfig sont display_language="" et
+    translation_language="" (chaîne vide = langue système). Ne pas asserter "en" ou "fr".
+  * BaseTranslator.to_english() et from_english() propagent les exceptions sans les
+    capturer. Un test qui vérifie le comportement en cas d'erreur doit utiliser
+    pytest.raises(RuntimeError), PAS asserter que le texte original est retourné.
+  * Ne pas écrire de test pour une fonction (ex. notify()) qui n'est pas exportée
+    dans pbprompt/platform/__init__.__all__. Un tel test échoue avec ImportError.
+
+
+10) pyproject.toml et packaging
+- build-backend doit être "setuptools.build_meta" (PAS "setuptools.backends.legacy:build"
+  qui est incompatible avec setuptools ≥ 68 de conda-forge).
+- Métadonnées : nom, version, auteur, licence, dépendances, scripts/entry-points.
+- requires-python = ">=3.11".
+- Support Python 3.11 et 3.12.
+- Entry point : pbprompt = "pbprompt.__main__:main"
+- Ruff extend-exclude pour les fichiers générés (ui_*.py, resources_rc.py).
+- [tool.ruff.lint.per-file-ignores] :
+  * "src/pbprompt/gui/models.py" = ["N802"] (méthodes camelCase imposées par PyQt5)
+  * Ajouter # noqa: N802 sur retranslateUi() et closeEvent() dans main_window.py etc.
+  * Dans translate/*.py, les imports différés `from deep_translator import XxxTranslator
+    as _XT` doivent avoir # noqa: PLC0415, N814
+- Dépendances dev :
+    "pytest>=7.4",
+    "pytest-cov>=4.1",   ← requis pour make test-cov (--cov=pbprompt --cov-report=html)
+    "pytest-qt>=4.2",
+    "ruff>=0.4",
+    "pre-commit>=3.6",
+    "mypy>=1.8",
+    "Sphinx>=7.2",
+    "sphinx-rtd-theme>=2.0",
+
+
+11) Documentation et scripts
+- README.md avec :
+  * Section Installation avec conda (conda-forge + pip install deep-translator +
+    pip install -e . --no-deps) et avec venv/pip.
+    Note : pip install -e . --no-deps est requis en environnement conda pour ne pas
+    réinstaller les paquets déjà gérés par conda.
+  * Section "Running / Command-line options" : tableau des options avec le comportement
+    détaillé de l'argument FILE (priorité sur autoload, dialog d'erreur + liste vide).
+  * Section "Version management" : make bump-patch/minor/major, script direct, exemple.
+  * Section "Adding a language".
+  * Section "Build standalone executables" (PyInstaller, make bundle).
+  * Section "Known limitations".
+- Scripts dans scripts/ : build_linux.sh, build_windows.bat, build_macos.sh,
+  compile_translations.sh, build_qm.sh, bump_version.py.
+- Sphinx documentation dans doc/.
+- Makefile avec cibles : all, ui, resources, translations, pot, merge-po, run,
+  lint, format, test, test-cov, docs, bundle, clean, dist, version, bump-patch,
+  bump-minor, bump-major, help.
+  La cible par défaut est help (.DEFAULT_GOAL := help).
+  La cible help liste toutes les cibles avec leur description ## en couleur.
+
+  Cible bundle — build du binaire standalone avec PyInstaller :
+  * Dépend de all (UI, ressources et traductions compilés avant de lancer pyinstaller).
+  * Si pbprompt.spec existe, l'utilise : pyinstaller pbprompt.spec
+  * Sinon, génère un .spec à la volée :
+      pyinstaller \
+          --onefile \
+          --windowed \
+          --name pbprompt \
+          --add-data "locales:locales" \
+          --add-data "resources:resources" \
+          src/pbprompt/__main__.py
+  * Le binaire (et le .spec généré) sont écrits dans dist/.
+
+  Cible dist — points critiques :
+  * Dépend de all (les fichiers générés sont inclus dans l'archive).
+  * Le répertoire racine dans l'archive est "pbprompt-x.y.z/" où x.y.z est la version.
+  * Produit dist/pbprompt-x.y.z.tar.gz et dist/pbprompt-x.y.z.zip.
+  * Extraction de la version dans le Makefile :
+      VERSION := $(shell sed -n "s/__version__ = [\"']\([^\"']*\)[\"']/\1/p" src/pbprompt/__init__.py)
+    Ce pattern fonctionne que __version__ utilise des guillemets simples ou doubles.
+  * Utiliser une copie de transit (staging dir) dans dist/.tmp-pbprompt-x.y.z/ puis
+    tar/zip depuis ce répertoire.
+  * Exclure du find : .git, dist/, __pycache__, *.pyc, *.pyo, *.egg-info,
+    doc/_build, .ruff_cache, build/, *.spec
+  * Ne pas utiliser read -d '' (option bash, non disponible dans /bin/sh/dash).
+    Utiliser à la place : find ... -type f | sort | while IFS= read -r f; do ... done
+  * make clean doit supprimer dist/ en plus des artefacts habituels.
+
+  Cible clean — doit supprimer TOUS les artefacts générés :
+    rm -f $(PY_UI_FILES) $(SRC_GUI)/resources_rc.py
+    find $(LOCALES) -name "*.mo" -delete
+    rm -rf doc/_build $(DIST_DIR)
+    rm -rf .ruff_cache .pytest_cache htmlcov .coverage
+    rm -rf build
+    find . -name "*.spec" -not -path "./.git/*" -delete
+    find . -name "__pycache__" -not -path "./.git/*" -exec rm -rf {} +
+
+- Fichier pbprompt.spec pour PyInstaller — points critiques :
+  * Les fichiers de traduction (.mo) et les ressources (icônes) doivent être inclus
+    via le paramètre datas :
+      datas=[('locales', 'locales'), ('resources', 'resources')]
+  * Les .mo doivent être compilés (make translations) AVANT de lancer pyinstaller.
+  * La résolution du chemin locales/ dans le code utilise get_locale_dir() de i18n.py
+    (voir section 7) qui gère automatiquement sys._MEIPASS pour les bundles one-file.
+    Ne jamais calculer le chemin des locales via Path(__file__).parent... dans un module
+    autre que i18n.py.
+
+
+12) Qualité du code
+- Code typé (type hints), docstrings pour fonctions/classes publiques, logging configurable.
+- PEP8/ruff, longueur de lignes 88 caractères.
+- Aucune clé secrète ni info sensible dans le projet.
+
+
+Contraintes supplémentaires
+- Priorise la portabilité et la maintenabilité.
+- Le projet doit être prêt à l'emploi.
+- Tout le source est dans src/. Les modules sont dans src/pbprompt/.
+- Les noms de fichiers sont en anglais.
+- Le code, les fichiers de configuration et le README sont en anglais.
+- Les commentaires de code et docstrings sont en anglais.
+- Les fichiers de traduction contiennent au moins le français, l'anglais, l'espagnol,
+  l'italien, le russe, le vietnamien et le chinois simplifié.
+
+13) Maintenance des fichiers de référence du projet
+
+Deux fichiers de référence doivent être maintenus à jour dans le répertoire racine
+du projet. À chaque session qui modifie le projet, Claude doit mettre à jour ces
+fichiers pour refléter l'état courant :
+
+claude_prompt.txt — le présent fichier de prompt
+  * Ce fichier est la spécification complète du projet, tel que fourni à Claude pour
+    générer et faire évoluer le code.
+  * Toute nouvelle fonctionnalité, contrainte technique, correction de bug notable ou
+    point critique doit être ajouté dans la section appropriée.
+  * Les sections doivent rester cohérentes avec le code source effectif.
+  * Il est normal que ce fichier évolue : de nouvelles sections peuvent être ajoutées,
+    des sections existantes peuvent être enrichies ou corrigées.
+
+claude_summary.txt — description de l'implémentation actuelle
+  * Ce fichier décrit l'état réel de l'implémentation (pas la spécification).
+  * Il couvre : la version courante, l'architecture, les modules et leur rôle,
+    les décisions d'implémentation importantes, les points techniques clés,
+    les bugs connus, les limitations.
+  * Il est destiné à permettre à Claude de reprendre rapidement le contexte d'une
+    session à l'autre sans relire tout le code source.
+  * Structure suggérée : Version / Architecture / Modules / Points techniques /
+    État des fonctionnalités / Limitations connues.
+  * Mettre à jour après chaque modification significative du code.
+
+Ces deux fichiers doivent toujours être cohérents entre eux et avec le code source.
+En cas de divergence, le code source fait foi.
+
+Commencez la génération maintenant.

@@ -1,0 +1,23 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource prefix="/icons">
+    <file alias="app.svg">icons/app_color.svg</file>
+    <file alias="app_light.svg">icons/app_light.svg</file>
+    <file alias="app_dark.svg">icons/app_dark.svg</file>
+    <file alias="new.svg">icons/new.svg</file>
+    <file alias="open.svg">icons/open.svg</file>
+    <file alias="save.svg">icons/save.svg</file>
+    <file alias="save_as.svg">icons/save_as.svg</file>
+    <file alias="close.svg">icons/close.svg</file>
+    <file alias="quit.svg">icons/quit.svg</file>
+    <file alias="delete.svg">icons/delete.svg</file>
+    <file alias="options.svg">icons/options.svg</file>
+    <file alias="about.svg">icons/about.svg</file>
+    <file alias="translate_right.svg">icons/translate_right.svg</file>
+    <file alias="translate_left.svg">icons/translate_left.svg</file>
+    <file alias="new_prompt.svg">icons/new_prompt.svg</file>
+    <file alias="duplicate.svg">icons/duplicate.svg</file>
+    <file alias="import_yaml.svg">icons/import_yaml.svg</file>
+    <file alias="export_yaml.svg">icons/export_yaml.svg</file>
+  </qresource>
+</RCC>

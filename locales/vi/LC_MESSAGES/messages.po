@@ -1,0 +1,398 @@
+# PBPrompt – Vietnamese translations
+# Copyright (C) 2024 PBSoft
+# SPDX-License-Identifier: MIT
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PBPrompt 1.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"Last-Translator: PBSoft\n"
+"Language-Team: Vietnamese\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+# Main window – menu
+msgid "&File"
+msgstr "&Tệp"
+
+msgid "&New"
+msgstr "&Mới"
+
+msgid "&Open…"
+msgstr "&Mở…"
+
+msgid "&Save"
+msgstr "&Lưu"
+
+msgid "Save &As…"
+msgstr "Lưu &thành…"
+
+msgid "&Close"
+msgstr "&Đóng"
+
+msgid "&Quit"
+msgstr "&Thoát"
+
+msgid "&Tools"
+msgstr "&Công cụ"
+
+msgid "&Options…"
+msgstr "&Tùy chọn…"
+
+msgid "&Help"
+msgstr "&Trợ giúp"
+
+msgid "&About…"
+msgstr "&Giới thiệu…"
+
+# Main window – toolbar / actions
+msgid "New file"
+msgstr "Tệp mới"
+
+msgid "Open a prompt file"
+msgstr "Mở tệp prompt"
+
+msgid "Save the current file"
+msgstr "Lưu tệp hiện tại"
+
+msgid "Save to a new file"
+msgstr "Lưu vào tệp mới"
+
+msgid "Close current file"
+msgstr "Đóng tệp hiện tại"
+
+msgid "Quit PBPrompt"
+msgstr "Thoát PBPrompt"
+
+msgid "Open settings dialog"
+msgstr "Mở hộp thoại cài đặt"
+
+msgid "About PBPrompt"
+msgstr "Giới thiệu về PBPrompt"
+
+msgid "New Prompt"
+msgstr "Prompt mới"
+
+msgid "Add a new prompt entry"
+msgstr "Thêm prompt mới"
+
+msgid "Duplicate"
+msgstr "Nhân bản"
+
+msgid "Duplicate the current row"
+msgstr "Nhân bản hàng hiện tại"
+
+msgid "Delete"
+msgstr "Xóa"
+
+msgid "Delete selected prompts"
+msgstr "Xóa các prompt đã chọn"
+
+msgid "→ English"
+msgstr "→ Tiếng Anh"
+
+msgid "Translate selected rows to English"
+msgstr "Dịch các hàng đã chọn sang tiếng Anh"
+
+msgid "← Local"
+msgstr "← Ngôn ngữ địa phương"
+
+msgid "Translate selected rows from English"
+msgstr "Dịch các hàng đã chọn từ tiếng Anh"
+
+# Main window – filters
+msgid "Filter:"
+msgstr "Lọc:"
+
+msgid "AI…"
+msgstr "AI…"
+
+msgid "Group…"
+msgstr "Nhóm…"
+
+msgid "Name…"
+msgstr "Tên…"
+
+msgid "Local language…"
+msgstr "Ngôn ngữ địa phương…"
+
+msgid "English…"
+msgstr "Tiếng Anh…"
+
+msgid "Clear"
+msgstr "Xóa bộ lọc"
+
+msgid "Clear all filters"
+msgstr "Xóa tất cả bộ lọc"
+
+# Column headers
+msgid "AI"
+msgstr "AI"
+
+msgid "Group"
+msgstr "Nhóm"
+
+msgid "Name"
+msgstr "Tên"
+
+msgid "English"
+msgstr "Tiếng Anh"
+
+# Status messages
+msgid "Ready"
+msgstr "Sẵn sàng"
+
+msgid "Copied to clipboard"
+msgstr "Đã sao chép vào bộ nhớ tạm"
+
+# Context menu
+msgid "Copy"
+msgstr "Sao chép"
+
+msgid "Cut"
+msgstr "Cắt"
+
+msgid "Paste"
+msgstr "Dán"
+
+msgid "Copied: %s"
+msgstr "Đã sao chép: %s"
+
+msgid "File saved successfully"
+msgstr "Tệp đã được lưu thành công"
+
+msgid "File closed"
+msgstr "Tệp đã đóng"
+
+msgid "New file created"
+msgstr "Tệp mới đã được tạo"
+
+msgid "Untitled"
+msgstr "Chưa đặt tên"
+
+msgid "No rows selected"
+msgstr "Chưa chọn hàng nào"
+
+msgid "Loaded {n} entries from {path}"
+msgstr "Đã tải {n} mục từ {path}"
+
+msgid "Translated {n} row(s)"
+msgstr "Đã dịch {n} hàng"
+
+msgid "Translation failed:\n{error}"
+msgstr "Dịch thất bại:\n{error}"
+
+msgid "Deleted {n} row(s)"
+msgstr "Đã xóa {n} hàng"
+
+msgid "Row duplicated"
+msgstr "Đã nhân bản hàng"
+
+# Dialogs – file operations
+msgid "Open Prompt File"
+msgstr "Mở tệp prompt"
+
+msgid "Save Prompt File"
+msgstr "Lưu tệp prompt"
+
+msgid "YAML files (*.yaml *.yml);;All files (*.*)"
+msgstr "Tệp YAML (*.yaml *.yml);;Tất cả tệp (*.*)"
+
+# Dialogs – confirmation
+msgid "Unsaved Changes"
+msgstr "Thay đổi chưa lưu"
+
+msgid "The document has been modified.\nDo you want to save your changes?"
+msgstr "Tài liệu đã được sửa đổi.\nBạn có muốn lưu các thay đổi không?"
+
+msgid "Confirm Delete"
+msgstr "Xác nhận xóa"
+
+msgid "Are you sure you want to delete {n} selected row(s)?"
+msgstr "Bạn có chắc chắn muốn xóa {n} hàng đã chọn không?"
+
+# Dialogs – errors
+msgid "Error"
+msgstr "Lỗi"
+
+msgid "Error Opening File"
+msgstr "Lỗi mở tệp"
+
+msgid "Could not open file:\n{path}"
+msgstr "Không thể mở tệp:\n{path}"
+
+msgid "Could not open file:\n{path}\n\n{error}"
+msgstr "Không thể mở tệp:\n{path}\n\n{error}"
+
+msgid "Could not save file:\n{path}"
+msgstr "Không thể lưu tệp:\n{path}"
+
+msgid "Translation Error"
+msgstr "Lỗi dịch thuật"
+
+msgid "Could not initialise the translation service.\nCheck your API key in Options."
+msgstr "Không thể khởi tạo dịch vụ dịch thuật.\nKiểm tra khóa API trong Tùy chọn."
+
+# Settings dialog
+msgid "Settings"
+msgstr "Cài đặt"
+
+msgid "Language"
+msgstr "Ngôn ngữ"
+
+msgid "Display language:"
+msgstr "Ngôn ngữ hiển thị:"
+
+msgid "Language used in the user interface"
+msgstr "Ngôn ngữ sử dụng trong giao diện người dùng"
+
+msgid "Translation language:"
+msgstr "Ngôn ngữ dịch:"
+
+msgid "Source/target language for the local column"
+msgstr "Ngôn ngữ nguồn/đích cho cột địa phương"
+
+msgid "Translation service"
+msgstr "Dịch vụ dịch thuật"
+
+msgid "Service:"
+msgstr "Dịch vụ:"
+
+msgid "API key:"
+msgstr "Khóa API:"
+
+msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+msgstr "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+
+msgid "App ID:"
+msgstr "ID ứng dụng:"
+
+msgid "Baidu (appid) · Papago (client_id)"
+msgstr "Baidu (appid) · Papago (client_id)"
+
+msgid "App secret:"
+msgstr "Bí mật ứng dụng:"
+
+msgid "Baidu (appkey) · Papago (secret_key)"
+msgstr "Baidu (appkey) · Papago (secret_key)"
+
+msgid "Recent &Files"
+msgstr "Tệp &gần đây"
+
+msgid "No recent files"
+msgstr "Không có tệp gần đây"
+
+msgid "Clear list"
+msgstr "Xóa danh sách"
+
+msgid "File Not Found"
+msgstr "Không tìm thấy tệp"
+
+msgid "The file no longer exists:\n{path}"
+msgstr "Tệp không còn tồn tại:\n{path}"
+
+msgid "Files"
+msgstr "Tệp"
+
+msgid "Maximum recent files:"
+msgstr "Số tệp gần đây tối đa:"
+
+msgid "Logging"
+msgstr "Nhật ký"
+
+msgid "Log level:"
+msgstr "Cấp độ nhật ký:"
+
+# About dialog
+msgid "About {app}"
+msgstr "Giới thiệu về {app}"
+
+msgid "Version:"
+msgstr "Phiên bản:"
+
+msgid "Author:"
+msgstr "Tác giả:"
+
+msgid "MIT License"
+msgstr "Giấy phép MIT"
+
+msgid "A program to register and categorize AI prompts to keep tries."
+msgstr "Chương trình lưu trữ và phân loại các prompt AI."
+
+# Settings dialog – language selector
+msgid "System default"
+msgstr "Mặc định hệ thống"
+
+# Column header tooltips
+msgid ""
+"Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
+"Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
+msgstr ""
+"Enter: xác nhận  ·  Ctrl+Enter hoặc Shift+Enter: chèn dòng mới\n"
+"Tab / Shift+Tab: ô tiếp theo / trước  ·  Esc: hủy"
+
+msgid "AI model name.\nSort: primary AI → Group → Name"
+msgstr "Tên mô hình AI.\nSắp xếp: AI → Nhóm → Tên"
+
+msgid "Prompt group / category.\nSort: primary Group → Name → AI"
+msgstr "Nhóm / danh mục prompt.\nSắp xếp: Nhóm → Tên → AI"
+
+msgid "Prompt title.\nSort: primary Name → Group → AI"
+msgstr "Tiêu đề prompt.\nSắp xếp: Tên → Nhóm → AI"
+
+msgid "Prompt in local language.\n"
+msgstr "Prompt bằng ngôn ngữ địa phương.\n"
+
+msgid "Prompt in English.\n"
+msgstr "Prompt bằng tiếng Anh.\n"
+
+# File menu – YAML import/export
+msgid "Import &YAML"
+msgstr "Nhập &YAML"
+
+msgid "Add entries…"
+msgstr "Thêm mục…"
+
+msgid "Replace all…"
+msgstr "Thay thế tất cả…"
+
+msgid "Export &YAML…"
+msgstr "Xuất &YAML…"
+
+msgid "Import YAML file (append)"
+msgstr "Nhập tệp YAML (thêm vào)"
+
+msgid "Import YAML file (replace all)"
+msgstr "Nhập tệp YAML (thay thế tất cả)"
+
+msgid "Export YAML file"
+msgstr "Xuất tệp YAML"
+
+# Dialogs – file operations (SQLite)
+msgid "PBPrompt database (*.sqlite);;All files (*.*)"
+msgstr "Cơ sở dữ liệu PBPrompt (*.sqlite);;Tất cả tệp (*.*)"
+
+msgid "Import YAML"
+msgstr "Nhập YAML"
+
+msgid "Export YAML"
+msgstr "Xuất YAML"
+
+# Status messages (YAML import/export)
+msgid "Imported {n} entries from {path}"
+msgstr "Đã nhập {n} mục từ {path}"
+
+msgid "Exported {n} entries to {path}"
+msgstr "Đã xuất {n} mục vào {path}"
+
+# Dialogs – errors (YAML import/export)
+msgid "Import failed:\n{error}"
+msgstr "Nhập thất bại:\n{error}"
+
+msgid "Export failed:\n{error}"
+msgstr "Xuất thất bại:\n{error}"

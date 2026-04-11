@@ -1,0 +1,78 @@
+image: python:3.11-slim
+
+variables:
+  QT_QPA_PLATFORM: offscreen
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+
+stages:
+  - lint
+  - test
+  - docs
+
+before_script:
+  - apt-get update -q && apt-get install -y --no-install-recommends
+      libglib2.0-0 libxkbcommon-x11-0 libdbus-1-3
+      xvfb x11-utils gettext curl
+  - pip install --upgrade pip
+  - pip install ".[dev]"
+
+# ---------------------------------------------------------------------------
+# Lint
+# ---------------------------------------------------------------------------
+lint:
+  stage: lint
+  script:
+    - pre-commit run --all-files
+  variables:
+    SKIP: no-commit-to-branch
+
+# ---------------------------------------------------------------------------
+# Tests
+# ---------------------------------------------------------------------------
+test:
+  stage: test
+  script:
+    - |
+      for lang in en fr es it ru vi zh_CN; do
+        msgfmt locales/$lang/LC_MESSAGES/messages.po \
+               -o locales/$lang/LC_MESSAGES/messages.mo
+      done
+    - xvfb-run --auto-servernum pytest --junitxml=pytest-report.xml
+  artifacts:
+    reports:
+      junit: pytest-report.xml
+    when: always
+
+# ---------------------------------------------------------------------------
+# Documentation
+# ---------------------------------------------------------------------------
+docs:
+  stage: docs
+  script:
+    - |
+      for lang in en fr es it ru vi zh_CN; do
+        msgfmt locales/$lang/LC_MESSAGES/messages.po \
+               -o locales/$lang/LC_MESSAGES/messages.mo
+      done
+    - make docs
+    # Trigger a Read the Docs build on the default branch only.
+    # Set READTHEDOCS_TOKEN as a masked CI/CD variable in GitLab project settings.
+    - |
+      if [ "$CI_COMMIT_BRANCH" = "$CI_DEFAULT_BRANCH" ] && [ -n "$READTHEDOCS_TOKEN" ]; then
+        curl -s -X POST \
+          -H "Authorization: Token $READTHEDOCS_TOKEN" \
+          -H "Content-Type: application/json" \
+          https://readthedocs.org/api/v3/projects/pbprompt/versions/latest/builds/ \
+          || echo "RTD trigger failed (non-blocking)"
+      fi
+  artifacts:
+    paths:
+      - doc/_build/html/
+    expire_in: 1 week
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH'

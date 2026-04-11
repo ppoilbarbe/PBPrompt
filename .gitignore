@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+htmlcov/
+.coverage
+*.mo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# PyInstaller
+*.spec
+dist_pyinstaller/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project-specific compiled artefacts
+src/pbprompt/gui/ui_*.py
+src/pbprompt/gui/resources_rc.py

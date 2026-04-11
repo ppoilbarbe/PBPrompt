@@ -1,0 +1,398 @@
+# PBPrompt – Simplified Chinese translations
+# Copyright (C) 2024 PBSoft
+# SPDX-License-Identifier: MIT
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PBPrompt 1.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"Last-Translator: PBSoft\n"
+"Language-Team: Simplified Chinese\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+# Main window – menu
+msgid "&File"
+msgstr "文件(&F)"
+
+msgid "&New"
+msgstr "新建(&N)"
+
+msgid "&Open…"
+msgstr "打开(&O)…"
+
+msgid "&Save"
+msgstr "保存(&S)"
+
+msgid "Save &As…"
+msgstr "另存为(&A)…"
+
+msgid "&Close"
+msgstr "关闭(&C)"
+
+msgid "&Quit"
+msgstr "退出(&Q)"
+
+msgid "&Tools"
+msgstr "工具(&T)"
+
+msgid "&Options…"
+msgstr "选项(&O)…"
+
+msgid "&Help"
+msgstr "帮助(&H)"
+
+msgid "&About…"
+msgstr "关于(&A)…"
+
+# Main window – toolbar / actions
+msgid "New file"
+msgstr "新建文件"
+
+msgid "Open a prompt file"
+msgstr "打开提示词文件"
+
+msgid "Save the current file"
+msgstr "保存当前文件"
+
+msgid "Save to a new file"
+msgstr "另存为新文件"
+
+msgid "Close current file"
+msgstr "关闭当前文件"
+
+msgid "Quit PBPrompt"
+msgstr "退出 PBPrompt"
+
+msgid "Open settings dialog"
+msgstr "打开设置对话框"
+
+msgid "About PBPrompt"
+msgstr "关于 PBPrompt"
+
+msgid "New Prompt"
+msgstr "新建提示词"
+
+msgid "Add a new prompt entry"
+msgstr "添加新提示词条目"
+
+msgid "Duplicate"
+msgstr "复制行"
+
+msgid "Duplicate the current row"
+msgstr "复制当前行"
+
+msgid "Delete"
+msgstr "删除"
+
+msgid "Delete selected prompts"
+msgstr "删除所选提示词"
+
+msgid "→ English"
+msgstr "→ 英文"
+
+msgid "Translate selected rows to English"
+msgstr "将所选行翻译为英文"
+
+msgid "← Local"
+msgstr "← 本地语言"
+
+msgid "Translate selected rows from English"
+msgstr "将所选行从英文翻译为本地语言"
+
+# Main window – filters
+msgid "Filter:"
+msgstr "筛选："
+
+msgid "AI…"
+msgstr "AI…"
+
+msgid "Group…"
+msgstr "分组…"
+
+msgid "Name…"
+msgstr "名称…"
+
+msgid "Local language…"
+msgstr "本地语言…"
+
+msgid "English…"
+msgstr "英文…"
+
+msgid "Clear"
+msgstr "清除"
+
+msgid "Clear all filters"
+msgstr "清除所有筛选条件"
+
+# Column headers
+msgid "AI"
+msgstr "AI"
+
+msgid "Group"
+msgstr "分组"
+
+msgid "Name"
+msgstr "名称"
+
+msgid "English"
+msgstr "英文"
+
+# Status messages
+msgid "Ready"
+msgstr "就绪"
+
+msgid "Copied to clipboard"
+msgstr "已复制到剪贴板"
+
+# Context menu
+msgid "Copy"
+msgstr "复制"
+
+msgid "Cut"
+msgstr "剪切"
+
+msgid "Paste"
+msgstr "粘贴"
+
+msgid "Copied: %s"
+msgstr "已复制：%s"
+
+msgid "File saved successfully"
+msgstr "文件保存成功"
+
+msgid "File closed"
+msgstr "文件已关闭"
+
+msgid "New file created"
+msgstr "新文件已创建"
+
+msgid "Untitled"
+msgstr "无标题"
+
+msgid "No rows selected"
+msgstr "未选择任何行"
+
+msgid "Loaded {n} entries from {path}"
+msgstr "已从 {path} 加载 {n} 条记录"
+
+msgid "Translated {n} row(s)"
+msgstr "已翻译 {n} 行"
+
+msgid "Translation failed:\n{error}"
+msgstr "翻译失败：\n{error}"
+
+msgid "Deleted {n} row(s)"
+msgstr "已删除 {n} 行"
+
+msgid "Row duplicated"
+msgstr "行已复制"
+
+# Dialogs – file operations
+msgid "Open Prompt File"
+msgstr "打开提示词文件"
+
+msgid "Save Prompt File"
+msgstr "保存提示词文件"
+
+msgid "YAML files (*.yaml *.yml);;All files (*.*)"
+msgstr "YAML 文件 (*.yaml *.yml);;所有文件 (*.*)"
+
+# Dialogs – confirmation
+msgid "Unsaved Changes"
+msgstr "未保存的更改"
+
+msgid "The document has been modified.\nDo you want to save your changes?"
+msgstr "文档已被修改。\n是否保存更改？"
+
+msgid "Confirm Delete"
+msgstr "确认删除"
+
+msgid "Are you sure you want to delete {n} selected row(s)?"
+msgstr "确定要删除所选的 {n} 行吗？"
+
+# Dialogs – errors
+msgid "Error"
+msgstr "错误"
+
+msgid "Error Opening File"
+msgstr "打开文件错误"
+
+msgid "Could not open file:\n{path}"
+msgstr "无法打开文件：\n{path}"
+
+msgid "Could not open file:\n{path}\n\n{error}"
+msgstr "无法打开文件：\n{path}\n\n{error}"
+
+msgid "Could not save file:\n{path}"
+msgstr "无法保存文件：\n{path}"
+
+msgid "Translation Error"
+msgstr "翻译错误"
+
+msgid "Could not initialise the translation service.\nCheck your API key in Options."
+msgstr "无法初始化翻译服务。\n请在选项中检查 API 密钥。"
+
+# Settings dialog
+msgid "Settings"
+msgstr "设置"
+
+msgid "Language"
+msgstr "语言"
+
+msgid "Display language:"
+msgstr "显示语言："
+
+msgid "Language used in the user interface"
+msgstr "用户界面使用的语言"
+
+msgid "Translation language:"
+msgstr "翻译语言："
+
+msgid "Source/target language for the local column"
+msgstr "本地列的源语言/目标语言"
+
+msgid "Translation service"
+msgstr "翻译服务"
+
+msgid "Service:"
+msgstr "服务："
+
+msgid "API key:"
+msgstr "API 密钥："
+
+msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+msgstr "DeepL、Microsoft、Yandex、QCRI、LibreTranslate"
+
+msgid "App ID:"
+msgstr "应用 ID："
+
+msgid "Baidu (appid) · Papago (client_id)"
+msgstr "百度 (appid) · Papago (client_id)"
+
+msgid "App secret:"
+msgstr "应用密钥："
+
+msgid "Baidu (appkey) · Papago (secret_key)"
+msgstr "百度 (appkey) · Papago (secret_key)"
+
+msgid "Recent &Files"
+msgstr "最近文件(&F)"
+
+msgid "No recent files"
+msgstr "无最近文件"
+
+msgid "Clear list"
+msgstr "清空列表"
+
+msgid "File Not Found"
+msgstr "文件未找到"
+
+msgid "The file no longer exists:\n{path}"
+msgstr "文件不再存在：\n{path}"
+
+msgid "Files"
+msgstr "文件"
+
+msgid "Maximum recent files:"
+msgstr "最多最近文件数："
+
+msgid "Logging"
+msgstr "日志"
+
+msgid "Log level:"
+msgstr "日志级别："
+
+# About dialog
+msgid "About {app}"
+msgstr "关于 {app}"
+
+msgid "Version:"
+msgstr "版本："
+
+msgid "Author:"
+msgstr "作者："
+
+msgid "MIT License"
+msgstr "MIT 许可证"
+
+msgid "A program to register and categorize AI prompts to keep tries."
+msgstr "一个用于记录和分类 AI 提示词的程序。"
+
+# Settings dialog – language selector
+msgid "System default"
+msgstr "系统默认"
+
+# Column header tooltips
+msgid ""
+"Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
+"Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
+msgstr ""
+"Enter：确认  ·  Ctrl+Enter 或 Shift+Enter：插入换行\n"
+"Tab / Shift+Tab：移至相邻单元格  ·  Esc：取消"
+
+msgid "AI model name.\nSort: primary AI → Group → Name"
+msgstr "AI 模型名称。\n排序：主键 AI → 分组 → 名称"
+
+msgid "Prompt group / category.\nSort: primary Group → Name → AI"
+msgstr "提示词分组 / 分类。\n排序：主键 分组 → 名称 → AI"
+
+msgid "Prompt title.\nSort: primary Name → Group → AI"
+msgstr "提示词标题。\n排序：主键 名称 → 分组 → AI"
+
+msgid "Prompt in local language.\n"
+msgstr "本地语言提示词。\n"
+
+msgid "Prompt in English.\n"
+msgstr "英文提示词。\n"
+
+# File menu – YAML import/export
+msgid "Import &YAML"
+msgstr "导入(&Y) YAML"
+
+msgid "Add entries…"
+msgstr "添加条目…"
+
+msgid "Replace all…"
+msgstr "替换全部…"
+
+msgid "Export &YAML…"
+msgstr "导出(&Y) YAML…"
+
+msgid "Import YAML file (append)"
+msgstr "导入 YAML 文件（追加）"
+
+msgid "Import YAML file (replace all)"
+msgstr "导入 YAML 文件（替换全部）"
+
+msgid "Export YAML file"
+msgstr "导出 YAML 文件"
+
+# Dialogs – file operations (SQLite)
+msgid "PBPrompt database (*.sqlite);;All files (*.*)"
+msgstr "PBPrompt 数据库 (*.sqlite);;所有文件 (*.*)"
+
+msgid "Import YAML"
+msgstr "导入 YAML"
+
+msgid "Export YAML"
+msgstr "导出 YAML"
+
+# Status messages (YAML import/export)
+msgid "Imported {n} entries from {path}"
+msgstr "已从 {path} 导入 {n} 条记录"
+
+msgid "Exported {n} entries to {path}"
+msgstr "已将 {n} 条记录导出到 {path}"
+
+# Dialogs – errors (YAML import/export)
+msgid "Import failed:\n{error}"
+msgstr "导入失败：\n{error}"
+
+msgid "Export failed:\n{error}"
+msgstr "导出失败：\n{error}"

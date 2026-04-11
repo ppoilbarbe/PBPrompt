@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!-- Data table (left) -->
+  <rect x="1" y="5" width="8" height="14" rx="1"
+        fill="none" stroke="#404040" stroke-width="1.5"
+        stroke-linejoin="round"/>
+  <line x1="1" y1="8.5" x2="9" y2="8.5"
+        stroke="#404040" stroke-width="1" stroke-linecap="round"/>
+  <line x1="1" y1="11.5" x2="9" y2="11.5"
+        stroke="#404040" stroke-width="1" stroke-linecap="round"/>
+  <line x1="1" y1="14.5" x2="9" y2="14.5"
+        stroke="#404040" stroke-width="1" stroke-linecap="round"/>
+  <!-- Arrow pointing right (out to YAML file) -->
+  <line x1="10" y1="12" x2="14" y2="12"
+        stroke="#404040" stroke-width="1.5" stroke-linecap="round"/>
+  <polyline points="12,10 14,12 12,14"
+            fill="none" stroke="#404040" stroke-width="1.5"
+            stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- YAML document (right) -->
+  <path d="M15 3 L20 3 L23 6 L23 21 L15 21 Z"
+        fill="none" stroke="#404040" stroke-width="1.5"
+        stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M20 3 L20 6 L23 6"
+        fill="none" stroke="#404040" stroke-width="1.5"
+        stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- Text lines representing YAML content -->
+  <line x1="16" y1="9.5" x2="21.5" y2="9.5"
+        stroke="#404040" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="16" y1="12.5" x2="21.5" y2="12.5"
+        stroke="#404040" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="16" y1="15.5" x2="19.5" y2="15.5"
+        stroke="#404040" stroke-width="1.2" stroke-linecap="round"/>
+</svg>
