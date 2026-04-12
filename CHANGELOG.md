@@ -3,6 +3,33 @@
 All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] – 2026-04-12
+
+### Added
+- **Test suite**: comprehensive coverage for `pbprompt.config` (28 tests, 100 %)
+  and `pbprompt.data` (41 tests, 100 %); 83 tests total, all green.
+- `pytest-xvfb >= 3.0` added to dev extras — starts a private Xvfb virtual
+  framebuffer automatically on Linux so PyQt5 tests run headless without
+  `xvfb-run` or `QT_QPA_PLATFORM=offscreen`.
+
+### Changed
+- CI: GitLab CI configuration (`.gitlab-ci.yml`) removed; GitHub Actions is the
+  sole CI pipeline.
+- Documentation installation (conda): `pytest-xvfb` now installed via
+  `conda create` (available as a conda package); `deep-translator` remains pip-only.
+- Documentation development: *Running tests* section updated to explain the
+  `pytest-xvfb` rationale.
+
+### Fixed
+- **Sphinx documentation** (`make clean all docs` now produces 0 warnings, 0 errors):
+  - `doc/_static/` directory created to suppress the `html_static_path` warning.
+  - `platform/windows.py`: unexpected indentation in module docstring corrected.
+  - `translate/libretranslate.py`: docstring converted from NumPy style to Google
+    style (`napoleon_numpy_docstring = False`).
+  - `gui/models.py`: explicit `#:` docstrings added to the `collection_modified`
+    and `cell_copied` PyQt signals (suppresses `*args` RST emphasis warning from
+    autodoc).
+
 ## [1.0.6] – 2026-04-12
 
 ### Changed
