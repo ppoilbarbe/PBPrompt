@@ -2,8 +2,7 @@
 
 Config directory : ``%APPDATA%\\pbprompt\\``
 Notifications    : win10toast if available, otherwise silent
-Auto-start: Windows Registry
-             ``HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run``
+Auto-start       : ``HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run``
 """
 
 from __future__ import annotations

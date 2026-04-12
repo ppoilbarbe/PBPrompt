@@ -464,20 +464,29 @@ avec leur description (grep sur ## dans le Makefile).
   plus larges que la largeur de colonne définie.
 - Indentation dans les directives (``.. note::``, ``.. warning::``, ``.. code-block::``
   etc.) : toujours 3 espaces, jamais de tabulation.
-- Après modification de tout fichier .rst, vérifier aussi avec :
-  `python3 -m sphinx -b html -W --keep-going doc doc/_build/html`
-  et s'assurer qu'aucun WARNING structurel (hors ref.class PyQt5/Path) n'est émis.
+- OBLIGATOIRE après toute modification de fichier .rst ou de docstring Python :
+  vérifier avec `make clean all docs` (environnement propre, recompile tout).
+  La commande doit se terminer sans aucun WARNING ni ERROR Sphinx.
+  Ne jamais se contenter d'un build incrémental (`make docs`) : certaines
+  erreurs n'apparaissent qu'après `make clean`.
 
 
 10) Tests et CI
 - Utiliser pre-commit avec hooks ruff (lint et format) et check-yaml.
 - Configurations ruff dans pyproject.toml.
-- Tests unitaires basiques (pytest) pour la logique, la sélection du module plateforme.
-- Fichier GitHub Actions (ci.yml) et GitLab CI (.gitlab-ci.yml).
+- Fichier GitHub Actions (ci.yml).
 - OBLIGATOIRE avant tout commit ou release : exécuter `pre-commit run --all-files`
   sur l'intégralité de l'arbre de travail (pas seulement les fichiers stagés) et
   vérifier que tous les hooks passent. Ne jamais publier une version si cette
   commande retourne un code de sortie non nul ou si elle a modifié des fichiers.
+
+État actuel des tests (83 tests, tous verts) :
+  * tests/test_config.py   — couverture 100% sur pbprompt.config
+  * tests/test_data.py     — couverture 100% sur pbprompt.data
+  * tests/test_platform.py — sélection du module plateforme
+  * tests/test_translate.py — BaseTranslator et services de traduction
+  Lancer : pytest (pytest-xvfb gère le display virtuel automatiquement)
+  Couverture : pytest --cov=pbprompt --cov-report=html
 
 Points critiques pour les tests :
   * Les valeurs par défaut de AppConfig sont display_language="" et
@@ -487,9 +496,26 @@ Points critiques pour les tests :
     pytest.raises(RuntimeError), PAS asserter que le texte original est retourné.
   * Ne pas écrire de test pour une fonction (ex. notify()) qui n'est pas exportée
     dans pbprompt/platform/__init__.__all__. Un tel test échoue avec ImportError.
+  * import_yaml() et export_yaml() utilisent le format YAML (ruamel.yaml), PAS SQLite.
+    Le fixture conftest tmp_yaml est mal nommé : il crée un fichier SQLite. Ne pas
+    l'utiliser pour tester l'import/export YAML ; utiliser export_yaml() directement.
+  * Pour tester la branche except de from_dict() (base64 invalide), utiliser
+    monkeypatch sur pbprompt.data.base64.b64decode plutôt que de forger un vrai
+    payload invalide (le comportement de b64decode avec validate=False est ambigu).
 
 
-11) pyproject.toml et packaging
+11) Workflow Git
+- OBLIGATOIRE avant tout push : fusionner tous les commits locaux en attente en un
+  seul commit (squash) avec un message synthétique couvrant l'ensemble des changements.
+  Procédure : `git log --oneline origin/main..HEAD` pour compter N commits en avance,
+  puis `git reset --soft HEAD~N` et `git commit -m "..."`.
+- Ne jamais pousser plusieurs commits séparés : un push = un commit.
+- Le message de commit doit résumer toutes les modifications incluses (plusieurs
+  paragraphes ou puces si nécessaire), pas seulement le dernier changement.
+- Les messages de commit et les noms de tags sont toujours rédigés en anglais.
+
+
+12) pyproject.toml et packaging
 - build-backend doit être "setuptools.build_meta" (PAS "setuptools.backends.legacy:build"
   qui est incompatible avec setuptools ≥ 68 de conda-forge).
 - Métadonnées : nom, version, auteur, licence, dépendances, scripts/entry-points.
@@ -513,7 +539,7 @@ Points critiques pour les tests :
     "sphinx-rtd-theme>=2.0",
 
 
-12) Documentation et scripts
+13) Documentation et scripts
 - README.md avec :
   * Section Installation avec conda (conda-forge + pip install deep-translator +
     pip install -e . --no-deps) et avec venv/pip.
@@ -582,7 +608,7 @@ Points critiques pour les tests :
     autre que i18n.py.
 
 
-13) Colonne IMAGE
+14) Colonne IMAGE
 
 La grille possède six colonnes : AI, Group, Name, Image, Local language, English.
 (Column enum : AI=0, GROUP=1, NAME=2, IMAGE=3, LOCAL=4, ENGLISH=5)
@@ -691,7 +717,7 @@ Contraintes supplémentaires
 - Les fichiers de traduction contiennent au moins le français, l'anglais, l'espagnol,
   l'italien, le russe, le vietnamien et le chinois simplifié.
 
-14) Maintenance des fichiers de référence du projet
+15) Maintenance des fichiers de référence du projet
 
 Deux fichiers de référence doivent être maintenus à jour dans le répertoire racine
 du projet. À chaque session qui modifie le projet, Claude doit mettre à jour ces

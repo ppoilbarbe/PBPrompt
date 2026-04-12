@@ -13,20 +13,18 @@ from pbprompt.translate.base import BaseTranslator
 class LibreTranslateTranslator(BaseTranslator):
     """LibreTranslate machine translation.
 
-    Parameters
-    ----------
-    api_key:
-        API key for authenticated instances (empty string for open instances).
-    url:
-        Base URL of the LibreTranslate instance.
+    Args:
+        api_key: API key for authenticated instances (empty string for open instances).
+        url: Base URL of the LibreTranslate instance.
 
-    Example
-    -------
-        translator = LibreTranslateTranslator(
-            api_key="",
-            url="http://localhost:5000",
-        )
-        english = translator.to_english("Bonjour", source_language="fr")
+    Example:
+        .. code-block:: python
+
+            translator = LibreTranslateTranslator(
+                api_key="",
+                url="http://localhost:5000",
+            )
+            english = translator.to_english("Bonjour", source_language="fr")
     """
 
     def __init__(

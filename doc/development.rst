@@ -18,7 +18,7 @@ With **conda**:
 
 .. code-block:: bash
 
-   conda create -n pbprompt-dev python=3.12 pyqt pyqt5-sip ruamel.yaml platformdirs requests
+   conda create -n pbprompt-dev python=3.12 pyqt pyqt5-sip ruamel.yaml platformdirs requests pytest-xvfb
    conda activate pbprompt-dev
    pip install deep-translator
    pip install -e ".[dev]" --no-deps
@@ -149,11 +149,18 @@ Running tests
    # or with coverage:
    make test-cov
 
-Tests require a virtual display on headless systems::
+The test suite uses **pytest-xvfb** (listed in ``[project.optional-dependencies]``
+dev extras).  On Linux, PyQt5 widgets require a running X display — even in
+headless CI environments.  ``pytest-xvfb`` starts a private Xvfb virtual
+framebuffer automatically before each test session and tears it down
+afterwards, so neither ``xvfb-run`` nor ``QT_QPA_PLATFORM=offscreen`` is
+needed.  On macOS and Windows the plugin is a no-op.
 
-   xvfb-run pytest          # Linux headless
-   # or set:
-   QT_QPA_PLATFORM=offscreen pytest
+Install with the other dev dependencies:
+
+.. code-block:: bash
+
+   pip install -e ".[dev]"   # includes pytest-xvfb
 
 
 Building documentation locally

@@ -84,6 +84,8 @@ _SORTABLE_COLUMNS: frozenset[Column] = frozenset({Column.AI, Column.GROUP, Colum
 class PromptTableModel(QAbstractTableModel):
     """Qt model backed by a :class:`~pbprompt.data.PromptCollection`."""
 
+    #: Emitted whenever the underlying :class:`~pbprompt.data.PromptCollection`
+    #: is modified (row added, removed, or field changed).
     collection_modified = pyqtSignal()
 
     _headers: list[str] = ["AI", "Group", "Name", "Image", "Local language", "English"]
@@ -596,6 +598,7 @@ class MultiLineDelegate(CurrentCellHighlightDelegate):
 class PromptTableView(QTableView):
     """QTableView with clipboard support, image activation, and drag-and-drop."""
 
+    #: Emitted with the cell text whenever the user copies a cell via Ctrl+C.
     cell_copied = pyqtSignal(str)
     #: Emitted (source model index) when the IMAGE column cell is double-clicked.
     image_activated = pyqtSignal(QModelIndex)
