@@ -169,6 +169,49 @@ class TestLoadEdgeCases:
         assert cfg.window_height == 768
 
 
+class TestLastDirs:
+    def test_defaults_are_empty(self) -> None:
+        cfg = AppConfig()
+        assert cfg.last_import_dir == ""
+        assert cfg.last_export_dir == ""
+        assert cfg.last_image_dir == ""
+
+    def test_save_and_reload_last_dirs(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        path = tmp_path / "cfg.yaml"
+        monkeypatch.setattr(AppConfig, "config_path", staticmethod(lambda: path))
+        cfg = AppConfig()
+        cfg.last_import_dir = "/home/user/imports"
+        cfg.last_export_dir = "/home/user/exports"
+        cfg.last_image_dir = "/home/user/images"
+        cfg.save()
+        loaded = AppConfig.load()
+        assert loaded.last_import_dir == "/home/user/imports"
+        assert loaded.last_export_dir == "/home/user/exports"
+        assert loaded.last_image_dir == "/home/user/images"
+
+    def test_empty_last_dirs_omitted_from_file(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        path = tmp_path / "cfg.yaml"
+        monkeypatch.setattr(AppConfig, "config_path", staticmethod(lambda: path))
+        AppConfig().save()
+        content = path.read_text(encoding="utf-8")
+        assert "last_import_dir" not in content
+        assert "last_export_dir" not in content
+        assert "last_image_dir" not in content
+
+    def test_invalid_last_dir_type_falls_back_to_empty(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        path = tmp_path / "cfg.yaml"
+        path.write_text("last_import_dir: 42\n", encoding="utf-8")
+        monkeypatch.setattr(AppConfig, "config_path", staticmethod(lambda: path))
+        cfg = AppConfig.load()
+        assert cfg.last_import_dir == ""
+
+
 class TestHelpers:
     def test_str_or_returns_default_for_non_string(self) -> None:
         assert AppConfig._str_or({"k": 42}, "k", "default") == "default"

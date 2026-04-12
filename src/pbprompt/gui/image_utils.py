@@ -87,6 +87,7 @@ def open_image_file_dialog(
     title: str,
     filter_str: str,
     no_preview_text: str = "No preview",
+    directory: str = "",
 ) -> str | None:
     """Open a *non-native* QFileDialog with a live image preview panel.
 
@@ -95,11 +96,15 @@ def open_image_file_dialog(
     where that layout trick does not work, the dialog opens normally without
     a preview (graceful degradation).
 
+    *directory* sets the initial directory shown by the dialog; ignored if empty.
+
     Returns the selected file path, or ``None`` if the user cancelled.
     """
     dialog = QFileDialog(parent, title)
     dialog.setNameFilter(filter_str)
     dialog.setFileMode(QFileDialog.ExistingFile)
+    if directory:
+        dialog.setDirectory(directory)
     # Non-native dialog is required so we can inject a custom widget.
     dialog.setOption(QFileDialog.DontUseNativeDialog)
 
@@ -120,8 +125,8 @@ def open_image_file_dialog(
             if not pm.isNull():
                 preview.setPixmap(
                     pm.scaled(
-                        preview.width() - 8,
-                        preview.height() - 8,
+                        max(preview.width() - 8, 1),
+                        max(preview.height() - 8, 1),
                         Qt.KeepAspectRatio,
                         Qt.SmoothTransformation,
                     )

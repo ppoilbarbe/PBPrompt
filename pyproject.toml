@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pbprompt"
-version = "1.1.0"
+version = "1.2.0"
 description = "A program to register and categorize AI prompts to keep tries."
 authors = [{ name = "PBMou" }]
 license = { text = "MIT" }

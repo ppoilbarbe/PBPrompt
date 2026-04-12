@@ -409,6 +409,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         )
         self.tableView.image_activated.connect(self._on_image_activated)
         self.tableView.image_drop_requested.connect(self._on_image_drop)
+        self.tableView.image_load_requested.connect(self._on_image_load_from_file)
+        self.tableView.image_paste_requested.connect(self._on_image_paste)
+        self.tableView.image_clear_requested.connect(self._on_image_clear)
 
     # ------------------------------------------------------------------
     # Header sort
@@ -527,11 +530,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         path_str, _ = QFileDialog.getOpenFileName(
             self,
             self._("Import YAML"),
-            "",
+            self._config.last_import_dir,
             self._("YAML files (*.yaml *.yml);;All files (*.*)"),
         )
         if not path_str:
             return
+        self._config.last_import_dir = str(Path(path_str).parent)
+        self._config.save()
         try:
             from pbprompt.gui.image_utils import generate_thumbnail  # noqa: PLC0415
 
@@ -568,11 +573,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         path_str, _ = QFileDialog.getSaveFileName(
             self,
             self._("Export YAML"),
-            "",
+            self._config.last_export_dir,
             self._("YAML files (*.yaml *.yml);;All files (*.*)"),
         )
         if not path_str:
             return
+        self._config.last_export_dir = str(Path(path_str).parent)
+        self._config.save()
         try:
             path = Path(path_str)
             if path.suffix.lower() not in (".yaml", ".yml"):
@@ -848,9 +855,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         _ = self._
         menu = QMenu(self.tableView)
         act_load = menu.addAction(_("Load image from file…"))
+        act_load.setShortcut(QKeySequence(Qt.Key_Return))
         act_paste = menu.addAction(_("Paste image"))
+        act_paste.setShortcut(QKeySequence(QKeySequence.Paste))
         menu.addSeparator()
         act_clear = menu.addAction(_("Clear image"))
+        act_clear.setShortcut(QKeySequence(QKeySequence.Delete))
         act_load.triggered.connect(lambda: self._on_image_load_from_file(source_idx))
         act_paste.triggered.connect(lambda: self._on_image_paste(source_idx))
         act_clear.triggered.connect(lambda: self._on_image_clear(source_idx))
@@ -873,9 +883,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self._("Load Image"),
             self._("Image files (*.jpg *.jpeg *.png);;All files (*.*)"),
             no_preview_text=self._("No preview"),
+            directory=self._config.last_image_dir,
         )
         if not path_str:
             return
+        self._config.last_image_dir = str(Path(path_str).parent)
+        self._config.save()
         try:
             with open(path_str, "rb") as fh:
                 data = fh.read()

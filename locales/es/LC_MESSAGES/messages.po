@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PBPrompt 1.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-12 22:40+0200\n"
+"POT-Creation-Date: 2026-04-12 23:15+0200\n"
 "PO-Revision-Date: 2026-01-01 00:00+0000\n"
 "Last-Translator: PBMou\n"
 "Language-Team: Spanish\n"
@@ -15,6 +15,188 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# About dialog
+#: src/pbprompt/gui/about_dialog.py:43
+#, python-brace-format
+msgid "About {app}"
+msgstr "Acerca de {app}"
+
+#: src/pbprompt/gui/about_dialog.py:47
+msgid "MIT License"
+msgstr "Licencia MIT"
+
+# Settings dialog
+#: src/pbprompt/gui/settings_dialog.py:148
+msgid "Settings"
+msgstr "Configuración"
+
+#: src/pbprompt/gui/settings_dialog.py:151
+msgid "Language"
+msgstr "Idioma"
+
+#: src/pbprompt/gui/settings_dialog.py:152
+msgid "Display language:"
+msgstr "Idioma de visualización:"
+
+#: src/pbprompt/gui/settings_dialog.py:155
+msgid ""
+"Language used for the user interface.\n"
+"'System default' uses the operating system locale."
+msgstr ""
+"Idioma utilizado en la interfaz de usuario.\n"
+"'Sistema predeterminado' usa la configuración regional del sistema operativo."
+
+#: src/pbprompt/gui/settings_dialog.py:159
+msgid "Translation language:"
+msgstr "Idioma de traducción:"
+
+#: src/pbprompt/gui/settings_dialog.py:162
+msgid ""
+"Language of the 'Local language' column.\n"
+"Used as the source or target when translating prompts.\n"
+"'System default' uses the operating system locale."
+msgstr ""
+"Idioma de la columna 'Idioma local'.\n"
+"Se usa como origen o destino al traducir prompts.\n"
+"'Sistema predeterminado' usa la configuración regional del sistema operativo."
+
+#: src/pbprompt/gui/settings_dialog.py:169
+msgid "Translation service"
+msgstr "Servicio de traducción"
+
+#: src/pbprompt/gui/settings_dialog.py:170
+msgid "Service:"
+msgstr "Servicio:"
+
+#: src/pbprompt/gui/settings_dialog.py:173
+msgid ""
+"Translation service used to fill the 'Local language' column\n"
+"automatically when clicking the Translate button."
+msgstr ""
+"Servicio de traducción usado para completar la columna 'Idioma local'\n"
+"automáticamente al hacer clic en el botón Traducir."
+
+#: src/pbprompt/gui/settings_dialog.py:177
+msgid "API key:"
+msgstr "Clave API:"
+
+#: src/pbprompt/gui/settings_dialog.py:180
+msgid ""
+"API key required by DeepL, Microsoft Translator, Yandex,\n"
+"QCRI and LibreTranslate.\n"
+"Leave blank for services that do not require one\n"
+"(Google, MyMemory, PONS, Linguee, Reverso…)."
+msgstr ""
+"Clave API requerida por DeepL, Microsoft Translator, Yandex,\n"
+"QCRI y LibreTranslate.\n"
+"Dejar en blanco para servicios que no la necesitan\n"
+"(Google, MyMemory, PONS, Linguee, Reverso…)."
+
+#: src/pbprompt/gui/settings_dialog.py:187
+msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+msgstr "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+
+#: src/pbprompt/gui/settings_dialog.py:189
+msgid "App ID:"
+msgstr "ID de aplicación:"
+
+#: src/pbprompt/gui/settings_dialog.py:192
+msgid ""
+"Application identifier required by some services:\n"
+"• Baidu: appid\n"
+"• Papago: client_id"
+msgstr ""
+"Identificador de aplicación requerido por algunos servicios:\n"
+"• Baidu: appid\n"
+"• Papago: client_id"
+
+#: src/pbprompt/gui/settings_dialog.py:197
+msgid "Baidu (appid) · Papago (client_id)"
+msgstr "Baidu (appid) · Papago (client_id)"
+
+#: src/pbprompt/gui/settings_dialog.py:198
+msgid "App secret:"
+msgstr "Secreto de aplicación:"
+
+#: src/pbprompt/gui/settings_dialog.py:201
+msgid ""
+"Application secret required by some services:\n"
+"• Baidu: appkey\n"
+"• Papago: secret_key"
+msgstr ""
+"Secreto de aplicación requerido por algunos servicios:\n"
+"• Baidu: appkey\n"
+"• Papago: secret_key"
+
+#: src/pbprompt/gui/settings_dialog.py:207
+msgid "Baidu (appkey) · Papago (secret_key)"
+msgstr "Baidu (appkey) · Papago (secret_key)"
+
+#: src/pbprompt/gui/settings_dialog.py:211
+msgid "Logging"
+msgstr "Registro"
+
+#: src/pbprompt/gui/settings_dialog.py:212
+msgid "Log level:"
+msgstr "Nivel de registro:"
+
+#: src/pbprompt/gui/settings_dialog.py:215
+msgid ""
+"Verbosity of the application log.\n"
+"DEBUG shows all messages; ERROR shows only critical failures.\n"
+"Effective after restarting the application."
+msgstr ""
+"Nivel de detalle del registro de la aplicación.\n"
+"DEBUG muestra todos los mensajes; ERROR muestra solo los fallos críticos.\n"
+"Efectivo tras reiniciar la aplicación."
+
+#: src/pbprompt/gui/settings_dialog.py:222
+msgid "Files"
+msgstr "Archivos"
+
+#: src/pbprompt/gui/settings_dialog.py:223
+msgid "Maximum recent files:"
+msgstr "Máximo de archivos recientes:"
+
+#: src/pbprompt/gui/settings_dialog.py:225
+msgid "Maximum number of recently opened files shown in the File menu."
+msgstr "Número máximo de archivos abiertos recientemente mostrados en el menú Archivo."
+
+# Settings dialog – Images group
+#: src/pbprompt/gui/settings_dialog.py:229
+msgid "Images"
+msgstr "Imágenes"
+
+#: src/pbprompt/gui/settings_dialog.py:230
+msgid "Thumbnail width (px):"
+msgstr "Anchura de miniatura (px):"
+
+#: src/pbprompt/gui/settings_dialog.py:233
+msgid ""
+"Maximum width (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
+msgstr ""
+"Ancho máximo (en píxeles) de la miniatura almacenada en la base de datos.\n"
+"Valores mayores mejoran la calidad pero aumentan el tamaño de la base de datos."
+
+#: src/pbprompt/gui/settings_dialog.py:237
+msgid "Thumbnail height (px):"
+msgstr "Altura de miniatura (px):"
+
+#: src/pbprompt/gui/settings_dialog.py:240
+msgid ""
+"Maximum height (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
+msgstr ""
+"Alto máximo (en píxeles) de la miniatura almacenada en la base de datos.\n"
+"Valores mayores mejoran la calidad pero aumentan el tamaño de la base de datos."
+
+# Settings dialog – language selector
+#: src/pbprompt/gui/settings_dialog.py:254
+#: src/pbprompt/gui/settings_dialog.py:260
+msgid "System default"
+msgstr "Predeterminado del sistema"
 
 # Column headers
 #: src/pbprompt/gui/main_window.py:81 src/pbprompt/gui/main_window.py:264
@@ -84,7 +266,7 @@ msgid "Prompt in English.\n"
 msgstr "Prompt en inglés.\n"
 
 # Status messages
-#: src/pbprompt/gui/main_window.py:158 src/pbprompt/gui/main_window.py:1186
+#: src/pbprompt/gui/main_window.py:158 src/pbprompt/gui/main_window.py:1192
 msgid "Ready"
 msgstr "Listo"
 
@@ -285,31 +467,31 @@ msgstr "Archivos &recientes"
 msgid "Copied: %s"
 msgstr "Copiado: %s"
 
-#: src/pbprompt/gui/main_window.py:445
+#: src/pbprompt/gui/main_window.py:448
 msgid "New file created"
 msgstr "Nuevo archivo creado"
 
 # Dialogs – file operations
-#: src/pbprompt/gui/main_window.py:452
+#: src/pbprompt/gui/main_window.py:455
 msgid "Open Prompt File"
 msgstr "Abrir archivo de prompts"
 
 # Dialogs – file operations (SQLite)
-#: src/pbprompt/gui/main_window.py:454 src/pbprompt/gui/main_window.py:503
+#: src/pbprompt/gui/main_window.py:457 src/pbprompt/gui/main_window.py:506
 msgid "PBPrompt database (*.sqlite);;All files (*.*)"
 msgstr "Base de datos PBPrompt (*.sqlite);;Todos los archivos (*.*)"
 
-#: src/pbprompt/gui/main_window.py:468 src/pbprompt/gui/main_window.py:1140
-#: src/pbprompt/gui/main_window.py:1170 src/pbprompt/gui/main_window.py:1209
+#: src/pbprompt/gui/main_window.py:471 src/pbprompt/gui/main_window.py:1146
+#: src/pbprompt/gui/main_window.py:1176 src/pbprompt/gui/main_window.py:1215
 #, python-brace-format
 msgid "Loaded {n} entries from {path}"
 msgstr "{n} entrada(s) cargada(s) desde {path}"
 
-#: src/pbprompt/gui/main_window.py:476 src/pbprompt/gui/main_window.py:1178
+#: src/pbprompt/gui/main_window.py:479 src/pbprompt/gui/main_window.py:1184
 msgid "Error Opening File"
 msgstr "Error al abrir el archivo"
 
-#: src/pbprompt/gui/main_window.py:477 src/pbprompt/gui/main_window.py:1179
+#: src/pbprompt/gui/main_window.py:480 src/pbprompt/gui/main_window.py:1185
 #, python-brace-format
 msgid ""
 "Could not open file:\n"
@@ -323,13 +505,13 @@ msgstr ""
 "{error}"
 
 # Dialogs – errors
-#: src/pbprompt/gui/main_window.py:488 src/pbprompt/gui/main_window.py:521
-#: src/pbprompt/gui/main_window.py:562 src/pbprompt/gui/main_window.py:591
-#: src/pbprompt/gui/main_window.py:885 src/pbprompt/gui/main_window.py:1148
+#: src/pbprompt/gui/main_window.py:491 src/pbprompt/gui/main_window.py:524
+#: src/pbprompt/gui/main_window.py:565 src/pbprompt/gui/main_window.py:594
+#: src/pbprompt/gui/main_window.py:891 src/pbprompt/gui/main_window.py:1154
 msgid "Error"
 msgstr "Error"
 
-#: src/pbprompt/gui/main_window.py:489 src/pbprompt/gui/main_window.py:1149
+#: src/pbprompt/gui/main_window.py:492 src/pbprompt/gui/main_window.py:1155
 #, python-brace-format
 msgid ""
 "Could not open file:\n"
@@ -338,15 +520,15 @@ msgstr ""
 "No se pudo abrir el archivo:\n"
 "{path}"
 
-#: src/pbprompt/gui/main_window.py:501
+#: src/pbprompt/gui/main_window.py:504
 msgid "Save Prompt File"
 msgstr "Guardar archivo de prompts"
 
-#: src/pbprompt/gui/main_window.py:516
+#: src/pbprompt/gui/main_window.py:519
 msgid "File saved successfully"
 msgstr "Archivo guardado correctamente"
 
-#: src/pbprompt/gui/main_window.py:522
+#: src/pbprompt/gui/main_window.py:525
 #, python-brace-format
 msgid ""
 "Could not save file:\n"
@@ -355,27 +537,27 @@ msgstr ""
 "No se pudo guardar el archivo:\n"
 "{path}"
 
-#: src/pbprompt/gui/main_window.py:529
+#: src/pbprompt/gui/main_window.py:532
 msgid "Import YAML"
 msgstr "Importar YAML"
 
-#: src/pbprompt/gui/main_window.py:531 src/pbprompt/gui/main_window.py:572
+#: src/pbprompt/gui/main_window.py:534 src/pbprompt/gui/main_window.py:575
 msgid "YAML files (*.yaml *.yml);;All files (*.*)"
 msgstr "Archivos YAML (*.yaml *.yml);;Todos los archivos (*.*)"
 
 # Status messages (YAML import/export)
-#: src/pbprompt/gui/main_window.py:552
+#: src/pbprompt/gui/main_window.py:555
 #, python-brace-format
 msgid "Imported {n} entries from {path}"
 msgstr "Importadas {n} entrada(s) desde {path}"
 
-#: src/pbprompt/gui/main_window.py:556
+#: src/pbprompt/gui/main_window.py:559
 #, python-brace-format
 msgid "({k} duplicate(s) skipped)"
 msgstr "({k} duplicado(s) omitido(s))"
 
 # Dialogs – errors (YAML import/export)
-#: src/pbprompt/gui/main_window.py:563
+#: src/pbprompt/gui/main_window.py:566
 #, python-brace-format
 msgid ""
 "Import failed:\n"
@@ -384,16 +566,16 @@ msgstr ""
 "Error de importación:\n"
 "{error}"
 
-#: src/pbprompt/gui/main_window.py:570
+#: src/pbprompt/gui/main_window.py:573
 msgid "Export YAML"
 msgstr "Exportar YAML"
 
-#: src/pbprompt/gui/main_window.py:582
+#: src/pbprompt/gui/main_window.py:585
 #, python-brace-format
 msgid "Exported {n} entries to {path}"
 msgstr "Exportadas {n} entrada(s) a {path}"
 
-#: src/pbprompt/gui/main_window.py:592
+#: src/pbprompt/gui/main_window.py:595
 #, python-brace-format
 msgid ""
 "Export failed:\n"
@@ -402,16 +584,16 @@ msgstr ""
 "Error de exportación:\n"
 "{error}"
 
-#: src/pbprompt/gui/main_window.py:601
+#: src/pbprompt/gui/main_window.py:604
 msgid "File closed"
 msgstr "Archivo cerrado"
 
 # Dialogs – confirmation
-#: src/pbprompt/gui/main_window.py:609
+#: src/pbprompt/gui/main_window.py:612
 msgid "Unsaved Changes"
 msgstr "Cambios sin guardar"
 
-#: src/pbprompt/gui/main_window.py:611
+#: src/pbprompt/gui/main_window.py:614
 msgid ""
 "The document has been modified.\n"
 "Do you want to save your changes?"
@@ -419,77 +601,77 @@ msgstr ""
 "El documento ha sido modificado.\n"
 "¿Desea guardar los cambios?"
 
-#: src/pbprompt/gui/main_window.py:652
+#: src/pbprompt/gui/main_window.py:655
 msgid "Row duplicated"
 msgstr "Fila duplicada"
 
-#: src/pbprompt/gui/main_window.py:661
+#: src/pbprompt/gui/main_window.py:664
 msgid "Confirm Delete"
 msgstr "Confirmar eliminación"
 
-#: src/pbprompt/gui/main_window.py:662
+#: src/pbprompt/gui/main_window.py:665
 #, python-brace-format
 msgid "Are you sure you want to delete {n} selected row(s)?"
 msgstr "¿Está seguro de que desea eliminar {n} fila(s) seleccionada(s)?"
 
-#: src/pbprompt/gui/main_window.py:675
+#: src/pbprompt/gui/main_window.py:678
 #, python-brace-format
 msgid "Deleted {n} row(s)"
 msgstr "{n} fila(s) eliminada(s)"
 
 # Context menu
-#: src/pbprompt/gui/main_window.py:729
+#: src/pbprompt/gui/main_window.py:732
 msgid "Copy"
 msgstr "Copiar"
 
-#: src/pbprompt/gui/main_window.py:731
+#: src/pbprompt/gui/main_window.py:734
 msgid "Cut"
 msgstr "Cortar"
 
-#: src/pbprompt/gui/main_window.py:733
+#: src/pbprompt/gui/main_window.py:736
 msgid "Paste"
 msgstr "Pegar"
 
-#: src/pbprompt/gui/main_window.py:767
+#: src/pbprompt/gui/main_window.py:770
 #, python-brace-format
 msgid "Thumbnails refreshed: {n} image(s) updated"
 msgstr "Miniaturas actualizadas: {n} imagen(es) procesada(s)"
 
-#: src/pbprompt/gui/main_window.py:830 src/pbprompt/gui/main_window.py:892
-#: src/pbprompt/gui/main_window.py:946
+#: src/pbprompt/gui/main_window.py:833 src/pbprompt/gui/main_window.py:898
+#: src/pbprompt/gui/main_window.py:952
 msgid "Unsupported Format"
 msgstr "Formato no compatible"
 
-#: src/pbprompt/gui/main_window.py:831 src/pbprompt/gui/main_window.py:893
-#: src/pbprompt/gui/main_window.py:947
+#: src/pbprompt/gui/main_window.py:834 src/pbprompt/gui/main_window.py:899
+#: src/pbprompt/gui/main_window.py:953
 msgid "Unsupported image format"
 msgstr "Formato de imagen no compatible"
 
-#: src/pbprompt/gui/main_window.py:850
+#: src/pbprompt/gui/main_window.py:853
 msgid "Load image from file…"
 msgstr "Cargar imagen desde archivo…"
 
-#: src/pbprompt/gui/main_window.py:851
+#: src/pbprompt/gui/main_window.py:855
 msgid "Paste image"
 msgstr "Pegar imagen"
 
-#: src/pbprompt/gui/main_window.py:853
+#: src/pbprompt/gui/main_window.py:858
 msgid "Clear image"
 msgstr "Borrar imagen"
 
-#: src/pbprompt/gui/main_window.py:873
+#: src/pbprompt/gui/main_window.py:879
 msgid "Load Image"
 msgstr "Cargar imagen"
 
-#: src/pbprompt/gui/main_window.py:874
+#: src/pbprompt/gui/main_window.py:880
 msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
 msgstr "Archivos de imagen (*.jpg *.jpeg *.png);;Todos los archivos (*.*)"
 
-#: src/pbprompt/gui/main_window.py:875
+#: src/pbprompt/gui/main_window.py:881
 msgid "No preview"
 msgstr "Sin vista previa"
 
-#: src/pbprompt/gui/main_window.py:886
+#: src/pbprompt/gui/main_window.py:892
 #, python-brace-format
 msgid ""
 "Could not read file:\n"
@@ -498,23 +680,23 @@ msgstr ""
 "No se pudo leer el archivo:\n"
 "{error}"
 
-#: src/pbprompt/gui/main_window.py:939
+#: src/pbprompt/gui/main_window.py:945
 msgid "No Image"
 msgstr "Sin imagen"
 
-#: src/pbprompt/gui/main_window.py:940
+#: src/pbprompt/gui/main_window.py:946
 msgid "No image in clipboard"
 msgstr "No hay imagen en el portapapeles"
 
-#: src/pbprompt/gui/main_window.py:982
+#: src/pbprompt/gui/main_window.py:988
 msgid "No rows selected"
 msgstr "Ninguna fila seleccionada"
 
-#: src/pbprompt/gui/main_window.py:993 src/pbprompt/gui/main_window.py:1027
+#: src/pbprompt/gui/main_window.py:999 src/pbprompt/gui/main_window.py:1033
 msgid "Translation Error"
 msgstr "Error de traducción"
 
-#: src/pbprompt/gui/main_window.py:995
+#: src/pbprompt/gui/main_window.py:1001
 msgid ""
 "Could not initialise the translation service.\n"
 "Check your API key in Options."
@@ -522,7 +704,7 @@ msgstr ""
 "No se pudo inicializar el servicio de traducción.\n"
 "Compruebe su clave API en Opciones."
 
-#: src/pbprompt/gui/main_window.py:1028
+#: src/pbprompt/gui/main_window.py:1034
 #, python-brace-format
 msgid ""
 "Translation failed:\n"
@@ -531,24 +713,24 @@ msgstr ""
 "Error de traducción:\n"
 "{error}"
 
-#: src/pbprompt/gui/main_window.py:1034
+#: src/pbprompt/gui/main_window.py:1040
 #, python-brace-format
 msgid "Translated {n} row(s)"
 msgstr "{n} fila(s) traducida(s)"
 
-#: src/pbprompt/gui/main_window.py:1086
+#: src/pbprompt/gui/main_window.py:1092
 msgid "No recent files"
 msgstr "No hay archivos recientes"
 
-#: src/pbprompt/gui/main_window.py:1098
+#: src/pbprompt/gui/main_window.py:1104
 msgid "Clear list"
 msgstr "Vaciar lista"
 
-#: src/pbprompt/gui/main_window.py:1129
+#: src/pbprompt/gui/main_window.py:1135
 msgid "File Not Found"
 msgstr "Archivo no encontrado"
 
-#: src/pbprompt/gui/main_window.py:1130
+#: src/pbprompt/gui/main_window.py:1136
 #, python-brace-format
 msgid ""
 "The file no longer exists:\n"
@@ -557,167 +739,9 @@ msgstr ""
 "El archivo ya no existe:\n"
 "{path}"
 
-#: src/pbprompt/gui/main_window.py:1227
+#: src/pbprompt/gui/main_window.py:1233
 msgid "Untitled"
 msgstr "Sin título"
-
-# About dialog
-#: src/pbprompt/gui/about_dialog.py:43
-#, python-brace-format
-msgid "About {app}"
-msgstr "Acerca de {app}"
-
-#: src/pbprompt/gui/about_dialog.py:47
-msgid "MIT License"
-msgstr "Licencia MIT"
-
-# Settings dialog
-#: src/pbprompt/gui/settings_dialog.py:148
-msgid "Settings"
-msgstr "Configuración"
-
-#: src/pbprompt/gui/settings_dialog.py:151
-msgid "Language"
-msgstr "Idioma"
-
-#: src/pbprompt/gui/settings_dialog.py:152
-msgid "Display language:"
-msgstr "Idioma de visualización:"
-
-#: src/pbprompt/gui/settings_dialog.py:155
-msgid ""
-"Language used for the user interface.\n"
-"'System default' uses the operating system locale."
-msgstr ""
-
-#: src/pbprompt/gui/settings_dialog.py:159
-msgid "Translation language:"
-msgstr "Idioma de traducción:"
-
-#: src/pbprompt/gui/settings_dialog.py:162
-msgid ""
-"Language of the 'Local language' column.\n"
-"Used as the source or target when translating prompts.\n"
-"'System default' uses the operating system locale."
-msgstr ""
-
-#: src/pbprompt/gui/settings_dialog.py:169
-msgid "Translation service"
-msgstr "Servicio de traducción"
-
-#: src/pbprompt/gui/settings_dialog.py:170
-msgid "Service:"
-msgstr "Servicio:"
-
-#: src/pbprompt/gui/settings_dialog.py:173
-msgid ""
-"Translation service used to fill the 'Local language' column\n"
-"automatically when clicking the Translate button."
-msgstr ""
-
-#: src/pbprompt/gui/settings_dialog.py:177
-msgid "API key:"
-msgstr "Clave API:"
-
-#: src/pbprompt/gui/settings_dialog.py:180
-msgid ""
-"API key required by DeepL, Microsoft Translator, Yandex,\n"
-"QCRI and LibreTranslate.\n"
-"Leave blank for services that do not require one\n"
-"(Google, MyMemory, PONS, Linguee, Reverso…)."
-msgstr ""
-
-#: src/pbprompt/gui/settings_dialog.py:187
-msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
-msgstr "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
-
-#: src/pbprompt/gui/settings_dialog.py:189
-msgid "App ID:"
-msgstr "ID de aplicación:"
-
-#: src/pbprompt/gui/settings_dialog.py:192
-msgid ""
-"Application identifier required by some services:\n"
-"• Baidu: appid\n"
-"• Papago: client_id"
-msgstr ""
-
-#: src/pbprompt/gui/settings_dialog.py:197
-msgid "Baidu (appid) · Papago (client_id)"
-msgstr "Baidu (appid) · Papago (client_id)"
-
-#: src/pbprompt/gui/settings_dialog.py:198
-msgid "App secret:"
-msgstr "Secreto de aplicación:"
-
-#: src/pbprompt/gui/settings_dialog.py:201
-msgid ""
-"Application secret required by some services:\n"
-"• Baidu: appkey\n"
-"• Papago: secret_key"
-msgstr ""
-
-#: src/pbprompt/gui/settings_dialog.py:207
-msgid "Baidu (appkey) · Papago (secret_key)"
-msgstr "Baidu (appkey) · Papago (secret_key)"
-
-#: src/pbprompt/gui/settings_dialog.py:211
-msgid "Logging"
-msgstr "Registro"
-
-#: src/pbprompt/gui/settings_dialog.py:212
-msgid "Log level:"
-msgstr "Nivel de registro:"
-
-#: src/pbprompt/gui/settings_dialog.py:215
-msgid ""
-"Verbosity of the application log.\n"
-"DEBUG shows all messages; ERROR shows only critical failures.\n"
-"Effective after restarting the application."
-msgstr ""
-
-#: src/pbprompt/gui/settings_dialog.py:222
-msgid "Files"
-msgstr "Archivos"
-
-#: src/pbprompt/gui/settings_dialog.py:223
-msgid "Maximum recent files:"
-msgstr "Máximo de archivos recientes:"
-
-#: src/pbprompt/gui/settings_dialog.py:225
-msgid "Maximum number of recently opened files shown in the File menu."
-msgstr ""
-
-# Settings dialog – Images group
-#: src/pbprompt/gui/settings_dialog.py:229
-msgid "Images"
-msgstr "Imágenes"
-
-#: src/pbprompt/gui/settings_dialog.py:230
-msgid "Thumbnail width (px):"
-msgstr "Anchura de miniatura (px):"
-
-#: src/pbprompt/gui/settings_dialog.py:233
-msgid ""
-"Maximum width (in pixels) of the thumbnail stored in the database.\n"
-"Larger values improve quality but increase database size."
-msgstr ""
-
-#: src/pbprompt/gui/settings_dialog.py:237
-msgid "Thumbnail height (px):"
-msgstr "Altura de miniatura (px):"
-
-#: src/pbprompt/gui/settings_dialog.py:240
-msgid ""
-"Maximum height (in pixels) of the thumbnail stored in the database.\n"
-"Larger values improve quality but increase database size."
-msgstr ""
-
-# Settings dialog – language selector
-#: src/pbprompt/gui/settings_dialog.py:254
-#: src/pbprompt/gui/settings_dialog.py:260
-msgid "System default"
-msgstr "Predeterminado del sistema"
 
 #~ msgid "Copied to clipboard"
 #~ msgstr "Copiado al portapapeles"

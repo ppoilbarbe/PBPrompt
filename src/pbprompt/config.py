@@ -62,6 +62,9 @@ class AppConfig:
     window_y: int | None = None
     window_width: int | None = None
     window_height: int | None = None
+    last_import_dir: str = ""
+    last_export_dir: str = ""
+    last_image_dir: str = ""
     _extra: dict[str, Any] = field(default_factory=dict, repr=False, compare=False)
 
     # ------------------------------------------------------------------
@@ -127,6 +130,9 @@ class AppConfig:
         cfg.window_y = cls._opt_int(raw, "window_y")
         cfg.window_width = cls._opt_int(raw, "window_width", min_val=100)
         cfg.window_height = cls._opt_int(raw, "window_height", min_val=100)
+        cfg.last_import_dir = cls._str_or(raw, "last_import_dir", "")
+        cfg.last_export_dir = cls._str_or(raw, "last_export_dir", "")
+        cfg.last_image_dir = cls._str_or(raw, "last_image_dir", "")
 
         known = {
             "display_language",
@@ -145,6 +151,9 @@ class AppConfig:
             "window_y",
             "window_width",
             "window_height",
+            "last_import_dir",
+            "last_export_dir",
+            "last_image_dir",
         }
         cfg._extra = {k: v for k, v in raw.items() if k not in known}
         logger.debug("Config loaded from %s: %r", path, cfg)
@@ -172,6 +181,10 @@ class AppConfig:
         for key in ("window_x", "window_y", "window_width", "window_height"):
             val = getattr(self, key)
             if val is not None:
+                data[key] = val
+        for key in ("last_import_dir", "last_export_dir", "last_image_dir"):
+            val = getattr(self, key)
+            if val:
                 data[key] = val
         data.update(self._extra)
 

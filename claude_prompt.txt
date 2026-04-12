@@ -716,6 +716,9 @@ Contraintes supplémentaires
 - Les commentaires de code et docstrings sont en anglais.
 - Les fichiers de traduction contiennent au moins le français, l'anglais, l'espagnol,
   l'italien, le russe, le vietnamien et le chinois simplifié.
+- Lorsqu'une chaîne traduite est ajoutée ou modifiée, toutes les langues présentes dans
+  locales/*/LC_MESSAGES/messages.po doivent être mises à jour, pas seulement le français.
+  Ne jamais laisser un msgstr vide ou inchangé dans l'un des fichiers .po existants.
 
 15) Maintenance des fichiers de référence du projet
 

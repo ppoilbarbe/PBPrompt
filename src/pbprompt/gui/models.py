@@ -400,12 +400,11 @@ class ImageDelegate(CurrentCellHighlightDelegate):
         # Draw standard background / selection highlight only.
         # initStyleOption populates opt.decorationPixmap from DecorationRole;
         # CE_ItemViewItem would then paint it left-aligned, creating a ghost
-        # image alongside the manually-centred one drawn below.  Clear the
-        # decoration before calling drawControl so the style only handles the
-        # background and selection highlight.
+        # image alongside the manually-centred one drawn below.  Clearing the
+        # HasDecoration feature flag is sufficient — assigning a null QPixmap
+        # would trigger QPainter::begin errors on some platforms.
         opt = QStyleOptionViewItem(option)
         self.initStyleOption(opt, index)
-        opt.decorationPixmap = QPixmap()
         opt.features = opt.features & ~QStyleOptionViewItem.HasDecoration
         style = opt.widget.style() if opt.widget else QApplication.style()
         style.drawControl(QStyle.CE_ItemViewItem, opt, painter, opt.widget)
@@ -604,6 +603,12 @@ class PromptTableView(QTableView):
     image_activated = pyqtSignal(QModelIndex)
     #: Emitted (source model index, QMimeData) when an image is dropped on IMAGE column.
     image_drop_requested = pyqtSignal(object, object)
+    #: Emitted when the user presses Return on an IMAGE cell (load from file).
+    image_load_requested = pyqtSignal(QModelIndex)
+    #: Emitted when the user presses Ctrl+V on an IMAGE cell (paste).
+    image_paste_requested = pyqtSignal(QModelIndex)
+    #: Emitted when the user presses Del on an IMAGE cell (clear).
+    image_clear_requested = pyqtSignal(QModelIndex)
 
     def __init__(self, parent: Any = None) -> None:
         super().__init__(parent)
@@ -615,6 +620,19 @@ class PromptTableView(QTableView):
     # ------------------------------------------------------------------
 
     def keyPressEvent(self, event: Any) -> None:  # type: ignore[override]
+        idx = self.currentIndex()
+        if idx.isValid():
+            source_idx = self.model().mapToSource(idx)
+            if source_idx.column() == int(Column.IMAGE):
+                if event.key() in (Qt.Key_Return, Qt.Key_Enter):
+                    self.image_load_requested.emit(source_idx)
+                    return
+                if event.matches(QKeySequence.Paste):
+                    self.image_paste_requested.emit(source_idx)
+                    return
+                if event.key() in (Qt.Key_Delete, Qt.Key_Backspace):
+                    self.image_clear_requested.emit(source_idx)
+                    return
         if event.matches(QKeySequence.Copy):
             self._do_copy()
         elif event.matches(QKeySequence.Cut):

@@ -20,9 +20,10 @@ htmlcov/
 venv/
 env/
 
-# IDE
+# IDE / tools
 .idea/
 .vscode/
+.claude/
 *.swp
 *.swo
 
