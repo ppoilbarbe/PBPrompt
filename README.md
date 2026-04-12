@@ -331,7 +331,7 @@ To add a new platform, create `pbprompt/platform/myos.py` implementing
 
 ## License
 
-MIT © 2024 PBSoft
+MIT © 2026 PBMou
 
 ---
 

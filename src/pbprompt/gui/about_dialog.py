@@ -5,7 +5,7 @@ from __future__ import annotations
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QDialog
 
-from pbprompt import __app_name__, __author__, __description__, __version__
+from pbprompt import __app_name__, __description__, __version__
 from pbprompt.gui.icons import get_icon
 from pbprompt.gui.ui_about_dialog import Ui_AboutDialog
 from pbprompt.i18n import get_translate
@@ -36,7 +36,7 @@ class AboutDialog(QDialog, Ui_AboutDialog):
         # Version and author labels
         _ = get_translate()
         self.versionLabel.setText(f"{_('Version:')} {__version__}")
-        self.authorLabel.setText(f"{_('Author:')} {__author__}")
+        self.authorLabel.setText(f"{_('Authors:')} PBMou, Claude (Anthropic)")
 
     def retranslateUi(self, widget: QDialog) -> None:  # type: ignore[override]  # noqa: N802
         _ = get_translate()

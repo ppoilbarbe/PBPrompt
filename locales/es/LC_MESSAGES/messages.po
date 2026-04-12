@@ -1,14 +1,14 @@
 # PBPrompt – Spanish translations
-# Copyright (C) 2024 PBSoft
+# Copyright (C) 2026 PBMou
 # SPDX-License-Identifier: MIT
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PBPrompt 1.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-01 00:00+0000\n"
-"PO-Revision-Date: 2024-01-01 00:00+0000\n"
-"Last-Translator: PBSoft\n"
+"POT-Creation-Date: 2026-01-01 00:00+0000\n"
+"PO-Revision-Date: 2026-01-01 00:00+0000\n"
+"Last-Translator: PBMou\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -315,8 +315,8 @@ msgstr "Acerca de {app}"
 msgid "Version:"
 msgstr "Versión:"
 
-msgid "Author:"
-msgstr "Autor:"
+msgid "Authors:"
+msgstr "Autores:"
 
 msgid "MIT License"
 msgstr "Licencia MIT"

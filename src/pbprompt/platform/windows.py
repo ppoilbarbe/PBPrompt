@@ -17,7 +17,7 @@ import platformdirs
 logger = logging.getLogger(__name__)
 
 _APP_NAME = "pbprompt"
-_APP_AUTHOR = "PBSoft"
+_APP_AUTHOR = "PBMou"
 _REG_KEY = r"Software\Microsoft\Windows\CurrentVersion\Run"
 _REG_VALUE = "PBPrompt"
 

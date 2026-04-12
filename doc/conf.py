@@ -8,8 +8,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 # -- Project information -------------------------------------------------------
 project = "PBPrompt"
-copyright = "2024, PBSoft"
-author = "PBSoft"
+copyright = "2026, PBMou"
+author = "PBMou"
 
 # Read version from the package so it stays in sync with __init__.py
 try:

@@ -395,9 +395,16 @@ class ImageDelegate(CurrentCellHighlightDelegate):
         option: QStyleOptionViewItem,
         index: QModelIndex,
     ) -> None:
-        # Draw standard background / selection highlight.
+        # Draw standard background / selection highlight only.
+        # initStyleOption populates opt.decorationPixmap from DecorationRole;
+        # CE_ItemViewItem would then paint it left-aligned, creating a ghost
+        # image alongside the manually-centred one drawn below.  Clear the
+        # decoration before calling drawControl so the style only handles the
+        # background and selection highlight.
         opt = QStyleOptionViewItem(option)
         self.initStyleOption(opt, index)
+        opt.decorationPixmap = QPixmap()
+        opt.features = opt.features & ~QStyleOptionViewItem.HasDecoration
         style = opt.widget.style() if opt.widget else QApplication.style()
         style.drawControl(QStyle.CE_ItemViewItem, opt, painter, opt.widget)
 

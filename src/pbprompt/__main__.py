@@ -56,7 +56,7 @@ def main() -> None:
 
     app = QApplication(sys.argv)
     app.setApplicationName(__app_name__)
-    app.setOrganizationName("PBSoft")
+    app.setOrganizationName("PBMou")
     app.setApplicationVersion(__version__)
 
     # Load configuration (provides log level, language, etc.)

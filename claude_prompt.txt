@@ -1,6 +1,6 @@
 Génère un projet Python complet pour une application graphique nommée PBPrompt qui utilise PyQt5.
 La description du projet est "A program to register and categorize AI prompts to keep tries."
-Le nom de l'éditeur du programme est PBSoft.
+Le nom de l'éditeur du programme est PBMou.
 
 
 Caractéristiques requises :

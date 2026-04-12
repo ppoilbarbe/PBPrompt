@@ -1,14 +1,14 @@
 # PBPrompt – Vietnamese translations
-# Copyright (C) 2024 PBSoft
+# Copyright (C) 2026 PBMou
 # SPDX-License-Identifier: MIT
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PBPrompt 1.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-01 00:00+0000\n"
-"PO-Revision-Date: 2024-01-01 00:00+0000\n"
-"Last-Translator: PBSoft\n"
+"POT-Creation-Date: 2026-01-01 00:00+0000\n"
+"PO-Revision-Date: 2026-01-01 00:00+0000\n"
+"Last-Translator: PBMou\n"
 "Language-Team: Vietnamese\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
@@ -315,7 +315,7 @@ msgstr "Giới thiệu về {app}"
 msgid "Version:"
 msgstr "Phiên bản:"
 
-msgid "Author:"
+msgid "Authors:"
 msgstr "Tác giả:"
 
 msgid "MIT License"

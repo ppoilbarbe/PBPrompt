@@ -4,7 +4,30 @@ Changelog
 All notable changes to PBPrompt are documented here.
 This project follows `Semantic Versioning <https://semver.org/>`_.
 
-1.0.1 (2024)
+1.0.6 (2026)
+------------
+
+Changed
+~~~~~~~
+
+* Organisation renamed from **PBSoft** to **PBMou** throughout source files,
+  licences, translations and documentation.
+* Copyright year corrected to 2026 in all project-owned files.
+* CI: build and docs jobs now run on every push; ReadTheDocs trigger and
+  GitHub Release creation remain tag-only.
+* CI: ``actions/checkout`` updated to v5 (Node.js 24); workflow-level
+  ``FORCE_JAVASCRIPT_ACTIONS_TO_NODE24`` env var added.
+* About dialog: label changed to *Authors*; **Claude (Anthropic)** added.
+* ``doc/_build/`` added to ``.gitignore``.
+
+Fixed
+~~~~~
+
+* **Thumbnail column** – ghost image no longer appears on the left side of the
+  cell when the thumbnail is narrower than the column (duplicate rendering by
+  ``CE_ItemViewItem`` suppressed in ``ImageDelegate``).
+
+1.0.1 (2026)
 ------------
 
 Added
@@ -59,7 +82,7 @@ Fixed
 * ``build-backend`` set to the legacy setuptools backend incompatible with
   setuptools ≥ 68; changed to ``"setuptools.build_meta"``.
 
-1.0.0 (2024)
+1.0.0 (2026)
 ------------
 
 Initial release.

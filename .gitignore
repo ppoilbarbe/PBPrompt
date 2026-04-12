@@ -37,3 +37,6 @@ Thumbs.db
 # Project-specific compiled artefacts
 src/pbprompt/gui/ui_*.py
 src/pbprompt/gui/resources_rc.py
+
+# Sphinx build output
+doc/_build/

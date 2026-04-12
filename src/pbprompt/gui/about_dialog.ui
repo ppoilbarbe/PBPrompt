@@ -66,7 +66,7 @@
        <item>
         <widget class="QLabel" name="authorLabel">
          <property name="text">
-          <string>Author: PBSoft</string>
+          <string>Authors: PBMou, Claude (Anthropic)</string>
          </property>
         </widget>
        </item>

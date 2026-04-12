@@ -9,6 +9,10 @@ on:
   pull_request:
     branches: ["main"]
 
+# Opt into Node.js 24 early for all actions (Node.js 20 deprecated June 2026).
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 # ---------------------------------------------------------------------------
 # Shared helper: compile .po files with pybabel (works on Linux/Windows/macOS
 # without requiring gettext to be installed as a system package).
@@ -28,7 +32,7 @@ jobs:
         python-version: ["3.11", "3.12"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
@@ -71,11 +75,10 @@ jobs:
   docs:
     name: Build documentation
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/heads/')
     needs: test
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -111,7 +114,7 @@ jobs:
           retention-days: 7
 
       - name: Trigger Read the Docs build
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: startsWith(github.ref, 'refs/tags/')
         run: |
           curl -s -X POST \
             -H "Authorization: Token ${{ secrets.READTHEDOCS_TOKEN }}" \
@@ -128,11 +131,10 @@ jobs:
   build-linux:
     name: Build – Linux (amd64)
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
     needs: test
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -179,11 +181,10 @@ jobs:
   build-windows:
     name: Build – Windows (amd64)
     runs-on: windows-latest
-    if: startsWith(github.ref, 'refs/tags/')
     needs: test
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -232,11 +233,10 @@ jobs:
     # on all Apple Silicon Macs (M1/M2/M3).
     runs-on: macos-14
     timeout-minutes: 30
-    if: startsWith(github.ref, 'refs/tags/')
     needs: test
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -262,7 +262,7 @@ jobs:
           pyinstaller \
             --onefile --windowed \
             --name pbprompt \
-            --osx-bundle-identifier com.pbsoft.pbprompt \
+            --osx-bundle-identifier com.pbmou.pbprompt \
             --add-data "locales:locales" \
             --add-data "resources:resources" \
             --paths src \
@@ -288,7 +288,7 @@ jobs:
       contents: write   # required to create a GitHub Release
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Python
         uses: actions/setup-python@v5

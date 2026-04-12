@@ -3,6 +3,31 @@
 All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.6] – 2026-04-12
+
+### Changed
+- Organisation renamed from **PBSoft** to **PBMou** throughout all source files,
+  licences, translations, and documentation.
+- Copyright year corrected to 2026 in all project-owned files.
+- CI: build jobs (`build-linux`, `build-windows`, `build-macos`) and the `docs`
+  job now run on every push, not only on semver tags. ReadTheDocs trigger moved
+  to tag-only. GitHub Release creation remains tag-only.
+- CI: migrate all `actions/checkout` steps to **v5** (Node.js 24); add
+  `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"` workflow-level env var to cover
+  remaining actions ahead of the June 2026 Node.js 20 deprecation deadline.
+- macOS bundle identifier updated to `com.pbmou.pbprompt`.
+- **About dialog**: label changed to *Authors* (plural); **Claude (Anthropic)**
+  added alongside PBMou.
+- `doc/_build/` added to `.gitignore`.
+
+### Fixed
+- **Thumbnail column**: when a thumbnail was narrower than the column, the image
+  appeared twice — once left-aligned (drawn by `CE_ItemViewItem` from the
+  `DecorationRole` pixmap) and once centred (drawn manually by the delegate).
+  The ghost image on the left is now suppressed by clearing
+  `opt.decorationPixmap` and the `HasDecoration` feature flag before calling
+  `drawControl`.
+
 ## [1.0.5] – 2026-04-11
 
 ### Fixed

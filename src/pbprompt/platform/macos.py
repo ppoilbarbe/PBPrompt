@@ -17,7 +17,7 @@ import platformdirs
 logger = logging.getLogger(__name__)
 
 _APP_NAME = "pbprompt"
-_APP_AUTHOR = "PBSoft"
+_APP_AUTHOR = "PBMou"
 _BUNDLE_ID = "com.pbsoft.pbprompt"
 
 
