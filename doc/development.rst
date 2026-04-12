@@ -29,41 +29,46 @@ With **conda**:
 Build system (Makefile)
 ------------------------
 
-+--------------------+------------------------------------------------------+
-| Target             | Description                                          |
-+====================+======================================================+
-| ``make all``       | Compile UI files, resources and translations         |
-+--------------------+------------------------------------------------------+
-| ``make ui``        | ``pyuic5 *.ui → ui_*.py``                            |
-+--------------------+------------------------------------------------------+
-| ``make resources`` | ``pyrcc5 resources.qrc → resources_rc.py``           |
-+--------------------+------------------------------------------------------+
-| ``make translations`` | ``msgfmt *.po → *.mo`` for all locales            |
-+--------------------+------------------------------------------------------+
-| ``make run``       | Launch without installing (``PYTHONPATH=src``)       |
-+--------------------+------------------------------------------------------+
-| ``make lint``      | ``ruff check`` + ``ruff format --check``             |
-+--------------------+------------------------------------------------------+
-| ``make format``    | ``ruff format`` + ``ruff check --fix``               |
-+--------------------+------------------------------------------------------+
-| ``make test``      | ``pytest tests/``                                    |
-+--------------------+------------------------------------------------------+
-| ``make test-cov``  | Pytest with HTML coverage report                     |
-+--------------------+------------------------------------------------------+
-| ``make docs``      | Build Sphinx HTML documentation                      |
-+--------------------+------------------------------------------------------+
-| ``make dist``      | Create ``dist/pbprompt-x.y.z.{tar.gz,zip}``         |
-+--------------------+------------------------------------------------------+
-| ``make clean``     | Remove all generated artefacts including ``dist/``   |
-+--------------------+------------------------------------------------------+
-| ``make version``   | Print current version                                |
-+--------------------+------------------------------------------------------+
-| ``make bump-patch``| Bump patch version (1.0.0 → 1.0.1)                  |
-+--------------------+------------------------------------------------------+
-| ``make bump-minor``| Bump minor version (1.0.1 → 1.1.0)                  |
-+--------------------+------------------------------------------------------+
-| ``make bump-major``| Bump major version (1.1.0 → 2.0.0)                  |
-+--------------------+------------------------------------------------------+
+.. list-table::
+   :header-rows: 1
+   :widths: 28 72
+
+   * - Target
+     - Description
+   * - ``make all``
+     - Compile UI files, resources and translations
+   * - ``make ui``
+     - ``pyuic5 *.ui → ui_*.py``
+   * - ``make resources``
+     - ``pyrcc5 resources.qrc → resources_rc.py``
+   * - ``make translations``
+     - ``msgfmt *.po → *.mo`` for all locales
+   * - ``make run``
+     - Launch without installing (``PYTHONPATH=src``)
+   * - ``make lint``
+     - ``ruff check`` + ``ruff format --check``
+   * - ``make format``
+     - ``ruff format`` + ``ruff check --fix``
+   * - ``make test``
+     - ``pytest tests/``
+   * - ``make test-cov``
+     - Pytest with HTML coverage report
+   * - ``make docs``
+     - Build Sphinx HTML documentation
+   * - ``make bundle``
+     - Build standalone executable with PyInstaller
+   * - ``make dist``
+     - Create ``dist/pbprompt-x.y.z.{tar.gz,zip}``
+   * - ``make clean``
+     - Remove all generated artefacts including ``dist/``
+   * - ``make version``
+     - Print current version
+   * - ``make bump-patch``
+     - Bump patch version (1.0.0 → 1.0.1)
+   * - ``make bump-minor``
+     - Bump minor version (1.0.1 → 1.1.0)
+   * - ``make bump-major``
+     - Bump major version (1.1.0 → 2.0.0)
 
 
 Version management

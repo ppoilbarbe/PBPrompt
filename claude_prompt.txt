@@ -455,7 +455,21 @@ avec leur description (grep sur ## dans le Makefile).
   Note : dans deep_translator la classe LibreTranslate s'appelle LibreTranslator.
 
 
-9) Tests et CI
+9) Documentation RST (Sphinx)
+- OBLIGATOIRE : valider chaque fichier .rst modifié avec `python3 -m docutils <fichier> /dev/null`
+  avant tout commit. La commande doit retourner un code de sortie 0 sans aucun message d'erreur.
+- Ne jamais utiliser de tables RST en grille (``+----+----+``). Utiliser exclusivement
+  ``.. list-table::`` : ce format n'impose aucune contrainte d'alignement de colonnes et
+  évite les erreurs "Malformed table" / "unexpected indentation" causées par des cellules
+  plus larges que la largeur de colonne définie.
+- Indentation dans les directives (``.. note::``, ``.. warning::``, ``.. code-block::``
+  etc.) : toujours 3 espaces, jamais de tabulation.
+- Après modification de tout fichier .rst, vérifier aussi avec :
+  `python3 -m sphinx -b html -W --keep-going doc doc/_build/html`
+  et s'assurer qu'aucun WARNING structurel (hors ref.class PyQt5/Path) n'est émis.
+
+
+10) Tests et CI
 - Utiliser pre-commit avec hooks ruff (lint et format) et check-yaml.
 - Configurations ruff dans pyproject.toml.
 - Tests unitaires basiques (pytest) pour la logique, la sélection du module plateforme.
@@ -475,7 +489,7 @@ Points critiques pour les tests :
     dans pbprompt/platform/__init__.__all__. Un tel test échoue avec ImportError.
 
 
-10) pyproject.toml et packaging
+11) pyproject.toml et packaging
 - build-backend doit être "setuptools.build_meta" (PAS "setuptools.backends.legacy:build"
   qui est incompatible avec setuptools ≥ 68 de conda-forge).
 - Métadonnées : nom, version, auteur, licence, dépendances, scripts/entry-points.
@@ -499,7 +513,7 @@ Points critiques pour les tests :
     "sphinx-rtd-theme>=2.0",
 
 
-11) Documentation et scripts
+12) Documentation et scripts
 - README.md avec :
   * Section Installation avec conda (conda-forge + pip install deep-translator +
     pip install -e . --no-deps) et avec venv/pip.
@@ -568,7 +582,7 @@ Points critiques pour les tests :
     autre que i18n.py.
 
 
-12) Colonne IMAGE
+13) Colonne IMAGE
 
 La grille possède six colonnes : AI, Group, Name, Image, Local language, English.
 (Column enum : AI=0, GROUP=1, NAME=2, IMAGE=3, LOCAL=4, ENGLISH=5)
@@ -677,7 +691,7 @@ Contraintes supplémentaires
 - Les fichiers de traduction contiennent au moins le français, l'anglais, l'espagnol,
   l'italien, le russe, le vietnamien et le chinois simplifié.
 
-13) Maintenance des fichiers de référence du projet
+14) Maintenance des fichiers de référence du projet
 
 Deux fichiers de référence doivent être maintenus à jour dans le répertoire racine
 du projet. À chaque session qui modifie le projet, Claude doit mettre à jour ces
