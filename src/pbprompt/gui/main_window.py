@@ -860,7 +860,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         act_paste.setShortcut(QKeySequence(QKeySequence.Paste))
         menu.addSeparator()
         act_clear = menu.addAction(_("Clear image"))
-        act_clear.setShortcut(QKeySequence(QKeySequence.Delete))
+        act_clear.setShortcut(QKeySequence(Qt.Key_Backspace))
         act_load.triggered.connect(lambda: self._on_image_load_from_file(source_idx))
         act_paste.triggered.connect(lambda: self._on_image_paste(source_idx))
         act_clear.triggered.connect(lambda: self._on_image_clear(source_idx))
@@ -968,12 +968,33 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._source_model.set_image(source_idx.row(), image_bytes, thumb)
 
     def _on_image_clear(self, source_idx: object) -> None:
-        """Clear the image from the IMAGE cell."""
+        """Clear the image from selected IMAGE cells."""
         from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
 
         if not isinstance(source_idx, QModelIndex):
             return
-        self._source_model.set_image(source_idx.row(), None, None)
+
+        selected_proxy = self.tableView.selectionModel().selectedRows()
+        if selected_proxy:
+            source_rows = sorted(
+                {self._proxy_model.mapToSource(idx).row() for idx in selected_proxy}
+            )
+        else:
+            source_rows = [source_idx.row()]
+
+        n = len(source_rows)
+        reply = QMessageBox.question(
+            self,
+            self._("Confirm Clear Image"),
+            self._("Clear the image from {n} selected row(s)?").format(n=n),
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No,
+        )
+        if reply != QMessageBox.Yes:
+            return
+
+        for row in source_rows:
+            self._source_model.set_image(row, None, None)
 
     # ------------------------------------------------------------------
     # Translation

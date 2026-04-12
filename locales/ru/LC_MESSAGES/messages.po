@@ -660,7 +660,16 @@ msgstr "Вставить изображение"
 msgid "Clear image"
 msgstr "Очистить изображение"
 
-#: src/pbprompt/gui/main_window.py:879
+#: src/pbprompt/gui/main_window.py:975
+msgid "Confirm Clear Image"
+msgstr "Подтвердить очистку изображения"
+
+#: src/pbprompt/gui/main_window.py:976
+#, python-brace-format
+msgid "Clear the image from {n} selected row(s)?"
+msgstr "Очистить изображение в {n} выбранной(ых) строке(ах)?"
+
+#: src/pbprompt/gui/main_window.py:893
 msgid "Load Image"
 msgstr "Загрузить изображение"
 

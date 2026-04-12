@@ -607,7 +607,7 @@ class PromptTableView(QTableView):
     image_load_requested = pyqtSignal(QModelIndex)
     #: Emitted when the user presses Ctrl+V on an IMAGE cell (paste).
     image_paste_requested = pyqtSignal(QModelIndex)
-    #: Emitted when the user presses Del on an IMAGE cell (clear).
+    #: Emitted when the user presses Backspace on an IMAGE cell (clear).
     image_clear_requested = pyqtSignal(QModelIndex)
 
     def __init__(self, parent: Any = None) -> None:
@@ -630,7 +630,7 @@ class PromptTableView(QTableView):
                 if event.matches(QKeySequence.Paste):
                     self.image_paste_requested.emit(source_idx)
                     return
-                if event.key() in (Qt.Key_Delete, Qt.Key_Backspace):
+                if event.key() == Qt.Key_Backspace:
                     self.image_clear_requested.emit(source_idx)
                     return
         if event.matches(QKeySequence.Copy):

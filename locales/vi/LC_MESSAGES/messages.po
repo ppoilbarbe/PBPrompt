@@ -659,7 +659,16 @@ msgstr "Dán hình ảnh"
 msgid "Clear image"
 msgstr "Xóa hình ảnh"
 
-#: src/pbprompt/gui/main_window.py:879
+#: src/pbprompt/gui/main_window.py:975
+msgid "Confirm Clear Image"
+msgstr "Xác nhận xóa ảnh"
+
+#: src/pbprompt/gui/main_window.py:976
+#, python-brace-format
+msgid "Clear the image from {n} selected row(s)?"
+msgstr "Xóa ảnh khỏi {n} hàng được chọn?"
+
+#: src/pbprompt/gui/main_window.py:893
 msgid "Load Image"
 msgstr "Tải ảnh"
 

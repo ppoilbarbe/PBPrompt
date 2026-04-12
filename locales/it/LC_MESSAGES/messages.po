@@ -659,7 +659,16 @@ msgstr "Incolla immagine"
 msgid "Clear image"
 msgstr "Cancella immagine"
 
-#: src/pbprompt/gui/main_window.py:879
+#: src/pbprompt/gui/main_window.py:975
+msgid "Confirm Clear Image"
+msgstr "Conferma cancellazione immagine"
+
+#: src/pbprompt/gui/main_window.py:976
+#, python-brace-format
+msgid "Clear the image from {n} selected row(s)?"
+msgstr "Cancellare l'immagine da {n} riga/e selezionata/e?"
+
+#: src/pbprompt/gui/main_window.py:893
 msgid "Load Image"
 msgstr "Carica immagine"
 

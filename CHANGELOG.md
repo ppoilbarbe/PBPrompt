@@ -3,6 +3,50 @@
 All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.0] – 2026-04-13
+
+### Added
+- **Multi-row image clear**: clearing an image now applies to all selected rows;
+  falls back to the current row when nothing is selected.
+- **Image clear confirmation**: a `QMessageBox.question` dialog (default: No)
+  asks for confirmation before clearing, showing the number of affected rows.
+
+### Changed
+- Image-clear keyboard shortcut changed from `Del` to `Backspace` to eliminate
+  the conflict with `Del` (delete row); context menu hint updated accordingly.
+
+### Fixed
+- CI release pipeline: `extract_changelog.py` was silently writing to
+  `$GITHUB_OUTPUT` instead of stdout (the env var is always set on GitHub
+  runners), so `--notes-file` received an empty stream. Script simplified to
+  always print to stdout; CI step uses a temp file instead of process
+  substitution.
+
+## [1.2.0] – 2026-04-13
+
+### Added
+- **Persistent last-used directories**: the application now remembers the last
+  directory used for YAML import (`last_import_dir`), YAML export
+  (`last_export_dir`), and image loading (`last_image_dir`); the stored path is
+  offered as the default in the file dialog on the next open.
+- **Image column keyboard shortcuts**: `Return`/`Enter` opens the load-from-file
+  dialog, `Ctrl+V` pastes from the clipboard, `Del` clears the image; shortcuts
+  are also shown in the right-click context menu.
+- **Settings dialog tooltips**: descriptive tooltips added to all settings fields
+  (language selectors, translation service, API credentials, thumbnail dimensions).
+- Four new tests for `last_import_dir` / `last_export_dir` / `last_image_dir`
+  round-trip persistence in `AppConfig` (87 tests total).
+
+### Fixed
+- Image delegate: clearing the `HasDecoration` feature flag instead of assigning
+  a null `QPixmap` prevents `QPainter::begin` errors on some platforms.
+- Image preview in file dialog: `max(size − 8, 1)` guard prevents a zero-size
+  crash in `QPixmap.scaled()` when the dialog is very small.
+- CI release pipeline: `extract_changelog.py` was silently writing to
+  `$GITHUB_OUTPUT` instead of stdout when called via process substitution,
+  producing an empty release body. The script now always prints to stdout;
+  the CI step uses a temp file instead of process substitution.
+
 ## [1.1.0] – 2026-04-12
 
 ### Added

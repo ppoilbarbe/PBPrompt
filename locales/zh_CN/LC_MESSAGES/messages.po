@@ -659,7 +659,16 @@ msgstr "粘贴图片"
 msgid "Clear image"
 msgstr "清除图片"
 
-#: src/pbprompt/gui/main_window.py:879
+#: src/pbprompt/gui/main_window.py:975
+msgid "Confirm Clear Image"
+msgstr "确认清除图片"
+
+#: src/pbprompt/gui/main_window.py:976
+#, python-brace-format
+msgid "Clear the image from {n} selected row(s)?"
+msgstr "清除 {n} 行的图片？"
+
+#: src/pbprompt/gui/main_window.py:893
 msgid "Load Image"
 msgstr "加载图片"
 

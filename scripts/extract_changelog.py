@@ -7,12 +7,6 @@ Usage
     python scripts/extract_changelog.py 1.0.1   # leading 'v' is optional
     python scripts/extract_changelog.py v1.0.1 > RELEASE_NOTES.md
 
-GitHub Actions
---------------
-When the ``GITHUB_OUTPUT`` environment variable is set the script appends
-a multiline ``notes`` output variable so the calling step can reference it
-as ``${{ steps.<id>.outputs.notes }}``.
-
 Exit codes
 ----------
 0  – success
@@ -21,10 +15,8 @@ Exit codes
 
 from __future__ import annotations
 
-import os
 import re
 import sys
-import uuid
 from pathlib import Path
 
 
@@ -67,18 +59,7 @@ def main() -> None:
         print(f"usage: {sys.argv[0]} <version>", file=sys.stderr)
         sys.exit(1)
 
-    notes = extract_notes(sys.argv[1])
-
-    # GitHub Actions: write multiline output variable.
-    github_output = os.environ.get("GITHUB_OUTPUT")
-    if github_output:
-        delimiter = f"changelog_{uuid.uuid4().hex}"
-        with open(github_output, "a", encoding="utf-8") as fh:
-            fh.write(f"notes<<{delimiter}\n")
-            fh.write(notes)
-            fh.write(f"\n{delimiter}\n")
-    else:
-        print(notes)
+    print(extract_notes(sys.argv[1]))
 
 
 if __name__ == "__main__":

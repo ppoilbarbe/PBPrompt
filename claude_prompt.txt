@@ -513,6 +513,11 @@ Points critiques pour les tests :
 - Le message de commit doit résumer toutes les modifications incluses (plusieurs
   paragraphes ou puces si nécessaire), pas seulement le dernier changement.
 - Les messages de commit et les noms de tags sont toujours rédigés en anglais.
+- OBLIGATOIRE à chaque incrément de version et tag : mettre à jour CHANGELOG.md
+  avec une section `## [X.Y.Z] – YYYY-MM-DD` décrivant les ajouts (### Added),
+  modifications (### Changed) et corrections (### Fixed) de la version.
+  Le tag ne doit jamais être créé avant que la section correspondante existe dans
+  CHANGELOG.md, car le pipeline CI extrait les notes de release depuis ce fichier.
 
 
 12) pyproject.toml et packaging

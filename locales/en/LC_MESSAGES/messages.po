@@ -661,7 +661,16 @@ msgstr "Paste image"
 msgid "Clear image"
 msgstr "Clear image"
 
-#: src/pbprompt/gui/main_window.py:879
+#: src/pbprompt/gui/main_window.py:975
+msgid "Confirm Clear Image"
+msgstr "Confirm Clear Image"
+
+#: src/pbprompt/gui/main_window.py:976
+#, python-brace-format
+msgid "Clear the image from {n} selected row(s)?"
+msgstr "Clear the image from {n} selected row(s)?"
+
+#: src/pbprompt/gui/main_window.py:893
 msgid "Load Image"
 msgstr "Load Image"
 
