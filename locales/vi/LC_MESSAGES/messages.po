@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PBPrompt 1.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-01 00:00+0000\n"
+"POT-Creation-Date: 2026-04-12 22:40+0200\n"
 "PO-Revision-Date: 2026-01-01 00:00+0000\n"
 "Last-Translator: PBMou\n"
 "Language-Team: Vietnamese\n"
@@ -16,319 +16,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-# Main window – menu
-msgid "&File"
-msgstr "&Tệp"
-
-msgid "&New"
-msgstr "&Mới"
-
-msgid "&Open…"
-msgstr "&Mở…"
-
-msgid "&Save"
-msgstr "&Lưu"
-
-msgid "Save &As…"
-msgstr "Lưu &thành…"
-
-msgid "&Close"
-msgstr "&Đóng"
-
-msgid "&Quit"
-msgstr "&Thoát"
-
-msgid "&Tools"
-msgstr "&Công cụ"
-
-msgid "&Options…"
-msgstr "&Tùy chọn…"
-
-msgid "&Help"
-msgstr "&Trợ giúp"
-
-msgid "&About…"
-msgstr "&Giới thiệu…"
-
-# Main window – toolbar / actions
-msgid "New file"
-msgstr "Tệp mới"
-
-msgid "Open a prompt file"
-msgstr "Mở tệp prompt"
-
-msgid "Save the current file"
-msgstr "Lưu tệp hiện tại"
-
-msgid "Save to a new file"
-msgstr "Lưu vào tệp mới"
-
-msgid "Close current file"
-msgstr "Đóng tệp hiện tại"
-
-msgid "Quit PBPrompt"
-msgstr "Thoát PBPrompt"
-
-msgid "Open settings dialog"
-msgstr "Mở hộp thoại cài đặt"
-
-msgid "About PBPrompt"
-msgstr "Giới thiệu về PBPrompt"
-
-msgid "New Prompt"
-msgstr "Prompt mới"
-
-msgid "Add a new prompt entry"
-msgstr "Thêm prompt mới"
-
-msgid "Duplicate"
-msgstr "Nhân bản"
-
-msgid "Duplicate the current row"
-msgstr "Nhân bản hàng hiện tại"
-
-msgid "Delete"
-msgstr "Xóa"
-
-msgid "Delete selected prompts"
-msgstr "Xóa các prompt đã chọn"
-
-msgid "→ English"
-msgstr "→ Tiếng Anh"
-
-msgid "Translate selected rows to English"
-msgstr "Dịch các hàng đã chọn sang tiếng Anh"
-
-msgid "← Local"
-msgstr "← Ngôn ngữ địa phương"
-
-msgid "Translate selected rows from English"
-msgstr "Dịch các hàng đã chọn từ tiếng Anh"
-
-# Main window – filters
-msgid "Filter:"
-msgstr "Lọc:"
-
-msgid "AI…"
-msgstr "AI…"
-
-msgid "Group…"
-msgstr "Nhóm…"
-
-msgid "Name…"
-msgstr "Tên…"
-
-msgid "Local language…"
-msgstr "Ngôn ngữ địa phương…"
-
-msgid "English…"
-msgstr "Tiếng Anh…"
-
-msgid "Clear"
-msgstr "Xóa bộ lọc"
-
-msgid "Clear all filters"
-msgstr "Xóa tất cả bộ lọc"
-
 # Column headers
+#: src/pbprompt/gui/main_window.py:81 src/pbprompt/gui/main_window.py:264
 msgid "AI"
 msgstr "AI"
 
+#: src/pbprompt/gui/main_window.py:82 src/pbprompt/gui/main_window.py:265
 msgid "Group"
 msgstr "Nhóm"
 
+#: src/pbprompt/gui/main_window.py:83 src/pbprompt/gui/main_window.py:266
 msgid "Name"
 msgstr "Tên"
 
+# IMAGE column
+#: src/pbprompt/gui/main_window.py:84 src/pbprompt/gui/main_window.py:267
+msgid "Image"
+msgstr "Hình ảnh"
+
+#: src/pbprompt/gui/main_window.py:86 src/pbprompt/gui/main_window.py:271
 msgid "English"
 msgstr "Tiếng Anh"
 
-# Status messages
-msgid "Ready"
-msgstr "Sẵn sàng"
-
-msgid "Copied to clipboard"
-msgstr "Đã sao chép vào bộ nhớ tạm"
-
-# Context menu
-msgid "Copy"
-msgstr "Sao chép"
-
-msgid "Cut"
-msgstr "Cắt"
-
-msgid "Paste"
-msgstr "Dán"
-
-msgid "Copied: %s"
-msgstr "Đã sao chép: %s"
-
-msgid "File saved successfully"
-msgstr "Tệp đã được lưu thành công"
-
-msgid "File closed"
-msgstr "Tệp đã đóng"
-
-msgid "New file created"
-msgstr "Tệp mới đã được tạo"
-
-msgid "Untitled"
-msgstr "Chưa đặt tên"
-
-msgid "No rows selected"
-msgstr "Chưa chọn hàng nào"
-
-msgid "Loaded {n} entries from {path}"
-msgstr "Đã tải {n} mục từ {path}"
-
-msgid "Translated {n} row(s)"
-msgstr "Đã dịch {n} hàng"
-
-msgid "Translation failed:\n{error}"
-msgstr "Dịch thất bại:\n{error}"
-
-msgid "Deleted {n} row(s)"
-msgstr "Đã xóa {n} hàng"
-
-msgid "Row duplicated"
-msgstr "Đã nhân bản hàng"
-
-# Dialogs – file operations
-msgid "Open Prompt File"
-msgstr "Mở tệp prompt"
-
-msgid "Save Prompt File"
-msgstr "Lưu tệp prompt"
-
-msgid "YAML files (*.yaml *.yml);;All files (*.*)"
-msgstr "Tệp YAML (*.yaml *.yml);;Tất cả tệp (*.*)"
-
-# Dialogs – confirmation
-msgid "Unsaved Changes"
-msgstr "Thay đổi chưa lưu"
-
-msgid "The document has been modified.\nDo you want to save your changes?"
-msgstr "Tài liệu đã được sửa đổi.\nBạn có muốn lưu các thay đổi không?"
-
-msgid "Confirm Delete"
-msgstr "Xác nhận xóa"
-
-msgid "Are you sure you want to delete {n} selected row(s)?"
-msgstr "Bạn có chắc chắn muốn xóa {n} hàng đã chọn không?"
-
-# Dialogs – errors
-msgid "Error"
-msgstr "Lỗi"
-
-msgid "Error Opening File"
-msgstr "Lỗi mở tệp"
-
-msgid "Could not open file:\n{path}"
-msgstr "Không thể mở tệp:\n{path}"
-
-msgid "Could not open file:\n{path}\n\n{error}"
-msgstr "Không thể mở tệp:\n{path}\n\n{error}"
-
-msgid "Could not save file:\n{path}"
-msgstr "Không thể lưu tệp:\n{path}"
-
-msgid "Translation Error"
-msgstr "Lỗi dịch thuật"
-
-msgid "Could not initialise the translation service.\nCheck your API key in Options."
-msgstr "Không thể khởi tạo dịch vụ dịch thuật.\nKiểm tra khóa API trong Tùy chọn."
-
-# Settings dialog
-msgid "Settings"
-msgstr "Cài đặt"
-
-msgid "Language"
-msgstr "Ngôn ngữ"
-
-msgid "Display language:"
-msgstr "Ngôn ngữ hiển thị:"
-
-msgid "Language used in the user interface"
-msgstr "Ngôn ngữ sử dụng trong giao diện người dùng"
-
-msgid "Translation language:"
-msgstr "Ngôn ngữ dịch:"
-
-msgid "Source/target language for the local column"
-msgstr "Ngôn ngữ nguồn/đích cho cột địa phương"
-
-msgid "Translation service"
-msgstr "Dịch vụ dịch thuật"
-
-msgid "Service:"
-msgstr "Dịch vụ:"
-
-msgid "API key:"
-msgstr "Khóa API:"
-
-msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
-msgstr "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
-
-msgid "App ID:"
-msgstr "ID ứng dụng:"
-
-msgid "Baidu (appid) · Papago (client_id)"
-msgstr "Baidu (appid) · Papago (client_id)"
-
-msgid "App secret:"
-msgstr "Bí mật ứng dụng:"
-
-msgid "Baidu (appkey) · Papago (secret_key)"
-msgstr "Baidu (appkey) · Papago (secret_key)"
-
-msgid "Recent &Files"
-msgstr "Tệp &gần đây"
-
-msgid "No recent files"
-msgstr "Không có tệp gần đây"
-
-msgid "Clear list"
-msgstr "Xóa danh sách"
-
-msgid "File Not Found"
-msgstr "Không tìm thấy tệp"
-
-msgid "The file no longer exists:\n{path}"
-msgstr "Tệp không còn tồn tại:\n{path}"
-
-msgid "Files"
-msgstr "Tệp"
-
-msgid "Maximum recent files:"
-msgstr "Số tệp gần đây tối đa:"
-
-msgid "Logging"
-msgstr "Nhật ký"
-
-msgid "Log level:"
-msgstr "Cấp độ nhật ký:"
-
-# About dialog
-msgid "About {app}"
-msgstr "Giới thiệu về {app}"
-
-msgid "Version:"
-msgstr "Phiên bản:"
-
-msgid "Authors:"
-msgstr "Tác giả:"
-
-msgid "MIT License"
-msgstr "Giấy phép MIT"
-
-msgid "A program to register and categorize AI prompts to keep tries."
-msgstr "Chương trình lưu trữ và phân loại các prompt AI."
-
-# Settings dialog – language selector
-msgid "System default"
-msgstr "Mặc định hệ thống"
-
 # Column header tooltips
+#: src/pbprompt/gui/main_window.py:90 src/pbprompt/gui/main_window.py:275
 msgid ""
 "Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
 "Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
@@ -336,125 +47,692 @@ msgstr ""
 "Enter: xác nhận  ·  Ctrl+Enter hoặc Shift+Enter: chèn dòng mới\n"
 "Tab / Shift+Tab: ô tiếp theo / trước  ·  Esc: hủy"
 
-msgid "AI model name.\nSort: primary AI → Group → Name"
-msgstr "Tên mô hình AI.\nSắp xếp: AI → Nhóm → Tên"
+#: src/pbprompt/gui/main_window.py:95 src/pbprompt/gui/main_window.py:280
+msgid ""
+"AI model name.\n"
+"Sort: primary AI → Group → Name"
+msgstr ""
+"Tên mô hình AI.\n"
+"Sắp xếp: AI → Nhóm → Tên"
 
-msgid "Prompt group / category.\nSort: primary Group → Name → AI"
-msgstr "Nhóm / danh mục prompt.\nSắp xếp: Nhóm → Tên → AI"
+#: src/pbprompt/gui/main_window.py:96 src/pbprompt/gui/main_window.py:281
+msgid ""
+"Prompt group / category.\n"
+"Sort: primary Group → Name → AI"
+msgstr ""
+"Nhóm / danh mục prompt.\n"
+"Sắp xếp: Nhóm → Tên → AI"
 
-msgid "Prompt title.\nSort: primary Name → Group → AI"
-msgstr "Tiêu đề prompt.\nSắp xếp: Tên → Nhóm → AI"
+#: src/pbprompt/gui/main_window.py:97 src/pbprompt/gui/main_window.py:282
+msgid ""
+"Prompt title.\n"
+"Sort: primary Name → Group → AI"
+msgstr ""
+"Tiêu đề prompt.\n"
+"Sắp xếp: Tên → Nhóm → AI"
 
-msgid "Prompt in local language.\n"
-msgstr "Prompt bằng ngôn ngữ địa phương.\n"
-
-msgid "Prompt in English.\n"
-msgstr "Prompt bằng tiếng Anh.\n"
-
-# File menu – YAML import/export
-msgid "Import &YAML"
-msgstr "Nhập &YAML"
-
-msgid "Add entries…"
-msgstr "Thêm mục…"
-
-msgid "Replace all…"
-msgstr "Thay thế tất cả…"
-
-msgid "Export &YAML…"
-msgstr "Xuất &YAML…"
-
-msgid "Import YAML file (append)"
-msgstr "Nhập tệp YAML (thêm vào)"
-
-msgid "Import YAML file (replace all)"
-msgstr "Nhập tệp YAML (thay thế tất cả)"
-
-msgid "Export YAML file"
-msgstr "Xuất tệp YAML"
-
-# Dialogs – file operations (SQLite)
-msgid "PBPrompt database (*.sqlite);;All files (*.*)"
-msgstr "Cơ sở dữ liệu PBPrompt (*.sqlite);;Tất cả tệp (*.*)"
-
-msgid "Import YAML"
-msgstr "Nhập YAML"
-
-msgid "Export YAML"
-msgstr "Xuất YAML"
-
-# Status messages (YAML import/export)
-msgid "Imported {n} entries from {path}"
-msgstr "Đã nhập {n} mục từ {path}"
-
-msgid "Exported {n} entries to {path}"
-msgstr "Đã xuất {n} mục vào {path}"
-
-# Dialogs – errors (YAML import/export)
-msgid "Import failed:\n{error}"
-msgstr "Nhập thất bại:\n{error}"
-
-msgid "Export failed:\n{error}"
-msgstr "Xuất thất bại:\n{error}"
-
-# IMAGE column
-msgid "Image"
-msgstr "Hình ảnh"
-
+#: src/pbprompt/gui/main_window.py:98 src/pbprompt/gui/main_window.py:283
 msgid "Double-click to view · Right-click for options"
 msgstr "Nhấp đúp để xem · Nhấp phải cho tùy chọn"
 
+#: src/pbprompt/gui/main_window.py:99 src/pbprompt/gui/main_window.py:284
+msgid "Prompt in local language.\n"
+msgstr "Prompt bằng ngôn ngữ địa phương.\n"
+
+#: src/pbprompt/gui/main_window.py:100 src/pbprompt/gui/main_window.py:285
+msgid "Prompt in English.\n"
+msgstr "Prompt bằng tiếng Anh.\n"
+
+# Status messages
+#: src/pbprompt/gui/main_window.py:158 src/pbprompt/gui/main_window.py:1186
+msgid "Ready"
+msgstr "Sẵn sàng"
+
+# Main window – filters
+#: src/pbprompt/gui/main_window.py:183
+msgid "Filter:"
+msgstr "Lọc:"
+
+#: src/pbprompt/gui/main_window.py:184
+msgid "AI…"
+msgstr "AI…"
+
+#: src/pbprompt/gui/main_window.py:185
+msgid "Group…"
+msgstr "Nhóm…"
+
+#: src/pbprompt/gui/main_window.py:186
+msgid "Name…"
+msgstr "Tên…"
+
+#: src/pbprompt/gui/main_window.py:187
+msgid "Local language…"
+msgstr "Ngôn ngữ địa phương…"
+
+#: src/pbprompt/gui/main_window.py:188
+msgid "English…"
+msgstr "Tiếng Anh…"
+
+#: src/pbprompt/gui/main_window.py:189
+msgid "Clear"
+msgstr "Xóa bộ lọc"
+
+#: src/pbprompt/gui/main_window.py:190
+msgid "Clear all filters"
+msgstr "Xóa tất cả bộ lọc"
+
+# Main window – menu
+#: src/pbprompt/gui/main_window.py:192
+msgid "&File"
+msgstr "&Tệp"
+
+#: src/pbprompt/gui/main_window.py:193
+msgid "&Tools"
+msgstr "&Công cụ"
+
+#: src/pbprompt/gui/main_window.py:194
+msgid "&Help"
+msgstr "&Trợ giúp"
+
+#: src/pbprompt/gui/main_window.py:196
+msgid "&New"
+msgstr "&Mới"
+
+# Main window – toolbar / actions
+#: src/pbprompt/gui/main_window.py:197
+msgid "New file"
+msgstr "Tệp mới"
+
+#: src/pbprompt/gui/main_window.py:198
+msgid "&Open…"
+msgstr "&Mở…"
+
+#: src/pbprompt/gui/main_window.py:199
+msgid "Open a prompt file"
+msgstr "Mở tệp prompt"
+
+#: src/pbprompt/gui/main_window.py:200
+msgid "&Save"
+msgstr "&Lưu"
+
+#: src/pbprompt/gui/main_window.py:201
+msgid "Save the current file"
+msgstr "Lưu tệp hiện tại"
+
+#: src/pbprompt/gui/main_window.py:202
+msgid "Save &As…"
+msgstr "Lưu &thành…"
+
+#: src/pbprompt/gui/main_window.py:203
+msgid "Save to a new file"
+msgstr "Lưu vào tệp mới"
+
+#: src/pbprompt/gui/main_window.py:204
+msgid "&Close"
+msgstr "&Đóng"
+
+#: src/pbprompt/gui/main_window.py:205
+msgid "Close current file"
+msgstr "Đóng tệp hiện tại"
+
+#: src/pbprompt/gui/main_window.py:206
+msgid "&Quit"
+msgstr "&Thoát"
+
+#: src/pbprompt/gui/main_window.py:207
+msgid "Quit PBPrompt"
+msgstr "Thoát PBPrompt"
+
+#: src/pbprompt/gui/main_window.py:208
+msgid "&Options…"
+msgstr "&Tùy chọn…"
+
+#: src/pbprompt/gui/main_window.py:209
+msgid "Open settings dialog"
+msgstr "Mở hộp thoại cài đặt"
+
+#: src/pbprompt/gui/main_window.py:210
+msgid "&About…"
+msgstr "&Giới thiệu…"
+
+#: src/pbprompt/gui/main_window.py:211
+msgid "About PBPrompt"
+msgstr "Giới thiệu về PBPrompt"
+
+#: src/pbprompt/gui/main_window.py:212
+msgid "New Prompt"
+msgstr "Prompt mới"
+
+#: src/pbprompt/gui/main_window.py:213
+msgid "Add a new prompt entry"
+msgstr "Thêm prompt mới"
+
+#: src/pbprompt/gui/main_window.py:214
+msgid "Duplicate"
+msgstr "Nhân bản"
+
+#: src/pbprompt/gui/main_window.py:215
+msgid "Duplicate the current row"
+msgstr "Nhân bản hàng hiện tại"
+
+#: src/pbprompt/gui/main_window.py:216
+msgid "Delete"
+msgstr "Xóa"
+
+#: src/pbprompt/gui/main_window.py:217
+msgid "Delete selected prompts"
+msgstr "Xóa các prompt đã chọn"
+
+#: src/pbprompt/gui/main_window.py:218
+msgid "→ English"
+msgstr "→ Tiếng Anh"
+
+#: src/pbprompt/gui/main_window.py:220
+msgid "Translate selected rows to English"
+msgstr "Dịch các hàng đã chọn sang tiếng Anh"
+
+#: src/pbprompt/gui/main_window.py:222
+msgid "← Local"
+msgstr "← Ngôn ngữ địa phương"
+
+#: src/pbprompt/gui/main_window.py:224
+msgid "Translate selected rows from English"
+msgstr "Dịch các hàng đã chọn từ tiếng Anh"
+
+# File menu – YAML import/export
+#: src/pbprompt/gui/main_window.py:226
+msgid "Import &YAML"
+msgstr "Nhập &YAML"
+
+#: src/pbprompt/gui/main_window.py:227
+msgid "Add entries…"
+msgstr "Thêm mục…"
+
+#: src/pbprompt/gui/main_window.py:228
+msgid "Import YAML file (append)"
+msgstr "Nhập tệp YAML (thêm vào)"
+
+#: src/pbprompt/gui/main_window.py:229
+msgid "Replace all…"
+msgstr "Thay thế tất cả…"
+
+#: src/pbprompt/gui/main_window.py:230
+msgid "Import YAML file (replace all)"
+msgstr "Nhập tệp YAML (thay thế tất cả)"
+
+#: src/pbprompt/gui/main_window.py:231
+msgid "Export &YAML…"
+msgstr "Xuất &YAML…"
+
+#: src/pbprompt/gui/main_window.py:232
+msgid "Export YAML file"
+msgstr "Xuất tệp YAML"
+
+#: src/pbprompt/gui/main_window.py:233
 msgid "Refresh Thumbnails"
 msgstr "Làm mới hình thu nhỏ"
 
+#: src/pbprompt/gui/main_window.py:235
 msgid "Regenerate all thumbnails from stored images"
 msgstr "Tạo lại tất cả hình thu nhỏ từ ảnh đã lưu"
 
-msgid "Thumbnails refreshed: {n} image(s) updated"
-msgstr "Đã làm mới hình thu nhỏ: {n} ảnh được cập nhật"
+#: src/pbprompt/gui/main_window.py:238
+msgid "Recent &Files"
+msgstr "Tệp &gần đây"
 
-msgid "Load image from file…"
-msgstr "Tải ảnh từ tệp…"
+#: src/pbprompt/gui/main_window.py:407
+#, python-format
+msgid "Copied: %s"
+msgstr "Đã sao chép: %s"
 
-msgid "Paste image"
-msgstr "Dán hình ảnh"
+#: src/pbprompt/gui/main_window.py:445
+msgid "New file created"
+msgstr "Tệp mới đã được tạo"
 
-msgid "Clear image"
-msgstr "Xóa hình ảnh"
+# Dialogs – file operations
+#: src/pbprompt/gui/main_window.py:452
+msgid "Open Prompt File"
+msgstr "Mở tệp prompt"
 
-msgid "Load Image"
-msgstr "Tải ảnh"
+# Dialogs – file operations (SQLite)
+#: src/pbprompt/gui/main_window.py:454 src/pbprompt/gui/main_window.py:503
+msgid "PBPrompt database (*.sqlite);;All files (*.*)"
+msgstr "Cơ sở dữ liệu PBPrompt (*.sqlite);;Tất cả tệp (*.*)"
 
-msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
-msgstr "Tệp ảnh (*.jpg *.jpeg *.png);;Tất cả tệp (*.*)"
+#: src/pbprompt/gui/main_window.py:468 src/pbprompt/gui/main_window.py:1140
+#: src/pbprompt/gui/main_window.py:1170 src/pbprompt/gui/main_window.py:1209
+#, python-brace-format
+msgid "Loaded {n} entries from {path}"
+msgstr "Đã tải {n} mục từ {path}"
 
-msgid "No image in clipboard"
-msgstr "Không có hình ảnh trong clipboard"
+#: src/pbprompt/gui/main_window.py:476 src/pbprompt/gui/main_window.py:1178
+msgid "Error Opening File"
+msgstr "Lỗi mở tệp"
 
-msgid "Unsupported Format"
-msgstr "Định dạng không được hỗ trợ"
+#: src/pbprompt/gui/main_window.py:477 src/pbprompt/gui/main_window.py:1179
+#, python-brace-format
+msgid ""
+"Could not open file:\n"
+"{path}\n"
+"\n"
+"{error}"
+msgstr ""
+"Không thể mở tệp:\n"
+"{path}\n"
+"\n"
+"{error}"
 
-msgid "Unsupported image format"
-msgstr "Định dạng hình ảnh không được hỗ trợ"
+# Dialogs – errors
+#: src/pbprompt/gui/main_window.py:488 src/pbprompt/gui/main_window.py:521
+#: src/pbprompt/gui/main_window.py:562 src/pbprompt/gui/main_window.py:591
+#: src/pbprompt/gui/main_window.py:885 src/pbprompt/gui/main_window.py:1148
+msgid "Error"
+msgstr "Lỗi"
 
-msgid "Could not read file:\n{error}"
-msgstr "Không thể đọc tệp:\n{error}"
+#: src/pbprompt/gui/main_window.py:489 src/pbprompt/gui/main_window.py:1149
+#, python-brace-format
+msgid ""
+"Could not open file:\n"
+"{path}"
+msgstr ""
+"Không thể mở tệp:\n"
+"{path}"
 
-msgid "No Image"
-msgstr "Không có ảnh"
+#: src/pbprompt/gui/main_window.py:501
+msgid "Save Prompt File"
+msgstr "Lưu tệp prompt"
 
+#: src/pbprompt/gui/main_window.py:516
+msgid "File saved successfully"
+msgstr "Tệp đã được lưu thành công"
+
+#: src/pbprompt/gui/main_window.py:522
+#, python-brace-format
+msgid ""
+"Could not save file:\n"
+"{path}"
+msgstr ""
+"Không thể lưu tệp:\n"
+"{path}"
+
+#: src/pbprompt/gui/main_window.py:529
+msgid "Import YAML"
+msgstr "Nhập YAML"
+
+#: src/pbprompt/gui/main_window.py:531 src/pbprompt/gui/main_window.py:572
+msgid "YAML files (*.yaml *.yml);;All files (*.*)"
+msgstr "Tệp YAML (*.yaml *.yml);;Tất cả tệp (*.*)"
+
+# Status messages (YAML import/export)
+#: src/pbprompt/gui/main_window.py:552
+#, python-brace-format
+msgid "Imported {n} entries from {path}"
+msgstr "Đã nhập {n} mục từ {path}"
+
+#: src/pbprompt/gui/main_window.py:556
+#, python-brace-format
 msgid "({k} duplicate(s) skipped)"
 msgstr "({k} bản trùng lặp bị bỏ qua)"
 
+# Dialogs – errors (YAML import/export)
+#: src/pbprompt/gui/main_window.py:563
+#, python-brace-format
+msgid ""
+"Import failed:\n"
+"{error}"
+msgstr ""
+"Nhập thất bại:\n"
+"{error}"
+
+#: src/pbprompt/gui/main_window.py:570
+msgid "Export YAML"
+msgstr "Xuất YAML"
+
+#: src/pbprompt/gui/main_window.py:582
+#, python-brace-format
+msgid "Exported {n} entries to {path}"
+msgstr "Đã xuất {n} mục vào {path}"
+
+#: src/pbprompt/gui/main_window.py:592
+#, python-brace-format
+msgid ""
+"Export failed:\n"
+"{error}"
+msgstr ""
+"Xuất thất bại:\n"
+"{error}"
+
+#: src/pbprompt/gui/main_window.py:601
+msgid "File closed"
+msgstr "Tệp đã đóng"
+
+# Dialogs – confirmation
+#: src/pbprompt/gui/main_window.py:609
+msgid "Unsaved Changes"
+msgstr "Thay đổi chưa lưu"
+
+#: src/pbprompt/gui/main_window.py:611
+msgid ""
+"The document has been modified.\n"
+"Do you want to save your changes?"
+msgstr ""
+"Tài liệu đã được sửa đổi.\n"
+"Bạn có muốn lưu các thay đổi không?"
+
+#: src/pbprompt/gui/main_window.py:652
+msgid "Row duplicated"
+msgstr "Đã nhân bản hàng"
+
+#: src/pbprompt/gui/main_window.py:661
+msgid "Confirm Delete"
+msgstr "Xác nhận xóa"
+
+#: src/pbprompt/gui/main_window.py:662
+#, python-brace-format
+msgid "Are you sure you want to delete {n} selected row(s)?"
+msgstr "Bạn có chắc chắn muốn xóa {n} hàng đã chọn không?"
+
+#: src/pbprompt/gui/main_window.py:675
+#, python-brace-format
+msgid "Deleted {n} row(s)"
+msgstr "Đã xóa {n} hàng"
+
+# Context menu
+#: src/pbprompt/gui/main_window.py:729
+msgid "Copy"
+msgstr "Sao chép"
+
+#: src/pbprompt/gui/main_window.py:731
+msgid "Cut"
+msgstr "Cắt"
+
+#: src/pbprompt/gui/main_window.py:733
+msgid "Paste"
+msgstr "Dán"
+
+#: src/pbprompt/gui/main_window.py:767
+#, python-brace-format
+msgid "Thumbnails refreshed: {n} image(s) updated"
+msgstr "Đã làm mới hình thu nhỏ: {n} ảnh được cập nhật"
+
+#: src/pbprompt/gui/main_window.py:830 src/pbprompt/gui/main_window.py:892
+#: src/pbprompt/gui/main_window.py:946
+msgid "Unsupported Format"
+msgstr "Định dạng không được hỗ trợ"
+
+#: src/pbprompt/gui/main_window.py:831 src/pbprompt/gui/main_window.py:893
+#: src/pbprompt/gui/main_window.py:947
+msgid "Unsupported image format"
+msgstr "Định dạng hình ảnh không được hỗ trợ"
+
+#: src/pbprompt/gui/main_window.py:850
+msgid "Load image from file…"
+msgstr "Tải ảnh từ tệp…"
+
+#: src/pbprompt/gui/main_window.py:851
+msgid "Paste image"
+msgstr "Dán hình ảnh"
+
+#: src/pbprompt/gui/main_window.py:853
+msgid "Clear image"
+msgstr "Xóa hình ảnh"
+
+#: src/pbprompt/gui/main_window.py:873
+msgid "Load Image"
+msgstr "Tải ảnh"
+
+#: src/pbprompt/gui/main_window.py:874
+msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
+msgstr "Tệp ảnh (*.jpg *.jpeg *.png);;Tất cả tệp (*.*)"
+
+#: src/pbprompt/gui/main_window.py:875
+msgid "No preview"
+msgstr "Không có xem trước"
+
+#: src/pbprompt/gui/main_window.py:886
+#, python-brace-format
+msgid ""
+"Could not read file:\n"
+"{error}"
+msgstr ""
+"Không thể đọc tệp:\n"
+"{error}"
+
+#: src/pbprompt/gui/main_window.py:939
+msgid "No Image"
+msgstr "Không có ảnh"
+
+#: src/pbprompt/gui/main_window.py:940
+msgid "No image in clipboard"
+msgstr "Không có hình ảnh trong clipboard"
+
+#: src/pbprompt/gui/main_window.py:982
+msgid "No rows selected"
+msgstr "Chưa chọn hàng nào"
+
+#: src/pbprompt/gui/main_window.py:993 src/pbprompt/gui/main_window.py:1027
+msgid "Translation Error"
+msgstr "Lỗi dịch thuật"
+
+#: src/pbprompt/gui/main_window.py:995
+msgid ""
+"Could not initialise the translation service.\n"
+"Check your API key in Options."
+msgstr ""
+"Không thể khởi tạo dịch vụ dịch thuật.\n"
+"Kiểm tra khóa API trong Tùy chọn."
+
+#: src/pbprompt/gui/main_window.py:1028
+#, python-brace-format
+msgid ""
+"Translation failed:\n"
+"{error}"
+msgstr ""
+"Dịch thất bại:\n"
+"{error}"
+
+#: src/pbprompt/gui/main_window.py:1034
+#, python-brace-format
+msgid "Translated {n} row(s)"
+msgstr "Đã dịch {n} hàng"
+
+#: src/pbprompt/gui/main_window.py:1086
+msgid "No recent files"
+msgstr "Không có tệp gần đây"
+
+#: src/pbprompt/gui/main_window.py:1098
+msgid "Clear list"
+msgstr "Xóa danh sách"
+
+#: src/pbprompt/gui/main_window.py:1129
+msgid "File Not Found"
+msgstr "Không tìm thấy tệp"
+
+#: src/pbprompt/gui/main_window.py:1130
+#, python-brace-format
+msgid ""
+"The file no longer exists:\n"
+"{path}"
+msgstr ""
+"Tệp không còn tồn tại:\n"
+"{path}"
+
+#: src/pbprompt/gui/main_window.py:1227
+msgid "Untitled"
+msgstr "Chưa đặt tên"
+
+# About dialog
+#: src/pbprompt/gui/about_dialog.py:43
+#, python-brace-format
+msgid "About {app}"
+msgstr "Giới thiệu về {app}"
+
+#: src/pbprompt/gui/about_dialog.py:47
+msgid "MIT License"
+msgstr "Giấy phép MIT"
+
+# Settings dialog
+#: src/pbprompt/gui/settings_dialog.py:148
+msgid "Settings"
+msgstr "Cài đặt"
+
+#: src/pbprompt/gui/settings_dialog.py:151
+msgid "Language"
+msgstr "Ngôn ngữ"
+
+#: src/pbprompt/gui/settings_dialog.py:152
+msgid "Display language:"
+msgstr "Ngôn ngữ hiển thị:"
+
+#: src/pbprompt/gui/settings_dialog.py:155
+msgid ""
+"Language used for the user interface.\n"
+"'System default' uses the operating system locale."
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:159
+msgid "Translation language:"
+msgstr "Ngôn ngữ dịch:"
+
+#: src/pbprompt/gui/settings_dialog.py:162
+msgid ""
+"Language of the 'Local language' column.\n"
+"Used as the source or target when translating prompts.\n"
+"'System default' uses the operating system locale."
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:169
+msgid "Translation service"
+msgstr "Dịch vụ dịch thuật"
+
+#: src/pbprompt/gui/settings_dialog.py:170
+msgid "Service:"
+msgstr "Dịch vụ:"
+
+#: src/pbprompt/gui/settings_dialog.py:173
+msgid ""
+"Translation service used to fill the 'Local language' column\n"
+"automatically when clicking the Translate button."
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:177
+msgid "API key:"
+msgstr "Khóa API:"
+
+#: src/pbprompt/gui/settings_dialog.py:180
+msgid ""
+"API key required by DeepL, Microsoft Translator, Yandex,\n"
+"QCRI and LibreTranslate.\n"
+"Leave blank for services that do not require one\n"
+"(Google, MyMemory, PONS, Linguee, Reverso…)."
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:187
+msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+msgstr "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+
+#: src/pbprompt/gui/settings_dialog.py:189
+msgid "App ID:"
+msgstr "ID ứng dụng:"
+
+#: src/pbprompt/gui/settings_dialog.py:192
+msgid ""
+"Application identifier required by some services:\n"
+"• Baidu: appid\n"
+"• Papago: client_id"
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:197
+msgid "Baidu (appid) · Papago (client_id)"
+msgstr "Baidu (appid) · Papago (client_id)"
+
+#: src/pbprompt/gui/settings_dialog.py:198
+msgid "App secret:"
+msgstr "Bí mật ứng dụng:"
+
+#: src/pbprompt/gui/settings_dialog.py:201
+msgid ""
+"Application secret required by some services:\n"
+"• Baidu: appkey\n"
+"• Papago: secret_key"
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:207
+msgid "Baidu (appkey) · Papago (secret_key)"
+msgstr "Baidu (appkey) · Papago (secret_key)"
+
+#: src/pbprompt/gui/settings_dialog.py:211
+msgid "Logging"
+msgstr "Nhật ký"
+
+#: src/pbprompt/gui/settings_dialog.py:212
+msgid "Log level:"
+msgstr "Cấp độ nhật ký:"
+
+#: src/pbprompt/gui/settings_dialog.py:215
+msgid ""
+"Verbosity of the application log.\n"
+"DEBUG shows all messages; ERROR shows only critical failures.\n"
+"Effective after restarting the application."
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:222
+msgid "Files"
+msgstr "Tệp"
+
+#: src/pbprompt/gui/settings_dialog.py:223
+msgid "Maximum recent files:"
+msgstr "Số tệp gần đây tối đa:"
+
+#: src/pbprompt/gui/settings_dialog.py:225
+msgid "Maximum number of recently opened files shown in the File menu."
+msgstr ""
+
 # Settings dialog – Images group
+#: src/pbprompt/gui/settings_dialog.py:229
 msgid "Images"
 msgstr "Hình ảnh"
 
+#: src/pbprompt/gui/settings_dialog.py:230
 msgid "Thumbnail width (px):"
 msgstr "Chiều rộng hình thu nhỏ (px):"
 
+#: src/pbprompt/gui/settings_dialog.py:233
+msgid ""
+"Maximum width (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:237
 msgid "Thumbnail height (px):"
 msgstr "Chiều cao hình thu nhỏ (px):"
 
-msgid "No preview"
-msgstr "Không có xem trước"
+#: src/pbprompt/gui/settings_dialog.py:240
+msgid ""
+"Maximum height (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
+msgstr ""
+
+# Settings dialog – language selector
+#: src/pbprompt/gui/settings_dialog.py:254
+#: src/pbprompt/gui/settings_dialog.py:260
+msgid "System default"
+msgstr "Mặc định hệ thống"
+
+#~ msgid "Copied to clipboard"
+#~ msgstr "Đã sao chép vào bộ nhớ tạm"
+
+#~ msgid "Language used in the user interface"
+#~ msgstr "Ngôn ngữ sử dụng trong giao diện người dùng"
+
+#~ msgid "Source/target language for the local column"
+#~ msgstr "Ngôn ngữ nguồn/đích cho cột địa phương"
+
+#~ msgid "Version:"
+#~ msgstr "Phiên bản:"
+
+#~ msgid "Authors:"
+#~ msgstr "Tác giả:"
+
+#~ msgid "A program to register and categorize AI prompts to keep tries."
+#~ msgstr "Chương trình lưu trữ và phân loại các prompt AI."

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PBPrompt 1.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-01 00:00+0000\n"
+"POT-Creation-Date: 2026-04-12 22:40+0200\n"
 "PO-Revision-Date: 2026-01-01 00:00+0000\n"
 "Last-Translator: PBMou\n"
 "Language-Team: Simplified Chinese\n"
@@ -16,319 +16,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-# Main window – menu
-msgid "&File"
-msgstr "文件(&F)"
-
-msgid "&New"
-msgstr "新建(&N)"
-
-msgid "&Open…"
-msgstr "打开(&O)…"
-
-msgid "&Save"
-msgstr "保存(&S)"
-
-msgid "Save &As…"
-msgstr "另存为(&A)…"
-
-msgid "&Close"
-msgstr "关闭(&C)"
-
-msgid "&Quit"
-msgstr "退出(&Q)"
-
-msgid "&Tools"
-msgstr "工具(&T)"
-
-msgid "&Options…"
-msgstr "选项(&O)…"
-
-msgid "&Help"
-msgstr "帮助(&H)"
-
-msgid "&About…"
-msgstr "关于(&A)…"
-
-# Main window – toolbar / actions
-msgid "New file"
-msgstr "新建文件"
-
-msgid "Open a prompt file"
-msgstr "打开提示词文件"
-
-msgid "Save the current file"
-msgstr "保存当前文件"
-
-msgid "Save to a new file"
-msgstr "另存为新文件"
-
-msgid "Close current file"
-msgstr "关闭当前文件"
-
-msgid "Quit PBPrompt"
-msgstr "退出 PBPrompt"
-
-msgid "Open settings dialog"
-msgstr "打开设置对话框"
-
-msgid "About PBPrompt"
-msgstr "关于 PBPrompt"
-
-msgid "New Prompt"
-msgstr "新建提示词"
-
-msgid "Add a new prompt entry"
-msgstr "添加新提示词条目"
-
-msgid "Duplicate"
-msgstr "复制行"
-
-msgid "Duplicate the current row"
-msgstr "复制当前行"
-
-msgid "Delete"
-msgstr "删除"
-
-msgid "Delete selected prompts"
-msgstr "删除所选提示词"
-
-msgid "→ English"
-msgstr "→ 英文"
-
-msgid "Translate selected rows to English"
-msgstr "将所选行翻译为英文"
-
-msgid "← Local"
-msgstr "← 本地语言"
-
-msgid "Translate selected rows from English"
-msgstr "将所选行从英文翻译为本地语言"
-
-# Main window – filters
-msgid "Filter:"
-msgstr "筛选："
-
-msgid "AI…"
-msgstr "AI…"
-
-msgid "Group…"
-msgstr "分组…"
-
-msgid "Name…"
-msgstr "名称…"
-
-msgid "Local language…"
-msgstr "本地语言…"
-
-msgid "English…"
-msgstr "英文…"
-
-msgid "Clear"
-msgstr "清除"
-
-msgid "Clear all filters"
-msgstr "清除所有筛选条件"
-
 # Column headers
+#: src/pbprompt/gui/main_window.py:81 src/pbprompt/gui/main_window.py:264
 msgid "AI"
 msgstr "AI"
 
+#: src/pbprompt/gui/main_window.py:82 src/pbprompt/gui/main_window.py:265
 msgid "Group"
 msgstr "分组"
 
+#: src/pbprompt/gui/main_window.py:83 src/pbprompt/gui/main_window.py:266
 msgid "Name"
 msgstr "名称"
 
+# IMAGE column
+#: src/pbprompt/gui/main_window.py:84 src/pbprompt/gui/main_window.py:267
+msgid "Image"
+msgstr "图片"
+
+#: src/pbprompt/gui/main_window.py:86 src/pbprompt/gui/main_window.py:271
 msgid "English"
 msgstr "英文"
 
-# Status messages
-msgid "Ready"
-msgstr "就绪"
-
-msgid "Copied to clipboard"
-msgstr "已复制到剪贴板"
-
-# Context menu
-msgid "Copy"
-msgstr "复制"
-
-msgid "Cut"
-msgstr "剪切"
-
-msgid "Paste"
-msgstr "粘贴"
-
-msgid "Copied: %s"
-msgstr "已复制：%s"
-
-msgid "File saved successfully"
-msgstr "文件保存成功"
-
-msgid "File closed"
-msgstr "文件已关闭"
-
-msgid "New file created"
-msgstr "新文件已创建"
-
-msgid "Untitled"
-msgstr "无标题"
-
-msgid "No rows selected"
-msgstr "未选择任何行"
-
-msgid "Loaded {n} entries from {path}"
-msgstr "已从 {path} 加载 {n} 条记录"
-
-msgid "Translated {n} row(s)"
-msgstr "已翻译 {n} 行"
-
-msgid "Translation failed:\n{error}"
-msgstr "翻译失败：\n{error}"
-
-msgid "Deleted {n} row(s)"
-msgstr "已删除 {n} 行"
-
-msgid "Row duplicated"
-msgstr "行已复制"
-
-# Dialogs – file operations
-msgid "Open Prompt File"
-msgstr "打开提示词文件"
-
-msgid "Save Prompt File"
-msgstr "保存提示词文件"
-
-msgid "YAML files (*.yaml *.yml);;All files (*.*)"
-msgstr "YAML 文件 (*.yaml *.yml);;所有文件 (*.*)"
-
-# Dialogs – confirmation
-msgid "Unsaved Changes"
-msgstr "未保存的更改"
-
-msgid "The document has been modified.\nDo you want to save your changes?"
-msgstr "文档已被修改。\n是否保存更改？"
-
-msgid "Confirm Delete"
-msgstr "确认删除"
-
-msgid "Are you sure you want to delete {n} selected row(s)?"
-msgstr "确定要删除所选的 {n} 行吗？"
-
-# Dialogs – errors
-msgid "Error"
-msgstr "错误"
-
-msgid "Error Opening File"
-msgstr "打开文件错误"
-
-msgid "Could not open file:\n{path}"
-msgstr "无法打开文件：\n{path}"
-
-msgid "Could not open file:\n{path}\n\n{error}"
-msgstr "无法打开文件：\n{path}\n\n{error}"
-
-msgid "Could not save file:\n{path}"
-msgstr "无法保存文件：\n{path}"
-
-msgid "Translation Error"
-msgstr "翻译错误"
-
-msgid "Could not initialise the translation service.\nCheck your API key in Options."
-msgstr "无法初始化翻译服务。\n请在选项中检查 API 密钥。"
-
-# Settings dialog
-msgid "Settings"
-msgstr "设置"
-
-msgid "Language"
-msgstr "语言"
-
-msgid "Display language:"
-msgstr "显示语言："
-
-msgid "Language used in the user interface"
-msgstr "用户界面使用的语言"
-
-msgid "Translation language:"
-msgstr "翻译语言："
-
-msgid "Source/target language for the local column"
-msgstr "本地列的源语言/目标语言"
-
-msgid "Translation service"
-msgstr "翻译服务"
-
-msgid "Service:"
-msgstr "服务："
-
-msgid "API key:"
-msgstr "API 密钥："
-
-msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
-msgstr "DeepL、Microsoft、Yandex、QCRI、LibreTranslate"
-
-msgid "App ID:"
-msgstr "应用 ID："
-
-msgid "Baidu (appid) · Papago (client_id)"
-msgstr "百度 (appid) · Papago (client_id)"
-
-msgid "App secret:"
-msgstr "应用密钥："
-
-msgid "Baidu (appkey) · Papago (secret_key)"
-msgstr "百度 (appkey) · Papago (secret_key)"
-
-msgid "Recent &Files"
-msgstr "最近文件(&F)"
-
-msgid "No recent files"
-msgstr "无最近文件"
-
-msgid "Clear list"
-msgstr "清空列表"
-
-msgid "File Not Found"
-msgstr "文件未找到"
-
-msgid "The file no longer exists:\n{path}"
-msgstr "文件不再存在：\n{path}"
-
-msgid "Files"
-msgstr "文件"
-
-msgid "Maximum recent files:"
-msgstr "最多最近文件数："
-
-msgid "Logging"
-msgstr "日志"
-
-msgid "Log level:"
-msgstr "日志级别："
-
-# About dialog
-msgid "About {app}"
-msgstr "关于 {app}"
-
-msgid "Version:"
-msgstr "版本："
-
-msgid "Authors:"
-msgstr "作者："
-
-msgid "MIT License"
-msgstr "MIT 许可证"
-
-msgid "A program to register and categorize AI prompts to keep tries."
-msgstr "一个用于记录和分类 AI 提示词的程序。"
-
-# Settings dialog – language selector
-msgid "System default"
-msgstr "系统默认"
-
 # Column header tooltips
+#: src/pbprompt/gui/main_window.py:90 src/pbprompt/gui/main_window.py:275
 msgid ""
 "Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
 "Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
@@ -336,125 +47,692 @@ msgstr ""
 "Enter：确认  ·  Ctrl+Enter 或 Shift+Enter：插入换行\n"
 "Tab / Shift+Tab：移至相邻单元格  ·  Esc：取消"
 
-msgid "AI model name.\nSort: primary AI → Group → Name"
-msgstr "AI 模型名称。\n排序：主键 AI → 分组 → 名称"
+#: src/pbprompt/gui/main_window.py:95 src/pbprompt/gui/main_window.py:280
+msgid ""
+"AI model name.\n"
+"Sort: primary AI → Group → Name"
+msgstr ""
+"AI 模型名称。\n"
+"排序：主键 AI → 分组 → 名称"
 
-msgid "Prompt group / category.\nSort: primary Group → Name → AI"
-msgstr "提示词分组 / 分类。\n排序：主键 分组 → 名称 → AI"
+#: src/pbprompt/gui/main_window.py:96 src/pbprompt/gui/main_window.py:281
+msgid ""
+"Prompt group / category.\n"
+"Sort: primary Group → Name → AI"
+msgstr ""
+"提示词分组 / 分类。\n"
+"排序：主键 分组 → 名称 → AI"
 
-msgid "Prompt title.\nSort: primary Name → Group → AI"
-msgstr "提示词标题。\n排序：主键 名称 → 分组 → AI"
+#: src/pbprompt/gui/main_window.py:97 src/pbprompt/gui/main_window.py:282
+msgid ""
+"Prompt title.\n"
+"Sort: primary Name → Group → AI"
+msgstr ""
+"提示词标题。\n"
+"排序：主键 名称 → 分组 → AI"
 
-msgid "Prompt in local language.\n"
-msgstr "本地语言提示词。\n"
-
-msgid "Prompt in English.\n"
-msgstr "英文提示词。\n"
-
-# File menu – YAML import/export
-msgid "Import &YAML"
-msgstr "导入(&Y) YAML"
-
-msgid "Add entries…"
-msgstr "添加条目…"
-
-msgid "Replace all…"
-msgstr "替换全部…"
-
-msgid "Export &YAML…"
-msgstr "导出(&Y) YAML…"
-
-msgid "Import YAML file (append)"
-msgstr "导入 YAML 文件（追加）"
-
-msgid "Import YAML file (replace all)"
-msgstr "导入 YAML 文件（替换全部）"
-
-msgid "Export YAML file"
-msgstr "导出 YAML 文件"
-
-# Dialogs – file operations (SQLite)
-msgid "PBPrompt database (*.sqlite);;All files (*.*)"
-msgstr "PBPrompt 数据库 (*.sqlite);;所有文件 (*.*)"
-
-msgid "Import YAML"
-msgstr "导入 YAML"
-
-msgid "Export YAML"
-msgstr "导出 YAML"
-
-# Status messages (YAML import/export)
-msgid "Imported {n} entries from {path}"
-msgstr "已从 {path} 导入 {n} 条记录"
-
-msgid "Exported {n} entries to {path}"
-msgstr "已将 {n} 条记录导出到 {path}"
-
-# Dialogs – errors (YAML import/export)
-msgid "Import failed:\n{error}"
-msgstr "导入失败：\n{error}"
-
-msgid "Export failed:\n{error}"
-msgstr "导出失败：\n{error}"
-
-# IMAGE column
-msgid "Image"
-msgstr "图片"
-
+#: src/pbprompt/gui/main_window.py:98 src/pbprompt/gui/main_window.py:283
 msgid "Double-click to view · Right-click for options"
 msgstr "双击查看 · 右键获取选项"
 
+#: src/pbprompt/gui/main_window.py:99 src/pbprompt/gui/main_window.py:284
+msgid "Prompt in local language.\n"
+msgstr "本地语言提示词。\n"
+
+#: src/pbprompt/gui/main_window.py:100 src/pbprompt/gui/main_window.py:285
+msgid "Prompt in English.\n"
+msgstr "英文提示词。\n"
+
+# Status messages
+#: src/pbprompt/gui/main_window.py:158 src/pbprompt/gui/main_window.py:1186
+msgid "Ready"
+msgstr "就绪"
+
+# Main window – filters
+#: src/pbprompt/gui/main_window.py:183
+msgid "Filter:"
+msgstr "筛选："
+
+#: src/pbprompt/gui/main_window.py:184
+msgid "AI…"
+msgstr "AI…"
+
+#: src/pbprompt/gui/main_window.py:185
+msgid "Group…"
+msgstr "分组…"
+
+#: src/pbprompt/gui/main_window.py:186
+msgid "Name…"
+msgstr "名称…"
+
+#: src/pbprompt/gui/main_window.py:187
+msgid "Local language…"
+msgstr "本地语言…"
+
+#: src/pbprompt/gui/main_window.py:188
+msgid "English…"
+msgstr "英文…"
+
+#: src/pbprompt/gui/main_window.py:189
+msgid "Clear"
+msgstr "清除"
+
+#: src/pbprompt/gui/main_window.py:190
+msgid "Clear all filters"
+msgstr "清除所有筛选条件"
+
+# Main window – menu
+#: src/pbprompt/gui/main_window.py:192
+msgid "&File"
+msgstr "文件(&F)"
+
+#: src/pbprompt/gui/main_window.py:193
+msgid "&Tools"
+msgstr "工具(&T)"
+
+#: src/pbprompt/gui/main_window.py:194
+msgid "&Help"
+msgstr "帮助(&H)"
+
+#: src/pbprompt/gui/main_window.py:196
+msgid "&New"
+msgstr "新建(&N)"
+
+# Main window – toolbar / actions
+#: src/pbprompt/gui/main_window.py:197
+msgid "New file"
+msgstr "新建文件"
+
+#: src/pbprompt/gui/main_window.py:198
+msgid "&Open…"
+msgstr "打开(&O)…"
+
+#: src/pbprompt/gui/main_window.py:199
+msgid "Open a prompt file"
+msgstr "打开提示词文件"
+
+#: src/pbprompt/gui/main_window.py:200
+msgid "&Save"
+msgstr "保存(&S)"
+
+#: src/pbprompt/gui/main_window.py:201
+msgid "Save the current file"
+msgstr "保存当前文件"
+
+#: src/pbprompt/gui/main_window.py:202
+msgid "Save &As…"
+msgstr "另存为(&A)…"
+
+#: src/pbprompt/gui/main_window.py:203
+msgid "Save to a new file"
+msgstr "另存为新文件"
+
+#: src/pbprompt/gui/main_window.py:204
+msgid "&Close"
+msgstr "关闭(&C)"
+
+#: src/pbprompt/gui/main_window.py:205
+msgid "Close current file"
+msgstr "关闭当前文件"
+
+#: src/pbprompt/gui/main_window.py:206
+msgid "&Quit"
+msgstr "退出(&Q)"
+
+#: src/pbprompt/gui/main_window.py:207
+msgid "Quit PBPrompt"
+msgstr "退出 PBPrompt"
+
+#: src/pbprompt/gui/main_window.py:208
+msgid "&Options…"
+msgstr "选项(&O)…"
+
+#: src/pbprompt/gui/main_window.py:209
+msgid "Open settings dialog"
+msgstr "打开设置对话框"
+
+#: src/pbprompt/gui/main_window.py:210
+msgid "&About…"
+msgstr "关于(&A)…"
+
+#: src/pbprompt/gui/main_window.py:211
+msgid "About PBPrompt"
+msgstr "关于 PBPrompt"
+
+#: src/pbprompt/gui/main_window.py:212
+msgid "New Prompt"
+msgstr "新建提示词"
+
+#: src/pbprompt/gui/main_window.py:213
+msgid "Add a new prompt entry"
+msgstr "添加新提示词条目"
+
+#: src/pbprompt/gui/main_window.py:214
+msgid "Duplicate"
+msgstr "复制行"
+
+#: src/pbprompt/gui/main_window.py:215
+msgid "Duplicate the current row"
+msgstr "复制当前行"
+
+#: src/pbprompt/gui/main_window.py:216
+msgid "Delete"
+msgstr "删除"
+
+#: src/pbprompt/gui/main_window.py:217
+msgid "Delete selected prompts"
+msgstr "删除所选提示词"
+
+#: src/pbprompt/gui/main_window.py:218
+msgid "→ English"
+msgstr "→ 英文"
+
+#: src/pbprompt/gui/main_window.py:220
+msgid "Translate selected rows to English"
+msgstr "将所选行翻译为英文"
+
+#: src/pbprompt/gui/main_window.py:222
+msgid "← Local"
+msgstr "← 本地语言"
+
+#: src/pbprompt/gui/main_window.py:224
+msgid "Translate selected rows from English"
+msgstr "将所选行从英文翻译为本地语言"
+
+# File menu – YAML import/export
+#: src/pbprompt/gui/main_window.py:226
+msgid "Import &YAML"
+msgstr "导入(&Y) YAML"
+
+#: src/pbprompt/gui/main_window.py:227
+msgid "Add entries…"
+msgstr "添加条目…"
+
+#: src/pbprompt/gui/main_window.py:228
+msgid "Import YAML file (append)"
+msgstr "导入 YAML 文件（追加）"
+
+#: src/pbprompt/gui/main_window.py:229
+msgid "Replace all…"
+msgstr "替换全部…"
+
+#: src/pbprompt/gui/main_window.py:230
+msgid "Import YAML file (replace all)"
+msgstr "导入 YAML 文件（替换全部）"
+
+#: src/pbprompt/gui/main_window.py:231
+msgid "Export &YAML…"
+msgstr "导出(&Y) YAML…"
+
+#: src/pbprompt/gui/main_window.py:232
+msgid "Export YAML file"
+msgstr "导出 YAML 文件"
+
+#: src/pbprompt/gui/main_window.py:233
 msgid "Refresh Thumbnails"
 msgstr "刷新缩略图"
 
+#: src/pbprompt/gui/main_window.py:235
 msgid "Regenerate all thumbnails from stored images"
 msgstr "从存储的图像重新生成所有缩略图"
 
-msgid "Thumbnails refreshed: {n} image(s) updated"
-msgstr "缩略图已刷新：已更新 {n} 张图片"
+#: src/pbprompt/gui/main_window.py:238
+msgid "Recent &Files"
+msgstr "最近文件(&F)"
 
-msgid "Load image from file…"
-msgstr "从文件加载图片…"
+#: src/pbprompt/gui/main_window.py:407
+#, python-format
+msgid "Copied: %s"
+msgstr "已复制：%s"
 
-msgid "Paste image"
-msgstr "粘贴图片"
+#: src/pbprompt/gui/main_window.py:445
+msgid "New file created"
+msgstr "新文件已创建"
 
-msgid "Clear image"
-msgstr "清除图片"
+# Dialogs – file operations
+#: src/pbprompt/gui/main_window.py:452
+msgid "Open Prompt File"
+msgstr "打开提示词文件"
 
-msgid "Load Image"
-msgstr "加载图片"
+# Dialogs – file operations (SQLite)
+#: src/pbprompt/gui/main_window.py:454 src/pbprompt/gui/main_window.py:503
+msgid "PBPrompt database (*.sqlite);;All files (*.*)"
+msgstr "PBPrompt 数据库 (*.sqlite);;所有文件 (*.*)"
 
-msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
-msgstr "图片文件 (*.jpg *.jpeg *.png);;所有文件 (*.*)"
+#: src/pbprompt/gui/main_window.py:468 src/pbprompt/gui/main_window.py:1140
+#: src/pbprompt/gui/main_window.py:1170 src/pbprompt/gui/main_window.py:1209
+#, python-brace-format
+msgid "Loaded {n} entries from {path}"
+msgstr "已从 {path} 加载 {n} 条记录"
 
-msgid "No image in clipboard"
-msgstr "剪贴板中没有图片"
+#: src/pbprompt/gui/main_window.py:476 src/pbprompt/gui/main_window.py:1178
+msgid "Error Opening File"
+msgstr "打开文件错误"
 
-msgid "Unsupported Format"
-msgstr "不支持的格式"
+#: src/pbprompt/gui/main_window.py:477 src/pbprompt/gui/main_window.py:1179
+#, python-brace-format
+msgid ""
+"Could not open file:\n"
+"{path}\n"
+"\n"
+"{error}"
+msgstr ""
+"无法打开文件：\n"
+"{path}\n"
+"\n"
+"{error}"
 
-msgid "Unsupported image format"
-msgstr "不支持的图片格式"
+# Dialogs – errors
+#: src/pbprompt/gui/main_window.py:488 src/pbprompt/gui/main_window.py:521
+#: src/pbprompt/gui/main_window.py:562 src/pbprompt/gui/main_window.py:591
+#: src/pbprompt/gui/main_window.py:885 src/pbprompt/gui/main_window.py:1148
+msgid "Error"
+msgstr "错误"
 
-msgid "Could not read file:\n{error}"
-msgstr "无法读取文件：\n{error}"
+#: src/pbprompt/gui/main_window.py:489 src/pbprompt/gui/main_window.py:1149
+#, python-brace-format
+msgid ""
+"Could not open file:\n"
+"{path}"
+msgstr ""
+"无法打开文件：\n"
+"{path}"
 
-msgid "No Image"
-msgstr "无图片"
+#: src/pbprompt/gui/main_window.py:501
+msgid "Save Prompt File"
+msgstr "保存提示词文件"
 
+#: src/pbprompt/gui/main_window.py:516
+msgid "File saved successfully"
+msgstr "文件保存成功"
+
+#: src/pbprompt/gui/main_window.py:522
+#, python-brace-format
+msgid ""
+"Could not save file:\n"
+"{path}"
+msgstr ""
+"无法保存文件：\n"
+"{path}"
+
+#: src/pbprompt/gui/main_window.py:529
+msgid "Import YAML"
+msgstr "导入 YAML"
+
+#: src/pbprompt/gui/main_window.py:531 src/pbprompt/gui/main_window.py:572
+msgid "YAML files (*.yaml *.yml);;All files (*.*)"
+msgstr "YAML 文件 (*.yaml *.yml);;所有文件 (*.*)"
+
+# Status messages (YAML import/export)
+#: src/pbprompt/gui/main_window.py:552
+#, python-brace-format
+msgid "Imported {n} entries from {path}"
+msgstr "已从 {path} 导入 {n} 条记录"
+
+#: src/pbprompt/gui/main_window.py:556
+#, python-brace-format
 msgid "({k} duplicate(s) skipped)"
 msgstr "（跳过了 {k} 个重复项）"
 
+# Dialogs – errors (YAML import/export)
+#: src/pbprompt/gui/main_window.py:563
+#, python-brace-format
+msgid ""
+"Import failed:\n"
+"{error}"
+msgstr ""
+"导入失败：\n"
+"{error}"
+
+#: src/pbprompt/gui/main_window.py:570
+msgid "Export YAML"
+msgstr "导出 YAML"
+
+#: src/pbprompt/gui/main_window.py:582
+#, python-brace-format
+msgid "Exported {n} entries to {path}"
+msgstr "已将 {n} 条记录导出到 {path}"
+
+#: src/pbprompt/gui/main_window.py:592
+#, python-brace-format
+msgid ""
+"Export failed:\n"
+"{error}"
+msgstr ""
+"导出失败：\n"
+"{error}"
+
+#: src/pbprompt/gui/main_window.py:601
+msgid "File closed"
+msgstr "文件已关闭"
+
+# Dialogs – confirmation
+#: src/pbprompt/gui/main_window.py:609
+msgid "Unsaved Changes"
+msgstr "未保存的更改"
+
+#: src/pbprompt/gui/main_window.py:611
+msgid ""
+"The document has been modified.\n"
+"Do you want to save your changes?"
+msgstr ""
+"文档已被修改。\n"
+"是否保存更改？"
+
+#: src/pbprompt/gui/main_window.py:652
+msgid "Row duplicated"
+msgstr "行已复制"
+
+#: src/pbprompt/gui/main_window.py:661
+msgid "Confirm Delete"
+msgstr "确认删除"
+
+#: src/pbprompt/gui/main_window.py:662
+#, python-brace-format
+msgid "Are you sure you want to delete {n} selected row(s)?"
+msgstr "确定要删除所选的 {n} 行吗？"
+
+#: src/pbprompt/gui/main_window.py:675
+#, python-brace-format
+msgid "Deleted {n} row(s)"
+msgstr "已删除 {n} 行"
+
+# Context menu
+#: src/pbprompt/gui/main_window.py:729
+msgid "Copy"
+msgstr "复制"
+
+#: src/pbprompt/gui/main_window.py:731
+msgid "Cut"
+msgstr "剪切"
+
+#: src/pbprompt/gui/main_window.py:733
+msgid "Paste"
+msgstr "粘贴"
+
+#: src/pbprompt/gui/main_window.py:767
+#, python-brace-format
+msgid "Thumbnails refreshed: {n} image(s) updated"
+msgstr "缩略图已刷新：已更新 {n} 张图片"
+
+#: src/pbprompt/gui/main_window.py:830 src/pbprompt/gui/main_window.py:892
+#: src/pbprompt/gui/main_window.py:946
+msgid "Unsupported Format"
+msgstr "不支持的格式"
+
+#: src/pbprompt/gui/main_window.py:831 src/pbprompt/gui/main_window.py:893
+#: src/pbprompt/gui/main_window.py:947
+msgid "Unsupported image format"
+msgstr "不支持的图片格式"
+
+#: src/pbprompt/gui/main_window.py:850
+msgid "Load image from file…"
+msgstr "从文件加载图片…"
+
+#: src/pbprompt/gui/main_window.py:851
+msgid "Paste image"
+msgstr "粘贴图片"
+
+#: src/pbprompt/gui/main_window.py:853
+msgid "Clear image"
+msgstr "清除图片"
+
+#: src/pbprompt/gui/main_window.py:873
+msgid "Load Image"
+msgstr "加载图片"
+
+#: src/pbprompt/gui/main_window.py:874
+msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
+msgstr "图片文件 (*.jpg *.jpeg *.png);;所有文件 (*.*)"
+
+#: src/pbprompt/gui/main_window.py:875
+msgid "No preview"
+msgstr "无预览"
+
+#: src/pbprompt/gui/main_window.py:886
+#, python-brace-format
+msgid ""
+"Could not read file:\n"
+"{error}"
+msgstr ""
+"无法读取文件：\n"
+"{error}"
+
+#: src/pbprompt/gui/main_window.py:939
+msgid "No Image"
+msgstr "无图片"
+
+#: src/pbprompt/gui/main_window.py:940
+msgid "No image in clipboard"
+msgstr "剪贴板中没有图片"
+
+#: src/pbprompt/gui/main_window.py:982
+msgid "No rows selected"
+msgstr "未选择任何行"
+
+#: src/pbprompt/gui/main_window.py:993 src/pbprompt/gui/main_window.py:1027
+msgid "Translation Error"
+msgstr "翻译错误"
+
+#: src/pbprompt/gui/main_window.py:995
+msgid ""
+"Could not initialise the translation service.\n"
+"Check your API key in Options."
+msgstr ""
+"无法初始化翻译服务。\n"
+"请在选项中检查 API 密钥。"
+
+#: src/pbprompt/gui/main_window.py:1028
+#, python-brace-format
+msgid ""
+"Translation failed:\n"
+"{error}"
+msgstr ""
+"翻译失败：\n"
+"{error}"
+
+#: src/pbprompt/gui/main_window.py:1034
+#, python-brace-format
+msgid "Translated {n} row(s)"
+msgstr "已翻译 {n} 行"
+
+#: src/pbprompt/gui/main_window.py:1086
+msgid "No recent files"
+msgstr "无最近文件"
+
+#: src/pbprompt/gui/main_window.py:1098
+msgid "Clear list"
+msgstr "清空列表"
+
+#: src/pbprompt/gui/main_window.py:1129
+msgid "File Not Found"
+msgstr "文件未找到"
+
+#: src/pbprompt/gui/main_window.py:1130
+#, python-brace-format
+msgid ""
+"The file no longer exists:\n"
+"{path}"
+msgstr ""
+"文件不再存在：\n"
+"{path}"
+
+#: src/pbprompt/gui/main_window.py:1227
+msgid "Untitled"
+msgstr "无标题"
+
+# About dialog
+#: src/pbprompt/gui/about_dialog.py:43
+#, python-brace-format
+msgid "About {app}"
+msgstr "关于 {app}"
+
+#: src/pbprompt/gui/about_dialog.py:47
+msgid "MIT License"
+msgstr "MIT 许可证"
+
+# Settings dialog
+#: src/pbprompt/gui/settings_dialog.py:148
+msgid "Settings"
+msgstr "设置"
+
+#: src/pbprompt/gui/settings_dialog.py:151
+msgid "Language"
+msgstr "语言"
+
+#: src/pbprompt/gui/settings_dialog.py:152
+msgid "Display language:"
+msgstr "显示语言："
+
+#: src/pbprompt/gui/settings_dialog.py:155
+msgid ""
+"Language used for the user interface.\n"
+"'System default' uses the operating system locale."
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:159
+msgid "Translation language:"
+msgstr "翻译语言："
+
+#: src/pbprompt/gui/settings_dialog.py:162
+msgid ""
+"Language of the 'Local language' column.\n"
+"Used as the source or target when translating prompts.\n"
+"'System default' uses the operating system locale."
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:169
+msgid "Translation service"
+msgstr "翻译服务"
+
+#: src/pbprompt/gui/settings_dialog.py:170
+msgid "Service:"
+msgstr "服务："
+
+#: src/pbprompt/gui/settings_dialog.py:173
+msgid ""
+"Translation service used to fill the 'Local language' column\n"
+"automatically when clicking the Translate button."
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:177
+msgid "API key:"
+msgstr "API 密钥："
+
+#: src/pbprompt/gui/settings_dialog.py:180
+msgid ""
+"API key required by DeepL, Microsoft Translator, Yandex,\n"
+"QCRI and LibreTranslate.\n"
+"Leave blank for services that do not require one\n"
+"(Google, MyMemory, PONS, Linguee, Reverso…)."
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:187
+msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+msgstr "DeepL、Microsoft、Yandex、QCRI、LibreTranslate"
+
+#: src/pbprompt/gui/settings_dialog.py:189
+msgid "App ID:"
+msgstr "应用 ID："
+
+#: src/pbprompt/gui/settings_dialog.py:192
+msgid ""
+"Application identifier required by some services:\n"
+"• Baidu: appid\n"
+"• Papago: client_id"
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:197
+msgid "Baidu (appid) · Papago (client_id)"
+msgstr "百度 (appid) · Papago (client_id)"
+
+#: src/pbprompt/gui/settings_dialog.py:198
+msgid "App secret:"
+msgstr "应用密钥："
+
+#: src/pbprompt/gui/settings_dialog.py:201
+msgid ""
+"Application secret required by some services:\n"
+"• Baidu: appkey\n"
+"• Papago: secret_key"
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:207
+msgid "Baidu (appkey) · Papago (secret_key)"
+msgstr "百度 (appkey) · Papago (secret_key)"
+
+#: src/pbprompt/gui/settings_dialog.py:211
+msgid "Logging"
+msgstr "日志"
+
+#: src/pbprompt/gui/settings_dialog.py:212
+msgid "Log level:"
+msgstr "日志级别："
+
+#: src/pbprompt/gui/settings_dialog.py:215
+msgid ""
+"Verbosity of the application log.\n"
+"DEBUG shows all messages; ERROR shows only critical failures.\n"
+"Effective after restarting the application."
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:222
+msgid "Files"
+msgstr "文件"
+
+#: src/pbprompt/gui/settings_dialog.py:223
+msgid "Maximum recent files:"
+msgstr "最多最近文件数："
+
+#: src/pbprompt/gui/settings_dialog.py:225
+msgid "Maximum number of recently opened files shown in the File menu."
+msgstr ""
+
 # Settings dialog – Images group
+#: src/pbprompt/gui/settings_dialog.py:229
 msgid "Images"
 msgstr "图片"
 
+#: src/pbprompt/gui/settings_dialog.py:230
 msgid "Thumbnail width (px):"
 msgstr "缩略图宽度 (px)："
 
+#: src/pbprompt/gui/settings_dialog.py:233
+msgid ""
+"Maximum width (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
+msgstr ""
+
+#: src/pbprompt/gui/settings_dialog.py:237
 msgid "Thumbnail height (px):"
 msgstr "缩略图高度 (px)："
 
-msgid "No preview"
-msgstr "无预览"
+#: src/pbprompt/gui/settings_dialog.py:240
+msgid ""
+"Maximum height (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
+msgstr ""
+
+# Settings dialog – language selector
+#: src/pbprompt/gui/settings_dialog.py:254
+#: src/pbprompt/gui/settings_dialog.py:260
+msgid "System default"
+msgstr "系统默认"
+
+#~ msgid "Copied to clipboard"
+#~ msgstr "已复制到剪贴板"
+
+#~ msgid "Language used in the user interface"
+#~ msgstr "用户界面使用的语言"
+
+#~ msgid "Source/target language for the local column"
+#~ msgstr "本地列的源语言/目标语言"
+
+#~ msgid "Version:"
+#~ msgstr "版本："
+
+#~ msgid "Authors:"
+#~ msgstr "作者："
+
+#~ msgid "A program to register and categorize AI prompts to keep tries."
+#~ msgstr "一个用于记录和分类 AI 提示词的程序。"

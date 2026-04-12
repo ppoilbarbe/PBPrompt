@@ -146,28 +146,101 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
     def retranslateUi(self, widget: QDialog) -> None:  # type: ignore[override]  # noqa: N802
         _ = get_translate()
         widget.setWindowTitle(_("Settings"))
+
+        # --- Language group ---
         self.groupLanguage.setTitle(_("Language"))
         self.labelDisplayLang.setText(_("Display language:"))
+        self.comboDisplayLanguage.setToolTip(
+            _(
+                "Language used for the user interface.\n"
+                "'System default' uses the operating system locale."
+            )
+        )
         self.labelTranslationLang.setText(_("Translation language:"))
+        self.comboTranslationLanguage.setToolTip(
+            _(
+                "Language of the 'Local language' column.\n"
+                "Used as the source or target when translating prompts.\n"
+                "'System default' uses the operating system locale."
+            )
+        )
+
+        # --- Translation service group ---
         self.groupTranslation.setTitle(_("Translation service"))
         self.labelService.setText(_("Service:"))
+        self.comboService.setToolTip(
+            _(
+                "Translation service used to fill the 'Local language' column\n"
+                "automatically when clicking the Translate button."
+            )
+        )
         self.labelApiKey.setText(_("API key:"))
+        self.lineEditApiKey.setToolTip(
+            _(
+                "API key required by DeepL, Microsoft Translator, Yandex,\n"
+                "QCRI and LibreTranslate.\n"
+                "Leave blank for services that do not require one\n"
+                "(Google, MyMemory, PONS, Linguee, Reverso…)."
+            )
+        )
         self.lineEditApiKey.setPlaceholderText(
             _("DeepL, Microsoft, Yandex, QCRI, LibreTranslate")
         )
         self.labelAppId.setText(_("App ID:"))
+        self.lineEditAppId.setToolTip(
+            _(
+                "Application identifier required by some services:\n"
+                "• Baidu: appid\n"
+                "• Papago: client_id"
+            )
+        )
         self.lineEditAppId.setPlaceholderText(_("Baidu (appid) · Papago (client_id)"))
         self.labelAppSecret.setText(_("App secret:"))
+        self.lineEditAppSecret.setToolTip(
+            _(
+                "Application secret required by some services:\n"
+                "• Baidu: appkey\n"
+                "• Papago: secret_key"
+            )
+        )
         self.lineEditAppSecret.setPlaceholderText(
             _("Baidu (appkey) · Papago (secret_key)")
         )
+
+        # --- Logging group ---
         self.groupLogging.setTitle(_("Logging"))
         self.labelLogLevel.setText(_("Log level:"))
+        self.comboLogLevel.setToolTip(
+            _(
+                "Verbosity of the application log.\n"
+                "DEBUG shows all messages; ERROR shows only critical failures.\n"
+                "Effective after restarting the application."
+            )
+        )
+
+        # --- Files group ---
         self.groupFiles.setTitle(_("Files"))
         self.labelMaxRecentFiles.setText(_("Maximum recent files:"))
+        self.spinBoxMaxRecentFiles.setToolTip(
+            _("Maximum number of recently opened files shown in the File menu.")
+        )
+
+        # --- Images group ---
         self.groupImages.setTitle(_("Images"))
         self.labelThumbnailWidth.setText(_("Thumbnail width (px):"))
+        self.spinBoxThumbnailWidth.setToolTip(
+            _(
+                "Maximum width (in pixels) of the thumbnail stored in the database.\n"
+                "Larger values improve quality but increase database size."
+            )
+        )
         self.labelThumbnailHeight.setText(_("Thumbnail height (px):"))
+        self.spinBoxThumbnailHeight.setToolTip(
+            _(
+                "Maximum height (in pixels) of the thumbnail stored in the database.\n"
+                "Larger values improve quality but increase database size."
+            )
+        )
 
     # ------------------------------------------------------------------
     # Helpers

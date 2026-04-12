@@ -31,11 +31,8 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QComboBox" name="comboDisplayLanguage">
-        <property name="toolTip">
-         <string>Language used in the user interface</string>
-        </property>
-       </widget>
+       <widget class="QComboBox" name="comboDisplayLanguage"/>
+
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="labelTranslationLang">
@@ -45,11 +42,8 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QComboBox" name="comboTranslationLanguage">
-        <property name="toolTip">
-         <string>Source/target language for the local column</string>
-        </property>
-       </widget>
+       <widget class="QComboBox" name="comboTranslationLanguage"/>
+
       </item>
      </layout>
     </widget>
