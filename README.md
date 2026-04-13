@@ -2,9 +2,17 @@
 
 **A program to register and categorize AI prompts to keep tries.**
 
-> **This project was written 100% by [Claude](https://claude.ai), Anthropic's AI assistant.**
+> **This project was written 100% by [Claude](https://claude.ai), Anthropic's AI assistant,**
+> **from a single detailed prompt.**
 > Every line of code, every configuration file, every icon, and this README were
-> generated through conversations with Claude.
+> generated and maintained through conversations with Claude — without any human
+> writing code directly.
+>
+> The goal is to **evaluate Claude's capabilities**: its ability to produce clean,
+> well-structured, and documented code from a specification, and its ability to
+> diagnose and fix bugs when given only a symptom (an error message, unexpected
+> behaviour, or a failed build) rather than a root cause.
+>
 > Learn more at [claude.ai](https://claude.ai) or [anthropic.com](https://www.anthropic.com).
 
 PBPrompt is a cross-platform PyQt5 desktop application for storing, searching,
@@ -338,11 +346,21 @@ MIT © 2026 PBMou
 ## About Claude
 
 This project was written entirely by [Claude](https://claude.ai), Anthropic's AI
-assistant, through an iterative conversation-driven development process.
+assistant, from a single detailed prompt — through an iterative, conversation-driven
+development process.
+
+No human wrote a single line of code.  The objective is to evaluate Claude on two
+specific dimensions:
+
+- **Code quality**: can Claude produce clean, well-structured, tested, and documented
+  Python code from a written specification alone?
+- **Symptom-driven debugging**: when a problem occurs, can Claude identify the root
+  cause and apply the correct fix when given only the observable symptom — an error
+  message, unexpected behaviour, or a failed CI step — without being told what is wrong?
+
+The prompt that produced this project is available in
+[`claude_prompt.txt`](claude_prompt.txt).
 
 - **Claude**: [claude.ai](https://claude.ai)
 - **Anthropic**: [anthropic.com](https://www.anthropic.com)
 - **Claude Code** (the CLI used): [claude.ai/code](https://claude.ai/code)
-
-No human wrote a single line of code.  The prompt that produced this project
-is available in [`claude_prompt.txt`](claude_prompt.txt).

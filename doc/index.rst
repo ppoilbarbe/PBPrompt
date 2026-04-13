@@ -7,9 +7,15 @@ and translating AI prompts.  It is built with PyQt5 and stores data in a
 
 .. note::
 
-   This project was written 100% by `Claude <https://claude.ai>`_, Anthropic's
-   AI assistant.  The prompt used to generate it is available in
-   ``claude_prompt.txt``.
+   This project was written 100% by `Claude <https://claude.ai>`_, Anthropic's AI
+   assistant, from a single detailed prompt — without any human writing code directly.
+
+   The goal is to **evaluate Claude's capabilities**: its ability to produce clean,
+   well-structured, and documented code from a specification, and its ability to
+   diagnose and fix bugs when given only a symptom (an error message, unexpected
+   behaviour, or a failed build) rather than a root cause.
+
+   The prompt used to generate this project is available in ``claude_prompt.txt``.
 
 .. toctree::
    :maxdepth: 2
