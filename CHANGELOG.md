@@ -3,6 +3,16 @@
 All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.1] – 2026-04-13
+
+### Added
+- **CLAUDE.md**: operational instructions for Claude Code (commands, critical rules,
+  git workflow, i18n, RST/Sphinx, maintenance of reference files).
+
+### Fixed
+- **ReadTheDocs build**: add `gettext` to `apt_packages` in `.readthedocs.yaml` so
+  that `msgfmt` is available when `make translations` runs in the pre-build step.
+
 ## [1.3.0] – 2026-04-13
 
 ### Added
