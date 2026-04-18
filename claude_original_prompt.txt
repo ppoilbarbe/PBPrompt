@@ -1,0 +1,124 @@
+Génère un projet Python complet pour une application graphique nommée PBPrompt qui utilise PyQt5.
+La description du projet est "A program to register and categorize IA prompts to keep tries."
+Le nom de l'éditeur du programme est PBSoft.
+
+
+Caractéristiques requises :
+
+1) Ce que fait le programme
+- Le programme contient une liste de "prompts" d'I.A. à conserver.
+- Il y a 5 colonnes dans la liste: IA (nom de l'I.A. utilisée), Groupe (un groupe de prompts). Nom (nom de l'entrée), Français (Prompt en français), Anglais (prompt en anglais).
+- Les lignes peuvent être sélectionnées. On peut sélectionner plusieurs lignes.
+- Un double clic sur une case et une seule de la colonne Français ou Anglais copie le contenu de cette case dans le presse papier.
+- Il y a un filtre pour chaque colonne pour rechercher des éléments par expression régulière et n'afficher que ceux la. Tous les filtres de colonnes sont cumulatif (une ligne doit valider tous les filtres définis pour être affichée).
+- Il y a boutons:
+  - Nouveau (pour créer une nouvelle ligne),
+  - Supprimer (pour supprimer les lignes sélectionnées après confirmation),
+  - Flèche vers la droite pour traduire de la langue de la colonne "français" (définie dans les paramètres) vers l'anglais
+  - flèche vers la gauche pour traduire de l'anglais vers la langue de la colonne "français".
+- Le programme peut lire et sauvegarder les contenus des lignes dans des fichiers yaml.
+- Chaque ligne est un dictionnaire avec les clefs "ai" pour le nom de l'I.A., "group", pour le nom de groupe, "name" pour le nom de prompt, "local" pour la colonne Français et "english" pour la colonne Anglais.
+
+
+2) Structure du projet
+- Fournis une arborescence de fichiers complète avec code source, tests et fichiers de configuration.
+- Inclure: pyproject.toml, README.md, requirements.txt (ou équivalent dans pyproject), main.py (point d'entrée), un package principal (ex: pbprompt/), modules séparés pour l'UI, la logique métier, la configuration et l'accès système par plateforme.
+
+3) Fonctionnalités UI
+- Fenêtre principale simple avec un titre (nom du programme), la liste de lignes, toolbar et status bar.
+  * menu Fichier qui contient les entrées classiques: ouvrir, fermer, enregistre, enregistrer sous, quitter avec les raccourcis clavier classiques et les icônes habituelles.
+  * menu Outils qui contient une entrée Options qui ouvre la boîte de dialogue de paramètres.
+  * menu Aide contient une entrée À propos qui ouvre une boîte de dialoguie A propos.
+  * L'entrée Options du menu ouvre un boite de dialogue de paramètres.
+  * Les lignes peuvent être triées selon la valeur d'une colonne (en cliquant sur l'en-tête de cette colonne) pour trier les lignes selon la colonne. Un autre clic renverse le sens du tri. Le premier clic donnant un tri sur la colonne trie en ordre ascendant.
+  * les tris de colonnes se font sur les trois colonnes IA, groupe et nom. La colonne sélectionnée comme tri primaire et les tris secondaires sont dans le même sens (ascendant ou descendant).
+    + Tri primaire sur IA: sous-critère de tri sur "groupe" puis "nom".
+    + Tri primaire sur Groupe: sous-critère de tri sur "nom" puis "ia".
+    + Tri primaire sur Nom: sous-critère de tri sur "groupe" puis "ia".
+  * Un petit marqueur dans l'en-tête de colonne indique si c'est la colonne de tri primaire et dans quel sens.
+  * Le tri par défaut au démarrage de l'application est la colonne IA en ascendant.
+- Boîte de dialogue "Paramètres" avec les options suivantes:
+  * Langue sélectionnable pour l'affichage de l'interface: les langues définies dans les traductions ou la langue par défaut du système,
+  * Langue de traduction de la colonne "Français" supportée par le service de traduction. Par défaut c'est la même que la langue d'affichage.
+  * Sélection du service de traduction en ligne comme par exemple: Google translate, DeepL, reverso, bing, Yandex; Linguee.
+  * Le service de traduction en ligne doit avoir une API comme google translate, par exemple et ne pas être limité à moins de 3000 caractères.
+  * Lorsque validés, les paramètres sont sauvegardés dans un fichier de configuration YAML dans l'emplacement standard freedesktop.
+  * Les paramètres sont lus depuis le fichier de configuration au démarrage. Si le fichier n'existe pas, ou si un des paramètres n'existe pas dans le fichier ou est invalide, il prend sa valeur par défaut.
+  * niveau de log.
+  * Les boutons "Enregistrer" / "Annuler".
+- Boîte de dialogue "À propos" contenant icône, nom, version (récupérée depuis pyproject.toml), auteur et lien de licence.
+- Gestion propre des icônes embarquées (fichier qrc) et fallback si icône non trouvée.
+- La fenêtre principale, les boîtes de dialogue "Paramètres" et "À propos" sont définies dans un dossier de module "gui" à partir des fichiers XML de qtdesigner puis transformés avec le compilateur qui crée le python correspondant. Créer un Makefile pour cela. Les classes de fenêtres qui contiennent le comportement des fenêtres sont des classes dérivées de celles produites par le compilateur de qtdesigner pour python.
+
+4) Internationalisation (i18n)
+- Architecture multilingue: fournir fichiers de traduction pour au moins deux langues (français et anglais) en utilisant gettext (.po/.mo). Inclure exemples de traductions pour toutes les chaînes visibles.
+- Mécanisme pour changer la langue dans la fenêtre Paramètres et recharger l'UI sans redémarrage si possible.
+- Fichiers de ressources et instructions pour ajouter d'autres langues.
+- La langue choisie au démarrage est celle définie dans le fichier de configuration ou la langue par défaut du système. Si la langue demandée n'est pas trouvée, fallback vers anglais.
+
+5) Modularité et séparation des accès système
+- Tous les accès système (notifications natives, gestion du démarrage automatique, chemins de config, permissions, accèsaux périphériques audio, clavier et souris) doivent être isolés dans pbprompt/platform/*.py.
+- Implémentations minimales:
+  - linux.py: notification via notify-send (fallback), emplacement config ~/.config/VoxClick/, support systemd user autostart (exemple unit) ou .desktop autostart.
+  - windows.py: notification via Toast (ex: win10toast) ou fallback, emplacement config %APPDATA%\VoxClick\, Registre ou dossier de démarrage pour autostart (exemple).
+  - macos.py: notification via osascript or pync (exemple), emplacement config ~/Library/Application Support/VoxClick/, instructions pour login item.
+- Fournis interfaces documentées (fonctions/ classes) que le reste de l'application utilise, avec exemples d'utilisation.
+- Le yaml est géré avec Ruamel Yaml. Écriture en Yaml 1.2
+- Pour les traductions des textes des colonnes Français et Anglais, créer une classe racine qui propose 2 services: langue vers anglais (indique la langue d'origine et le texte à traduire), anglais vers langue (langue destination et texte à traduire). Puis proposer des sous classes pour chaque service de traduction. le tout isolé dans pbprompt/translate/*.py.
+
+6) Tests et CI
+- Git repository initial (structure de fichiers + .gitignore).
+- Utiliser pre-commit avec hooks pour au moins ruff (lint et format) et check-yaml si pertinent.
+- Configurations pour ruff (ex: pyproject.toml ruff section).
+- Inclure tests unitaires basiques pour la logique, la sélection de module plateforme, et la création de l'objet system tray (mocks permis) (pytest).
+- Fournis un fichier GitHub Actions simple (ci.yml) qui installe deps et lance les tests.
+
+7) pyproject.toml et packaging
+- Fournis un pyproject.toml configuré pour Poetry ou setuptools + toml, avec métadonnées (nom, version, auteur, licence), dépendances (PyQt5, pytest, outils i18n, éventuels paquets pour notifications) et scripts/entry-points pour l'exécutable.
+- Instructions pour créer un exécutable multiplateforme avec PyInstaller (exemples de commandes) et remarques sur icônes et ressources.
+- Dépendances explicites dans pyproject.toml : PyQt5, gettext pour i18n, pytest, ruff, pre-commit. Minimiser dépendances externes.
+- Support Python 3.11+.
+- Fournir un entry point console/script pour lancer l'application.
+
+8) Documentation et scripts
+- README.md avec instructions d'installation, exécution, ajout de langues, build pour chaque OS et comment étendre les modules platform.
+- Fournis scripts d'aide dans scripts/ (ex: build_qm.sh, compile_translations.sh).
+- Un répertoire doc contient les sources et Makefile pour Sphinx afin de créer la documentation des classes et du script. Le template est celui de readthedocs.
+- La documentation contient une page pour la présentation du programme et son fonctionnement.
+
+9) Qualité du code
+- Code clair, typé (type hints), docstrings pour fonctions/classes publiques, gestion des exceptions, logging configurable.
+- Respecter PEP8/ruff rules.
+- Types mypy-friendly (ajouter type hints partout).
+- Respecte PEP8/règles ruff et fournir un fichier pyproject config pour linter/format (black, flake8) en option.
+- Longueur des lignes 88 caractères (compatible black)
+- Utiliser logging module (préconfiguré) pour messages internes.
+- Aucune clé secrète ni info sensible dans le projet.
+
+Livrables exacts à générer
+- Arborescence complète et tous les fichiers de code (contenu complet), pyproject.toml, fichiers de traduction d'exemple, scripts shell/batch, tests, et workflows CI.
+- Tout le source (y compris le programme principal) est dans src/). Les modules sont dans src/voxclick/.
+- Exemples concrets d'implémentations pour pbprompt/platform/linux.py, windows.py et macos.py (même si certains appels sont des wrappers/fallbacks).
+- Un exemple d'icônes (fichier SVG et PNG) pour la couleur, le mode clair et le mode sombre et code pour l'inclure.
+- Instructions courtes sur comment tester et déboguer localement, et une section "Limitations connues" listant ce qui pourrait nécessiter des tests/ajustements spécifiques par OS.
+- Fichiers de traduction avec toutes les chaînes rencontrées dans le code qui s'afficheront pour l'utilisateur (hors logging qui reste en anglais).
+  - locales/en/LC_MESSAGES/messages.po.
+  - locales/fr/LC_MESSAGES/messages.po pour la traduction en français.
+- setup pour CI locale:
+  - github: fournir .github/workflows/ci.yaml minimal ou sauter si non requis. Conserver les étapes minimales: checkout, setup python, pip install ., run pre-commit-run --all-files, run pytest).
+  - gitlab: fournir .gitlab-ci.yaml de même que pour github
+  - Dans la phase de test la documentation Sphinx doit être construite.
+- Scripts pour pyinstaller pour chaque architecture (linux, windows macos).
+
+Contraintes supplémentaires
+- Priorise la portabilité et la maintenabilité plutôt que l'utilisation d'API natives très avancées.
+- Évite l'utilisation de dépendances propriétaires lourdes ; si une dépendance native est proposée (ex: winrt, pync), fournisse une alternative cross-platform plus simple.
+- Le projet doit être prêt à l'emploi : les fichiers fournis doivent permettre à un développeur de cloner, installer les dépendances et lancer l'application pour voir le tray et les fenêtres.
+- Rends la sortie sous forme d'une archive de fichiers. Si le code est long, scinde-le en fichiers séparés et indique clairement chaque chemin avant son contenu.
+
+Contrainte linguistique
+- Les noms de fichiers sont en anglais.
+- Le code, les fichiers de configuration et README doivent être en anglais, mais les fichiers de traduction doivent contenir le français et l'anglais.
+- Les commentaires de code et docstrings sont en anglais.
+
+Commencez la génération maintenant.

@@ -26,6 +26,15 @@ Caractéristiques requises :
   Ctrl+C / Ctrl+X / Ctrl+V sont également disponibles depuis la liste.
   Le menu contextuel est traduit via le système i18n (gettext).
 - Il y a un filtre pour chaque colonne pour rechercher des éléments par expression régulière et n'afficher que ceux-là. Tous les filtres de colonnes sont cumulatifs (une ligne doit valider tous les filtres définis pour être affichée).
+- Les filtres sont persistants : leur valeur est sauvegardée dans la configuration
+  à la fermeture de la fenêtre (closeEvent) et restaurée au prochain démarrage.
+  Implémentation : champ column_filters: dict[str, str] dans AppConfig (clés = noms
+  de colonnes : "ai", "group", "name", "local", "english") ; restauration via
+  widget.setText() dans _connect_signals() (déclenche set_filter via textChanged) ;
+  sauvegarde dans closeEvent() avant config.save().
+- Chaque champ filtre (QLineEdit) affiche une infobulle précisant que les expressions
+  régulières sont acceptées (ex : "Filtre la colonne IA. Accepte les expressions régulières.").
+  Les infobulles sont définies dans retranslateUi() et traduites via i18n.
 - Il y a des boutons dans la barre d'outils :
   - Nouveau prompt (pour créer une nouvelle ligne vide, raccourci Ins),
   - Dupliquer (pour dupliquer la ligne courante et l'insérer immédiatement en dessous,
@@ -121,6 +130,9 @@ Caractéristiques requises :
   * Langue locale, Anglais : description + raccourcis de l'éditeur multiligne
     (Entrée : valider · Ctrl+Entrée ou Maj+Entrée : saut de ligne ·
     Tab / Maj+Tab : cellule suivante/précédente · Échap : annuler).
+  * IMAGE : description + raccourcis d'interaction sur 2 lignes :
+    "Double-clic pour voir · Clic droit pour options\n
+    Entrée : charger depuis un fichier  ·  Ctrl+V : coller  ·  Backspace : effacer"
   Les tooltips sont traduits via le système i18n (gettext).
   Implémentation : PromptTableModel.headerData() gère Qt.ToolTipRole via un champ
   _header_tooltips (list[str]) et une méthode set_header_tooltips(tooltips: list[str])
@@ -175,9 +187,11 @@ pas être codée en dur.
     - Exporter YAML… (Ctrl+E) : exporte toutes les entrées en YAML
     - Fermer (Ctrl+W) : ferme le fichier courant
     - Quitter (Ctrl+Q) : quitte l'application
-  * menu Outils qui contient une entrée Options… (Ctrl+,) qui ouvre la boîte de dialogue
-    de paramètres.
-  * menu Aide contient une entrée À propos qui ouvre une boîte de dialogue À propos.
+  * menu Outils qui contient :
+    - Options… (Ctrl+,) : ouvre la boîte de dialogue de paramètres
+    - Actualiser les miniatures (Ctrl+R) : recrée toutes les imagettes à partir des images
+      stockées (utile après changement de taille de miniature)
+  * menu Aide contient une entrée À propos (F1) qui ouvre une boîte de dialogue À propos.
   * Les lignes peuvent être triées selon la valeur d'une colonne (en cliquant sur l'en-tête
     de cette colonne). Un autre clic renverse le sens du tri. Le premier clic donne un tri
     ascendant.
@@ -197,6 +211,10 @@ pas être codée en dur.
       converties explicitement en int() avant tout appel à model.index(). Certaines
       versions de PyQt5/SIP retournent silencieusement un QModelIndex invalide sinon.
       Appeler model.data(idx, role) directement plutôt que idx.data(role).
+    - Lorsqu'un clic sur une colonne non triable (IMAGE, LOCAL, ENGLISH) est reçu
+      dans _on_header_clicked(), Qt a déjà déplacé visuellement l'indicateur de tri.
+      Il faut impérativement appeler setSortIndicator(_sort_col, _sort_order) pour
+      le remettre en place avant de retourner.
 - Boîte de dialogue "Paramètres" avec les options suivantes:
   * Langue d'affichage de l'interface (comboDisplayLanguage) :
     - La liste est construite dynamiquement en scannant locales/*/LC_MESSAGES/messages.mo
@@ -518,6 +536,37 @@ Points critiques pour les tests :
   modifications (### Changed) et corrections (### Fixed) de la version.
   Le tag ne doit jamais être créé avant que la section correspondante existe dans
   CHANGELOG.md, car le pipeline CI extrait les notes de release depuis ce fichier.
+
+11.1) Nettoyage automatique des versions Read the Docs
+
+Après chaque release, le job CI "release" exécute scripts/rtd_cleanup.py pour
+désactiver les versions obsolètes dans le menu déroulant RTD.
+
+Politique de rétention (version courante X.Y.Z) :
+  * Versions majeures antérieures (< X) :
+      Conserver uniquement la dernière release des 3 versions majeures les plus récentes.
+  * Version majeure courante X, versions mineures antérieures (< Y) :
+      Pour chacune des 3 versions mineures les plus récentes, conserver uniquement
+      le dernier patch.
+  * Version majeure X, version mineure Y courante, patchs antérieurs (< Z) :
+      Conserver les 3 patchs les plus récents.
+  * Les pseudo-versions "latest" et "stable" ne sont jamais touchées.
+
+Implémentation — scripts/rtd_cleanup.py :
+  * Appel API RTD v3 (GET /versions/?active=true&type=tag, PATCH /versions/{slug}/).
+  * Pagination gérée (champ "next" dans la réponse).
+  * SemVer(NamedTuple) : (major, minor, patch, slug) — triable nativement.
+  * compute_slugs_to_keep(versions) applique la politique et retourne l'ensemble des
+    slugs à conserver.
+  * Les versions hors politique sont désactivées (active=False), pas supprimées.
+  * Paramètres CLI : --project (défaut "pbprompt"), --token (requis), --dry-run,
+    --verbose.
+  * continue-on-error: true dans la CI (échec du nettoyage ne bloque pas la release).
+  * Secret GitHub requis : READTHEDOCS_TOKEN (API token RTD avec accès en écriture).
+
+Intégration CI (.github/workflows/ci.yml) :
+  * Step "Clean up old Read the Docs versions" ajouté en fin du job "release".
+  * S'exécute uniquement sur les tags semver (job "release" déjà conditionnel).
 
 
 12) pyproject.toml et packaging

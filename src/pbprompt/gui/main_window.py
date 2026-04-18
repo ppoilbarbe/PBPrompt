@@ -182,10 +182,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.filterLabel.setText(_("Filter:"))
         self.filterAi.setPlaceholderText(_("AI…"))
+        self.filterAi.setToolTip(
+            _("Filter the AI column. Supports regular expressions.")
+        )
         self.filterGroup.setPlaceholderText(_("Group…"))
+        self.filterGroup.setToolTip(
+            _("Filter the Group column. Supports regular expressions.")
+        )
         self.filterName.setPlaceholderText(_("Name…"))
+        self.filterName.setToolTip(
+            _("Filter the Name column. Supports regular expressions.")
+        )
         self.filterLocal.setPlaceholderText(_("Local language…"))
+        self.filterLocal.setToolTip(
+            _("Filter the local language column. Supports regular expressions.")
+        )
         self.filterEnglish.setPlaceholderText(_("English…"))
+        self.filterEnglish.setToolTip(
+            _("Filter the English column. Supports regular expressions.")
+        )
         self.clearFiltersButton.setText(_("Clear"))
         self.clearFiltersButton.setToolTip(_("Clear all filters"))
 
@@ -256,6 +271,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionImportYamlAdd.setShortcut(QKeySequence("Ctrl+I"))
         self.actionImportYamlReplace.setShortcut(QKeySequence("Ctrl+Shift+I"))
         self.actionExportYaml.setShortcut(QKeySequence("Ctrl+E"))
+        self.actionRefreshThumbnails.setShortcut(QKeySequence("Ctrl+R"))
+        self.actionHelpAbout.setShortcut(QKeySequence("F1"))
 
         # Column headers
         if hasattr(self, "_source_model"):
@@ -280,7 +297,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     _("AI model name.\nSort: primary AI → Group → Name"),
                     _("Prompt group / category.\nSort: primary Group → Name → AI"),
                     _("Prompt title.\nSort: primary Name → Group → AI"),
-                    _("Double-click to view · Right-click for options"),
+                    _(
+                        "Double-click to view · Right-click for options\n"
+                        "Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
+                    ),
                     _("Prompt in local language.\n") + _edit_tip,
                     _("Prompt in English.\n") + _edit_tip,
                 ]
@@ -389,6 +409,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         )
         self.clearFiltersButton.clicked.connect(self._on_clear_filters)
 
+        # Restore persisted filter values (triggers set_filter via textChanged).
+        _filter_widgets = {
+            "ai": self.filterAi,
+            "group": self.filterGroup,
+            "name": self.filterName,
+            "local": self.filterLocal,
+            "english": self.filterEnglish,
+        }
+        for col_name, widget in _filter_widgets.items():
+            value = self._config.column_filters.get(col_name, "")
+            if value:
+                widget.setText(value)
+
         # Model modified → title update
         self._source_model.collection_modified.connect(self._update_title)
 
@@ -420,7 +453,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def _on_header_clicked(self, column: int) -> None:
         """Select sort column (ascending); if already active, toggle direction."""
         if column not in (Column.AI, Column.GROUP, Column.NAME):
-            return  # IMAGE, LOCAL, and ENGLISH are not sortable
+            # Non-sortable column: Qt may have moved the visual sort indicator to
+            # this column — reset it back to the active sort column.
+            self.tableView.horizontalHeader().setSortIndicator(
+                self._sort_col, self._sort_order
+            )
+            return
         if self._sort_col == column:
             self._sort_order = (
                 Qt.DescendingOrder
@@ -1273,6 +1311,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self._config.window_y = self.y()
             self._config.window_width = self.width()
             self._config.window_height = self.height()
+            self._config.column_filters = {
+                "ai": self.filterAi.text(),
+                "group": self.filterGroup.text(),
+                "name": self.filterName.text(),
+                "local": self.filterLocal.text(),
+                "english": self.filterEnglish.text(),
+            }
             self._config.save()
             event.accept()  # type: ignore[attr-defined]
         else:

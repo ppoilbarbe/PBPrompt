@@ -327,3 +327,9 @@ jobs:
             dist/pbprompt-*-linux-amd64 \
             dist/pbprompt-*-windows-amd64.exe \
             dist/pbprompt-*-macos-arm64
+
+      - name: Clean up old Read the Docs versions
+        env:
+          RTD_TOKEN: ${{ secrets.READTHEDOCS_TOKEN }}
+        run: python scripts/rtd_cleanup.py --project pbprompt --token "$RTD_TOKEN"
+        continue-on-error: true

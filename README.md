@@ -302,7 +302,8 @@ PBPrompt/
 ├── tests/                 # pytest suite
 ├── doc/                   # Sphinx documentation
 ├── scripts/               # Build helpers
-├── claude_prompt.txt      # The prompt used to generate this project with Claude
+├── claude_original_prompt.txt  # The original prompt sent to Claude on day one — never modified
+├── claude_prompt.txt           # Living specification: updated by Claude after each session
 ├── Makefile
 └── pyproject.toml
 ```
@@ -319,6 +320,31 @@ Each `pbprompt/platform/*.py` module exposes one function used by the app:
 
 To add a new platform, create `pbprompt/platform/myos.py` implementing
 `get_config_dir()`, then update `pbprompt/platform/__init__.py`.
+
+---
+
+## Read the Docs — version retention policy
+
+After each release the CI runs `scripts/rtd_cleanup.py` to deactivate outdated
+versions in the Read the Docs dropdown.  The retention rules are (given the
+current latest tag **X.Y.Z**):
+
+| Scope | Rule |
+|---|---|
+| **Older major versions** (< X) | Keep the single latest release of each of the 3 most recent major versions |
+| **Current major X, older minor versions** (< Y) | Keep the single latest patch of each of the 3 most recent minor versions |
+| **Current major X, current minor Y, older patches** (< Z) | Keep the 3 most recent patches |
+
+`latest` and `stable` are never touched.
+
+To run the cleanup manually:
+
+```bash
+python scripts/rtd_cleanup.py --token YOUR_RTD_TOKEN [--dry-run]
+```
+
+The script requires a `READTHEDOCS_TOKEN` secret configured in the repository
+(GitHub Settings → Secrets → Actions).
 
 ---
 
@@ -358,8 +384,13 @@ specific dimensions:
   cause and apply the correct fix when given only the observable symptom — an error
   message, unexpected behaviour, or a failed CI step — without being told what is wrong?
 
-The prompt that produced this project is available in
-[`claude_prompt.txt`](claude_prompt.txt).
+Two prompt files are kept in the repository:
+
+- [`claude_original_prompt.txt`](claude_original_prompt.txt) — the exact prompt
+  sent to Claude on day one to generate the initial project.  This file is never
+  modified by Claude; it is a read-only historical record.
+- [`claude_prompt.txt`](claude_prompt.txt) — the living specification, updated by
+  Claude after each session to reflect new features, constraints, and decisions.
 
 - **Claude**: [claude.ai](https://claude.ai)
 - **Anthropic**: [anthropic.com](https://www.anthropic.com)

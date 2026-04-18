@@ -254,8 +254,12 @@ msgstr ""
 "Sắp xếp: Tên → Nhóm → AI"
 
 #: src/pbprompt/gui/main_window.py:98 src/pbprompt/gui/main_window.py:283
-msgid "Double-click to view · Right-click for options"
-msgstr "Nhấp đúp để xem · Nhấp phải cho tùy chọn"
+msgid ""
+"Double-click to view · Right-click for options\n"
+"Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
+msgstr ""
+"Nhấp đúp để xem · Nhấp phải cho tùy chọn\n"
+"Enter: tải từ tệp  ·  Ctrl+V: dán  ·  Backspace: xóa"
 
 #: src/pbprompt/gui/main_window.py:99 src/pbprompt/gui/main_window.py:284
 msgid "Prompt in local language.\n"
@@ -278,6 +282,21 @@ msgstr "Lọc:"
 #: src/pbprompt/gui/main_window.py:184
 msgid "AI…"
 msgstr "AI…"
+
+msgid "Filter the AI column. Supports regular expressions."
+msgstr "Lọc cột AI. Hỗ trợ biểu thức chính quy."
+
+msgid "Filter the Group column. Supports regular expressions."
+msgstr "Lọc cột Nhóm. Hỗ trợ biểu thức chính quy."
+
+msgid "Filter the Name column. Supports regular expressions."
+msgstr "Lọc cột Tên. Hỗ trợ biểu thức chính quy."
+
+msgid "Filter the local language column. Supports regular expressions."
+msgstr "Lọc cột ngôn ngữ địa phương. Hỗ trợ biểu thức chính quy."
+
+msgid "Filter the English column. Supports regular expressions."
+msgstr "Lọc cột Tiếng Anh. Hỗ trợ biểu thức chính quy."
 
 #: src/pbprompt/gui/main_window.py:185
 msgid "Group…"

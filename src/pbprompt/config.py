@@ -36,6 +36,10 @@ TRANSLATION_SERVICES = (
 
 CONFIG_FILENAME = "config.yaml"
 
+# Valid keys for the column_filters config entry (matches PROMPTS_COLUMNS order,
+# excluding the image column which is not filterable).
+_FILTER_COLUMNS: frozenset[str] = frozenset({"ai", "group", "name", "local", "english"})
+
 
 # ---------------------------------------------------------------------------
 # Dataclass
@@ -65,6 +69,7 @@ class AppConfig:
     last_import_dir: str = ""
     last_export_dir: str = ""
     last_image_dir: str = ""
+    column_filters: dict[str, str] = field(default_factory=dict)
     _extra: dict[str, Any] = field(default_factory=dict, repr=False, compare=False)
 
     # ------------------------------------------------------------------
@@ -133,6 +138,13 @@ class AppConfig:
         cfg.last_import_dir = cls._str_or(raw, "last_import_dir", "")
         cfg.last_export_dir = cls._str_or(raw, "last_export_dir", "")
         cfg.last_image_dir = cls._str_or(raw, "last_image_dir", "")
+        raw_filters = raw.get("column_filters", {})
+        if isinstance(raw_filters, dict):
+            cfg.column_filters = {
+                k: str(v)
+                for k, v in raw_filters.items()
+                if isinstance(k, str) and k in _FILTER_COLUMNS and isinstance(v, str)
+            }
 
         known = {
             "display_language",
@@ -154,6 +166,7 @@ class AppConfig:
             "last_import_dir",
             "last_export_dir",
             "last_image_dir",
+            "column_filters",
         }
         cfg._extra = {k: v for k, v in raw.items() if k not in known}
         logger.debug("Config loaded from %s: %r", path, cfg)
@@ -186,6 +199,9 @@ class AppConfig:
             val = getattr(self, key)
             if val:
                 data[key] = val
+        active_filters = {k: v for k, v in self.column_filters.items() if v}
+        if active_filters:
+            data["column_filters"] = active_filters
         data.update(self._extra)
 
         yaml = YAML()

@@ -254,8 +254,12 @@ msgstr ""
 "Ordinamento: primario Nome → Gruppo → IA"
 
 #: src/pbprompt/gui/main_window.py:98 src/pbprompt/gui/main_window.py:283
-msgid "Double-click to view · Right-click for options"
-msgstr "Doppio clic per visualizzare · Clic destro per le opzioni"
+msgid ""
+"Double-click to view · Right-click for options\n"
+"Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
+msgstr ""
+"Doppio clic per visualizzare · Clic destro per le opzioni\n"
+"Invio: carica da file  ·  Ctrl+V: incolla  ·  Backspace: cancella"
 
 #: src/pbprompt/gui/main_window.py:99 src/pbprompt/gui/main_window.py:284
 msgid "Prompt in local language.\n"
@@ -278,6 +282,21 @@ msgstr "Filtro:"
 #: src/pbprompt/gui/main_window.py:184
 msgid "AI…"
 msgstr "IA…"
+
+msgid "Filter the AI column. Supports regular expressions."
+msgstr "Filtra la colonna IA. Supporta le espressioni regolari."
+
+msgid "Filter the Group column. Supports regular expressions."
+msgstr "Filtra la colonna Gruppo. Supporta le espressioni regolari."
+
+msgid "Filter the Name column. Supports regular expressions."
+msgstr "Filtra la colonna Nome. Supporta le espressioni regolari."
+
+msgid "Filter the local language column. Supports regular expressions."
+msgstr "Filtra la colonna lingua locale. Supporta le espressioni regolari."
+
+msgid "Filter the English column. Supports regular expressions."
+msgstr "Filtra la colonna Inglese. Supporta le espressioni regolari."
 
 #: src/pbprompt/gui/main_window.py:185
 msgid "Group…"

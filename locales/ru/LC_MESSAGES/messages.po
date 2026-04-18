@@ -255,8 +255,12 @@ msgstr ""
 "Сортировка: Название → Группа → ИИ"
 
 #: src/pbprompt/gui/main_window.py:98 src/pbprompt/gui/main_window.py:283
-msgid "Double-click to view · Right-click for options"
-msgstr "Двойной щелчок для просмотра · Правый щелчок для параметров"
+msgid ""
+"Double-click to view · Right-click for options\n"
+"Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
+msgstr ""
+"Двойной щелчок для просмотра · Правый щелчок для параметров\n"
+"Enter: загрузить из файла  ·  Ctrl+V: вставить  ·  Backspace: очистить"
 
 #: src/pbprompt/gui/main_window.py:99 src/pbprompt/gui/main_window.py:284
 msgid "Prompt in local language.\n"
@@ -279,6 +283,21 @@ msgstr "Фильтр:"
 #: src/pbprompt/gui/main_window.py:184
 msgid "AI…"
 msgstr "ИИ…"
+
+msgid "Filter the AI column. Supports regular expressions."
+msgstr "Фильтр по колонке «ИИ». Поддерживаются регулярные выражения."
+
+msgid "Filter the Group column. Supports regular expressions."
+msgstr "Фильтр по колонке «Группа». Поддерживаются регулярные выражения."
+
+msgid "Filter the Name column. Supports regular expressions."
+msgstr "Фильтр по колонке «Имя». Поддерживаются регулярные выражения."
+
+msgid "Filter the local language column. Supports regular expressions."
+msgstr "Фильтр по колонке «Локальный язык». Поддерживаются регулярные выражения."
+
+msgid "Filter the English column. Supports regular expressions."
+msgstr "Фильтр по колонке «Английский». Поддерживаются регулярные выражения."
 
 #: src/pbprompt/gui/main_window.py:185
 msgid "Group…"

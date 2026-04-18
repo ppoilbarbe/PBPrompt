@@ -254,8 +254,12 @@ msgstr ""
 "排序：主键 名称 → 分组 → AI"
 
 #: src/pbprompt/gui/main_window.py:98 src/pbprompt/gui/main_window.py:283
-msgid "Double-click to view · Right-click for options"
-msgstr "双击查看 · 右键获取选项"
+msgid ""
+"Double-click to view · Right-click for options\n"
+"Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
+msgstr ""
+"双击查看 · 右键获取选项\n"
+"Enter：从文件加载  ·  Ctrl+V：粘贴  ·  Backspace：清除"
 
 #: src/pbprompt/gui/main_window.py:99 src/pbprompt/gui/main_window.py:284
 msgid "Prompt in local language.\n"
@@ -278,6 +282,21 @@ msgstr "筛选："
 #: src/pbprompt/gui/main_window.py:184
 msgid "AI…"
 msgstr "AI…"
+
+msgid "Filter the AI column. Supports regular expressions."
+msgstr "筛选「AI」列，支持正则表达式。"
+
+msgid "Filter the Group column. Supports regular expressions."
+msgstr "筛选「分组」列，支持正则表达式。"
+
+msgid "Filter the Name column. Supports regular expressions."
+msgstr "筛选「名称」列，支持正则表达式。"
+
+msgid "Filter the local language column. Supports regular expressions."
+msgstr "筛选「本地语言」列，支持正则表达式。"
+
+msgid "Filter the English column. Supports regular expressions."
+msgstr "筛选「英文」列，支持正则表达式。"
 
 #: src/pbprompt/gui/main_window.py:185
 msgid "Group…"

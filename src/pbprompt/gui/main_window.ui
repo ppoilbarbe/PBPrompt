@@ -285,6 +285,9 @@
    <property name="text">
     <string>&amp;About…</string>
    </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
    <property name="toolTip">
     <string>About PBPrompt</string>
    </property>
@@ -380,6 +383,9 @@
   <action name="actionRefreshThumbnails">
    <property name="text">
     <string>Refresh Thumbnails</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
    <property name="toolTip">
     <string>Regenerate all thumbnails from stored images</string>

@@ -1,7 +1,7 @@
 PBPrompt — Implementation Summary
 ==================================
-Version: 1.0.1
-Last updated: 2026-04-11 (image column added)
+Version: 1.4.0
+Last updated: 2026-04-18
 
 
 Overview
@@ -14,13 +14,14 @@ YAML: import/export only (via ruamel.yaml).
 Translation: deep-translator back-ends + custom Reverso adapter.
 i18n: gettext, 7 locales (en, fr, es, it, ru, vi, zh_CN).
 Python: 3.11+.  Build: setuptools.  Entry point: pbprompt.__main__:main.
+Authors: PBMou + Claude (Anthropic) — shown in About dialog.
 
 
 Project structure
 -----------------
 PBPrompt/
 ├── src/pbprompt/
-│   ├── __init__.py            # __version__ = "1.0.1", __app_name__, __author__
+│   ├── __init__.py            # __version__ = "1.4.0", __app_name__, __author__
 │   ├── __main__.py            # argparse entry point: [FILE] [--version] [--log-level]
 │   ├── config.py              # AppConfig dataclass, YAML persistence via ruamel.yaml
 │   ├── data.py                # PromptEntry, PromptCollection, SQLite + YAML I/O
@@ -67,10 +68,12 @@ PBPrompt/
 │       ├── app_color.svg, app_light.svg, app_dark.svg
 │       ├── new, open, save, save_as, close, quit, delete, options, about
 │       ├── translate_right, translate_left, new_prompt, duplicate
-│       └── import_yaml, export_yaml
-├── tests/                     # pytest suite
+│       └── import_yaml, export_yaml, refresh_thumbnails
+├── tests/                     # pytest suite (87 tests, all green)
 ├── doc/                       # Sphinx docs (conf.py, *.rst, api/)
-├── scripts/                   # bump_version.py, build_*.sh, compile_translations.sh
+├── scripts/                   # bump_version.py, build_*.sh, compile_translations.sh,
+│                              #   extract_changelog.py
+├── CLAUDE.md                  # Operational instructions for Claude Code
 ├── claude_prompt.txt          # Project specification (this project's input prompt)
 ├── claude_summary.txt         # This file — implementation state
 ├── Makefile
@@ -139,10 +142,16 @@ AppConfig(dataclass) — fields:
   thumbnail_width: int = 64         # IMAGE column thumbnail width (px), range 16-512
   thumbnail_height: int = 64        # IMAGE column thumbnail height (px), range 16-512
   window_{x,y,width,height}: int | None = None  # None = first launch
+  last_import_dir: str = ""         # last directory used in YAML import dialog
+  last_export_dir: str = ""         # last directory used in YAML export dialog
+  last_image_dir: str = ""          # last directory used in image load dialog
+  column_filters: dict[str, str] = {}  # persisted per-column filter values
+                                       # keys: "ai","group","name","local","english"
 
   load() → reads config.yaml via ruamel.yaml; validates all fields;
             unknown keys preserved in _extra (round-trip safe)
-  save() → writes YAML 1.2; omits window_* if None (clean first-launch file)
+  save() → writes YAML 1.2; omits window_* if None; omits last_*_dir if empty;
+            omits column_filters if all empty
   _opt_int(d, key, min_val) → returns None if absent or not int; min_val=100 for size
 
 Config location:
@@ -168,7 +177,7 @@ Key design points:
 
 2. Keyboard shortcuts (set in retranslateUi):
    Ctrl+N/O/S/Shift+S/W/Q, Ctrl+,, Ins, Ctrl+D, Del, F6, F7,
-   Ctrl+I, Ctrl+Shift+I, Ctrl+E
+   Ctrl+I, Ctrl+Shift+I, Ctrl+E, Ctrl+R (Refresh Thumbnails), F1 (About)
 
 3. Status bar tips (_update_status_tips()):
    Qt shows QAction.statusTip() in the status bar when hovering menu items/toolbar.
@@ -190,12 +199,32 @@ Key design points:
    - _on_file_open(): QFileDialog filter for .sqlite files
    - _on_file_save_as(): adds .sqlite extension if missing
    - open_file(): catches ValueError separately → "Not a PBPrompt database" dialog
-   - _on_import_yaml(replace): opens YAML dialog, calls import_yaml(), refreshes model
-   - _on_export_yaml(): opens save dialog, calls export_yaml(), shows count in status
+   - _on_import_yaml(replace): opens YAML dialog (default dir: last_import_dir),
+                               calls import_yaml(), refreshes model
+   - _on_export_yaml(): opens save dialog (default dir: last_export_dir),
+                        calls export_yaml(), shows count in status
 
 8. Translation: commit in-flight editor before translating via QApplication.focusWidget()
    + fw.clearFocus() (triggers FocusOut → commitData + closeEditor).
    Never use tableView.setFocus() (Qt cancels commit if target is ancestor of editor).
+
+9. Sort state tracking:
+   _sort_col (int) and _sort_order (Qt.SortOrder) are tracked explicitly in MainWindow
+   to avoid relying on QHeaderView internal state (which may reset during
+   QSortFilterProxyModel.sort() signal processing).
+   _on_header_clicked(): non-sortable columns (IMAGE, LOCAL, ENGLISH) reset the visual
+   sort indicator to the tracked active column rather than moving it.
+
+10. Persistent filters:
+    On startup, _connect_signals() restores config.column_filters into the filter
+    QLineEdit widgets (which triggers set_filter via textChanged).
+    On closeEvent, the current filter values are written back to config.column_filters
+    and config.save() is called.
+
+11. Image clear (multi-row):
+    _on_image_clear() clears all selected rows (not just the context-menu row).
+    Shows a QMessageBox.question confirmation dialog (default: No) with the row count.
+    Shortcut: Backspace (not Del — Del is reserved for deleting rows).
 
 File menu structure:
   New (Ctrl+N), Open (Ctrl+O), Recent Files →, ---,
@@ -214,6 +243,8 @@ generate_thumbnail(image_data, width, height) → bytes | None
 pixmap_from_bytes(data) → QPixmap | None
 qimage_to_bytes(image, fmt="PNG") → bytes | None
 ImageViewDialog(QDialog) — scrollable full-image viewer, shown on double-click.
+Image file dialog: shows a live preview thumbnail of the selected file.
+  Guard: max(size − 8, 1) to prevent zero-size crash in QPixmap.scaled().
 
 
 GUI — Models (models.py)
@@ -227,10 +258,15 @@ PromptTableModel(QAbstractTableModel)
   Editable columns: all except IMAGE.  EditRole = DisplayRole.
   IMAGE column: data() returns QPixmap via Qt.DecorationRole (from thumbnail bytes).
   set_image(source_row, full_image, thumbnail) — sets both, emits dataChanged+DecorationRole.
+  Signals:
+    collection_modified = pyqtSignal()  — emitted when the data changes
+    cell_copied = pyqtSignal(str)       — emitted after Ctrl+C copy
 
 ImageDelegate(CurrentCellHighlightDelegate)
   Delegate for Column.IMAGE.
   paint(): draws thumbnail centred, or dashed placeholder if no image.
+    Suppresses DecorationRole ghost image by clearing opt.decorationPixmap
+    and the HasDecoration feature flag before calling drawControl.
   sizeHint(): returns (thumb_w+8, thumb_h+8).
   createEditor(): returns None (IMAGE not inline-editable).
   editorEvent(): consumes MouseButtonDblClick (view handles it).
@@ -261,8 +297,13 @@ PromptTableView(QTableView)
   Handles Ctrl+C/X/V for clipboard operations.
   Context menu: dispatches to image menu for IMAGE col, otherwise Copy/Cut/Paste.
   Signals:
-    image_activated = pyqtSignal(QModelIndex)     — double-click on IMAGE col
+    image_activated = pyqtSignal(QModelIndex)       — double-click on IMAGE col
     image_drop_requested = pyqtSignal(object, object)  — drop: (source_idx, mime_data)
+    image_load_requested = pyqtSignal(QModelIndex)  — Return/Enter key on IMAGE col
+    image_paste_requested = pyqtSignal(QModelIndex) — Ctrl+V key on IMAGE col
+    image_clear_requested = pyqtSignal(QModelIndex) — Backspace key on IMAGE col
+  keyPressEvent(): handles image shortcuts (Return → load, Ctrl+V → paste,
+    Backspace → clear) when IMAGE column is current.
   mouseDoubleClickEvent(): emits image_activated for IMAGE column.
   dragEnterEvent/dragMoveEvent/dropEvent: accept image data or local file URLs.
 
@@ -323,15 +364,38 @@ GUI — MainWindow image operations
 _on_refresh_thumbnails(): regenerates all thumbnails using current thumbnail_width/height.
 _on_image_activated(source_idx): opens ImageViewDialog for the entry's full image.
 _on_image_drop(source_idx, mime_data): handles QMimeData image or local file URL.
-_show_image_context_menu(pos, source_idx): Load/Paste/Clear menu.
-_on_image_load_from_file(source_idx): QFileDialog → load image bytes → set_image().
+_show_image_context_menu(pos, source_idx): Load/Paste/Clear menu (shows shortcuts).
+_on_image_load_from_file(source_idx): QFileDialog with preview (default: last_image_dir)
+  → load image bytes → set_image().
 _on_image_paste(source_idx): QApplication.clipboard() → image() or text() (file path).
-_on_image_clear(source_idx): set_image(row, None, None).
-_on_import_yaml(): now unpacks (imported, skipped) tuple; passes thumbnail_factory.
+_on_image_clear(source_idx): applies to all selected rows; confirmation dialog.
+_on_import_yaml(): unpacks (imported, skipped) tuple; passes thumbnail_factory;
+  updates last_import_dir.
+_on_export_yaml(): updates last_export_dir.
 _on_open_settings(): after settings change, calls _image_delegate.update_size() and
   tableView.setColumnWidth(Column.IMAGE, thumbnail_width + 12).
 _on_context_menu(): checks column == IMAGE first, dispatches accordingly.
-_on_header_clicked(): checks `column not in (Column.AI, Column.GROUP, Column.NAME)`.
+_on_header_clicked(): non-sortable columns reset the sort indicator to the active column.
+
+
+Test suite
+----------
+87 tests total (as of v1.2.0), all green.
+  pbprompt.config: 100% coverage (includes last_*_dir and column_filters round-trips)
+  pbprompt.data:   100% coverage
+pytest-xvfb >= 3.0: auto-starts a private Xvfb display on Linux for headless Qt tests.
+
+
+CI / Release pipeline (GitHub Actions)
+----------------------------------------
+Triggers: push (all branches) for build + test; semver tag (vX.Y.Z) for releases.
+Jobs: tests → build-linux/build-windows/build-macos (PyInstaller) → GitHub Release.
+Release notes: extracted from CHANGELOG.md by scripts/extract_changelog.py (stdout).
+ReadTheDocs: triggered only on semver tags; pre-build step runs make translations
+  (requires gettext/msgfmt, declared in .readthedocs.yaml apt_packages).
+  After each release, scripts/rtd_cleanup.py is called from CI to deactivate old RTD versions.
+macOS runner: macos-14 (Apple Silicon arm64/M1); artifact named pbprompt-vX.Y.Z-macos-arm64.
+Node.js: all actions on v5+ with FORCE_JAVASCRIPT_ACTIONS_TO_NODE24="true".
 
 
 Known limitations / open issues

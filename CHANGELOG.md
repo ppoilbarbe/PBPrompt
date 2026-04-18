@@ -3,6 +3,28 @@
 All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.4.0] – 2026-04-18
+
+### Added
+- **Persistent column filters**: filter field values are saved to `AppConfig.column_filters`
+  on close and restored on next launch (keys: `ai`, `group`, `name`, `local`, `english`).
+- **CI: auto-deactivate old RTD versions**: `.github/workflows/ci.yml` now calls
+  `scripts/rtd_cleanup.py` after each release to deactivate superseded ReadTheDocs versions.
+- **F1 shortcut** for Help → About dialog.
+- **Ctrl+R shortcut** for Tools → Refresh Thumbnails.
+- **Filter field tooltips**: each column filter QLineEdit now shows a tooltip explaining
+  that regular expressions are supported.
+- **IMAGE header tooltip** enhanced with keyboard shortcuts hint
+  (Enter: load from file · Ctrl+V: paste · Backspace: clear).
+
+## [1.3.2] – 2026-04-13
+
+### Changed
+- README: clarify project goal.
+
+### Fixed
+- ReadTheDocs build: pin Sphinx version to fix versioning issues.
+
 ## [1.3.1] – 2026-04-13
 
 ### Added
