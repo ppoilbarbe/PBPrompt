@@ -3,6 +3,24 @@
 All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.5.0] – 2026-04-20
+
+### Added
+- **Image viewer — zoom to cursor**: mouse wheel zoom now keeps the pixel under the
+  cursor centred in the viewport (best approximation when scrollbar limits apply).
+- **Image context menu — Copy image**: copies the full stored image to the system
+  clipboard (`Ctrl+C`).
+- **Image context menu — Save image to file…**: saves the image to a user-chosen file;
+  the file-type filter and default extension are derived from the stored format (JPEG
+  or PNG); raw bytes are written without recompression.
+- Copy, Save and Clear image context-menu actions are now disabled when the cell
+  contains no image.
+
+### Fixed
+- **Makefile `translations` target**: was declared `.PHONY` without file dependencies,
+  causing all `.mo` files to be recompiled on every `make all` even when no `.po` had
+  changed.  Now uses a pattern rule (`%.mo: %.po`) so only modified locales are rebuilt.
+
 ## [1.4.0] – 2026-04-18
 
 ### Added
