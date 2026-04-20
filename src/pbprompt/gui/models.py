@@ -123,7 +123,10 @@ class PromptTableModel(QAbstractTableModel):
         column = Column(col)
 
         if column == Column.IMAGE:
-            if role == Qt.DecorationRole:
+            if role == Qt.UserRole:
+                # UserRole (not DecorationRole) avoids initStyleOption picking up the
+                # pixmap into opt.decorationPixmap, which causes some platform styles
+                # to create a QPainter on it during selection → QPainter engine errors.
                 thumb = entry.thumbnail
                 if thumb:
                     from pbprompt.gui.image_utils import (
@@ -251,7 +254,7 @@ class PromptTableModel(QAbstractTableModel):
         entry.thumbnail = thumbnail
         self._collection.modified = True
         idx = self.index(source_row, int(Column.IMAGE))
-        self.dataChanged.emit(idx, idx, [Qt.DecorationRole])
+        self.dataChanged.emit(idx, idx, [Qt.UserRole])
         self.collection_modified.emit()
 
     def set_header_labels(self, labels: list[str]) -> None:
@@ -398,18 +401,18 @@ class ImageDelegate(CurrentCellHighlightDelegate):
         index: QModelIndex,
     ) -> None:
         # Draw standard background / selection highlight only.
-        # initStyleOption populates opt.decorationPixmap from DecorationRole;
-        # CE_ItemViewItem would then paint it left-aligned, creating a ghost
-        # image alongside the manually-centred one drawn below.  Clearing the
-        # HasDecoration feature flag is sufficient — assigning a null QPixmap
-        # would trigger QPainter::begin errors on some platforms.
+        # The thumbnail is returned via Qt.UserRole (not DecorationRole) so that
+        # initStyleOption never populates opt.decorationPixmap.  If it did, some
+        # platform styles (KDE Breeze etc.) create a QPainter on that pixmap during
+        # selection, triggering QPainter::begin errors (engine == 0, type: 3).
+        # Clearing HasDecoration is kept as a safety net for any residual flag.
         opt = QStyleOptionViewItem(option)
         self.initStyleOption(opt, index)
         opt.features = opt.features & ~QStyleOptionViewItem.HasDecoration
         style = opt.widget.style() if opt.widget else QApplication.style()
         style.drawControl(QStyle.CE_ItemViewItem, opt, painter, opt.widget)
 
-        pixmap: QPixmap | None = index.data(Qt.DecorationRole)
+        pixmap: QPixmap | None = index.data(Qt.UserRole)
         if pixmap and not pixmap.isNull():
             x = opt.rect.x() + max(0, (opt.rect.width() - pixmap.width()) // 2)
             y = opt.rect.y() + max(0, (opt.rect.height() - pixmap.height()) // 2)
@@ -428,7 +431,7 @@ class ImageDelegate(CurrentCellHighlightDelegate):
         self._draw_current_highlight(painter, option, index)
 
     def sizeHint(self, option: QStyleOptionViewItem, index: QModelIndex) -> QSize:
-        pixmap: QPixmap | None = index.data(Qt.DecorationRole)
+        pixmap: QPixmap | None = index.data(Qt.UserRole)
         if pixmap and not pixmap.isNull():
             return QSize(self._thumb_w + 8, self._thumb_h + 8)
         # No image: let the row height be determined by other columns

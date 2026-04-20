@@ -771,6 +771,120 @@ msgstr ""
 msgid "Untitled"
 msgstr "无标题"
 
+# Image viewer toolbar
+#: src/pbprompt/gui/image_utils.py
+msgid "Fit"
+msgstr "适应窗口"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "×1"
+msgstr "×1"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Width"
+msgstr "适应宽度"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Height"
+msgstr "适应高度"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "+50%"
+msgstr "+50%"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "-50%"
+msgstr "-50%"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "l"
+msgstr "w"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Fit image to window (max ×%d)"
+msgstr "适应窗口（最大 ×%d）"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Actual size — 1 pixel = 1 displayed pixel  [1]"
+msgstr "实际大小 — 1 像素 = 1 显示像素  [1]"
+
+#: src/pbprompt/gui/image_utils.py
+#, python-format
+msgid "Fit image width to window  [%s]"
+msgstr "适应窗口宽度  [%s]"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Fit image height to window  [H]"
+msgstr "适应窗口高度  [H]"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Zoom in +50%  [+]"
+msgstr "放大 +50%  [+]"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Zoom out -50%  [−]"
+msgstr "缩小 -50%  [−]"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "(No image)"
+msgstr "（无图像）"
+
+# Settings dialog – image viewer
+#: src/pbprompt/gui/settings_dialog.py
+msgid "Image viewer max zoom (×):"
+msgstr "图像查看器最大缩放比 (×)："
+
+#: src/pbprompt/gui/settings_dialog.py
+msgid "Maximum magnification in 'Fit' mode when the image is smaller\nthan the viewer window.\n1× to 16× (default: 4×)."
+msgstr "在『适应』模式下，当图像小于查看器窗口时的\n最大放大倍数。\n1× 至 16×（默认：4×）。"
+
+msgid "Zoom step (%):"
+msgstr "缩放步幅（%）："
+
+msgid "Percentage added or removed when clicking + or −,\nor scrolling the mouse wheel in the image viewer.\n1% to 50% (default: 10%)."
+msgstr "点击 + 或 − 或在图像查看器中滚动鼠标滚轮时\n增加或减少的百分比。\n1% 至 50%（默认：10%）。"
+
+msgid "Keep original dimensions"
+msgstr "保留原始尺寸"
+
+msgid "When checked, images are stored as-is regardless of their size.\nWhen unchecked, images larger than the limits below are resized\nproportionally before being stored in the database."
+msgstr "勾选后，图像将原样存储，不受尺寸限制。\n未勾选时，超出以下限制的图像将按比例\n缩小后再存储到数据库中。"
+
+msgid "Max width (px):"
+msgstr "最大宽度（像素）："
+
+msgid "Maximum width (in pixels) for images stored in the database.\nImages wider than this value are resized proportionally."
+msgstr "数据库中存储图像的最大宽度（像素）。\n超过此值的图像将按比例缩小。"
+
+msgid "Max height (px):"
+msgstr "最大高度（像素）："
+
+msgid "Maximum height (in pixels) for images stored in the database.\nImages taller than this value are resized proportionally."
+msgstr "数据库中存储图像的最大高度（像素）。\n超过此值的图像将按比例缩小。"
+
+msgid "Copy image"
+msgstr "复制图片"
+
+msgid "Save image to file…"
+msgstr "将图片保存到文件…"
+
+msgid "Save Image"
+msgstr "保存图片"
+
+msgid "JPEG image (*.jpg *.jpeg)"
+msgstr "JPEG 图片 (*.jpg *.jpeg)"
+
+msgid "PNG image (*.png)"
+msgstr "PNG 图片 (*.png)"
+
+#, python-brace-format
+msgid ""
+"Could not save file:\n"
+"{error}"
+msgstr ""
+"无法保存文件:\n"
+"{error}"
+
 #~ msgid "Copied to clipboard"
 #~ msgstr "已复制到剪贴板"
 

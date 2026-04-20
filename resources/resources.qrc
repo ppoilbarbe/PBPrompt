@@ -20,5 +20,11 @@
     <file alias="import_yaml.svg">icons/import_yaml.svg</file>
     <file alias="export_yaml.svg">icons/export_yaml.svg</file>
     <file alias="refresh_thumbnails.svg">icons/refresh_thumbnails.svg</file>
+    <file alias="zoom_fit.svg">icons/zoom_fit.svg</file>
+    <file alias="zoom_original.svg">icons/zoom_original.svg</file>
+    <file alias="zoom_width.svg">icons/zoom_width.svg</file>
+    <file alias="zoom_height.svg">icons/zoom_height.svg</file>
+    <file alias="zoom_in.svg">icons/zoom_in.svg</file>
+    <file alias="zoom_out.svg">icons/zoom_out.svg</file>
   </qresource>
 </RCC>

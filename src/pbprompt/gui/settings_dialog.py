@@ -125,10 +125,16 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
             recent_files_max=config.recent_files_max,
             thumbnail_width=config.thumbnail_width,
             thumbnail_height=config.thumbnail_height,
+            image_viewer_zoom_max=config.image_viewer_zoom_max,
+            image_viewer_zoom_step=config.image_viewer_zoom_step,
+            image_store_keep_original=config.image_store_keep_original,
+            image_store_max_width=config.image_store_max_width,
+            image_store_max_height=config.image_store_max_height,
         )
 
         self._populate_combos()
         self._load_values()
+        self.checkBoxImageOriginal.toggled.connect(self._on_keep_original_toggled)
 
     # ------------------------------------------------------------------
     # Populated config accessor (valid after exec_() == Accepted)
@@ -241,6 +247,55 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
                 "Larger values improve quality but increase database size."
             )
         )
+        self.labelViewerZoomMax.setText(_("Image viewer max zoom (\u00d7):"))
+        self.spinBoxViewerZoomMax.setToolTip(
+            _(
+                "Maximum magnification in 'Fit' mode when the image is smaller\n"
+                "than the viewer window.\n"
+                "1\u00d7 to 16\u00d7 (default: 4\u00d7)."
+            )
+        )
+        self.labelViewerZoomStep.setText(_("Zoom step (%):"))
+        self.spinBoxViewerZoomStep.setToolTip(
+            _(
+                "Percentage added or removed when clicking + or \u2212,\n"
+                "or scrolling the mouse wheel in the image viewer.\n"
+                "1% to 50% (default: 10%)."
+            )
+        )
+        self.checkBoxImageOriginal.setText(_("Keep original dimensions"))
+        self.checkBoxImageOriginal.setToolTip(
+            _(
+                "When checked, images are stored as-is regardless of their size.\n"
+                "When unchecked, images larger than the limits below are resized\n"
+                "proportionally before being stored in the database."
+            )
+        )
+        self.labelImageStoreMaxWidth.setText(_("Max width (px):"))
+        self.spinBoxImageStoreMaxWidth.setToolTip(
+            _(
+                "Maximum width (in pixels) for images stored in the database.\n"
+                "Images wider than this value are resized proportionally."
+            )
+        )
+        self.labelImageStoreMaxHeight.setText(_("Max height (px):"))
+        self.spinBoxImageStoreMaxHeight.setToolTip(
+            _(
+                "Maximum height (in pixels) for images stored in the database.\n"
+                "Images taller than this value are resized proportionally."
+            )
+        )
+
+    # ------------------------------------------------------------------
+    # Slots
+    # ------------------------------------------------------------------
+
+    def _on_keep_original_toggled(self, checked: bool) -> None:
+        enabled = not checked
+        self.labelImageStoreMaxWidth.setEnabled(enabled)
+        self.spinBoxImageStoreMaxWidth.setEnabled(enabled)
+        self.labelImageStoreMaxHeight.setEnabled(enabled)
+        self.spinBoxImageStoreMaxHeight.setEnabled(enabled)
 
     # ------------------------------------------------------------------
     # Helpers
@@ -281,6 +336,12 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
         self.spinBoxMaxRecentFiles.setValue(self._config.recent_files_max)
         self.spinBoxThumbnailWidth.setValue(self._config.thumbnail_width)
         self.spinBoxThumbnailHeight.setValue(self._config.thumbnail_height)
+        self.spinBoxViewerZoomMax.setValue(self._config.image_viewer_zoom_max)
+        self.spinBoxViewerZoomStep.setValue(self._config.image_viewer_zoom_step)
+        self.checkBoxImageOriginal.setChecked(self._config.image_store_keep_original)
+        self.spinBoxImageStoreMaxWidth.setValue(self._config.image_store_max_width)
+        self.spinBoxImageStoreMaxHeight.setValue(self._config.image_store_max_height)
+        self._on_keep_original_toggled(self._config.image_store_keep_original)
 
     # ------------------------------------------------------------------
     # QDialog override
@@ -300,6 +361,11 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
         self._config.recent_files_max = self.spinBoxMaxRecentFiles.value()
         self._config.thumbnail_width = self.spinBoxThumbnailWidth.value()
         self._config.thumbnail_height = self.spinBoxThumbnailHeight.value()
+        self._config.image_viewer_zoom_max = self.spinBoxViewerZoomMax.value()
+        self._config.image_viewer_zoom_step = self.spinBoxViewerZoomStep.value()
+        self._config.image_store_keep_original = self.checkBoxImageOriginal.isChecked()
+        self._config.image_store_max_width = self.spinBoxImageStoreMaxWidth.value()
+        self._config.image_store_max_height = self.spinBoxImageStoreMaxHeight.value()
 
         try:
             self._config.save()

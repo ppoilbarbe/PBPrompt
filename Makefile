@@ -12,6 +12,7 @@ SRC_GUI    := src/pbprompt/gui
 RESOURCES  := resources
 LOCALES    := locales
 LOCALE_LANGS := en fr es it ru vi zh_CN
+MO_FILES     := $(foreach lang,$(LOCALE_LANGS),$(LOCALES)/$(lang)/LC_MESSAGES/messages.mo)
 
 VERSION    := $(shell sed -n "s/__version__ = [\"']\([^\"']*\)[\"']/\1/p" src/pbprompt/__init__.py)
 DIST_NAME  := pbprompt-$(VERSION)
@@ -23,9 +24,28 @@ PY_UI_FILES := $(UI_FILES:$(SRC_GUI)/%.ui=$(SRC_GUI)/ui_%.py)
 
 .DEFAULT_GOAL := help
 
-.PHONY: all ui resources translations run bundle clean lint test test-cov docs help version bump-patch bump-minor bump-major dist
+.PHONY: all ui resources translations run bundle clean lint test test-cov docs help version bump-patch bump-minor bump-major dist venv pyvenv
 
 all: ui resources translations  ## Build everything (UI, resources, translations)
+
+# ---------------------------------------------------------------------------
+# Environment setup
+# ---------------------------------------------------------------------------
+CONDA_ENV  := pbprompt
+VENV_DIR   := pypbprompt
+
+venv:  ## Create conda environment 'pbprompt' from environment.yml
+	conda env create -f environment.yml
+	conda run -n $(CONDA_ENV) pip install -e . --no-deps
+	@echo ""
+	@echo "[venv] environment '$(CONDA_ENV)' ready – activate with: conda activate $(CONDA_ENV)"
+
+pyvenv:  ## Create Python virtual environment 'pypbprompt' with all deps via pip
+	$(PYTHON) -m venv $(VENV_DIR)
+	$(VENV_DIR)/bin/pip install --upgrade pip
+	$(VENV_DIR)/bin/pip install -e ".[dev]"
+	@echo ""
+	@echo "[pyvenv] environment '$(VENV_DIR)' ready – activate with: source $(VENV_DIR)/bin/activate"
 
 # ---------------------------------------------------------------------------
 # Run without installing
@@ -54,12 +74,11 @@ $(SRC_GUI)/resources_rc.py: $(RESOURCES)/resources.qrc $(wildcard $(RESOURCES)/i
 # ---------------------------------------------------------------------------
 # Compile gettext translations (.po → .mo)
 # ---------------------------------------------------------------------------
-translations:  ## Compile all .po files to .mo
-	@for lang in $(LOCALE_LANGS); do \
-	    dir=$(LOCALES)/$$lang/LC_MESSAGES; \
-	    echo "[i18n] compiling $$dir/messages.po"; \
-	    $(MSGFMT) $$dir/messages.po -o $$dir/messages.mo; \
-	done
+translations: $(MO_FILES)  ## Compile all .po files to .mo
+
+$(LOCALES)/%/LC_MESSAGES/messages.mo: $(LOCALES)/%/LC_MESSAGES/messages.po
+	@echo "[i18n] compiling $<"
+	$(MSGFMT) $< -o $@
 
 # Update .pot template from source
 pot:  ## Extract translatable strings from Python sources

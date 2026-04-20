@@ -771,6 +771,120 @@ msgstr ""
 msgid "Untitled"
 msgstr "Chưa đặt tên"
 
+# Image viewer toolbar
+#: src/pbprompt/gui/image_utils.py
+msgid "Fit"
+msgstr "Vừa khung"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "×1"
+msgstr "×1"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Width"
+msgstr "Chiều rộng"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Height"
+msgstr "Chiều cao"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "+50%"
+msgstr "+50%"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "-50%"
+msgstr "-50%"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "l"
+msgstr "r"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Fit image to window (max ×%d)"
+msgstr "Vừa khung cửa sổ (tối đa ×%d)"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Actual size — 1 pixel = 1 displayed pixel  [1]"
+msgstr "Kích thước thực — 1 pixel = 1 pixel hiển thị  [1]"
+
+#: src/pbprompt/gui/image_utils.py
+#, python-format
+msgid "Fit image width to window  [%s]"
+msgstr "Vừa chiều rộng cửa sổ  [%s]"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Fit image height to window  [H]"
+msgstr "Vừa chiều cao cửa sổ  [H]"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Zoom in +50%  [+]"
+msgstr "Phóng to +50%  [+]"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Zoom out -50%  [−]"
+msgstr "Thu nhỏ -50%  [−]"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "(No image)"
+msgstr "(Không có ảnh)"
+
+# Settings dialog – image viewer
+#: src/pbprompt/gui/settings_dialog.py
+msgid "Image viewer max zoom (×):"
+msgstr "Zoom tối đa của trình xem (×):"
+
+#: src/pbprompt/gui/settings_dialog.py
+msgid "Maximum magnification in 'Fit' mode when the image is smaller\nthan the viewer window.\n1× to 16× (default: 4×)."
+msgstr "Phóng đại tối đa trong chế độ 'Vừa khung' khi ảnh\nnhỏ hơn cửa sổ xem.\nTừ 1× đến 16× (mặc định: 4×)."
+
+msgid "Zoom step (%):"
+msgstr "Bước thu phóng (%):"
+
+msgid "Percentage added or removed when clicking + or −,\nor scrolling the mouse wheel in the image viewer.\n1% to 50% (default: 10%)."
+msgstr "Phần trăm được thêm hoặc bớt khi nhấn + hoặc −,\nhoặc cuộn bánh xe chuột trong trình xem ảnh.\nTừ 1% đến 50% (mặc định: 10%)."
+
+msgid "Keep original dimensions"
+msgstr "Giữ kích thước gốc"
+
+msgid "When checked, images are stored as-is regardless of their size.\nWhen unchecked, images larger than the limits below are resized\nproportionally before being stored in the database."
+msgstr "Khi được chọn, ảnh được lưu nguyên trạng bất kể kích thước.\nKhi không được chọn, ảnh vượt quá giới hạn bên dưới sẽ được thay đổi kích thước\ntheo tỷ lệ trước khi lưu vào cơ sở dữ liệu."
+
+msgid "Max width (px):"
+msgstr "Chiều rộng tối đa (px):"
+
+msgid "Maximum width (in pixels) for images stored in the database.\nImages wider than this value are resized proportionally."
+msgstr "Chiều rộng tối đa (tính bằng pixel) của ảnh lưu trong cơ sở dữ liệu.\nCác ảnh rộng hơn giá trị này sẽ được thay đổi kích thước theo tỷ lệ."
+
+msgid "Max height (px):"
+msgstr "Chiều cao tối đa (px):"
+
+msgid "Maximum height (in pixels) for images stored in the database.\nImages taller than this value are resized proportionally."
+msgstr "Chiều cao tối đa (tính bằng pixel) của ảnh lưu trong cơ sở dữ liệu.\nCác ảnh cao hơn giá trị này sẽ được thay đổi kích thước theo tỷ lệ."
+
+msgid "Copy image"
+msgstr "Sao chép ảnh"
+
+msgid "Save image to file…"
+msgstr "Lưu ảnh vào tệp…"
+
+msgid "Save Image"
+msgstr "Lưu ảnh"
+
+msgid "JPEG image (*.jpg *.jpeg)"
+msgstr "Ảnh JPEG (*.jpg *.jpeg)"
+
+msgid "PNG image (*.png)"
+msgstr "Ảnh PNG (*.png)"
+
+#, python-brace-format
+msgid ""
+"Could not save file:\n"
+"{error}"
+msgstr ""
+"Không thể lưu tệp:\n"
+"{error}"
+
 #~ msgid "Copied to clipboard"
 #~ msgstr "Đã sao chép vào bộ nhớ tạm"
 

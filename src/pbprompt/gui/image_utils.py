@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import logging
+from enum import IntEnum
 from typing import TYPE_CHECKING, Any
 
-from PyQt5.QtCore import QBuffer, QByteArray, QIODevice, Qt
-from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtCore import QBuffer, QByteArray, QEvent, QIODevice, QSize, Qt, QTimer
+from PyQt5.QtGui import QImage, QKeySequence, QPixmap
 from PyQt5.QtWidgets import (
+    QAction,
     QDialog,
     QDialogButtonBox,
     QFileDialog,
@@ -16,7 +18,9 @@ from PyQt5.QtWidgets import (
     QLabel,
     QScrollArea,
     QSizePolicy,
+    QToolBar,
     QVBoxLayout,
+    QWidget,
 )
 
 if TYPE_CHECKING:
@@ -47,13 +51,56 @@ def generate_thumbnail(image_data: bytes, width: int, height: int) -> bytes | No
     if not img.loadFromData(QByteArray(image_data)):
         logger.warning("generate_thumbnail: failed to load image data.")
         return None
+    # Convert to a known 32-bit format before scaling: avoids an internal QPainter
+    # fallback that Qt uses for indexed/paletted images, which fails on some platforms.
+    img = img.convertToFormat(QImage.Format_ARGB32_Premultiplied)
+    if img.isNull():
+        logger.warning("generate_thumbnail: format conversion failed.")
+        return None
     scaled = img.scaled(width, height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+    if scaled.isNull():
+        logger.warning("generate_thumbnail: scaled image is null.")
+        return None
     ba = QByteArray()
     buf = QBuffer(ba)
     buf.open(QIODevice.WriteOnly)
     if not scaled.save(buf, "PNG"):
         logger.warning("generate_thumbnail: failed to save scaled image.")
         return None
+    buf.close()
+    return bytes(ba)
+
+
+def resize_for_storage(data: bytes, max_width: int, max_height: int) -> bytes:
+    """Resize *data* proportionally so it fits within (*max_width*, *max_height*).
+
+    Format is preserved: JPEG in → JPEG out, PNG in → PNG out.
+    Returns *data* unchanged if already within bounds or if decoding fails.
+    """
+    img = QImage()
+    if not img.loadFromData(QByteArray(data)):
+        logger.warning("resize_for_storage: failed to load image data.")
+        return data
+    if img.width() <= max_width and img.height() <= max_height:
+        return data
+    img = img.convertToFormat(QImage.Format_ARGB32_Premultiplied)
+    if img.isNull():
+        logger.warning("resize_for_storage: format conversion failed.")
+        return data
+    scaled = img.scaled(
+        max_width, max_height, Qt.KeepAspectRatio, Qt.SmoothTransformation
+    )
+    if scaled.isNull():
+        logger.warning("resize_for_storage: scaled image is null.")
+        return data
+    fmt = detect_image_format(data)
+    qt_fmt = "JPEG" if fmt == "jpeg" else "PNG"
+    ba = QByteArray()
+    buf = QBuffer(ba)
+    buf.open(QIODevice.WriteOnly)
+    if not scaled.save(buf, qt_fmt):
+        logger.warning("resize_for_storage: failed to save resized image.")
+        return data
     buf.close()
     return bytes(ba)
 
@@ -123,16 +170,16 @@ def open_image_file_dialog(
         if path:
             pm = QPixmap(path)
             if not pm.isNull():
-                preview.setPixmap(
-                    pm.scaled(
-                        max(preview.width() - 8, 1),
-                        max(preview.height() - 8, 1),
-                        Qt.KeepAspectRatio,
-                        Qt.SmoothTransformation,
-                    )
+                # Scale via QImage to avoid QPainter engine errors (see _apply_scale).
+                scaled_img = pm.toImage().scaled(
+                    max(preview.width() - 8, 1),
+                    max(preview.height() - 8, 1),
+                    Qt.KeepAspectRatio,
+                    Qt.SmoothTransformation,
                 )
-                return
-        preview.setPixmap(QPixmap())
+                if not scaled_img.isNull():
+                    preview.setPixmap(QPixmap.fromImage(scaled_img))
+                    return
         preview.setText(no_preview_text)
 
     dialog.currentChanged.connect(_update_preview)
@@ -164,40 +211,339 @@ def open_image_file_dialog(
 # ---------------------------------------------------------------------------
 
 
-class ImageViewDialog(QDialog):
-    """Simple dialog that shows a full-size image with a scroll area."""
+class _ZoomMode(IntEnum):
+    FIT = 0  # image fits viewport, capped at max_zoom
+    ONE = 1  # 1 pixel = 1 displayed pixel
+    WIDTH = 2  # fill viewport width
+    HEIGHT = 3  # fill viewport height
+    MANUAL = 4  # free zoom via +50% / -50% buttons
 
-    def __init__(self, image_data: bytes, title: str = "Image", parent=None) -> None:
+
+class ImageViewDialog(QDialog):
+    """Image viewer with zoom toolbar (Fit / 1:1 / Width / Height / ±step%)."""
+
+    _MIN_SIZE = 400
+    _MIN_SCALE = 0.1
+    # _MAX_SCALE is self._max_zoom (float)
+
+    # Persisted across dialog instances
+    _last_mode: _ZoomMode = _ZoomMode.FIT
+    _last_scale: float = 1.0
+
+    def __init__(
+        self,
+        image_data: bytes,
+        max_zoom: int = 4,
+        zoom_step: int = 10,
+        title: str = "Image",
+        parent: Any = None,
+    ) -> None:
         super().__init__(parent)
         self.setWindowTitle(title)
         self.setAttribute(Qt.WA_DeleteOnClose)
+        self.setMinimumSize(self._MIN_SIZE, self._MIN_SIZE)
+
+        self._max_zoom: int = max_zoom
+        self._zoom_step: float = max(1, zoom_step) / 100.0
+        self._mode: _ZoomMode = ImageViewDialog._last_mode
+        self._scale: float = ImageViewDialog._last_scale
+        self._ready: bool = False
+        self._initial_shown: bool = False
 
         pm = pixmap_from_bytes(image_data)
+        self._pixmap: QPixmap | None = pm if (pm and not pm.isNull()) else None
+
+        self._setup_ui()
+        self._setup_initial_size()
+        self._ready = True
+
+    # ------------------------------------------------------------------
+    # UI construction
+    # ------------------------------------------------------------------
+
+    def _setup_ui(self) -> None:
+        from pbprompt.gui.icons import get_icon  # noqa: PLC0415
+        from pbprompt.i18n import get_translate  # noqa: PLC0415
+
+        _ = get_translate()
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(4, 4, 4, 4)
+        layout.setSpacing(2)
 
-        scroll = QScrollArea()
-        scroll.setWidgetResizable(False)
-        label = QLabel()
-        if pm and not pm.isNull():
-            label.setPixmap(pm)
-            # Resize dialog to fit image, capped at 80 % of screen.
-            screen = self.screen() if self.screen() else None
+        # ---- toolbar ----
+        toolbar = QToolBar()
+        toolbar.setMovable(False)
+        toolbar.setIconSize(QSize(22, 22))
+        toolbar.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        layout.addWidget(toolbar)
+
+        # Width shortcut key: translatable ("l" in French, "w" in English, …)
+        # Keyboard shortcuts — set here because Ui_MainWindow.retranslateUi is
+        # shadowed by this override (Python MRO) and therefore never called at runtime.
+        width_key = _("l")
+
+        act_fit = QAction(get_icon("zoom_fit"), _("Fit"), self)
+        act_fit.setCheckable(True)
+        act_fit.setToolTip(_("Fit image to window (max \u00d7%d)") % self._max_zoom)
+        act_fit.triggered.connect(self._on_fit)
+        toolbar.addAction(act_fit)
+
+        act_one = QAction(get_icon("zoom_original"), _("\u00d71"), self)
+        act_one.setCheckable(True)
+        act_one.setShortcut(QKeySequence("1"))
+        act_one.setToolTip(_("Actual size \u2014 1 pixel = 1 displayed pixel  [1]"))
+        act_one.triggered.connect(self._on_one)
+        toolbar.addAction(act_one)
+
+        act_width = QAction(get_icon("zoom_width"), _("Width"), self)
+        act_width.setCheckable(True)
+        act_width.setShortcut(QKeySequence(width_key))
+        act_width.setToolTip(_("Fit image width to window  [%s]") % width_key.upper())
+        act_width.triggered.connect(self._on_width)
+        toolbar.addAction(act_width)
+
+        act_height = QAction(get_icon("zoom_height"), _("Height"), self)
+        act_height.setCheckable(True)
+        act_height.setShortcut(QKeySequence("h"))
+        act_height.setToolTip(_("Fit image height to window  [H]"))
+        act_height.triggered.connect(self._on_height)
+        toolbar.addAction(act_height)
+
+        self._act_fit = act_fit
+        self._act_one = act_one
+        self._act_width = act_width
+        self._act_height = act_height
+        self._update_mode_buttons()
+
+        toolbar.addSeparator()
+
+        step_pct = round(self._zoom_step * 100)
+        act_in = QAction(get_icon("zoom_in"), _("+%d%%") % step_pct, self)
+        act_in.setShortcuts(
+            [
+                QKeySequence(Qt.Key_Plus),
+                QKeySequence(int(Qt.KeypadModifier) | int(Qt.Key_Plus)),
+            ]
+        )
+        act_in.setToolTip(_("Zoom in +%d%%  [+]") % step_pct)
+        act_in.triggered.connect(self._on_zoom_in)
+        toolbar.addAction(act_in)
+
+        act_out = QAction(get_icon("zoom_out"), _("-%d%%") % step_pct, self)
+        act_out.setShortcuts(
+            [
+                QKeySequence(Qt.Key_Minus),
+                QKeySequence(int(Qt.KeypadModifier) | int(Qt.Key_Minus)),
+            ]
+        )
+        act_out.setToolTip(_("Zoom out -%d%%  [\u2212]") % step_pct)
+        act_out.triggered.connect(self._on_zoom_out)
+        toolbar.addAction(act_out)
+
+        # Resolution + scale label pushed to the right
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        toolbar.addWidget(spacer)
+        self._scale_label = QLabel()
+        self._scale_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        toolbar.addWidget(self._scale_label)
+
+        # ---- scroll area ----
+        self._scroll = QScrollArea()
+        self._scroll.setWidgetResizable(False)
+        self._scroll.setAlignment(Qt.AlignCenter)
+        self._scroll.viewport().installEventFilter(self)
+
+        self._img_label = QLabel()
+        self._img_label.setAlignment(Qt.AlignCenter)
+        if not self._pixmap:
+            from pbprompt.i18n import get_translate as _gt  # noqa: PLC0415
+
+            self._img_label.setText(_gt()("(No image)"))
+        self._scroll.setWidget(self._img_label)
+        layout.addWidget(self._scroll, 1)
+
+        # ---- close button ----
+        btn_box = QDialogButtonBox(QDialogButtonBox.Close)
+        btn_box.rejected.connect(self.reject)
+        layout.addWidget(btn_box)
+
+    def _setup_initial_size(self) -> None:
+        if self._pixmap:
+            screen = self.screen() if hasattr(self, "screen") else None
             if screen:
                 sg = screen.availableGeometry()
                 max_w = int(sg.width() * 0.8)
                 max_h = int(sg.height() * 0.8)
             else:
                 max_w, max_h = 1200, 900
-            dialog_w = min(pm.width() + 24, max_w)
-            dialog_h = min(pm.height() + 80, max_h)
+            # Extra ~80 px for toolbar + button box
+            dialog_w = max(self._MIN_SIZE, min(self._pixmap.width() + 24, max_w))
+            dialog_h = max(self._MIN_SIZE, min(self._pixmap.height() + 80, max_h))
             self.resize(dialog_w, dialog_h)
         else:
-            label.setText("(No image)")
-        scroll.setWidget(label)
-        layout.addWidget(scroll)
+            self.resize(self._MIN_SIZE, self._MIN_SIZE)
 
-        btn_box = QDialogButtonBox(QDialogButtonBox.Close)
-        btn_box.rejected.connect(self.reject)
-        layout.addWidget(btn_box)
+    # ------------------------------------------------------------------
+    # Qt event overrides
+    # ------------------------------------------------------------------
+
+    def eventFilter(self, obj: Any, event: Any) -> bool:  # type: ignore[override]  # noqa: N802
+        if obj is self._scroll.viewport() and event.type() == QEvent.Wheel:
+            # Fraction of the image under the cursor before zoom (anchor point).
+            # QScrollArea::setWidget reparents the label onto the viewport, so
+            # mapFrom gives coordinates in the label's own space.
+            cursor_vp = event.pos()
+            lbl_w = max(self._img_label.width(), 1)
+            lbl_h = max(self._img_label.height(), 1)
+            cursor_lbl = self._img_label.mapFrom(self._scroll.viewport(), cursor_vp)
+            fx = cursor_lbl.x() / lbl_w
+            fy = cursor_lbl.y() / lbl_h
+
+            if event.angleDelta().y() > 0:
+                self._on_zoom_in()
+            else:
+                self._on_zoom_out()
+
+            # Reposition scrollbars so the anchor pixel stays under the cursor.
+            # setValue clamps automatically to [min, max], giving the best
+            # approximation when the geometry does not allow exact centering.
+            new_w = self._img_label.width()
+            new_h = self._img_label.height()
+            self._scroll.horizontalScrollBar().setValue(
+                round(fx * new_w) - cursor_vp.x()
+            )
+            self._scroll.verticalScrollBar().setValue(round(fy * new_h) - cursor_vp.y())
+            return True
+        return super().eventFilter(obj, event)
+
+    def showEvent(self, event: Any) -> None:  # type: ignore[override]  # noqa: N802
+        super().showEvent(event)
+        if not self._initial_shown:
+            self._initial_shown = True
+            QTimer.singleShot(0, self._apply_mode)
+
+    def resizeEvent(self, event: Any) -> None:  # type: ignore[override]  # noqa: N802
+        super().resizeEvent(event)
+        if self._ready and self._initial_shown and self._mode != _ZoomMode.MANUAL:
+            # Defer so viewport geometry is updated before we measure it.
+            QTimer.singleShot(0, self._apply_mode)
+
+    # ------------------------------------------------------------------
+    # Mode button visual state
+    # ------------------------------------------------------------------
+
+    def _update_mode_buttons(self) -> None:
+        self._act_fit.setChecked(self._mode == _ZoomMode.FIT)
+        self._act_one.setChecked(self._mode == _ZoomMode.ONE)
+        self._act_width.setChecked(self._mode == _ZoomMode.WIDTH)
+        self._act_height.setChecked(self._mode == _ZoomMode.HEIGHT)
+        # MANUAL: no button checked
+
+    # ------------------------------------------------------------------
+    # Zoom application
+    # ------------------------------------------------------------------
+
+    def _apply_mode(self) -> None:
+        if not self._pixmap:
+            return
+
+        vp = self._scroll.viewport()
+        vw, vh = max(vp.width(), 1), max(vp.height(), 1)
+        pw, ph = self._pixmap.width(), self._pixmap.height()
+        mode = self._mode
+
+        if mode == _ZoomMode.FIT:
+            self._scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+            self._scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+            scale = min(vw / pw, vh / ph, float(self._max_zoom))
+            self._apply_scale(scale)
+
+        elif mode == _ZoomMode.ONE:
+            self._scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+            self._scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+            self._apply_scale(1.0)
+
+        elif mode == _ZoomMode.WIDTH:
+            self._scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+            self._scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+            self._apply_scale(vw / pw)
+
+        elif mode == _ZoomMode.HEIGHT:
+            self._scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+            self._scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+            self._apply_scale(vh / ph)
+
+        elif mode == _ZoomMode.MANUAL:
+            self._scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+            self._scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+            self._apply_scale(self._scale)
+
+    def _apply_scale(self, scale: float) -> None:
+        self._scale = max(self._MIN_SCALE, scale)
+        if not self._pixmap:
+            return
+        w = max(1, round(self._pixmap.width() * self._scale))
+        h = max(1, round(self._pixmap.height() * self._scale))
+        # Scale via QImage to avoid QPainter engine errors: QPixmap.scaled with
+        # SmoothTransformation uses QPainter internally, which fails on some platforms.
+        # QImage.scaled with SmoothTransformation uses a pure algorithm (no QPainter).
+        scaled_img = self._pixmap.toImage().scaled(
+            w, h, Qt.KeepAspectRatio, Qt.SmoothTransformation
+        )
+        if scaled_img.isNull():
+            return
+        scaled_pm = QPixmap.fromImage(scaled_img)
+        if scaled_pm.isNull():
+            return
+        self._img_label.setPixmap(scaled_pm)
+        self._img_label.resize(scaled_pm.size())
+        pw, ph = self._pixmap.width(), self._pixmap.height()
+        self._scale_label.setText(
+            f"  {pw}\u2009\u00d7\u2009{ph}  \u2014  {round(self._scale * 100)}\u2009%  "
+        )
+
+    # ------------------------------------------------------------------
+    # Zoom actions
+    # ------------------------------------------------------------------
+
+    def _on_fit(self) -> None:
+        self._mode = ImageViewDialog._last_mode = _ZoomMode.FIT
+        self._update_mode_buttons()
+        self._apply_mode()
+
+    def _on_one(self) -> None:
+        self._mode = ImageViewDialog._last_mode = _ZoomMode.ONE
+        self._update_mode_buttons()
+        self._apply_mode()
+
+    def _on_width(self) -> None:
+        self._mode = ImageViewDialog._last_mode = _ZoomMode.WIDTH
+        self._update_mode_buttons()
+        self._apply_mode()
+
+    def _on_height(self) -> None:
+        self._mode = ImageViewDialog._last_mode = _ZoomMode.HEIGHT
+        self._update_mode_buttons()
+        self._apply_mode()
+
+    def _on_zoom_in(self) -> None:
+        new_scale = min(self._scale + self._zoom_step, float(self._max_zoom))
+        if new_scale != self._scale or self._mode != _ZoomMode.MANUAL:
+            self._scale = new_scale
+            self._mode = _ZoomMode.MANUAL
+            ImageViewDialog._last_mode = _ZoomMode.MANUAL
+            ImageViewDialog._last_scale = new_scale
+            self._update_mode_buttons()
+            self._apply_mode()
+
+    def _on_zoom_out(self) -> None:
+        new_scale = max(self._scale - self._zoom_step, self._MIN_SCALE)
+        if new_scale != self._scale or self._mode != _ZoomMode.MANUAL:
+            self._scale = new_scale
+            self._mode = _ZoomMode.MANUAL
+            ImageViewDialog._last_mode = _ZoomMode.MANUAL
+            ImageViewDialog._last_scale = new_scale
+            self._update_mode_buttons()
+            self._apply_mode()

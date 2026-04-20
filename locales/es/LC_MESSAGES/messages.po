@@ -771,6 +771,120 @@ msgstr ""
 msgid "Untitled"
 msgstr "Sin título"
 
+# Image viewer toolbar
+#: src/pbprompt/gui/image_utils.py
+msgid "Fit"
+msgstr "Ajustar"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "×1"
+msgstr "×1"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Width"
+msgstr "Ancho"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Height"
+msgstr "Alto"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "+50%"
+msgstr "+50 %"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "-50%"
+msgstr "-50 %"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "l"
+msgstr "a"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Fit image to window (max ×%d)"
+msgstr "Ajustar imagen a la ventana (máx ×%d)"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Actual size — 1 pixel = 1 displayed pixel  [1]"
+msgstr "Tamaño real — 1 píxel = 1 píxel mostrado  [1]"
+
+#: src/pbprompt/gui/image_utils.py
+#, python-format
+msgid "Fit image width to window  [%s]"
+msgstr "Imagen al ancho completo  [%s]"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Fit image height to window  [H]"
+msgstr "Imagen al alto completo  [H]"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Zoom in +50%  [+]"
+msgstr "Ampliar +50 %  [+]"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "Zoom out -50%  [−]"
+msgstr "Reducir -50 %  [−]"
+
+#: src/pbprompt/gui/image_utils.py
+msgid "(No image)"
+msgstr "(Sin imagen)"
+
+# Settings dialog – image viewer
+#: src/pbprompt/gui/settings_dialog.py
+msgid "Image viewer max zoom (×):"
+msgstr "Zoom máx. del visor (×):"
+
+#: src/pbprompt/gui/settings_dialog.py
+msgid "Maximum magnification in 'Fit' mode when the image is smaller\nthan the viewer window.\n1× to 16× (default: 4×)."
+msgstr "Ampliación máxima en modo 'Ajustar' cuando la imagen\nes más pequeña que la ventana del visor.\nDe 1× a 16× (predeterminado: 4×)."
+
+msgid "Zoom step (%):"
+msgstr "Paso de zoom (%):"
+
+msgid "Percentage added or removed when clicking + or −,\nor scrolling the mouse wheel in the image viewer.\n1% to 50% (default: 10%)."
+msgstr "Porcentaje añadido o quitado al hacer clic en + o −,\no al desplazar la rueda del ratón en el visor.\nDe 1% a 50% (predeterminado: 10%)."
+
+msgid "Keep original dimensions"
+msgstr "Conservar dimensiones originales"
+
+msgid "When checked, images are stored as-is regardless of their size.\nWhen unchecked, images larger than the limits below are resized\nproportionally before being stored in the database."
+msgstr "Si está marcado, las imágenes se almacenan tal cual, independientemente de su tamaño.\nSi no está marcado, las imágenes que superen los límites siguientes se redimensionan\nproporcionalmente antes de almacenarse en la base de datos."
+
+msgid "Max width (px):"
+msgstr "Ancho máximo (px):"
+
+msgid "Maximum width (in pixels) for images stored in the database.\nImages wider than this value are resized proportionally."
+msgstr "Ancho máximo (en píxeles) de las imágenes almacenadas en la base de datos.\nLas imágenes más anchas se redimensionan proporcionalmente."
+
+msgid "Max height (px):"
+msgstr "Alto máximo (px):"
+
+msgid "Maximum height (in pixels) for images stored in the database.\nImages taller than this value are resized proportionally."
+msgstr "Altura máxima (en píxeles) de las imágenes almacenadas en la base de datos.\nLas imágenes más altas se redimensionan proporcionalmente."
+
+msgid "Copy image"
+msgstr "Copiar imagen"
+
+msgid "Save image to file…"
+msgstr "Guardar imagen en archivo…"
+
+msgid "Save Image"
+msgstr "Guardar imagen"
+
+msgid "JPEG image (*.jpg *.jpeg)"
+msgstr "Imagen JPEG (*.jpg *.jpeg)"
+
+msgid "PNG image (*.png)"
+msgstr "Imagen PNG (*.png)"
+
+#, python-brace-format
+msgid ""
+"Could not save file:\n"
+"{error}"
+msgstr ""
+"No se pudo guardar el archivo:\n"
+"{error}"
+
 #~ msgid "Copied to clipboard"
 #~ msgstr "Copiado al portapapeles"
 

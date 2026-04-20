@@ -69,6 +69,11 @@ class AppConfig:
     last_import_dir: str = ""
     last_export_dir: str = ""
     last_image_dir: str = ""
+    image_viewer_zoom_max: int = 4
+    image_viewer_zoom_step: int = 10
+    image_store_keep_original: bool = True
+    image_store_max_width: int = 1920
+    image_store_max_height: int = 1080
     column_filters: dict[str, str] = field(default_factory=dict)
     _extra: dict[str, Any] = field(default_factory=dict, repr=False, compare=False)
 
@@ -131,6 +136,19 @@ class AppConfig:
             ]
         cfg.thumbnail_width = cls._int_or(raw, "thumbnail_width", 64, 16, 512)
         cfg.thumbnail_height = cls._int_or(raw, "thumbnail_height", 64, 16, 512)
+        cfg.image_viewer_zoom_max = cls._int_or(raw, "image_viewer_zoom_max", 4, 1, 16)
+        cfg.image_viewer_zoom_step = cls._int_or(
+            raw, "image_viewer_zoom_step", 10, 1, 50
+        )
+        cfg.image_store_keep_original = cls._bool_or(
+            raw, "image_store_keep_original", True
+        )
+        cfg.image_store_max_width = cls._int_or(
+            raw, "image_store_max_width", 1920, 64, 32000
+        )
+        cfg.image_store_max_height = cls._int_or(
+            raw, "image_store_max_height", 1080, 64, 32000
+        )
         cfg.window_x = cls._opt_int(raw, "window_x")
         cfg.window_y = cls._opt_int(raw, "window_y")
         cfg.window_width = cls._opt_int(raw, "window_width", min_val=100)
@@ -159,6 +177,11 @@ class AppConfig:
             "recent_files_max",
             "thumbnail_width",
             "thumbnail_height",
+            "image_viewer_zoom_max",
+            "image_viewer_zoom_step",
+            "image_store_keep_original",
+            "image_store_max_width",
+            "image_store_max_height",
             "window_x",
             "window_y",
             "window_width",
@@ -190,6 +213,11 @@ class AppConfig:
             "recent_files": self.recent_files,
             "thumbnail_width": self.thumbnail_width,
             "thumbnail_height": self.thumbnail_height,
+            "image_viewer_zoom_max": self.image_viewer_zoom_max,
+            "image_viewer_zoom_step": self.image_viewer_zoom_step,
+            "image_store_keep_original": self.image_store_keep_original,
+            "image_store_max_width": self.image_store_max_width,
+            "image_store_max_height": self.image_store_max_height,
         }
         for key in ("window_x", "window_y", "window_width", "window_height"):
             val = getattr(self, key)
@@ -235,6 +263,11 @@ class AppConfig:
     ) -> str:
         val = d.get(key, default)
         return str(val) if isinstance(val, str) and val in choices else default
+
+    @staticmethod
+    def _bool_or(d: dict[str, Any], key: str, default: bool) -> bool:
+        val = d.get(key, default)
+        return bool(val) if isinstance(val, bool) else default
 
     @staticmethod
     def _opt_int(d: dict[str, Any], key: str, min_val: int | None = None) -> int | None:

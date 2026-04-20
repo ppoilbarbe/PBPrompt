@@ -197,6 +197,84 @@
         <property name="value"><number>80</number></property>
        </widget>
       </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="labelViewerZoomMax">
+        <property name="text">
+         <string>Image viewer max zoom (×):</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="spinBoxViewerZoomMax">
+        <property name="minimum"><number>1</number></property>
+        <property name="maximum"><number>16</number></property>
+        <property name="value"><number>4</number></property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="labelViewerZoomStep">
+        <property name="text">
+         <string>Zoom step (%):</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="spinBoxViewerZoomStep">
+        <property name="minimum"><number>1</number></property>
+        <property name="maximum"><number>50</number></property>
+        <property name="value"><number>10</number></property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QCheckBox" name="checkBoxImageOriginal">
+        <property name="text">
+         <string>Keep original dimensions</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="labelImageStoreMaxWidth">
+        <property name="text">
+         <string>Max width (px):</string>
+        </property>
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QSpinBox" name="spinBoxImageStoreMaxWidth">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="minimum"><number>64</number></property>
+        <property name="maximum"><number>32000</number></property>
+        <property name="value"><number>1920</number></property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="labelImageStoreMaxHeight">
+        <property name="text">
+         <string>Max height (px):</string>
+        </property>
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QSpinBox" name="spinBoxImageStoreMaxHeight">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="minimum"><number>64</number></property>
+        <property name="maximum"><number>32000</number></property>
+        <property name="value"><number>1080</number></property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

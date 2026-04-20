@@ -1,7 +1,7 @@
 PBPrompt — Implementation Summary
 ==================================
-Version: 1.4.0
-Last updated: 2026-04-18
+Version: 1.5.0
+Last updated: 2026-04-20
 
 
 Overview
@@ -147,6 +147,11 @@ AppConfig(dataclass) — fields:
   last_image_dir: str = ""          # last directory used in image load dialog
   column_filters: dict[str, str] = {}  # persisted per-column filter values
                                        # keys: "ai","group","name","local","english"
+  image_viewer_zoom_max: int = 4       # max zoom for Fit mode, range 1-16
+  image_viewer_zoom_step: int = 10     # zoom step in %, range 1-100
+  image_store_keep_original: bool = True   # if True, images stored as-is
+  image_store_max_width: int = 1920    # max width (px) before resizing, range 64-32000
+  image_store_max_height: int = 1080   # max height (px) before resizing, range 64-32000
 
   load() → reads config.yaml via ruamel.yaml; validates all fields;
             unknown keys preserved in _extra (round-trip safe)
@@ -240,9 +245,23 @@ detect_image_format(data: bytes) → "jpeg" | "png" | None
   Magic bytes: JPEG=b'\xff\xd8\xff', PNG=b'\x89PNG\r\n\x1a\n'
 generate_thumbnail(image_data, width, height) → bytes | None
   QImage.scaled(KeepAspectRatio, SmoothTransformation), saved as PNG bytes.
+resize_for_storage(data, max_width, max_height) → bytes
+  Resizes proportionally if either dimension exceeds the limit; preserves format (JPEG/PNG).
+  Returns data unchanged if already within bounds or if decoding fails.
 pixmap_from_bytes(data) → QPixmap | None
 qimage_to_bytes(image, fmt="PNG") → bytes | None
 ImageViewDialog(QDialog) — scrollable full-image viewer, shown on double-click.
+  Zoom toolbar: Fit / ×1 / Width / Height / +step% / −step%.
+  Mode persisted via class-level _last_mode and _last_scale (across dialog instances).
+  Mode buttons (Fit/×1/Width/Height) are checkable; MANUAL mode unchecks all.
+  Shortcuts: 1 (×1), l/w translatable (width), h (height), +/− numpad (step zoom).
+  max_zoom passed from config.image_viewer_zoom_max.
+  zoom_step passed from config.image_viewer_zoom_step (% per step, default 10).
+  Zoom to cursor (mouse wheel): eventFilter captures the image pixel fraction under the
+    cursor before applying zoom, then repositions scrollbars so the same pixel stays
+    under the cursor. Uses _img_label.mapFrom(viewport, pos) — reliable because
+    QScrollArea::setWidget reparents the label onto the viewport. QScrollBar.setValue
+    clamps automatically to [min,max] when geometry prevents exact centering.
 Image file dialog: shows a live preview thumbnail of the selected file.
   Guard: max(size − 8, 1) to prevent zero-size crash in QPixmap.scaled().
 
@@ -332,6 +351,8 @@ All SVG icons: 24×24, fill=none, stroke=#404040, stroke-width=1.5, round lineca
 import_yaml.svg: YAML doc (left) + right arrow + data table (right)
 export_yaml.svg: data table (left) + right arrow + YAML doc (right)
 refresh_thumbnails.svg: circular refresh arrows with small image frame inside
+zoom_fit.svg, zoom_in.svg, zoom_out.svg, zoom_original.svg,
+zoom_width.svg, zoom_height.svg: toolbar icons for ImageViewDialog zoom modes.
 
 
 i18n (i18n.py)
@@ -364,10 +385,27 @@ GUI — MainWindow image operations
 _on_refresh_thumbnails(): regenerates all thumbnails using current thumbnail_width/height.
 _on_image_activated(source_idx): opens ImageViewDialog for the entry's full image.
 _on_image_drop(source_idx, mime_data): handles QMimeData image or local file URL.
-_show_image_context_menu(pos, source_idx): Load/Paste/Clear menu (shows shortcuts).
+_show_image_context_menu(pos, source_idx): image context menu. Checks has_image
+  (entry.image is not None) to enable/disable the Copy, Save, and Clear actions.
+  Menu structure:
+    Load image from file…  [Enter]
+    Paste image            [Ctrl+V]
+    ──────────────────────────────
+    Copy image             [Ctrl+C]   enabled only if image present
+    Save image to file…              enabled only if image present
+    ──────────────────────────────
+    Clear image            [Backspace] enabled only if image present
+_prepare_image_for_storage(data): calls resize_for_storage() if image_store_keep_original
+  is False; called before every set_image() for file load, paste, and drop.
 _on_image_load_from_file(source_idx): QFileDialog with preview (default: last_image_dir)
-  → load image bytes → set_image().
-_on_image_paste(source_idx): QApplication.clipboard() → image() or text() (file path).
+  → load image bytes → _prepare_image_for_storage() → set_image().
+_on_image_paste(source_idx): QApplication.clipboard() → image() or text() (file path)
+  → _prepare_image_for_storage() → set_image().
+_on_image_copy_to_clipboard(source_idx): pixmap_from_bytes(entry.image) →
+  QApplication.clipboard().setPixmap(pm). Copies the full stored image (not thumbnail).
+_on_image_save_to_file(source_idx): detect_image_format() → filter + default_suffix
+  ("jpg" for JPEG, "png" otherwise). Opens QFileDialog with setDefaultSuffix() so the
+  extension is always appended. Writes raw bytes (no recompression). Updates last_image_dir.
 _on_image_clear(source_idx): applies to all selected rows; confirmation dialog.
 _on_import_yaml(): unpacks (imported, skipped) tuple; passes thumbnail_factory;
   updates last_import_dir.
@@ -378,9 +416,15 @@ _on_context_menu(): checks column == IMAGE first, dispatches accordingly.
 _on_header_clicked(): non-sortable columns reset the sort indicator to the active column.
 
 
+Makefile notes
+--------------
+translations target: uses file-based dependencies (%.mo: %.po), NOT .PHONY without deps.
+  This ensures Make only recompiles .mo files when the corresponding .po is newer.
+  MO_FILES computed via $(foreach lang,...) so all locales are covered.
+
 Test suite
 ----------
-87 tests total (as of v1.2.0), all green.
+87 tests total, all green.
   pbprompt.config: 100% coverage (includes last_*_dir and column_filters round-trips)
   pbprompt.data:   100% coverage
 pytest-xvfb >= 3.0: auto-starts a private Xvfb display on Linux for headless Qt tests.

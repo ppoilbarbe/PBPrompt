@@ -827,7 +827,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         entry = self._collection.entries[row]
         if not entry.image:
             return
-        dlg = ImageViewDialog(entry.image, parent=self)
+        dlg = ImageViewDialog(
+            entry.image,
+            max_zoom=self._config.image_viewer_zoom_max,
+            zoom_step=self._config.image_viewer_zoom_step,
+            parent=self,
+        )
         dlg.exec_()
 
     def _on_image_drop(self, source_idx: object, mime_data: object) -> None:
@@ -877,6 +882,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
             return
 
+        image_bytes = self._prepare_image_for_storage(image_bytes)
         thumb = generate_thumbnail(
             image_bytes,
             self._config.thumbnail_width,
@@ -890,6 +896,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if not isinstance(source_idx, QModelIndex):
             return
+        row = source_idx.row()
+        has_image = (
+            row < len(self._collection.entries)
+            and self._collection.entries[row].image is not None
+        )
         _ = self._
         menu = QMenu(self.tableView)
         act_load = menu.addAction(_("Load image from file…"))
@@ -897,10 +908,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         act_paste = menu.addAction(_("Paste image"))
         act_paste.setShortcut(QKeySequence(QKeySequence.Paste))
         menu.addSeparator()
+        act_copy = menu.addAction(_("Copy image"))
+        act_copy.setShortcut(QKeySequence(QKeySequence.Copy))
+        act_copy.setEnabled(has_image)
+        act_save = menu.addAction(_("Save image to file…"))
+        act_save.setEnabled(has_image)
+        menu.addSeparator()
         act_clear = menu.addAction(_("Clear image"))
         act_clear.setShortcut(QKeySequence(Qt.Key_Backspace))
+        act_clear.setEnabled(has_image)
         act_load.triggered.connect(lambda: self._on_image_load_from_file(source_idx))
         act_paste.triggered.connect(lambda: self._on_image_paste(source_idx))
+        act_copy.triggered.connect(lambda: self._on_image_copy_to_clipboard(source_idx))
+        act_save.triggered.connect(lambda: self._on_image_save_to_file(source_idx))
         act_clear.triggered.connect(lambda: self._on_image_clear(source_idx))
         menu.exec_(self.tableView.viewport().mapToGlobal(pos))
 
@@ -944,6 +964,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self._("Unsupported image format"),
             )
             return
+        data = self._prepare_image_for_storage(data)
         thumb = generate_thumbnail(
             data,
             self._config.thumbnail_width,
@@ -998,12 +1019,89 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self._("Unsupported image format"),
             )
             return
+        image_bytes = self._prepare_image_for_storage(image_bytes)
         thumb = generate_thumbnail(
             image_bytes,
             self._config.thumbnail_width,
             self._config.thumbnail_height,
         )
         self._source_model.set_image(source_idx.row(), image_bytes, thumb)
+
+    def _on_image_copy_to_clipboard(self, source_idx: object) -> None:
+        """Copy the image from the IMAGE cell to the system clipboard."""
+        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+
+        from pbprompt.gui.image_utils import pixmap_from_bytes  # noqa: PLC0415
+
+        if not isinstance(source_idx, QModelIndex):
+            return
+        row = source_idx.row()
+        if row >= len(self._collection.entries):
+            return
+        data = self._collection.entries[row].image
+        if not data:
+            return
+        pm = pixmap_from_bytes(data)
+        if pm and not pm.isNull():
+            QApplication.clipboard().setPixmap(pm)
+
+    def _on_image_save_to_file(self, source_idx: object) -> None:
+        """Save the image from the IMAGE cell to a file chosen by the user."""
+        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+
+        from pbprompt.gui.image_utils import detect_image_format  # noqa: PLC0415
+
+        if not isinstance(source_idx, QModelIndex):
+            return
+        row = source_idx.row()
+        if row >= len(self._collection.entries):
+            return
+        data = self._collection.entries[row].image
+        if not data:
+            return
+        fmt = detect_image_format(data)
+        if fmt == "jpeg":
+            filter_str = self._("JPEG image (*.jpg *.jpeg)")
+            default_suffix = "jpg"
+        else:
+            filter_str = self._("PNG image (*.png)")
+            default_suffix = "png"
+        dlg = QFileDialog(self, self._("Save Image"))
+        dlg.setAcceptMode(QFileDialog.AcceptSave)
+        dlg.setNameFilter(filter_str)
+        dlg.setDefaultSuffix(default_suffix)
+        if self._config.last_image_dir:
+            dlg.setDirectory(self._config.last_image_dir)
+        dlg.selectFile(f"image.{default_suffix}")
+        if not dlg.exec_():
+            return
+        files = dlg.selectedFiles()
+        if not files:
+            return
+        path_str = files[0]
+        self._config.last_image_dir = str(Path(path_str).parent)
+        self._config.save()
+        try:
+            with open(path_str, "wb") as fh:
+                fh.write(data)
+        except OSError as exc:
+            QMessageBox.critical(
+                self,
+                self._("Error"),
+                self._("Could not save file:\n{error}").format(error=str(exc)),
+            )
+
+    def _prepare_image_for_storage(self, data: bytes) -> bytes:
+        """Resize *data* before storage if configured limits are exceeded."""
+        if self._config.image_store_keep_original:
+            return data
+        from pbprompt.gui.image_utils import resize_for_storage  # noqa: PLC0415
+
+        return resize_for_storage(
+            data,
+            self._config.image_store_max_width,
+            self._config.image_store_max_height,
+        )
 
     def _on_image_clear(self, source_idx: object) -> None:
         """Clear the image from selected IMAGE cells."""

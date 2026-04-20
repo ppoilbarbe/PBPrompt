@@ -1,0 +1,43 @@
+# Conda environment for PBPrompt
+# Usage: conda env create -f environment.yml
+#        conda activate pbprompt
+#        pip install -e . --no-deps
+#
+# Note: 'libretranslate' (the server package) is NOT a dependency.
+# PBPrompt uses deep-translator's LibreTranslator client, which calls
+# the LibreTranslate HTTP API without requiring the server package.
+
+name: pbprompt
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.11
+  - pip
+
+  # ---- pbprompt runtime ----
+  - pyqt>=5.15          # provides PyQt5
+  - ruamel.yaml>=0.18
+  - platformdirs>=4.2
+  - requests>=2.31
+
+  # ---- deep-translator transitive deps ----
+  - beautifulsoup4      # bs4
+  - chardet
+
+  # ---- dev / tooling ----
+  - pytest>=7.4
+  - pytest-cov>=4.1
+  - pytest-qt>=4.2
+  - pytest-xvfb>=3.0
+  - ruff>=0.4
+  - pre-commit>=3.6
+  - mypy>=1.8
+  - sphinx>=7.2
+  - sphinx-rtd-theme>=2.0
+
+  # ---- pip-only (not available on conda-forge) ----
+  - pip:
+    - deep-translator>=1.11

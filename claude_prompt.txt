@@ -614,6 +614,16 @@ Intégration CI (.github/workflows/ci.yml) :
   La cible par défaut est help (.DEFAULT_GOAL := help).
   La cible help liste toutes les cibles avec leur description ## en couleur.
 
+  Cible translations — IMPORTANT : utiliser des dépendances fichier, PAS .PHONY seul :
+    MO_FILES := $(foreach lang,$(LOCALE_LANGS),$(LOCALES)/$(lang)/LC_MESSAGES/messages.mo)
+    translations: $(MO_FILES)
+    $(LOCALES)/%/LC_MESSAGES/messages.mo: $(LOCALES)/%/LC_MESSAGES/messages.po
+        $(MSGFMT) $< -o $@
+  Ne JAMAIS écrire "translations:" comme cible .PHONY sans prérequis fichiers : Make
+  recompilerait alors tous les .mo à chaque `make all`, même si aucun .po n'a changé.
+  La cible `translations` elle-même reste dans .PHONY (c'est un agrégat sans fichier
+  de sortie propre) ; les cibles %.mo ne doivent PAS être dans .PHONY.
+
   Cible bundle — build du binaire standalone avec PyInstaller :
   * Dépend de all (UI, ressources et traductions compilés avant de lancer pyinstaller).
   * Si pbprompt.spec existe, l'utilise : pyinstaller pbprompt.spec
@@ -698,6 +708,12 @@ Module image_utils.py (src/pbprompt/gui/) :
   * pixmap_from_bytes(data) → QPixmap | None
   * qimage_to_bytes(image, fmt="PNG") → bytes | None
   * ImageViewDialog(QDialog) — dialogue de visualisation plein écran avec scroll.
+    - Zoom à la molette : centrage sur le pixel sous le curseur (zoom-to-cursor).
+      Algorithme : capturer la fraction (fx, fy) du label sous le curseur avant le zoom
+      via label.mapFrom(viewport, pos), puis après _apply_mode() repositionner les
+      ascenseurs avec hbar.setValue(round(fx*new_w) - cursor_vp.x()).
+      QScrollArea::setWidget reparente le label sur le viewport → mapFrom est fiable.
+      setValue clamp automatiquement à [min, max] (meilleure approximation possible).
 
 Affichage et interactions :
   * ImageDelegate : peint l'imagette centrée, ou un cadre pointillé "pas d'image".
@@ -706,7 +722,13 @@ Affichage et interactions :
     - "Load image from file…" : QFileDialog, filtre *.jpg *.jpeg *.png
     - "Paste image" : image du presse-papiers OU chemin de fichier en texte
     - (separator)
+    - "Copy image" : copie l'image complète dans le presse-papiers (setPixmap)
+    - "Save image to file…" : QFileDialog Save, filtre + suffixe selon detect_image_format()
+      (JPEG → *.jpg/*.jpeg, PNG → *.png), setDefaultSuffix(), écriture bytes bruts.
+    - (separator)
     - "Clear image" : efface image + thumbnail
+    Les trois dernières actions sont désactivées (setEnabled(False)) si la cellule
+    n'a pas d'image (has_image = entry.image is not None).
   * Glisser-déposer : image QMimeData ou URL de fichier local sur la cellule IMAGE.
     - dragEnterEvent / dragMoveEvent : accepte hasImage() ou hasUrls() (fichier local).
     - dropEvent : émet image_drop_requested(source_idx, mime_data).
@@ -734,11 +756,15 @@ Import/export YAML :
     english) correspondent exactement à une entrée existante est ignorée (skipped).
     Cela vaut aussi pour les doublons dans le fichier YAML lui-même.
 
-AppConfig :
+AppConfig (champs image) :
   * thumbnail_width: int = 80
-  * thumbnail_height: int = 80
-  * Persistés dans config.yaml.
-  * Plage valide : 16–512 px.
+  * thumbnail_height: int = 80  → plage valide 16–512 px.
+  * image_viewer_zoom_max: int = 4   → zoom max pour le mode Fit, plage 1–16.
+  * image_viewer_zoom_step: int = 10  → pas de zoom en %, plage 1–100.
+  * image_store_keep_original: bool = True
+  * image_store_max_width: int = 1920
+  * image_store_max_height: int = 1080
+  * Tous persistés dans config.yaml.
 
 Settings dialog (groupImages) :
   * Deux QSpinBox : spinBoxThumbnailWidth et spinBoxThumbnailHeight (16–512, défaut 64).
