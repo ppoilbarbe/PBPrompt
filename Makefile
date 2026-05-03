@@ -11,7 +11,7 @@ XGETTEXT   := xgettext
 SRC_GUI    := src/pbprompt/gui
 RESOURCES  := resources
 LOCALES    := locales
-LOCALE_LANGS := en fr es it ru vi zh_CN
+LOCALE_LANGS := en de fr es it ru vi zh_CN
 MO_FILES     := $(foreach lang,$(LOCALE_LANGS),$(LOCALES)/$(lang)/LC_MESSAGES/messages.mo)
 
 VERSION    := $(shell sed -n "s/__version__ = [\"']\([^\"']*\)[\"']/\1/p" src/pbprompt/__init__.py)

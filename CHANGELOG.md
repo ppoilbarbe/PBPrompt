@@ -3,6 +3,12 @@
 All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.5.1] – 2026-05-03
+
+### Added
+- **German translation (`de`)**: complete UI translation; `LOCALE_LANGS` updated in
+  Makefile to include `de`.
+
 ## [1.5.0] – 2026-04-20
 
 ### Added

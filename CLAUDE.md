@@ -8,7 +8,7 @@ Auteur : PBMou. Licence MIT. Python ≥ 3.11.
 - **Version** : 1.4.0
 - **Stockage** : SQLite (`.sqlite`, WAL). YAML = import/export uniquement.
 - **Colonnes** : `Column(IntEnum)` AI=0, GROUP=1, NAME=2, IMAGE=3, LOCAL=4, ENGLISH=5
-- **Locales compilées** : en, fr, es, it, ru, vi, zh_CN
+- **Locales compilées** : en, de, fr, es, it, ru, vi, zh_CN
 
 ## Commandes essentielles
 
