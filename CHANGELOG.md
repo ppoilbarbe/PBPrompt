@@ -1,7 +1,8 @@
 # Changelog
 
 All notable changes to PBPrompt are documented here.
-This project adheres to [Semantic Versioning](https://semver.org/).
+This project adheres to [Semantic Versioning](https://semver.org/) and
+the format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [1.6.0] – 2026-05-05
 
