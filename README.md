@@ -15,7 +15,7 @@
 >
 > Learn more at [claude.ai](https://claude.ai) or [anthropic.com](https://www.anthropic.com).
 
-PBPrompt is a cross-platform PyQt5 desktop application for storing, searching,
+PBPrompt is a cross-platform PySide6 desktop application for storing, searching,
 and translating AI prompts.  Prompts are stored in a **SQLite database** (`.sqlite`)
 and can be translated via Google Translate, DeepL, MyMemory, Yandex, LibreTranslate,
 or Reverso.  YAML import/export is available for interoperability.
@@ -277,7 +277,7 @@ PBPrompt/
 │   ├── config.py          # Settings management
 │   ├── data.py            # Domain model + SQLite I/O + YAML import/export
 │   ├── i18n.py            # Gettext helpers
-│   ├── gui/               # PyQt5 UI
+│   ├── gui/               # PySide6 UI
 │   │   ├── *.ui           # Qt Designer sources
 │   │   ├── ui_*.py        # Compiled UI (pyuic5) — excluded from ruff
 │   │   ├── resources_rc.py# Compiled resources (pyrcc5) — excluded from ruff

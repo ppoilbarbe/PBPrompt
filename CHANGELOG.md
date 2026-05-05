@@ -3,6 +3,36 @@
 All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.6.0] – 2026-05-05
+
+### Changed
+- **Migration PyQt5 → PySide6**: the entire codebase now uses PySide6 (LGPL v3) instead
+  of PyQt5 (GPL v3).  All scoped enums updated, `pyqtSignal` replaced by `Signal`,
+  `exec_()` replaced by `exec()`, `QAction` imported from `QtGui`, build tools updated
+  (`pyside6-uic`, `pyside6-rcc`).  The project licence remains MIT (LGPL permits this).
+- **Makefile — translations**: `msgfmt` replaced by `pybabel compile` (cross-platform,
+  no system gettext required); locale list now lives exclusively in `LOCALE_LANGS`.
+- **`environment.yml`**: `pyside6>=6.5` replaces `pyqt>=5.15`; `babel>=2.14` added
+  (provides `pybabel`); Python pin relaxed from `=3.11` to `>=3.11`.
+- **`pyproject.toml`**: runtime dependency updated to `PySide6>=6.5`; `Babel>=2.14`
+  added to dev extras.
+- **CI**: replaced `actions/setup-python` + pip + apt-get with
+  `mamba-org/setup-micromamba` using `environment.yml`; all build steps now driven by
+  `make` targets (`all`, `test`, `docs`, `bundle`, `dist`) with `NOCONDA=1`;
+  `QT_QPA_PLATFORM=offscreen` set globally; Python matrix injected via
+  micromamba `create-args`; `--channel-priority strict` enforced on all env
+  creations; `pip install -e .` moved to a dedicated step so it runs on every
+  invocation including cache restores.
+- **`environment.yml`**: `defaults` channel removed; only `conda-forge` used.
+
+### Fixed
+- **Image viewer — keypad shortcuts**: `Ctrl+KP+` / `Ctrl+KP−` raised `TypeError` in
+  PySide6 because `int(KeyboardModifier)` is not supported; fixed by using `.value`.
+
+### Added
+- **`scripts/make_png.py`**: generates `pbprompt.png` (128×128 app icon) from the SVG
+  source via PySide6; integrated into `make all` as the `png` target.
+
 ## [1.5.1] – 2026-05-03
 
 ### Added

@@ -1,6 +1,6 @@
 @echo off
 REM Build a standalone Windows executable with PyInstaller.
-REM Prerequisites: pip install pyinstaller pyqt5
+REM Prerequisites: pip install pyinstaller pyside6
 REM Usage: scripts\build_windows.bat
 
 setlocal

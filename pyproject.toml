@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pbprompt"
-version = "1.5.1"
+version = "1.6.0"
 description = "A program to register and categorize AI prompts to keep tries."
 authors = [{ name = "PBMou" }]
 license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.11"
-keywords = ["prompts", "AI", "PyQt5", "organizer"]
+keywords = ["prompts", "AI", "PySide6", "organizer"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: X11 Applications :: Qt",
@@ -20,7 +20,7 @@ classifiers = [
     "Topic :: Utilities",
 ]
 dependencies = [
-    "PyQt5>=5.15",
+    "PySide6>=6.5",
     "ruamel.yaml>=0.18",
     "deep-translator>=1.11",
     "platformdirs>=4.2",
@@ -41,6 +41,7 @@ dev = [
     "mypy>=1.8",
     "Sphinx>=7.2",
     "sphinx-rtd-theme>=2.0",
+    "Babel>=2.14",
 ]
 
 [tool.setuptools.packages.find]
@@ -90,3 +91,4 @@ files = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-v --tb=short"
+qt_api = "pyside6"

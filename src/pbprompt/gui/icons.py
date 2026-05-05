@@ -5,9 +5,9 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 
-from PyQt5.QtCore import QFile
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QStyle
+from PySide6.QtCore import QFile
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QApplication, QStyle
 
 logger = logging.getLogger(__name__)
 

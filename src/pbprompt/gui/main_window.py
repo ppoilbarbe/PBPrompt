@@ -6,10 +6,9 @@ import logging
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtGui import QKeySequence
-from PyQt5.QtWidgets import (
-    QAction,
+from PySide6.QtCore import Qt, QTimer
+from PySide6.QtGui import QAction, QKeySequence
+from PySide6.QtWidgets import (
     QApplication,
     QFileDialog,
     QHeaderView,
@@ -103,13 +102,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Column sizing
         hdr = self.tableView.horizontalHeader()
-        hdr.setSectionResizeMode(Column.AI, QHeaderView.ResizeToContents)
-        hdr.setSectionResizeMode(Column.GROUP, QHeaderView.ResizeToContents)
-        hdr.setSectionResizeMode(Column.NAME, QHeaderView.ResizeToContents)
-        hdr.setSectionResizeMode(Column.IMAGE, QHeaderView.Fixed)
+        hdr.setSectionResizeMode(Column.AI, QHeaderView.ResizeMode.ResizeToContents)
+        hdr.setSectionResizeMode(Column.GROUP, QHeaderView.ResizeMode.ResizeToContents)
+        hdr.setSectionResizeMode(Column.NAME, QHeaderView.ResizeMode.ResizeToContents)
+        hdr.setSectionResizeMode(Column.IMAGE, QHeaderView.ResizeMode.Fixed)
         self.tableView.setColumnWidth(Column.IMAGE, self._config.thumbnail_width + 12)
-        hdr.setSectionResizeMode(Column.LOCAL, QHeaderView.Stretch)
-        hdr.setSectionResizeMode(Column.ENGLISH, QHeaderView.Stretch)
+        hdr.setSectionResizeMode(Column.LOCAL, QHeaderView.ResizeMode.Stretch)
+        hdr.setSectionResizeMode(Column.ENGLISH, QHeaderView.ResizeMode.Stretch)
         hdr.setSortIndicatorShown(True)
 
         # Multi-line delegate for the two text columns
@@ -134,12 +133,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tableView.setItemDelegateForColumn(Column.NAME, _cc_delegate)
 
         # Context menu
-        self.tableView.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.tableView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
 
         # Sort state – tracked here to avoid relying on QHeaderView internal state,
         # which can be reset by signals emitted during QSortFilterProxyModel.sort().
         self._sort_col: int = Column.AI
-        self._sort_order: Qt.SortOrder = Qt.AscendingOrder
+        self._sort_order: Qt.SortOrder = Qt.SortOrder.AscendingOrder
 
         hdr.sectionClicked.connect(self._on_header_clicked)
         self._proxy_model.sort(self._sort_col, self._sort_order)
@@ -461,13 +460,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
         if self._sort_col == column:
             self._sort_order = (
-                Qt.DescendingOrder
-                if self._sort_order == Qt.AscendingOrder
-                else Qt.AscendingOrder
+                Qt.SortOrder.DescendingOrder
+                if self._sort_order == Qt.SortOrder.AscendingOrder
+                else Qt.SortOrder.AscendingOrder
             )
         else:
             self._sort_col = column
-            self._sort_order = Qt.AscendingOrder
+            self._sort_order = Qt.SortOrder.AscendingOrder
         self._proxy_model.sort(self._sort_col, self._sort_order)
         self.tableView.horizontalHeader().setSortIndicator(
             self._sort_col, self._sort_order
@@ -655,13 +654,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self._(
                 "The document has been modified.\nDo you want to save your changes?"
             ),
-            QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel,
-            QMessageBox.Save,
+            QMessageBox.StandardButton.Save
+            | QMessageBox.StandardButton.Discard
+            | QMessageBox.StandardButton.Cancel,
+            QMessageBox.StandardButton.Save,
         )
-        if reply == QMessageBox.Save:
+        if reply == QMessageBox.StandardButton.Save:
             self._on_file_save()
             return not self._collection.modified  # False if save was cancelled
-        return reply == QMessageBox.Discard
+        return reply == QMessageBox.StandardButton.Discard
 
     # ------------------------------------------------------------------
     # Prompt CRUD
@@ -705,10 +706,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self,
             self._("Confirm Delete"),
             self._("Are you sure you want to delete {n} selected row(s)?").format(n=n),
-            QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No,
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
         )
-        if reply != QMessageBox.Yes:
+        if reply != QMessageBox.StandardButton.Yes:
             return
         # Map proxy rows to source rows
         source_rows = sorted(
@@ -772,11 +773,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         menu = QMenu(self.tableView)
         act_copy = menu.addAction(_("Copy"))
-        act_copy.setShortcut(QKeySequence(QKeySequence.Copy))
+        act_copy.setShortcut(QKeySequence(QKeySequence.StandardKey.Copy))
         act_cut = menu.addAction(_("Cut"))
-        act_cut.setShortcut(QKeySequence(QKeySequence.Cut))
+        act_cut.setShortcut(QKeySequence(QKeySequence.StandardKey.Cut))
         act_paste = menu.addAction(_("Paste"))
-        act_paste.setShortcut(QKeySequence(QKeySequence.Paste))
+        act_paste.setShortcut(QKeySequence(QKeySequence.StandardKey.Paste))
 
         has_selection = idx.isValid()
         act_copy.setEnabled(has_selection)
@@ -787,7 +788,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         act_cut.triggered.connect(self.tableView._do_cut)
         act_paste.triggered.connect(self.tableView._do_paste)
 
-        menu.exec_(self.tableView.viewport().mapToGlobal(pos))
+        menu.exec(self.tableView.viewport().mapToGlobal(pos))
 
     # ------------------------------------------------------------------
     # Image operations
@@ -815,7 +816,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def _on_image_activated(self, source_idx: object) -> None:
         """Show the full image in a dialog."""
-        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+        from PySide6.QtCore import QModelIndex  # noqa: PLC0415
 
         from pbprompt.gui.image_utils import ImageViewDialog  # noqa: PLC0415
 
@@ -833,12 +834,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             zoom_step=self._config.image_viewer_zoom_step,
             parent=self,
         )
-        dlg.exec_()
+        dlg.exec()
 
     def _on_image_drop(self, source_idx: object, mime_data: object) -> None:
         """Handle a dropped image or file URL onto an IMAGE cell."""
-        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
-        from PyQt5.QtGui import QImage  # noqa: PLC0415
+        from PySide6.QtCore import QModelIndex  # noqa: PLC0415
+        from PySide6.QtGui import QImage  # noqa: PLC0415
 
         from pbprompt.gui.image_utils import (  # noqa: PLC0415
             detect_image_format,
@@ -892,7 +893,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def _show_image_context_menu(self, pos: object, source_idx: object) -> None:
         """Show the image-specific context menu."""
-        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+        from PySide6.QtCore import QModelIndex  # noqa: PLC0415
 
         if not isinstance(source_idx, QModelIndex):
             return
@@ -904,29 +905,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         _ = self._
         menu = QMenu(self.tableView)
         act_load = menu.addAction(_("Load image from file…"))
-        act_load.setShortcut(QKeySequence(Qt.Key_Return))
+        act_load.setShortcut(QKeySequence(Qt.Key.Key_Return))
         act_paste = menu.addAction(_("Paste image"))
-        act_paste.setShortcut(QKeySequence(QKeySequence.Paste))
+        act_paste.setShortcut(QKeySequence(QKeySequence.StandardKey.Paste))
         menu.addSeparator()
         act_copy = menu.addAction(_("Copy image"))
-        act_copy.setShortcut(QKeySequence(QKeySequence.Copy))
+        act_copy.setShortcut(QKeySequence(QKeySequence.StandardKey.Copy))
         act_copy.setEnabled(has_image)
         act_save = menu.addAction(_("Save image to file…"))
         act_save.setEnabled(has_image)
         menu.addSeparator()
         act_clear = menu.addAction(_("Clear image"))
-        act_clear.setShortcut(QKeySequence(Qt.Key_Backspace))
+        act_clear.setShortcut(QKeySequence(Qt.Key.Key_Backspace))
         act_clear.setEnabled(has_image)
         act_load.triggered.connect(lambda: self._on_image_load_from_file(source_idx))
         act_paste.triggered.connect(lambda: self._on_image_paste(source_idx))
         act_copy.triggered.connect(lambda: self._on_image_copy_to_clipboard(source_idx))
         act_save.triggered.connect(lambda: self._on_image_save_to_file(source_idx))
         act_clear.triggered.connect(lambda: self._on_image_clear(source_idx))
-        menu.exec_(self.tableView.viewport().mapToGlobal(pos))
+        menu.exec(self.tableView.viewport().mapToGlobal(pos))
 
     def _on_image_load_from_file(self, source_idx: object) -> None:
         """Load an image from disk into the IMAGE cell."""
-        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+        from PySide6.QtCore import QModelIndex  # noqa: PLC0415
 
         from pbprompt.gui.image_utils import (  # noqa: PLC0415
             detect_image_format,
@@ -974,7 +975,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def _on_image_paste(self, source_idx: object) -> None:
         """Paste an image or file path from the clipboard."""
-        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+        from PySide6.QtCore import QModelIndex  # noqa: PLC0415
 
         from pbprompt.gui.image_utils import (  # noqa: PLC0415
             detect_image_format,
@@ -1029,7 +1030,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def _on_image_copy_to_clipboard(self, source_idx: object) -> None:
         """Copy the image from the IMAGE cell to the system clipboard."""
-        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+        from PySide6.QtCore import QModelIndex  # noqa: PLC0415
 
         from pbprompt.gui.image_utils import pixmap_from_bytes  # noqa: PLC0415
 
@@ -1047,7 +1048,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def _on_image_save_to_file(self, source_idx: object) -> None:
         """Save the image from the IMAGE cell to a file chosen by the user."""
-        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+        from PySide6.QtCore import QModelIndex  # noqa: PLC0415
 
         from pbprompt.gui.image_utils import detect_image_format  # noqa: PLC0415
 
@@ -1067,13 +1068,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             filter_str = self._("PNG image (*.png)")
             default_suffix = "png"
         dlg = QFileDialog(self, self._("Save Image"))
-        dlg.setAcceptMode(QFileDialog.AcceptSave)
+        dlg.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
         dlg.setNameFilter(filter_str)
         dlg.setDefaultSuffix(default_suffix)
         if self._config.last_image_dir:
             dlg.setDirectory(self._config.last_image_dir)
         dlg.selectFile(f"image.{default_suffix}")
-        if not dlg.exec_():
+        if not dlg.exec():
             return
         files = dlg.selectedFiles()
         if not files:
@@ -1105,7 +1106,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def _on_image_clear(self, source_idx: object) -> None:
         """Clear the image from selected IMAGE cells."""
-        from PyQt5.QtCore import QModelIndex  # noqa: PLC0415
+        from PySide6.QtCore import QModelIndex  # noqa: PLC0415
 
         if not isinstance(source_idx, QModelIndex):
             return
@@ -1123,10 +1124,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self,
             self._("Confirm Clear Image"),
             self._("Clear the image from {n} selected row(s)?").format(n=n),
-            QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No,
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
         )
-        if reply != QMessageBox.Yes:
+        if reply != QMessageBox.StandardButton.Yes:
             return
 
         for row in source_rows:
@@ -1212,7 +1213,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         from pbprompt.gui.settings_dialog import SettingsDialog  # noqa: PLC0415
 
         dlg = SettingsDialog(config=self._config, parent=self)
-        if dlg.exec_() == dlg.Accepted:
+        if dlg.exec() == dlg.Accepted:
             # Config was updated and saved inside the dialog
             self._config = dlg.config
             # Reload i18n if language changed
@@ -1240,7 +1241,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         from pbprompt.gui.about_dialog import AboutDialog  # noqa: PLC0415
 
         dlg = AboutDialog(parent=self)
-        dlg.exec_()
+        dlg.exec()
 
     # ------------------------------------------------------------------
     # Recent files

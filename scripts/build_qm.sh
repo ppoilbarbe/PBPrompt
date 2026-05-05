@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Compile Qt Designer .ui files and the .qrc resource file.
-# Requires pyuic5 and pyrcc5 to be installed (pip install PyQt5-tools).
+# Requires pyside6-uic and pyside6-rcc (provided by the pyside6 package).
 # Usage: ./scripts/build_qm.sh
 
 set -euo pipefail
@@ -12,12 +12,12 @@ echo "Compiling .ui files..."
 for ui_file in "$SRC_GUI"/*.ui; do
     base="$(basename "$ui_file" .ui)"
     out="$SRC_GUI/ui_${base}.py"
-    echo "  pyuic5 $ui_file -> $out"
-    pyuic5 "$ui_file" -o "$out"
+    echo "  pyside6-uic $ui_file -> $out"
+    pyside6-uic "$ui_file" -o "$out"
 done
 
 echo "Compiling resources.qrc..."
-pyrcc5 "$RESOURCES/resources.qrc" -o "$SRC_GUI/resources_rc.py"
+pyside6-rcc "$RESOURCES/resources.qrc" -o "$SRC_GUI/resources_rc.py"
 echo "  -> $SRC_GUI/resources_rc.py"
 
 echo "Done."

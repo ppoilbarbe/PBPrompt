@@ -6,7 +6,7 @@ import argparse
 import logging
 import sys
 
-from PyQt5.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication
 
 from pbprompt import __app_name__, __description__, __version__
 from pbprompt.config import AppConfig
@@ -83,7 +83,7 @@ def main() -> None:
     window = MainWindow(config=config, initial_file=initial_file)
     window.show()
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 
 if __name__ == "__main__":

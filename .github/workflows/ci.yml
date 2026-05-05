@@ -12,10 +12,16 @@ on:
 # Opt into Node.js 24 early for all actions (Node.js 20 deprecated June 2026).
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  # Required by PySide6 on headless runners (offscreen Qt platform plugin).
+  QT_QPA_PLATFORM: offscreen
 
 # ---------------------------------------------------------------------------
-# Shared helper: compile .po files with pybabel (works on Linux/Windows/macOS
-# without requiring gettext to be installed as a system package).
+# Shared setup used by every job:
+#   - micromamba creates/restores the conda env from environment.yml
+#   - pip install -e . --no-deps is a dedicated step (not post-create-command)
+#     so it runs on every invocation, including cache-restore runs
+#   - make all NOCONDA=1 compiles UI, resources and translations
+# All make invocations use NOCONDA=1 because the conda env is already active.
 # ---------------------------------------------------------------------------
 
 jobs:
@@ -34,40 +40,31 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6
+      - name: Set up micromamba environment
+        uses: mamba-org/setup-micromamba@v2
         with:
-          python-version: ${{ matrix.python-version }}
-          cache: pip
+          environment-file: environment.yml
+          create-args: --channel-priority strict python=${{ matrix.python-version }}
+          init-shell: bash
+          cache-environment: true
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update -q
-          sudo apt-get install -y --no-install-recommends \
-            libglib2.0-0 libxkbcommon-x11-0 libdbus-1-3 \
-            xvfb x11-utils gettext
+      - name: Install package (editable)
+        run: pip install -e . --no-deps
+        shell: bash -el {0}
 
-      - name: Install Python dependencies
-        run: |
-          pip install --upgrade pip
-          pip install ".[dev]"
+      - name: Build (UI, resources, translations)
+        run: make all NOCONDA=1
+        shell: bash -el {0}
 
       - name: Run pre-commit hooks
         run: pre-commit run --all-files
+        shell: bash -el {0}
         env:
           SKIP: no-commit-to-branch
 
-      - name: Compile translations
-        run: |
-          for lang in en fr es it ru vi zh_CN; do
-            msgfmt locales/$lang/LC_MESSAGES/messages.po \
-                   -o locales/$lang/LC_MESSAGES/messages.mo
-          done
-
       - name: Run tests
-        run: xvfb-run --auto-servernum pytest
-        env:
-          QT_QPA_PLATFORM: offscreen
+        run: make test NOCONDA=1
+        shell: bash -el {0}
 
   # -------------------------------------------------------------------------
   # Documentation  – branch pushes only (skip on tag releases)
@@ -80,31 +77,25 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
+      - name: Set up micromamba environment
+        uses: mamba-org/setup-micromamba@v2
         with:
-          python-version: "3.12"
-          cache: pip
+          environment-file: environment.yml
+          create-args: --channel-priority strict
+          init-shell: bash
+          cache-environment: true
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update -q
-          sudo apt-get install -y --no-install-recommends gettext
+      - name: Install package (editable)
+        run: pip install -e . --no-deps
+        shell: bash -el {0}
 
-      - name: Install Python dependencies
-        run: |
-          pip install --upgrade pip
-          pip install ".[dev]"
-
-      - name: Compile translations
-        run: |
-          for lang in en fr es it ru vi zh_CN; do
-            msgfmt locales/$lang/LC_MESSAGES/messages.po \
-                   -o locales/$lang/LC_MESSAGES/messages.mo
-          done
+      - name: Build (UI, resources, translations)
+        run: make all NOCONDA=1
+        shell: bash -el {0}
 
       - name: Build Sphinx documentation
-        run: make docs
+        run: make docs NOCONDA=1
+        shell: bash -el {0}
 
       - name: Upload documentation artefact
         uses: actions/upload-artifact@v6
@@ -114,9 +105,8 @@ jobs:
           retention-days: 7
 
   # -------------------------------------------------------------------------
-  # Build helpers  – shared steps expressed as a reusable fragment.
-  # Each platform job: installs Python deps, compiles UI/resources/translations,
-  # runs PyInstaller, uploads the executable as a workflow artifact.
+  # Build helpers  – produce a standalone executable per platform via
+  # `make bundle NOCONDA=1` (PyInstaller, depends on make all).
   # -------------------------------------------------------------------------
 
   build-linux:
@@ -127,40 +117,21 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
+      - name: Set up micromamba environment
+        uses: mamba-org/setup-micromamba@v2
         with:
-          python-version: "3.12"
-          cache: pip
+          environment-file: environment.yml
+          create-args: --channel-priority strict
+          init-shell: bash
+          cache-environment: true
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update -q
-          sudo apt-get install -y --no-install-recommends \
-            libglib2.0-0 libxkbcommon-x11-0 libdbus-1-3
+      - name: Install package and PyInstaller
+        run: pip install -e . --no-deps && pip install pyinstaller
+        shell: bash -el {0}
 
-      - name: Install Python dependencies
-        run: pip install --upgrade pip && pip install ".[dev]" pyinstaller babel
-
-      - name: Compile UI files and Qt resources
-        run: |
-          pyuic5 src/pbprompt/gui/main_window.ui    -o src/pbprompt/gui/ui_main_window.py
-          pyuic5 src/pbprompt/gui/settings_dialog.ui -o src/pbprompt/gui/ui_settings_dialog.py
-          pyuic5 src/pbprompt/gui/about_dialog.ui    -o src/pbprompt/gui/ui_about_dialog.py
-          pyrcc5 resources/resources.qrc             -o src/pbprompt/gui/resources_rc.py
-
-      - name: Compile translations
-        run: pybabel compile -d locales -D messages
-
-      - name: Build Linux executable
-        run: |
-          pyinstaller \
-            --onefile --windowed \
-            --name pbprompt \
-            --add-data "locales:locales" \
-            --add-data "resources:resources" \
-            --paths src \
-            src/pbprompt/__main__.py
+      - name: Build executable
+        run: make bundle NOCONDA=1
+        shell: bash -el {0}
 
       - name: Upload Linux executable
         uses: actions/upload-artifact@v6
@@ -177,37 +148,21 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
+      - name: Set up micromamba environment
+        uses: mamba-org/setup-micromamba@v2
         with:
-          python-version: "3.12"
-          cache: pip
+          environment-file: environment.yml
+          create-args: --channel-priority strict
+          init-shell: bash
+          cache-environment: true
 
-      - name: Install Python dependencies
-        run: pip install --upgrade pip && pip install ".[dev]" pyinstaller babel
+      - name: Install package and PyInstaller
+        run: pip install -e . --no-deps && pip install pyinstaller
+        shell: bash -el {0}
 
-      - name: Compile UI files and Qt resources
-        shell: bash
-        run: |
-          pyuic5 src/pbprompt/gui/main_window.ui    -o src/pbprompt/gui/ui_main_window.py
-          pyuic5 src/pbprompt/gui/settings_dialog.ui -o src/pbprompt/gui/ui_settings_dialog.py
-          pyuic5 src/pbprompt/gui/about_dialog.ui    -o src/pbprompt/gui/ui_about_dialog.py
-          pyrcc5 resources/resources.qrc             -o src/pbprompt/gui/resources_rc.py
-
-      - name: Compile translations
-        run: pybabel compile -d locales -D messages
-
-      - name: Build Windows executable
-        # Use bash so path separators and quoting are consistent across platforms.
-        shell: bash
-        run: |
-          pyinstaller \
-            --onefile --windowed \
-            --name pbprompt \
-            --add-data "locales:locales" \
-            --add-data "resources:resources" \
-            --paths src \
-            src/pbprompt/__main__.py
+      - name: Build executable
+        run: make bundle NOCONDA=1
+        shell: bash -el {0}
 
       - name: Upload Windows executable
         uses: actions/upload-artifact@v6
@@ -229,35 +184,21 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
+      - name: Set up micromamba environment
+        uses: mamba-org/setup-micromamba@v2
         with:
-          python-version: "3.12"
-          cache: pip
+          environment-file: environment.yml
+          create-args: --channel-priority strict
+          init-shell: bash
+          cache-environment: true
 
-      - name: Install Python dependencies
-        run: pip install --upgrade pip && pip install ".[dev]" pyinstaller babel
+      - name: Install package and PyInstaller
+        run: pip install -e . --no-deps && pip install pyinstaller
+        shell: bash -el {0}
 
-      - name: Compile UI files and Qt resources
-        run: |
-          pyuic5 src/pbprompt/gui/main_window.ui    -o src/pbprompt/gui/ui_main_window.py
-          pyuic5 src/pbprompt/gui/settings_dialog.ui -o src/pbprompt/gui/ui_settings_dialog.py
-          pyuic5 src/pbprompt/gui/about_dialog.ui    -o src/pbprompt/gui/ui_about_dialog.py
-          pyrcc5 resources/resources.qrc             -o src/pbprompt/gui/resources_rc.py
-
-      - name: Compile translations
-        run: pybabel compile -d locales -D messages
-
-      - name: Build macOS executable
-        run: |
-          pyinstaller \
-            --onefile --windowed \
-            --name pbprompt \
-            --osx-bundle-identifier com.pbmou.pbprompt \
-            --add-data "locales:locales" \
-            --add-data "resources:resources" \
-            --paths src \
-            src/pbprompt/__main__.py
+      - name: Build executable
+        run: make bundle NOCONDA=1
+        shell: bash -el {0}
 
       - name: Upload macOS executable
         uses: actions/upload-artifact@v6
@@ -281,23 +222,22 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
+      - name: Set up micromamba environment
+        uses: mamba-org/setup-micromamba@v2
         with:
-          python-version: "3.12"
-          cache: pip
+          environment-file: environment.yml
+          create-args: --channel-priority strict
+          init-shell: bash
+          cache-environment: true
 
-      # Build the source archives (make dist reads the version from __init__.py).
+      - name: Install package (editable)
+        run: pip install -e . --no-deps
+        shell: bash -el {0}
+
+      # make dist depends on make all (UI + resources + translations).
       - name: Build source archives
-        run: |
-          sudo apt-get update -q
-          sudo apt-get install -y --no-install-recommends gettext
-          pip install --upgrade pip && pip install ".[dev]"
-          for lang in en fr es it ru vi zh_CN; do
-            msgfmt locales/$lang/LC_MESSAGES/messages.po \
-                   -o locales/$lang/LC_MESSAGES/messages.mo
-          done
-          make dist
+        run: make dist NOCONDA=1
+        shell: bash -el {0}
 
       # Download all three platform executables into their artifact directories.
       - name: Download build artifacts

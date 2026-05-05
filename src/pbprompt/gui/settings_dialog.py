@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 
-from PyQt5.QtWidgets import QDialog
+from PySide6.QtWidgets import QDialog
 
 from pbprompt.config import TRANSLATION_SERVICES, VALID_LOG_LEVELS, AppConfig
 from pbprompt.gui.ui_settings_dialog import Ui_SettingsDialog
@@ -382,7 +382,7 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
 
 def _set_combo(combo: object, value: str) -> None:
     """Select the item whose userData matches *value* in *combo*."""
-    from PyQt5.QtWidgets import QComboBox  # noqa: PLC0415
+    from PySide6.QtWidgets import QComboBox  # noqa: PLC0415
 
     if not isinstance(combo, QComboBox):
         return

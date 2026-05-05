@@ -11,14 +11,13 @@ name: pbprompt
 
 channels:
   - conda-forge
-  - defaults
 
 dependencies:
-  - python=3.11
+  - python>=3.11
   - pip
 
   # ---- pbprompt runtime ----
-  - pyqt>=5.15          # provides PyQt5
+  - pyside6>=6.5
   - ruamel.yaml>=0.18
   - platformdirs>=4.2
   - requests>=2.31
@@ -38,6 +37,7 @@ dependencies:
   - mypy>=1.8
   - sphinx>=7.2
   - sphinx-rtd-theme>=2.0
+  - babel>=2.14
 
   # ---- pip-only (not available on conda-forge) ----
   - pip:

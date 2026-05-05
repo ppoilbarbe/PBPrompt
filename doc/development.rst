@@ -18,7 +18,7 @@ With **conda**:
 
 .. code-block:: bash
 
-   conda create -n pbprompt-dev python=3.12 pyqt pyqt5-sip ruamel.yaml platformdirs requests pytest-xvfb
+   conda create -n pbprompt-dev python=3.12 pyside6 ruamel.yaml platformdirs requests pytest-xvfb
    conda activate pbprompt-dev
    pip install deep-translator
    pip install -e ".[dev]" --no-deps
@@ -38,9 +38,9 @@ Build system (Makefile)
    * - ``make all``
      - Compile UI files, resources and translations
    * - ``make ui``
-     - ``pyuic5 *.ui → ui_*.py``
+     - ``pyside6-uic *.ui → ui_*.py``
    * - ``make resources``
-     - ``pyrcc5 resources.qrc → resources_rc.py``
+     - ``pyside6-rcc resources.qrc → resources_rc.py``
    * - ``make translations``
      - ``msgfmt *.po → *.mo`` for all locales
    * - ``make run``
@@ -150,7 +150,7 @@ Running tests
    make test-cov
 
 The test suite uses **pytest-xvfb** (listed in ``[project.optional-dependencies]``
-dev extras).  On Linux, PyQt5 widgets require a running X display — even in
+dev extras).  On Linux, PySide6 widgets require a running X display — even in
 headless CI environments.  ``pytest-xvfb`` starts a private Xvfb virtual
 framebuffer automatically before each test session and tears it down
 afterwards, so neither ``xvfb-run`` nor ``QT_QPA_PLATFORM=offscreen`` is

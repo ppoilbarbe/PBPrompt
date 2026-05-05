@@ -5,7 +5,7 @@ Thank you for your interest in contributing to PBPrompt!
 ## Ways to contribute
 
 - **Bug reports** – open an issue with a clear description, steps to reproduce,
-  and your OS / Python / PyQt5 versions.
+  and your OS / Python / PySide6 versions.
 - **Feature requests** – open an issue describing the use case.
 - **Pull requests** – see the workflow below.
 - **Translations** – see *Adding a new language* below.
@@ -65,7 +65,7 @@ Use short imperative-mood subject lines, e.g.
 
 ```
 Add Vietnamese translation
-Fix setContentsMargins TypeError on PyQt5
+Fix setContentsMargins TypeError on PySide6
 Bump version to 1.0.2
 ```
 

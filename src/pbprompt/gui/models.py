@@ -7,23 +7,23 @@ import re
 from enum import IntEnum
 from typing import Any
 
-from PyQt5.QtCore import (
+from PySide6.QtCore import (
     QAbstractTableModel,
     QEvent,
     QModelIndex,
     QSize,
     QSortFilterProxyModel,
     Qt,
-    pyqtSignal,
+    Signal,
 )
-from PyQt5.QtGui import (
+from PySide6.QtGui import (
     QKeySequence,
     QPainter,
     QPalette,
     QPen,
     QPixmap,
 )
-from PyQt5.QtWidgets import (
+from PySide6.QtWidgets import (
     QAbstractItemDelegate,
     QAbstractItemView,
     QApplication,
@@ -86,7 +86,7 @@ class PromptTableModel(QAbstractTableModel):
 
     #: Emitted whenever the underlying :class:`~pbprompt.data.PromptCollection`
     #: is modified (row added, removed, or field changed).
-    collection_modified = pyqtSignal()
+    collection_modified = Signal()
 
     _headers: list[str] = ["AI", "Group", "Name", "Image", "Local language", "English"]
     _header_tooltips: list[str] = ["", "", "", "", "", ""]
@@ -113,7 +113,7 @@ class PromptTableModel(QAbstractTableModel):
             return 0
         return len(Column)
 
-    def data(self, index: QModelIndex, role: int = Qt.DisplayRole) -> Any:
+    def data(self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole) -> Any:
         if not index.isValid():
             return None
         row, col = index.row(), index.column()
@@ -123,7 +123,7 @@ class PromptTableModel(QAbstractTableModel):
         column = Column(col)
 
         if column == Column.IMAGE:
-            if role == Qt.UserRole:
+            if role == Qt.ItemDataRole.UserRole:
                 # UserRole (not DecorationRole) avoids initStyleOption picking up the
                 # pixmap into opt.decorationPixmap, which causes some platform styles
                 # to create a QPainter on it during selection → QPainter engine errors.
@@ -136,23 +136,25 @@ class PromptTableModel(QAbstractTableModel):
                     pm = pixmap_from_bytes(thumb)
                     return pm if pm and not pm.isNull() else None
                 return None
-            if role == Qt.DisplayRole or role == Qt.EditRole:
+            if role == Qt.ItemDataRole.DisplayRole or role == Qt.ItemDataRole.EditRole:
                 return None
-            if role == Qt.TextAlignmentRole:
-                return int(Qt.AlignCenter)
+            if role == Qt.ItemDataRole.TextAlignmentRole:
+                return int(Qt.AlignmentFlag.AlignCenter)
             return None
 
-        if role in (Qt.DisplayRole, Qt.EditRole):
+        if role in (Qt.ItemDataRole.DisplayRole, Qt.ItemDataRole.EditRole):
             field = _COLUMN_FIELDS.get(column, "")
             return getattr(entry, field, "")
 
-        if role == Qt.TextAlignmentRole:
-            return int(Qt.AlignVCenter | Qt.AlignLeft)
+        if role == Qt.ItemDataRole.TextAlignmentRole:
+            return int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft)
 
         return None
 
-    def setData(self, index: QModelIndex, value: Any, role: int = Qt.EditRole) -> bool:
-        if not index.isValid() or role != Qt.EditRole:
+    def setData(
+        self, index: QModelIndex, value: Any, role: int = Qt.ItemDataRole.EditRole
+    ) -> bool:
+        if not index.isValid() or role != Qt.ItemDataRole.EditRole:
             return False
         row, col = index.row(), index.column()
         if row >= len(self._collection.entries):
@@ -164,37 +166,45 @@ class PromptTableModel(QAbstractTableModel):
         if not field:
             return False
         self._collection.update_field(row, field, str(value))
-        self.dataChanged.emit(index, index, [Qt.DisplayRole, Qt.EditRole])
+        self.dataChanged.emit(
+            index, index, [Qt.ItemDataRole.DisplayRole, Qt.ItemDataRole.EditRole]
+        )
         self.collection_modified.emit()
         return True
 
-    def flags(self, index: QModelIndex) -> Qt.ItemFlags:
+    def flags(self, index: QModelIndex) -> Qt.ItemFlag:
         if not index.isValid():
-            return Qt.NoItemFlags
+            return Qt.ItemFlag.NoItemFlags
         if Column(index.column()) == Column.IMAGE:
-            return Qt.ItemIsEnabled | Qt.ItemIsSelectable  # not Qt.ItemIsEditable
-        return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable
+            return (
+                Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable
+            )  # not ItemIsEditable
+        return (
+            Qt.ItemFlag.ItemIsEnabled
+            | Qt.ItemFlag.ItemIsSelectable
+            | Qt.ItemFlag.ItemIsEditable
+        )
 
     def headerData(
         self,
         section: int,
         orientation: Qt.Orientation,
-        role: int = Qt.DisplayRole,
+        role: int = Qt.ItemDataRole.DisplayRole,
     ) -> Any:
-        if orientation == Qt.Horizontal:
-            if role == Qt.DisplayRole:
+        if orientation == Qt.Orientation.Horizontal:
+            if role == Qt.ItemDataRole.DisplayRole:
                 try:
                     return self._headers[section]
                 except IndexError:
                     return None
-            if role == Qt.ToolTipRole:
+            if role == Qt.ItemDataRole.ToolTipRole:
                 try:
                     tip = self._header_tooltips[section]
                     return tip or None
                 except IndexError:
                     return None
             return None
-        if role == Qt.DisplayRole:
+        if role == Qt.ItemDataRole.DisplayRole:
             return str(section + 1)
         return None
 
@@ -254,16 +264,16 @@ class PromptTableModel(QAbstractTableModel):
         entry.thumbnail = thumbnail
         self._collection.modified = True
         idx = self.index(source_row, int(Column.IMAGE))
-        self.dataChanged.emit(idx, idx, [Qt.UserRole])
+        self.dataChanged.emit(idx, idx, [Qt.ItemDataRole.UserRole])
         self.collection_modified.emit()
 
     def set_header_labels(self, labels: list[str]) -> None:
         self._headers = labels
-        self.headerDataChanged.emit(Qt.Horizontal, 0, len(Column) - 1)
+        self.headerDataChanged.emit(Qt.Orientation.Horizontal, 0, len(Column) - 1)
 
     def set_header_tooltips(self, tooltips: list[str]) -> None:
         self._header_tooltips = tooltips
-        self.headerDataChanged.emit(Qt.Horizontal, 0, len(Column) - 1)
+        self.headerDataChanged.emit(Qt.Orientation.Horizontal, 0, len(Column) - 1)
 
 
 # ---------------------------------------------------------------------------
@@ -297,7 +307,7 @@ class MultiFilterProxyModel(QSortFilterProxyModel):
             if col == int(Column.IMAGE):
                 continue  # IMAGE column is not filterable
             idx = model.index(source_row, col, source_parent)
-            cell_data: str = model.data(idx, Qt.DisplayRole) or ""
+            cell_data: str = model.data(idx, Qt.ItemDataRole.DisplayRole) or ""
             try:
                 if not re.search(pattern, cell_data, re.IGNORECASE):
                     return False
@@ -313,13 +323,17 @@ class MultiFilterProxyModel(QSortFilterProxyModel):
             c = int(col)
             left_idx = model.index(left.row(), c, left.parent())
             right_idx = model.index(right.row(), c, right.parent())
-            left_val = (model.data(left_idx, Qt.DisplayRole) or "").lower()
-            right_val = (model.data(right_idx, Qt.DisplayRole) or "").lower()
+            left_val = (model.data(left_idx, Qt.ItemDataRole.DisplayRole) or "").lower()
+            right_val = (
+                model.data(right_idx, Qt.ItemDataRole.DisplayRole) or ""
+            ).lower()
             if left_val != right_val:
                 return left_val < right_val
         return False
 
-    def sort(self, column: int, order: Qt.SortOrder = Qt.AscendingOrder) -> None:
+    def sort(
+        self, column: int, order: Qt.SortOrder = Qt.SortOrder.AscendingOrder
+    ) -> None:
         if Column(column) not in _SORTABLE_COLUMNS:
             return
         super().sort(column, order)
@@ -344,14 +358,14 @@ class CurrentCellHighlightDelegate(QStyledItemDelegate):
         index: QModelIndex,
     ) -> None:
         if self._view.currentIndex() == index and bool(
-            option.state & QStyle.State_Selected
+            option.state & QStyle.StateFlag.State_Selected
         ):
             painter.save()
-            color = option.palette.color(QPalette.Highlight).darker(160)
+            color = option.palette.color(QPalette.ColorRole.Highlight).darker(160)
             pen = QPen(color)
             pen.setWidth(2)
             painter.setPen(pen)
-            painter.setBrush(Qt.NoBrush)
+            painter.setBrush(Qt.BrushStyle.NoBrush)
             painter.drawRect(option.rect.adjusted(1, 1, -2, -2))
             painter.restore()
 
@@ -408,11 +422,15 @@ class ImageDelegate(CurrentCellHighlightDelegate):
         # Clearing HasDecoration is kept as a safety net for any residual flag.
         opt = QStyleOptionViewItem(option)
         self.initStyleOption(opt, index)
-        opt.features = opt.features & ~QStyleOptionViewItem.HasDecoration
+        opt.features = (
+            opt.features & ~QStyleOptionViewItem.ViewItemFeature.HasDecoration
+        )
         style = opt.widget.style() if opt.widget else QApplication.style()
-        style.drawControl(QStyle.CE_ItemViewItem, opt, painter, opt.widget)
+        style.drawControl(
+            QStyle.ControlElement.CE_ItemViewItem, opt, painter, opt.widget
+        )
 
-        pixmap: QPixmap | None = index.data(Qt.UserRole)
+        pixmap: QPixmap | None = index.data(Qt.ItemDataRole.UserRole)
         if pixmap and not pixmap.isNull():
             x = opt.rect.x() + max(0, (opt.rect.width() - pixmap.width()) // 2)
             y = opt.rect.y() + max(0, (opt.rect.height() - pixmap.height()) // 2)
@@ -420,9 +438,9 @@ class ImageDelegate(CurrentCellHighlightDelegate):
         else:
             # Draw a subtle "no image" placeholder frame.
             painter.save()
-            color = opt.palette.color(QPalette.Mid)
-            painter.setPen(QPen(color, 1, Qt.DashLine))
-            painter.setBrush(Qt.NoBrush)
+            color = opt.palette.color(QPalette.ColorRole.Mid)
+            painter.setPen(QPen(color, 1, Qt.PenStyle.DashLine))
+            painter.setBrush(Qt.BrushStyle.NoBrush)
             inner = opt.rect.adjusted(4, 4, -4, -4)
             if inner.isValid():
                 painter.drawRect(inner)
@@ -431,7 +449,7 @@ class ImageDelegate(CurrentCellHighlightDelegate):
         self._draw_current_highlight(painter, option, index)
 
     def sizeHint(self, option: QStyleOptionViewItem, index: QModelIndex) -> QSize:
-        pixmap: QPixmap | None = index.data(Qt.UserRole)
+        pixmap: QPixmap | None = index.data(Qt.ItemDataRole.UserRole)
         if pixmap and not pixmap.isNull():
             return QSize(self._thumb_w + 8, self._thumb_h + 8)
         # No image: let the row height be determined by other columns
@@ -449,7 +467,7 @@ class ImageDelegate(CurrentCellHighlightDelegate):
     ) -> bool:
         # Consume double-click so Qt does not try to open an editor.
         # The view's mouseDoubleClickEvent emits image_activated instead.
-        if event.type() == QEvent.MouseButtonDblClick:
+        if event.type() == QEvent.Type.MouseButtonDblClick:
             return True
         return super().editorEvent(event, model, option, index)
 
@@ -458,7 +476,7 @@ class ImageDelegate(CurrentCellHighlightDelegate):
 # Multi-line delegate (Local / English columns)
 # ---------------------------------------------------------------------------
 
-_NEWLINE_MARKER = "\u21b5"
+_NEWLINE_MARKER = "↵"
 
 
 class MultiLineDelegate(CurrentCellHighlightDelegate):
@@ -486,15 +504,17 @@ class MultiLineDelegate(CurrentCellHighlightDelegate):
         self.initStyleOption(opt, index)
         opt.text = ""
         style = opt.widget.style() if opt.widget else QApplication.style()
-        style.drawControl(QStyle.CE_ItemViewItem, opt, painter, opt.widget)
+        style.drawControl(
+            QStyle.ControlElement.CE_ItemViewItem, opt, painter, opt.widget
+        )
 
-        raw: str = index.data(Qt.DisplayRole) or ""
+        raw: str = index.data(Qt.ItemDataRole.DisplayRole) or ""
         display = self._display_text(raw)
 
-        if opt.state & QStyle.State_Selected:
-            color = opt.palette.color(QPalette.HighlightedText)
+        if opt.state & QStyle.StateFlag.State_Selected:
+            color = opt.palette.color(QPalette.ColorRole.HighlightedText)
         else:
-            color = opt.palette.color(QPalette.Text)
+            color = opt.palette.color(QPalette.ColorRole.Text)
 
         margin = 4
         text_rect = opt.rect.adjusted(margin, margin, -margin, -margin)
@@ -504,7 +524,9 @@ class MultiLineDelegate(CurrentCellHighlightDelegate):
         painter.setPen(color)
         painter.drawText(
             text_rect,
-            Qt.TextWordWrap | Qt.AlignTop | Qt.AlignLeft,
+            Qt.TextFlag.TextWordWrap
+            | Qt.AlignmentFlag.AlignTop
+            | Qt.AlignmentFlag.AlignLeft,
             display,
         )
         painter.restore()
@@ -519,7 +541,7 @@ class MultiLineDelegate(CurrentCellHighlightDelegate):
         if width <= 8:
             width = 100
 
-        raw: str = index.data(Qt.DisplayRole) or ""
+        raw: str = index.data(Qt.ItemDataRole.DisplayRole) or ""
         display = self._display_text(raw)
 
         margin = 4
@@ -529,7 +551,9 @@ class MultiLineDelegate(CurrentCellHighlightDelegate):
             0,
             max(width - 2 * margin, 1),
             10000,
-            Qt.TextWordWrap | Qt.AlignTop | Qt.AlignLeft,
+            Qt.TextFlag.TextWordWrap
+            | Qt.AlignmentFlag.AlignTop
+            | Qt.AlignmentFlag.AlignLeft,
             display,
         )
         h = bounding.height() + 2 * margin + 4
@@ -543,15 +567,15 @@ class MultiLineDelegate(CurrentCellHighlightDelegate):
         if col not in (Column.LOCAL, Column.ENGLISH):
             return super().createEditor(parent, option, index)
         editor = QPlainTextEdit(parent)
-        editor.setFrameShape(QFrame.NoFrame)
-        editor.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        editor.setFrameShape(QFrame.Shape.NoFrame)
+        editor.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         return editor
 
     def setEditorData(self, editor: Any, index: QModelIndex) -> None:
         if not isinstance(editor, QPlainTextEdit):
             super().setEditorData(editor, index)
             return
-        text: str = index.data(Qt.EditRole) or ""
+        text: str = index.data(Qt.ItemDataRole.EditRole) or ""
         editor.setPlainText(text)
         editor.selectAll()
 
@@ -559,7 +583,7 @@ class MultiLineDelegate(CurrentCellHighlightDelegate):
         if not isinstance(editor, QPlainTextEdit):
             super().setModelData(editor, model, index)
             return
-        model.setData(index, editor.toPlainText(), Qt.EditRole)
+        model.setData(index, editor.toPlainText(), Qt.ItemDataRole.EditRole)
 
     def updateEditorGeometry(
         self, editor: Any, option: QStyleOptionViewItem, index: QModelIndex
@@ -569,24 +593,31 @@ class MultiLineDelegate(CurrentCellHighlightDelegate):
 
     def eventFilter(self, obj: Any, event: Any) -> bool:
         if isinstance(obj, QPlainTextEdit):
-            if event.type() == QEvent.KeyPress:
+            if event.type() == QEvent.Type.KeyPress:
                 key = event.key()
-                if key in (Qt.Key_Return, Qt.Key_Enter):
-                    if event.modifiers() & (Qt.ControlModifier | Qt.ShiftModifier):
+                if key in (Qt.Key.Key_Return, Qt.Key.Key_Enter):
+                    if event.modifiers() & (
+                        Qt.KeyboardModifier.ControlModifier
+                        | Qt.KeyboardModifier.ShiftModifier
+                    ):
                         obj.insertPlainText("\n")
                         return True
                     self.commitData.emit(obj)
-                    self.closeEditor.emit(obj, QAbstractItemDelegate.NoHint)
+                    self.closeEditor.emit(obj, QAbstractItemDelegate.EndEditHint.NoHint)
                     return True
-                if key in (Qt.Key_Up, Qt.Key_Down):
+                if key in (Qt.Key.Key_Up, Qt.Key.Key_Down):
                     return False
-                if key == Qt.Key_Tab:
+                if key == Qt.Key.Key_Tab:
                     self.commitData.emit(obj)
-                    self.closeEditor.emit(obj, QAbstractItemDelegate.EditNextItem)
+                    self.closeEditor.emit(
+                        obj, QAbstractItemDelegate.EndEditHint.EditNextItem
+                    )
                     return True
-                if key == Qt.Key_Backtab:
+                if key == Qt.Key.Key_Backtab:
                     self.commitData.emit(obj)
-                    self.closeEditor.emit(obj, QAbstractItemDelegate.EditPreviousItem)
+                    self.closeEditor.emit(
+                        obj, QAbstractItemDelegate.EndEditHint.EditPreviousItem
+                    )
                     return True
             return super().eventFilter(obj, event)
         return super().eventFilter(obj, event)
@@ -601,22 +632,22 @@ class PromptTableView(QTableView):
     """QTableView with clipboard support, image activation, and drag-and-drop."""
 
     #: Emitted with the cell text whenever the user copies a cell via Ctrl+C.
-    cell_copied = pyqtSignal(str)
+    cell_copied = Signal(str)
     #: Emitted (source model index) when the IMAGE column cell is double-clicked.
-    image_activated = pyqtSignal(QModelIndex)
+    image_activated = Signal(QModelIndex)
     #: Emitted (source model index, QMimeData) when an image is dropped on IMAGE column.
-    image_drop_requested = pyqtSignal(object, object)
+    image_drop_requested = Signal(object, object)
     #: Emitted when the user presses Return on an IMAGE cell (load from file).
-    image_load_requested = pyqtSignal(QModelIndex)
+    image_load_requested = Signal(QModelIndex)
     #: Emitted when the user presses Ctrl+V on an IMAGE cell (paste).
-    image_paste_requested = pyqtSignal(QModelIndex)
+    image_paste_requested = Signal(QModelIndex)
     #: Emitted when the user presses Backspace on an IMAGE cell (clear).
-    image_clear_requested = pyqtSignal(QModelIndex)
+    image_clear_requested = Signal(QModelIndex)
 
     def __init__(self, parent: Any = None) -> None:
         super().__init__(parent)
         self.setAcceptDrops(True)
-        self.setDragDropMode(QAbstractItemView.DropOnly)
+        self.setDragDropMode(QAbstractItemView.DragDropMode.DropOnly)
 
     # ------------------------------------------------------------------
     # Keyboard shortcuts
@@ -627,20 +658,20 @@ class PromptTableView(QTableView):
         if idx.isValid():
             source_idx = self.model().mapToSource(idx)
             if source_idx.column() == int(Column.IMAGE):
-                if event.key() in (Qt.Key_Return, Qt.Key_Enter):
+                if event.key() in (Qt.Key.Key_Return, Qt.Key.Key_Enter):
                     self.image_load_requested.emit(source_idx)
                     return
-                if event.matches(QKeySequence.Paste):
+                if event.matches(QKeySequence.StandardKey.Paste):
                     self.image_paste_requested.emit(source_idx)
                     return
-                if event.key() == Qt.Key_Backspace:
+                if event.key() == Qt.Key.Key_Backspace:
                     self.image_clear_requested.emit(source_idx)
                     return
-        if event.matches(QKeySequence.Copy):
+        if event.matches(QKeySequence.StandardKey.Copy):
             self._do_copy()
-        elif event.matches(QKeySequence.Cut):
+        elif event.matches(QKeySequence.StandardKey.Cut):
             self._do_cut()
-        elif event.matches(QKeySequence.Paste):
+        elif event.matches(QKeySequence.StandardKey.Paste):
             self._do_paste()
         else:
             super().keyPressEvent(event)
@@ -699,7 +730,7 @@ class PromptTableView(QTableView):
         idx = self.currentIndex()
         if not idx.isValid():
             return ""
-        return self.model().data(idx, Qt.DisplayRole) or ""
+        return self.model().data(idx, Qt.ItemDataRole.DisplayRole) or ""
 
     def _do_copy(self) -> None:
         text = self._current_text()
@@ -711,11 +742,11 @@ class PromptTableView(QTableView):
         idx = self.currentIndex()
         if not idx.isValid():
             return
-        text = self.model().data(idx, Qt.DisplayRole) or ""
+        text = self.model().data(idx, Qt.ItemDataRole.DisplayRole) or ""
         if text:
             QApplication.clipboard().setText(text)
             self.cell_copied.emit(text)
-        self.model().setData(idx, "", Qt.EditRole)
+        self.model().setData(idx, "", Qt.ItemDataRole.EditRole)
 
     def _do_paste(self) -> None:
         idx = self.currentIndex()
@@ -723,4 +754,4 @@ class PromptTableView(QTableView):
             return
         text = QApplication.clipboard().text()
         if text:
-            self.model().setData(idx, text, Qt.EditRole)
+            self.model().setData(idx, text, Qt.ItemDataRole.EditRole)

@@ -1,11 +1,11 @@
 # CLAUDE.md — PBPrompt
 
-Application PyQt5 de gestion et traduction de prompts IA.
+Application PySide6 de gestion et traduction de prompts IA.
 Auteur : PBMou. Licence MIT. Python ≥ 3.11.
 
 ## État courant
 
-- **Version** : 1.4.0
+- **Version** : 1.6.0
 - **Stockage** : SQLite (`.sqlite`, WAL). YAML = import/export uniquement.
 - **Colonnes** : `Column(IntEnum)` AI=0, GROUP=1, NAME=2, IMAGE=3, LOCAL=4, ENGLISH=5
 - **Locales compilées** : en, de, fr, es, it, ru, vi, zh_CN
@@ -37,7 +37,7 @@ make bump-patch/minor/major  # incrémente la version semver
 **SQL — `"group"` est un mot-clé réservé :**
 Toujours entre guillemets dans toutes les requêtes SQL : `"group"`.
 
-**Bug MRO PyQt5 — raccourcis clavier :**
+**Bug MRO — raccourcis clavier :**
 `MainWindow` hérite de `QMainWindow` ET `Ui_MainWindow`. Python's MRO fait que
 `MainWindow.retranslateUi()` masque `Ui_MainWindow.retranslateUi()` → tous les
 `setShortcut()` du fichier généré sont du code mort.
@@ -51,7 +51,7 @@ Toujours vérifier `QFile.exists(path)` AVANT `QIcon(path)`. Ne jamais appeler
 
 **Proxy model — `Column(IntEnum)` :**
 Convertir explicitement en `int()` avant tout appel à `model.index()`. Certains builds
-PyQt5/SIP retournent silencieusement un `QModelIndex` invalide avec un `IntEnum`.
+PySide6/Shiboken retournent silencieusement un `QModelIndex` invalide avec un `IntEnum`.
 
 ## Règles impératives — fichiers `.ui` Qt Designer
 

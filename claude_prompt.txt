@@ -1,4 +1,4 @@
-Génère un projet Python complet pour une application graphique nommée PBPrompt qui utilise PyQt5.
+Génère un projet Python complet pour une application graphique nommée PBPrompt qui utilise PySide6.
 La description du projet est "A program to register and categorize AI prompts to keep tries."
 Le nom de l'éditeur du programme est PBMou.
 
@@ -209,7 +209,7 @@ pas être codée en dur.
       QSortFilterProxyModel.sort().
     - Dans lessThan() du proxy model, les valeurs Column (IntEnum) doivent être
       converties explicitement en int() avant tout appel à model.index(). Certaines
-      versions de PyQt5/SIP retournent silencieusement un QModelIndex invalide sinon.
+      versions de PySide6/SIP retournent silencieusement un QModelIndex invalide sinon.
       Appeler model.data(idx, role) directement plutôt que idx.data(role).
     - Lorsqu'un clic sur une colonne non triable (IMAGE, LOCAL, ENGLISH) est reçu
       dans _on_header_clicked(), Qt a déjà déplacé visuellement l'indicateur de tri.
@@ -240,12 +240,12 @@ pas être codée en dur.
     définis, appeler self.move(x, y). Ne rien faire si les valeurs sont None (premier
     lancement : Qt choisit la position et la taille par défaut).
 - La fenêtre principale, les boîtes de dialogue "Paramètres" et "À propos" sont définies
-  dans le dossier gui/ à partir des fichiers XML Qt Designer, transformés avec pyuic5.
+  dans le dossier gui/ à partir des fichiers XML Qt Designer, transformés avec pyside6-uic.
   Les classes comportementales dérivent des classes générées.
 
 Points critiques pour les fichiers .ui (Qt Designer XML) :
   * Ne jamais insérer de commentaires XML (<!-- ... -->) à l'intérieur d'éléments
-    <layout> ou <widget> : pyuic5 peut planter sur ces nœuds commentaires.
+    <layout> ou <widget> : pyside6-uic peut planter sur ces nœuds commentaires.
     Les commentaires XML ne sont autorisés qu'en dehors des éléments enfants de widgets.
   * Pour les marges d'un layout, NE PAS utiliser <contentsMargins> ni <margins> ni
     <number> multiples. Utiliser quatre propriétés séparées :
@@ -254,7 +254,7 @@ Points critiques pour les fichiers .ui (Qt Designer XML) :
       <property name="rightMargin"><number>6</number></property>
       <property name="bottomMargin"><number>4</number></property>
     Toute autre forme (<rect>, <margins>, <number> seul) génère une erreur ou
-    un appel PyQt5 invalide à l'exécution.
+    un appel PySide6 invalide à l'exécution.
   * Toute sous-classe de widget Qt utilisée dans un .ui (ex : PromptTableView qui
     hérite de QTableView) doit être déclarée dans une section <customwidgets> :
       <customwidgets>
@@ -266,10 +266,10 @@ Points critiques pour les fichiers .ui (Qt Designer XML) :
         </customwidget>
       </customwidgets>
     La valeur de <header> est le chemin Python pointé (module path) d'où importer
-    la classe. pyuic5 génère alors : from pbprompt.gui.models import PromptTableView.
+    la classe. pyside6-uic génère alors : from pbprompt.gui.models import PromptTableView.
   * Toutes les actions (y compris actionDuplicatePrompt avec Ctrl+D) doivent être
     définies directement dans le fichier .ui. Ne jamais les ajouter à la main dans
-    le fichier .py généré par pyuic5 : ces modifications seraient perdues au prochain
+    le fichier .py généré par pyside6-uic : ces modifications seraient perdues au prochain
     make clean/all.
 
 Points critiques pour les raccourcis clavier — bug MRO Python :
@@ -280,7 +280,7 @@ Points critiques pour les raccourcis clavier — bug MRO Python :
     Ui_MainWindow.retranslateUi().
   * Conséquence : tous les setShortcut() définis dans Ui_MainWindow.retranslateUi()
     sont du code mort — les raccourcis clavier définis dans le fichier .py généré
-    par pyuic5 ne sont JAMAIS installés à l'exécution.
+    par pyside6-uic ne sont JAMAIS installés à l'exécution.
   * Correction : placer TOUS les setShortcut(QKeySequence(...)) directement dans
     MainWindow.retranslateUi() avec un commentaire explicatif :
 
@@ -302,7 +302,7 @@ Points critiques pour les raccourcis clavier — bug MRO Python :
     self.actionImportYamlReplace.setShortcut(QKeySequence("Ctrl+Shift+I"))
     self.actionExportYaml.setShortcut(QKeySequence("Ctrl+E"))
 
-  * QKeySequence doit être importé depuis PyQt5.QtWidgets (ou PyQt5.QtGui).
+  * QKeySequence doit être importé depuis PySide6.QtWidgets (ou PySide6.QtGui).
 
 Points critiques pour la status bar et les tooltips d'actions :
   * Qt affiche automatiquement le statusTip d'une QAction dans la status bar
@@ -359,7 +359,7 @@ import_yaml, export_yaml.
 Plus trois variantes de l'icône application : app_color.svg, app_light.svg, app_dark.svg.
 
 Les placer dans resources/icons/ et les référencer dans resources/resources.qrc.
-Compiler avec pyrcc5 → src/pbprompt/gui/resources_rc.py (cible "make resources").
+Compiler avec pyside6-rcc → src/pbprompt/gui/resources_rc.py (cible "make resources").
 
 Implémentation de get_icon(name) dans gui/icons.py — ordre de résolution :
 1. QIcon.fromTheme(theme_name) avec mapping FreeDesktop :
@@ -578,7 +578,7 @@ Intégration CI (.github/workflows/ci.yml) :
 - Entry point : pbprompt = "pbprompt.__main__:main"
 - Ruff extend-exclude pour les fichiers générés (ui_*.py, resources_rc.py).
 - [tool.ruff.lint.per-file-ignores] :
-  * "src/pbprompt/gui/models.py" = ["N802"] (méthodes camelCase imposées par PyQt5)
+  * "src/pbprompt/gui/models.py" = ["N802"] (méthodes camelCase imposées par PySide6)
   * Ajouter # noqa: N802 sur retranslateUi() et closeEvent() dans main_window.py etc.
   * Dans translate/*.py, les imports différés `from deep_translator import XxxTranslator
     as _XT` doivent avoir # noqa: PLC0415, N814

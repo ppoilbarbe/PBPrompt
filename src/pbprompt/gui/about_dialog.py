@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QDialog
+from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import QDialog
 
 from pbprompt import __app_name__, __description__, __version__
 from pbprompt.gui.icons import get_icon

@@ -30,22 +30,22 @@ SOFTWARE.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-PyQt5
-License: GNU General Public License v3
-Copyright (c) Riverbank Computing Limited
-Homepage: https://riverbankcomputing.com/software/pyqt/
+PySide6
+License: GNU Lesser General Public License v3
+Copyright (c) The Qt Company Ltd.
+Homepage: https://doc.qt.io/qtforpython/
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-PyQt5 is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
+PySide6 is free software: you can redistribute it and/or modify it under the
+terms of the GNU Lesser General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option)
+any later version.
 
-The full text of the GNU GPL v3 is available at:
-https://www.gnu.org/licenses/gpl-3.0.html
+The full text of the GNU LGPL v3 is available at:
+https://www.gnu.org/licenses/lgpl-3.0.html
 
-A commercial licence that does not require GPL compliance is available from
-Riverbank Computing: https://riverbankcomputing.com/commercial/pyqt
+A commercial licence is available from The Qt Company:
+https://www.qt.io/licensing/
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

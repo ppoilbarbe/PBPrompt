@@ -2,7 +2,7 @@ PBPrompt Documentation
 ======================
 
 **PBPrompt** is a free, open-source desktop application for storing, organising,
-and translating AI prompts.  It is built with PyQt5 and stores data in a
+and translating AI prompts.  It is built with PySide6 and stores data in a
 **SQLite database** (with YAML import/export for interoperability).
 
 .. note::

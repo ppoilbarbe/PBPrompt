@@ -1,12 +1,12 @@
 # ---------------------------------------------------------------------------
 # PBPrompt – top-level Makefile
 # ---------------------------------------------------------------------------
-PYTHON     := python3
-PYUIC5     := pyuic5
-PYRCC5     := pyrcc5
-MSGFMT     := msgfmt
-MSGMERGE   := msgmerge
-XGETTEXT   := xgettext
+CONDA_ENV  := pbprompt
+ifdef NOCONDA
+CONDA_RUN  :=
+else
+CONDA_RUN  := conda run -n $(CONDA_ENV) --no-capture-output
+endif
 
 SRC_GUI    := src/pbprompt/gui
 RESOURCES  := resources
@@ -22,16 +22,18 @@ DIST_TMP   := $(DIST_DIR)/.tmp-$(DIST_NAME)
 UI_FILES   := $(wildcard $(SRC_GUI)/*.ui)
 PY_UI_FILES := $(UI_FILES:$(SRC_GUI)/%.ui=$(SRC_GUI)/ui_%.py)
 
+PNG_OUT    := pbprompt.png
+SVG_SRC    := $(RESOURCES)/icons/app_color.svg
+
 .DEFAULT_GOAL := help
 
-.PHONY: all ui resources translations run bundle clean lint test test-cov docs help version bump-patch bump-minor bump-major dist venv pyvenv
+.PHONY: all ui resources translations png run bundle clean lint format test test-cov docs help version bump-patch bump-minor bump-major dist venv pyvenv pot merge-po hooks
 
-all: ui resources translations  ## Build everything (UI, resources, translations)
+all: ui resources translations png  ## Build everything (UI, resources, translations, app icon)
 
 # ---------------------------------------------------------------------------
 # Environment setup
 # ---------------------------------------------------------------------------
-CONDA_ENV  := pbprompt
 VENV_DIR   := pypbprompt
 
 venv:  ## Create conda environment 'pbprompt' from environment.yml
@@ -41,34 +43,42 @@ venv:  ## Create conda environment 'pbprompt' from environment.yml
 	@echo "[venv] environment '$(CONDA_ENV)' ready – activate with: conda activate $(CONDA_ENV)"
 
 pyvenv:  ## Create Python virtual environment 'pypbprompt' with all deps via pip
-	$(PYTHON) -m venv $(VENV_DIR)
+	python3 -m venv $(VENV_DIR)
 	$(VENV_DIR)/bin/pip install --upgrade pip
 	$(VENV_DIR)/bin/pip install -e ".[dev]"
 	@echo ""
 	@echo "[pyvenv] environment '$(VENV_DIR)' ready – activate with: source $(VENV_DIR)/bin/activate"
 
 # ---------------------------------------------------------------------------
+# App icon PNG
+# ---------------------------------------------------------------------------
+png: $(PNG_OUT)  ## Generate pbprompt.png (128×128) from app_color.svg
+
+$(PNG_OUT): $(SVG_SRC) scripts/make_png.py
+	$(CONDA_RUN) python scripts/make_png.py
+
+# ---------------------------------------------------------------------------
 # Run without installing
 # ---------------------------------------------------------------------------
 run:  ## Run the application without installing (uses src/ layout)
-	PYTHONPATH=src $(PYTHON) -m pbprompt
+	PYTHONPATH=src $(CONDA_RUN) python -m pbprompt
 
 # ---------------------------------------------------------------------------
 # Compile Qt Designer .ui files → ui_*.py
 # ---------------------------------------------------------------------------
-ui: $(PY_UI_FILES)  ## Compile all .ui files with pyuic5
+ui: $(PY_UI_FILES)  ## Compile all .ui files with pyside6-uic
 
 $(SRC_GUI)/ui_%.py: $(SRC_GUI)/%.ui
-	$(PYUIC5) $< -o $@
+	$(CONDA_RUN) pyside6-uic $< -o $@
 	@echo "[ui] compiled $< → $@"
 
 # ---------------------------------------------------------------------------
 # Compile Qt resource file → resources_rc.py
 # ---------------------------------------------------------------------------
-resources: $(SRC_GUI)/resources_rc.py  ## Compile resources.qrc with pyrcc5
+resources: $(SRC_GUI)/resources_rc.py  ## Compile resources.qrc with pyside6-rcc
 
 $(SRC_GUI)/resources_rc.py: $(RESOURCES)/resources.qrc $(wildcard $(RESOURCES)/icons/*)
-	$(PYRCC5) $< -o $@
+	$(CONDA_RUN) pyside6-rcc $< -o $@
 	@echo "[res] compiled $< → $@"
 
 # ---------------------------------------------------------------------------
@@ -78,11 +88,11 @@ translations: $(MO_FILES)  ## Compile all .po files to .mo
 
 $(LOCALES)/%/LC_MESSAGES/messages.mo: $(LOCALES)/%/LC_MESSAGES/messages.po
 	@echo "[i18n] compiling $<"
-	$(MSGFMT) $< -o $@
+	$(CONDA_RUN) pybabel compile -f -i $< -o $@
 
 # Update .pot template from source
 pot:  ## Extract translatable strings from Python sources
-	$(XGETTEXT) --language=Python --keyword=_ \
+	$(CONDA_RUN) xgettext --language=Python --keyword=_ \
 	    --output=$(LOCALES)/messages.pot \
 	    --from-code=UTF-8 \
 	    $(shell find src -name "*.py" | grep -v ui_ | grep -v resources_rc)
@@ -92,34 +102,37 @@ pot:  ## Extract translatable strings from Python sources
 merge-po: pot  ## Merge new strings into .po files
 	@for lang in $(LOCALE_LANGS); do \
 	    dir=$(LOCALES)/$$lang/LC_MESSAGES; \
-	    $(MSGMERGE) --update $$dir/messages.po $(LOCALES)/messages.pot; \
+	    $(CONDA_RUN) msgmerge --update $$dir/messages.po $(LOCALES)/messages.pot; \
 	done
 
 # ---------------------------------------------------------------------------
 # Linting / formatting
 # ---------------------------------------------------------------------------
 lint:  ## Run ruff linter + formatter check
-	ruff check src tests
-	ruff format --check src tests
+	$(CONDA_RUN) ruff check src tests
+	$(CONDA_RUN) ruff format --check src tests
 
 format:  ## Auto-format with ruff
-	ruff format src tests
-	ruff check --fix src tests
+	$(CONDA_RUN) ruff format src tests
+	$(CONDA_RUN) ruff check --fix src tests
+
+hooks:  ## Run all pre-commit hooks on all files
+	$(CONDA_RUN) pre-commit run --all-files
 
 # ---------------------------------------------------------------------------
 # Tests
 # ---------------------------------------------------------------------------
 test:  ## Run pytest
-	$(PYTHON) -m pytest tests/
+	$(CONDA_RUN) python -m pytest tests/
 
 test-cov:  ## Run pytest with coverage
-	$(PYTHON) -m pytest tests/ --cov=pbprompt --cov-report=html
+	$(CONDA_RUN) python -m pytest tests/ --cov=pbprompt --cov-report=html
 
 # ---------------------------------------------------------------------------
 # Documentation
 # ---------------------------------------------------------------------------
 docs:  ## Build Sphinx documentation
-	$(MAKE) -C doc html
+	$(CONDA_RUN) sphinx-build -b html doc doc/_build/html
 
 # ---------------------------------------------------------------------------
 # Cleanup
@@ -170,7 +183,7 @@ SPEC_FILE  := pbprompt.spec
 bundle: all  ## Build a standalone binary with PyInstaller
 	@if [ ! -f $(SPEC_FILE) ]; then \
 	    echo "[bundle] no $(SPEC_FILE) found – generating one"; \
-	    pyinstaller \
+	    $(CONDA_RUN) pyinstaller \
 	        --onefile \
 	        --windowed \
 	        --name pbprompt \
@@ -179,7 +192,7 @@ bundle: all  ## Build a standalone binary with PyInstaller
 	        src/pbprompt/__main__.py; \
 	else \
 	    echo "[bundle] using existing $(SPEC_FILE)"; \
-	    pyinstaller $(SPEC_FILE); \
+	    $(CONDA_RUN) pyinstaller $(SPEC_FILE); \
 	fi
 	@echo "[bundle] binary written to dist/"
 
@@ -190,13 +203,13 @@ version:  ## Display the current version
 	@grep -E '__version__' src/pbprompt/__init__.py | head -1
 
 bump-patch:  ## Bump patch version  (1.0.0 → 1.0.1)
-	$(PYTHON) scripts/bump_version.py patch
+	$(CONDA_RUN) python scripts/bump_version.py patch
 
 bump-minor:  ## Bump minor version  (1.0.1 → 1.1.0, resets patch)
-	$(PYTHON) scripts/bump_version.py minor
+	$(CONDA_RUN) python scripts/bump_version.py minor
 
 bump-major:  ## Bump major version  (1.1.0 → 2.0.0, resets minor+patch)
-	$(PYTHON) scripts/bump_version.py major
+	$(CONDA_RUN) python scripts/bump_version.py major
 
 # ---------------------------------------------------------------------------
 # Help
@@ -207,4 +220,8 @@ help:  ## Show this help message
 	@echo "======================================"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 	    awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}'
+	@echo ""
+	@echo "Variables:"
+	@echo "  NOCONDA        Bypass conda wrapping; tools must be on PATH"
+	@echo "                 e.g. make test NOCONDA=1  or  export NOCONDA=1"
 	@echo ""

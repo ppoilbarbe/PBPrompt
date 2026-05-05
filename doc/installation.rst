@@ -5,7 +5,7 @@ Requirements
 ------------
 
 * Python 3.11 or 3.12
-* PyQt5 ≥ 5.15
+* PySide6 ≥ 6.5
 * ``gettext`` tools (``msgfmt``) for compiling translations
 
 
@@ -23,7 +23,7 @@ Using a **conda** environment (recommended on Linux with system Qt):
 
 .. code-block:: bash
 
-   conda create -n pbprompt python=3.12 pyqt pyqt5-sip ruamel.yaml platformdirs requests
+   conda create -n pbprompt python=3.12 pyside6 ruamel.yaml platformdirs requests
    conda activate pbprompt
    pip install deep-translator
    pip install -e . --no-deps   # --no-deps: do not reinstall conda-managed packages

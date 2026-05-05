@@ -14,54 +14,61 @@ the ``LICENSES`` file at the root of the repository.
 Runtime dependencies
 ~~~~~~~~~~~~~~~~~~~~~
 
-+--------------------+-----------+------------------------------------------+
-| Package            | License   | Notes                                    |
-+====================+===========+==========================================+
-| PyQt5              | GPL v3 /  | The GPL copy is used here.  A commercial |
-|                    | Commercial| licence is available from Riverbank      |
-|                    |           | Computing.                               |
-+--------------------+-----------+------------------------------------------+
-| ruamel.yaml        | MIT       |                                          |
-+--------------------+-----------+------------------------------------------+
-| deep-translator    | MIT       |                                          |
-+--------------------+-----------+------------------------------------------+
-| platformdirs       | MIT       |                                          |
-+--------------------+-----------+------------------------------------------+
-| requests           | Apache 2.0|                                          |
-+--------------------+-----------+------------------------------------------+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 20 50
+
+   * - Package
+     - License
+     - Notes
+   * - PySide6
+     - LGPL v3
+     - Official Qt binding by The Qt Company.
+   * - ruamel.yaml
+     - MIT
+     -
+   * - deep-translator
+     - MIT
+     -
+   * - platformdirs
+     - MIT
+     -
+   * - requests
+     - Apache 2.0
+     -
 
 Development / build dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-+--------------------+-----------+
-| Package            | License   |
-+====================+===========+
-| pytest             | MIT       |
-+--------------------+-----------+
-| pytest-qt          | MIT       |
-+--------------------+-----------+
-| ruff               | MIT       |
-+--------------------+-----------+
-| pre-commit         | MIT       |
-+--------------------+-----------+
-| mypy               | MIT       |
-+--------------------+-----------+
-| Sphinx             | BSD 2-    |
-|                    | Clause    |
-+--------------------+-----------+
-| sphinx-rtd-theme   | MIT       |
-+--------------------+-----------+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Package
+     - License
+   * - pytest
+     - MIT
+   * - pytest-qt
+     - MIT
+   * - ruff
+     - MIT
+   * - pre-commit
+     - MIT
+   * - mypy
+     - MIT
+   * - Sphinx
+     - BSD 2-Clause
+   * - sphinx-rtd-theme
+     - MIT
 
 Qt licensing note
 -----------------
 
-PBPrompt uses PyQt5, which is distributed under the GNU GPL v3.  As a
-consequence, PBPrompt as a whole is also covered by the GPL v3 when
-distributed as a binary that bundles Qt.  The source code of PBPrompt is
-additionally made available under the MIT License for use in projects that
-have their own Qt licence.
+PBPrompt uses PySide6, which is distributed under the GNU Lesser General
+Public License v3 (LGPL v3).  Under the LGPL, PBPrompt can be distributed
+under its own MIT License without any GPL obligations, provided PySide6 is
+dynamically linked (the default installation mode).
 
-If you need to distribute PBPrompt under a non-GPL licence you must obtain a
-commercial Qt licence from `Riverbank Computing
-<https://riverbankcomputing.com/commercial/pyqt>`_ or migrate to PySide6
-(LGPL).
+The full LGPL v3 text is available at https://www.gnu.org/licenses/lgpl-3.0.html.
+A commercial Qt licence is also available from `The Qt Company
+<https://www.qt.io/licensing/>`_.
