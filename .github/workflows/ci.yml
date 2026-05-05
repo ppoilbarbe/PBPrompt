@@ -106,7 +106,7 @@ jobs:
 
   # -------------------------------------------------------------------------
   # Build helpers  – produce a standalone executable per platform via
-  # `make bundle NOCONDA=1` (PyInstaller, depends on make all).
+  # `make bundle NOCONDA=1` (PyInstaller is provided by environment.yml).
   # -------------------------------------------------------------------------
 
   build-linux:
@@ -125,8 +125,8 @@ jobs:
           init-shell: bash
           cache-environment: true
 
-      - name: Install package and PyInstaller
-        run: pip install -e . --no-deps && pip install pyinstaller
+      - name: Install package (editable)
+        run: pip install -e . --no-deps
         shell: bash -el {0}
 
       - name: Build executable
@@ -156,8 +156,8 @@ jobs:
           init-shell: bash
           cache-environment: true
 
-      - name: Install package and PyInstaller
-        run: pip install -e . --no-deps && pip install pyinstaller
+      - name: Install package (editable)
+        run: pip install -e . --no-deps
         shell: bash -el {0}
 
       - name: Build executable
@@ -192,8 +192,8 @@ jobs:
           init-shell: bash
           cache-environment: true
 
-      - name: Install package and PyInstaller
-        run: pip install -e . --no-deps && pip install pyinstaller
+      - name: Install package (editable)
+        run: pip install -e . --no-deps
         shell: bash -el {0}
 
       - name: Build executable

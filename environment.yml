@@ -39,6 +39,9 @@ dependencies:
   - sphinx-rtd-theme>=2.0
   - babel>=2.14
 
+  # ---- packaging ----
+  - pyinstaller>=6.0
+
   # ---- pip-only (not available on conda-forge) ----
   - pip:
     - deep-translator>=1.11
