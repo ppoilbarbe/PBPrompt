@@ -29,6 +29,7 @@ env/
 
 # PyInstaller
 *.spec
+!pbprompt.spec
 dist_pyinstaller/
 
 # OS

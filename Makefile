@@ -22,14 +22,12 @@ DIST_TMP   := $(DIST_DIR)/.tmp-$(DIST_NAME)
 UI_FILES   := $(wildcard $(SRC_GUI)/*.ui)
 PY_UI_FILES := $(UI_FILES:$(SRC_GUI)/%.ui=$(SRC_GUI)/ui_%.py)
 
-PNG_OUT    := pbprompt.png
-SVG_SRC    := $(RESOURCES)/icons/app_color.svg
 
 .DEFAULT_GOAL := help
 
-.PHONY: all ui resources translations png run bundle clean lint format test test-cov docs help version bump-patch bump-minor bump-major dist venv pyvenv pot merge-po hooks
+.PHONY: all ui resources translations run dist clean lint format test test-cov docs help version bump-patch bump-minor bump-major srcdist venv pyvenv pot merge-po hooks
 
-all: ui resources translations png  ## Build everything (UI, resources, translations, app icon)
+all: ui resources translations  ## Build everything (UI, resources, translations)
 
 # ---------------------------------------------------------------------------
 # Environment setup
@@ -48,14 +46,6 @@ pyvenv:  ## Create Python virtual environment 'pypbprompt' with all deps via pip
 	$(VENV_DIR)/bin/pip install -e ".[dev]"
 	@echo ""
 	@echo "[pyvenv] environment '$(VENV_DIR)' ready – activate with: source $(VENV_DIR)/bin/activate"
-
-# ---------------------------------------------------------------------------
-# App icon PNG
-# ---------------------------------------------------------------------------
-png: $(PNG_OUT)  ## Generate pbprompt.png (128×128) from app_color.svg
-
-$(PNG_OUT): $(SVG_SRC) scripts/make_png.py
-	$(CONDA_RUN) python scripts/make_png.py
 
 # ---------------------------------------------------------------------------
 # Run without installing
@@ -143,13 +133,13 @@ clean:  ## Remove generated artefacts (UI, resources, .mo, dist, caches)
 	rm -rf doc/_build $(DIST_DIR)
 	rm -rf .ruff_cache .pytest_cache htmlcov .coverage
 	rm -rf build
-	find . -name "*.spec" -not -path "./.git/*" -delete
+	find . -name "*.spec" -not -path "./.git/*" -not -name "pbprompt.spec" -delete
 	find . -name "__pycache__" -not -path "./.git/*" -exec rm -rf {} +
 
 # ---------------------------------------------------------------------------
 # Distribution archives
 # ---------------------------------------------------------------------------
-dist: all  ## Build dist/pbprompt-x.y.z.tar.gz and dist/pbprompt-x.y.z.zip
+srcdist: all  ## Build dist/pbprompt-x.y.z.tar.gz and dist/pbprompt-x.y.z.zip
 	@mkdir -p $(DIST_DIR)
 	@rm -rf $(DIST_TMP)
 	@mkdir -p $(DIST_TMP)/$(DIST_NAME)
@@ -172,17 +162,17 @@ dist: all  ## Build dist/pbprompt-x.y.z.tar.gz and dist/pbprompt-x.y.z.zip
 	@tar -czf $(DIST_DIR)/$(DIST_NAME).tar.gz -C $(DIST_TMP) $(DIST_NAME)
 	@cd $(DIST_TMP) && zip -qr ../$(DIST_NAME).zip $(DIST_NAME)
 	@rm -rf $(DIST_TMP)
-	@echo "[dist] $(DIST_DIR)/$(DIST_NAME).tar.gz"
-	@echo "[dist] $(DIST_DIR)/$(DIST_NAME).zip"
+	@echo "[srcdist] $(DIST_DIR)/$(DIST_NAME).tar.gz"
+	@echo "[srcdist] $(DIST_DIR)/$(DIST_NAME).zip"
 
 # ---------------------------------------------------------------------------
 # PyInstaller standalone binary
 # ---------------------------------------------------------------------------
 SPEC_FILE  := pbprompt.spec
 
-bundle: all  ## Build a standalone binary with PyInstaller
+dist: all  ## Build a standalone binary with PyInstaller
 	@if [ ! -f $(SPEC_FILE) ]; then \
-	    echo "[bundle] no $(SPEC_FILE) found – generating one"; \
+	    echo "[dist] no $(SPEC_FILE) found – generating one"; \
 	    $(CONDA_RUN) pyinstaller \
 	        --onefile \
 	        --windowed \
@@ -191,10 +181,10 @@ bundle: all  ## Build a standalone binary with PyInstaller
 	        --add-data "resources:resources" \
 	        src/pbprompt/__main__.py; \
 	else \
-	    echo "[bundle] using existing $(SPEC_FILE)"; \
+	    echo "[dist] using existing $(SPEC_FILE)"; \
 	    $(CONDA_RUN) pyinstaller $(SPEC_FILE); \
 	fi
-	@echo "[bundle] binary written to dist/"
+	@echo "[dist] binary written to dist/"
 
 # ---------------------------------------------------------------------------
 # Version management (semver)

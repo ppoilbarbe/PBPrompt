@@ -4,6 +4,28 @@ All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/) and
 the format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.7.0] – 2026-05-13
+
+### Added
+- **`pbprompt.spec`**: PyInstaller spec file committed to the repository; preserved by
+  `make clean` (`.gitignore` updated with `!pbprompt.spec` exception).
+- **`hooks/rthook_ssl.py`**: PyInstaller runtime hook that points `SSL_CERT_FILE` and
+  `REQUESTS_CA_BUNDLE` to the bundled certifi CA bundle in frozen builds.
+
+### Changed
+- **Makefile — `bundle` renamed `dist`**: the PyInstaller standalone-binary target is
+  now called `dist`; the old `bundle` target is removed.
+- **Makefile — `dist` renamed `srcdist`**: the source-archive target (`.tar.gz` / `.zip`)
+  is now called `srcdist` to avoid the name collision with the PyInstaller target.
+- **CI**: all `make bundle` calls updated to `make dist`; `make dist` call for source
+  archives updated to `make srcdist`.
+- **`CLAUDE.md`**: command table updated to reflect `dist` / `srcdist` renaming.
+
+### Removed
+- **`scripts/make_png.py`** and **`pbprompt.png`**: app-icon PNG generation removed;
+  the `png` Makefile target, `PNG_OUT` and `SVG_SRC` variables, and the `png`
+  dependency in `make all` are all removed.
+
 ## [1.6.0] – 2026-05-05
 
 ### Changed

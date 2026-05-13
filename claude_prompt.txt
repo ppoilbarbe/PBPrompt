@@ -603,13 +603,15 @@ Intégration CI (.github/workflows/ci.yml) :
     détaillé de l'argument FILE (priorité sur autoload, dialog d'erreur + liste vide).
   * Section "Version management" : make bump-patch/minor/major, script direct, exemple.
   * Section "Adding a language".
-  * Section "Build standalone executables" (PyInstaller, make bundle).
+  * Section "Build standalone executables" (PyInstaller, make dist).
   * Section "Known limitations".
 - Scripts dans scripts/ : build_linux.sh, build_windows.bat, build_macos.sh,
   compile_translations.sh, build_qm.sh, bump_version.py.
+- hooks/ : rthook_ssl.py (PyInstaller runtime hook — SSL cert path in frozen builds).
+- pbprompt.spec : spec PyInstaller commité dans le dépôt.
 - Sphinx documentation dans doc/.
 - Makefile avec cibles : all, ui, resources, translations, pot, merge-po, run,
-  lint, format, test, test-cov, docs, bundle, clean, dist, version, bump-patch,
+  lint, format, test, test-cov, docs, dist, srcdist, clean, version, bump-patch,
   bump-minor, bump-major, help.
   La cible par défaut est help (.DEFAULT_GOAL := help).
   La cible help liste toutes les cibles avec leur description ## en couleur.
@@ -624,7 +626,7 @@ Intégration CI (.github/workflows/ci.yml) :
   La cible `translations` elle-même reste dans .PHONY (c'est un agrégat sans fichier
   de sortie propre) ; les cibles %.mo ne doivent PAS être dans .PHONY.
 
-  Cible bundle — build du binaire standalone avec PyInstaller :
+  Cible dist — build du binaire standalone avec PyInstaller :
   * Dépend de all (UI, ressources et traductions compilés avant de lancer pyinstaller).
   * Si pbprompt.spec existe, l'utilise : pyinstaller pbprompt.spec
   * Sinon, génère un .spec à la volée :
@@ -635,9 +637,9 @@ Intégration CI (.github/workflows/ci.yml) :
           --add-data "locales:locales" \
           --add-data "resources:resources" \
           src/pbprompt/__main__.py
-  * Le binaire (et le .spec généré) sont écrits dans dist/.
+  * Le binaire est écrit dans dist/.
 
-  Cible dist — points critiques :
+  Cible srcdist — points critiques :
   * Dépend de all (les fichiers générés sont inclus dans l'archive).
   * Le répertoire racine dans l'archive est "pbprompt-x.y.z/" où x.y.z est la version.
   * Produit dist/pbprompt-x.y.z.tar.gz et dist/pbprompt-x.y.z.zip.

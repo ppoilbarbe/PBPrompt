@@ -5,7 +5,7 @@ Auteur : PBMou. Licence MIT. Python ≥ 3.11.
 
 ## État courant
 
-- **Version** : 1.6.0
+- **Version** : 1.7.0
 - **Stockage** : SQLite (`.sqlite`, WAL). YAML = import/export uniquement.
 - **Colonnes** : `Column(IntEnum)` AI=0, GROUP=1, NAME=2, IMAGE=3, LOCAL=4, ENGLISH=5
 - **Locales compilées** : en, de, fr, es, it, ru, vi, zh_CN
@@ -21,7 +21,8 @@ make test-cov         # pytest --cov --cov-report=html
 make lint             # ruff check
 make format           # ruff format + check --fix
 make docs             # Sphinx (après make clean all)
-make dist             # archives dist/pbprompt-x.y.z.tar.gz et .zip
+make dist             # exécutable standalone PyInstaller (dist/pbprompt)
+make srcdist          # archives dist/pbprompt-x.y.z.tar.gz et .zip
 make translations     # compile les .po → .mo
 make bump-patch/minor/major  # incrémente la version semver
 ```

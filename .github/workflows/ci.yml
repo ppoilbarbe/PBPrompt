@@ -106,7 +106,7 @@ jobs:
 
   # -------------------------------------------------------------------------
   # Build helpers  – produce a standalone executable per platform via
-  # `make bundle NOCONDA=1` (PyInstaller is provided by environment.yml).
+  # `make dist NOCONDA=1` (PyInstaller is provided by environment.yml).
   # -------------------------------------------------------------------------
 
   build-linux:
@@ -130,7 +130,7 @@ jobs:
         shell: bash -el {0}
 
       - name: Build executable
-        run: make bundle NOCONDA=1
+        run: make dist NOCONDA=1
         shell: bash -el {0}
 
       - name: Upload Linux executable
@@ -161,7 +161,7 @@ jobs:
         shell: bash -el {0}
 
       - name: Build executable
-        run: make bundle NOCONDA=1
+        run: make dist NOCONDA=1
         shell: bash -el {0}
 
       - name: Upload Windows executable
@@ -197,7 +197,7 @@ jobs:
         shell: bash -el {0}
 
       - name: Build executable
-        run: make bundle NOCONDA=1
+        run: make dist NOCONDA=1
         shell: bash -el {0}
 
       - name: Upload macOS executable
@@ -234,9 +234,9 @@ jobs:
         run: pip install -e . --no-deps
         shell: bash -el {0}
 
-      # make dist depends on make all (UI + resources + translations).
+      # make srcdist depends on make all (UI + resources + translations).
       - name: Build source archives
-        run: make dist NOCONDA=1
+        run: make srcdist NOCONDA=1
         shell: bash -el {0}
 
       # Download all three platform executables into their artifact directories.
