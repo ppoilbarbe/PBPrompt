@@ -1213,7 +1213,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         from pbprompt.gui.settings_dialog import SettingsDialog  # noqa: PLC0415
 
         dlg = SettingsDialog(config=self._config, parent=self)
-        if dlg.exec() == dlg.Accepted:
+        if dlg.exec():
             # Config was updated and saved inside the dialog
             self._config = dlg.config
             # Reload i18n if language changed

@@ -4,6 +4,16 @@ All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/) and
 the format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.7.1] – 2026-05-17
+
+### Fixed
+- **Settings dialog — language change ignored (PySide6 6.11)**: accessing a Qt enum
+  member via a dialog instance (`dlg.Accepted`) raises `AttributeError` in PySide6 6.11
+  because enum members are no longer accessible through instance attribute lookup.  The
+  exception was silently swallowed by Qt's slot dispatcher, causing the entire
+  post-dialog block (`self._config = dlg.config`, `reload_i18n`, `retranslateUi`) to
+  be skipped.  Fixed by replacing `dlg.exec() == dlg.Accepted` with `if dlg.exec():`.
+
 ## [1.7.0] – 2026-05-13
 
 ### Added
