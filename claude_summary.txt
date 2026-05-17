@@ -73,8 +73,8 @@ PBPrompt/
 ├── doc/                       # Sphinx docs (conf.py, *.rst, api/)
 ├── hooks/                     # PyInstaller runtime hooks (rthook_ssl.py)
 ├── pbprompt.spec              # PyInstaller spec file (committed)
-├── scripts/                   # bump_version.py, build_*.sh, compile_translations.sh,
-│                              #   extract_changelog.py
+├── tools/                     # bump_version.py, build_*.sh, compile_translations.sh,
+│                              #   extract_changelog.py, rtd_cleanup.py, git_version.sh
 ├── CLAUDE.md                  # Operational instructions for Claude Code
 ├── claude_prompt.txt          # Project specification (this project's input prompt)
 ├── claude_summary.txt         # This file — implementation state
@@ -442,10 +442,10 @@ Triggers: push (all branches) for build + test; semver tag (vX.Y.Z) for releases
 Jobs: tests → build-linux/build-windows/build-macos (PyInstaller) → GitHub Release.
   PyInstaller builds use: make dist NOCONDA=1
   Source archives use: make srcdist NOCONDA=1
-Release notes: extracted from CHANGELOG.md by scripts/extract_changelog.py (stdout).
+Release notes: extracted from CHANGELOG.md by tools/extract_changelog.py (stdout).
 ReadTheDocs: triggered only on semver tags; pre-build step runs make translations
   (requires gettext/msgfmt, declared in .readthedocs.yaml apt_packages).
-  After each release, scripts/rtd_cleanup.py is called from CI to deactivate old RTD versions.
+  After each release, tools/rtd_cleanup.py is called from CI to deactivate old RTD versions.
 macOS runner: macos-14 (Apple Silicon arm64/M1); artifact named pbprompt-vX.Y.Z-macos-arm64.
 Node.js: all actions on v5+ with FORCE_JAVASCRIPT_ACTIONS_TO_NODE24="true".
 PyInstaller: pbprompt.spec committed; hooks/rthook_ssl.py for SSL cert path in frozen builds.

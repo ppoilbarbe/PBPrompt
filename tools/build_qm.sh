@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Compile Qt Designer .ui files and the .qrc resource file.
 # Requires pyside6-uic and pyside6-rcc (provided by the pyside6 package).
-# Usage: ./scripts/build_qm.sh
+# Usage: ./tools/build_qm.sh
 
 set -euo pipefail
 

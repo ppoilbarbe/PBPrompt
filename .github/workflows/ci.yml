@@ -269,7 +269,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          python scripts/extract_changelog.py "${{ github.ref_name }}" \
+          python tools/extract_changelog.py "${{ github.ref_name }}" \
             > /tmp/release_notes.md
           gh release create "${{ github.ref_name }}" \
             --title "PBPrompt ${{ github.ref_name }}" \
@@ -283,5 +283,5 @@ jobs:
       - name: Clean up old Read the Docs versions
         env:
           RTD_TOKEN: ${{ secrets.READTHEDOCS_TOKEN }}
-        run: python scripts/rtd_cleanup.py --project pbprompt --token "$RTD_TOKEN"
+        run: python tools/rtd_cleanup.py --project pbprompt --token "$RTD_TOKEN"
         continue-on-error: true

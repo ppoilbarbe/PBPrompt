@@ -21,7 +21,7 @@ The pseudo-versions ``latest`` and ``stable`` are never touched.
 
 Usage
 -----
-    python scripts/rtd_cleanup.py --token TOKEN [--project SLUG] [--dry-run]
+    python tools/rtd_cleanup.py --token TOKEN [--project SLUG] [--dry-run]
 
 The token must have write access to the RTD project (API v3).
 """

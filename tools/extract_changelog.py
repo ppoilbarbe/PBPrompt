@@ -3,9 +3,9 @@
 
 Usage
 -----
-    python scripts/extract_changelog.py v1.0.1
-    python scripts/extract_changelog.py 1.0.1   # leading 'v' is optional
-    python scripts/extract_changelog.py v1.0.1 > RELEASE_NOTES.md
+    python tools/extract_changelog.py v1.0.1
+    python tools/extract_changelog.py 1.0.1   # leading 'v' is optional
+    python tools/extract_changelog.py v1.0.1 > RELEASE_NOTES.md
 
 Exit codes
 ----------

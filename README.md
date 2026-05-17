@@ -76,10 +76,10 @@ pip install deep-translator
 pip install -e . --no-deps
 
 # Compile translations
-make translations          # or: ./scripts/compile_translations.sh
+make translations          # or: ./tools/compile_translations.sh
 
 # Generate UI Python (requires pyuic5 / pyrcc5)
-make ui resources          # or: ./scripts/build_qm.sh
+make ui resources          # or: ./tools/build_qm.sh
 ```
 
 > **Note for conda users**: `pyuic5` and `pyrcc5` are provided by the
@@ -101,10 +101,10 @@ python -m venv .venv && source .venv/bin/activate  # Linux/macOS
 pip install -e ".[dev]"
 
 # Compile translations
-make translations          # or: ./scripts/compile_translations.sh
+make translations          # or: ./tools/compile_translations.sh
 
 # Generate UI Python (requires pyuic5 / pyrcc5)
-make ui resources          # or: ./scripts/build_qm.sh
+make ui resources          # or: ./tools/build_qm.sh
 ```
 
 ### Quick start (without compiling UI)
@@ -228,7 +228,7 @@ make bump-major     # 1.1.0 → 2.0.0  (breaking changes, resets minor + patch)
 The underlying script can also be called directly:
 
 ```bash
-python scripts/bump_version.py {major|minor|patch}
+python tools/bump_version.py {major|minor|patch}
 ```
 
 It updates both files atomically and prints a confirmation line such as:
@@ -244,21 +244,21 @@ Version bumped (minor): 1.0.1 → 1.1.0
 ### Linux
 
 ```bash
-./scripts/build_linux.sh
+./tools/build_linux.sh
 # Output: dist/pbprompt
 ```
 
 ### Windows
 
 ```bat
-scripts\build_windows.bat
+tools\build_windows.bat
 REM Output: dist\pbprompt.exe
 ```
 
 ### macOS
 
 ```bash
-./scripts/build_macos.sh
+./tools/build_macos.sh
 # Output: dist/pbprompt.app
 ```
 
@@ -301,7 +301,7 @@ PBPrompt/
 ├── resources/             # Icons + .qrc
 ├── tests/                 # pytest suite
 ├── doc/                   # Sphinx documentation
-├── scripts/               # Build helpers
+├── tools/                 # Build helpers and maintenance scripts
 ├── claude_original_prompt.txt  # The original prompt sent to Claude on day one — never modified
 ├── claude_prompt.txt           # Living specification: updated by Claude after each session
 ├── Makefile
@@ -325,7 +325,7 @@ To add a new platform, create `pbprompt/platform/myos.py` implementing
 
 ## Read the Docs — version retention policy
 
-After each release the CI runs `scripts/rtd_cleanup.py` to deactivate outdated
+After each release the CI runs `tools/rtd_cleanup.py` to deactivate outdated
 versions in the Read the Docs dropdown.  The retention rules are (given the
 current latest tag **X.Y.Z**):
 
@@ -340,7 +340,7 @@ current latest tag **X.Y.Z**):
 To run the cleanup manually:
 
 ```bash
-python scripts/rtd_cleanup.py --token YOUR_RTD_TOKEN [--dry-run]
+python tools/rtd_cleanup.py --token YOUR_RTD_TOKEN [--dry-run]
 ```
 
 The script requires a `READTHEDOCS_TOKEN` secret configured in the repository

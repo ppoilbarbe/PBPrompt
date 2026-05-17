@@ -83,7 +83,7 @@ Use the Makefile targets or the script directly:
    make bump-patch                          # 1.0.1 → 1.0.2
    make bump-minor                          # 1.0.2 → 1.1.0
    make bump-major                          # 1.1.0 → 2.0.0
-   python scripts/bump_version.py patch     # same as make bump-patch
+   python tools/bump_version.py patch     # same as make bump-patch
 
 
 Project structure

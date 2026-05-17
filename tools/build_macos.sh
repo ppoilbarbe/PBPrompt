@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Build a standalone Linux executable with PyInstaller.
+# Build a macOS .app bundle with PyInstaller.
 # Prerequisites: pip install pyinstaller
-# Usage: ./scripts/build_linux.sh
+# Usage: ./tools/build_macos.sh
 
 set -euo pipefail
 
@@ -9,8 +9,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 APP_NAME="pbprompt"
 DIST="$ROOT/dist"
 
-echo "Building $APP_NAME for Linux..."
-
+echo "Building $APP_NAME for macOS..."
 cd "$ROOT"
 
 # Ensure translations and UI are compiled
@@ -24,7 +23,11 @@ pyinstaller \
     --add-data "$ROOT/locales:locales" \
     --add-data "$ROOT/resources:resources" \
     --paths "$ROOT/src" \
+    --osx-bundle-identifier "com.pbsoft.pbprompt" \
     "$ROOT/src/pbprompt/__main__.py"
 
-echo "Executable: $DIST/$APP_NAME"
+echo "Bundle: $DIST/$APP_NAME.app"
+echo ""
+echo "Note: To distribute on macOS, code-sign the bundle:"
+echo "  codesign --deep --force --sign 'Developer ID Application: Your Name' $DIST/$APP_NAME.app"
 echo "Done."

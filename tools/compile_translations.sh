@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Compile all .po files to .mo (gettext binary format).
-# Usage: ./scripts/compile_translations.sh
+# Usage: ./tools/compile_translations.sh
 
 set -euo pipefail
 

@@ -1,7 +1,7 @@
 @echo off
 REM Build a standalone Windows executable with PyInstaller.
 REM Prerequisites: pip install pyinstaller pyside6
-REM Usage: scripts\build_windows.bat
+REM Usage: tools\build_windows.bat
 
 setlocal
 set APP_NAME=pbprompt

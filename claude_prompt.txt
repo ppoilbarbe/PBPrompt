@@ -388,7 +388,7 @@ stroke-width 1.5, fill none, round linecap/linejoin) :
 
 6) Gestion de version semver
 
-Créer scripts/bump_version.py qui :
+Créer tools/bump_version.py qui :
 - Lit la version courante depuis src/pbprompt/__init__.py (__version__ = "X.Y.Z").
 - Accepte un argument positionnel : major, minor ou patch.
 - Incrémente la partie choisie (major remet minor et patch à 0, minor remet patch à 0).
@@ -399,9 +399,9 @@ Créer scripts/bump_version.py qui :
 
 Ajouter dans le Makefile les cibles :
   version     — affiche la version courante (grep __version__ dans __init__.py)
-  bump-patch  — python scripts/bump_version.py patch
-  bump-minor  — python scripts/bump_version.py minor
-  bump-major  — python scripts/bump_version.py major
+  bump-patch  — python tools/bump_version.py patch
+  bump-minor  — python tools/bump_version.py minor
+  bump-major  — python tools/bump_version.py major
 
 Et améliorer la cible "help" pour qu'elle affiche un en-tête et liste toutes les cibles
 avec leur description (grep sur ## dans le Makefile).
@@ -539,7 +539,7 @@ Points critiques pour les tests :
 
 11.1) Nettoyage automatique des versions Read the Docs
 
-Après chaque release, le job CI "release" exécute scripts/rtd_cleanup.py pour
+Après chaque release, le job CI "release" exécute tools/rtd_cleanup.py pour
 désactiver les versions obsolètes dans le menu déroulant RTD.
 
 Politique de rétention (version courante X.Y.Z) :
@@ -552,7 +552,7 @@ Politique de rétention (version courante X.Y.Z) :
       Conserver les 3 patchs les plus récents.
   * Les pseudo-versions "latest" et "stable" ne sont jamais touchées.
 
-Implémentation — scripts/rtd_cleanup.py :
+Implémentation — tools/rtd_cleanup.py :
   * Appel API RTD v3 (GET /versions/?active=true&type=tag, PATCH /versions/{slug}/).
   * Pagination gérée (champ "next" dans la réponse).
   * SemVer(NamedTuple) : (major, minor, patch, slug) — triable nativement.
@@ -605,8 +605,9 @@ Intégration CI (.github/workflows/ci.yml) :
   * Section "Adding a language".
   * Section "Build standalone executables" (PyInstaller, make dist).
   * Section "Known limitations".
-- Scripts dans scripts/ : build_linux.sh, build_windows.bat, build_macos.sh,
-  compile_translations.sh, build_qm.sh, bump_version.py.
+- Scripts dans tools/ : build_linux.sh, build_windows.bat, build_macos.sh,
+  compile_translations.sh, build_qm.sh, bump_version.py, extract_changelog.py,
+  rtd_cleanup.py, git_version.sh.
 - hooks/ : rthook_ssl.py (PyInstaller runtime hook — SSL cert path in frozen builds).
 - pbprompt.spec : spec PyInstaller commité dans le dépôt.
 - Sphinx documentation dans doc/.

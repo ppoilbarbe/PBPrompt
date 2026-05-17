@@ -15,9 +15,7 @@ LOCALE_LANGS := en de fr es it ru vi zh_CN
 MO_FILES     := $(foreach lang,$(LOCALE_LANGS),$(LOCALES)/$(lang)/LC_MESSAGES/messages.mo)
 
 VERSION    := $(shell sed -n "s/__version__ = [\"']\([^\"']*\)[\"']/\1/p" src/pbprompt/__init__.py)
-DIST_NAME  := pbprompt-$(VERSION)
 DIST_DIR   := dist
-DIST_TMP   := $(DIST_DIR)/.tmp-$(DIST_NAME)
 
 UI_FILES   := $(wildcard $(SRC_GUI)/*.ui)
 PY_UI_FILES := $(UI_FILES:$(SRC_GUI)/%.ui=$(SRC_GUI)/ui_%.py)
@@ -140,10 +138,13 @@ clean:  ## Remove generated artefacts (UI, resources, .mo, dist, caches)
 # Distribution archives
 # ---------------------------------------------------------------------------
 srcdist: all  ## Build dist/pbprompt-x.y.z.tar.gz and dist/pbprompt-x.y.z.zip
-	@mkdir -p $(DIST_DIR)
-	@rm -rf $(DIST_TMP)
-	@mkdir -p $(DIST_TMP)/$(DIST_NAME)
-	@find . \
+	@GIT_VERSION=$$(bash tools/git_version.sh); \
+	DIST_NAME=pbprompt-$$GIT_VERSION; \
+	DIST_TMP=$(DIST_DIR)/.tmp-$$DIST_NAME; \
+	mkdir -p $(DIST_DIR); \
+	rm -rf $$DIST_TMP; \
+	mkdir -p $$DIST_TMP/$$DIST_NAME; \
+	find . \
 	    ! -path './.git' ! -path './.git/*' \
 	    ! -path './$(DIST_DIR)' ! -path './$(DIST_DIR)/*' \
 	    ! -path '*/__pycache__' ! -path '*/__pycache__/*' \
@@ -155,23 +156,27 @@ srcdist: all  ## Build dist/pbprompt-x.y.z.tar.gz and dist/pbprompt-x.y.z.zip
 	    ! -name '*.spec' \
 	    -type f | sort | \
 	  while IFS= read -r f; do \
-	    dst="$(DIST_TMP)/$(DIST_NAME)/$${f#./}"; \
+	    dst="$$DIST_TMP/$$DIST_NAME/$${f#./}"; \
 	    mkdir -p "$$(dirname "$$dst")"; \
 	    cp "$$f" "$$dst"; \
-	  done
-	@tar -czf $(DIST_DIR)/$(DIST_NAME).tar.gz -C $(DIST_TMP) $(DIST_NAME)
-	@cd $(DIST_TMP) && zip -qr ../$(DIST_NAME).zip $(DIST_NAME)
-	@rm -rf $(DIST_TMP)
-	@echo "[srcdist] $(DIST_DIR)/$(DIST_NAME).tar.gz"
-	@echo "[srcdist] $(DIST_DIR)/$(DIST_NAME).zip"
+	  done; \
+	tar -czf $(DIST_DIR)/$$DIST_NAME.tar.gz -C $$DIST_TMP $$DIST_NAME; \
+	(cd $$DIST_TMP && zip -qr ../$$DIST_NAME.zip $$DIST_NAME); \
+	rm -rf $$DIST_TMP; \
+	echo "[srcdist] $(DIST_DIR)/$$DIST_NAME.tar.gz"; \
+	echo "[srcdist] $(DIST_DIR)/$$DIST_NAME.zip"
 
 # ---------------------------------------------------------------------------
 # PyInstaller standalone binary
 # ---------------------------------------------------------------------------
 SPEC_FILE  := pbprompt.spec
 
-dist: all  ## Build a standalone binary with PyInstaller
-	@if [ ! -f $(SPEC_FILE) ]; then \
+dist: all  ## Build a standalone binary with PyInstaller (named pbprompt-VERSION-os-arch)
+	@GIT_VERSION=$$(bash tools/git_version.sh); \
+	OS=$$(uname -s | tr '[:upper:]' '[:lower:]'); \
+	ARCH=$$(uname -m); \
+	EXENAME=pbprompt-$$GIT_VERSION-$$OS-$$ARCH; \
+	if [ ! -f $(SPEC_FILE) ]; then \
 	    echo "[dist] no $(SPEC_FILE) found – generating one"; \
 	    $(CONDA_RUN) pyinstaller \
 	        --onefile \
@@ -183,8 +188,10 @@ dist: all  ## Build a standalone binary with PyInstaller
 	else \
 	    echo "[dist] using existing $(SPEC_FILE)"; \
 	    $(CONDA_RUN) pyinstaller $(SPEC_FILE); \
-	fi
-	@echo "[dist] binary written to dist/"
+	fi; \
+	EXT=""; [ "$$OS" = "windows" ] && EXT=".exe"; \
+	mv $(DIST_DIR)/pbprompt$$EXT $(DIST_DIR)/$$EXENAME$$EXT; \
+	echo "[dist] $(DIST_DIR)/$$EXENAME$$EXT"
 
 # ---------------------------------------------------------------------------
 # Version management (semver)
@@ -193,13 +200,13 @@ version:  ## Display the current version
 	@grep -E '__version__' src/pbprompt/__init__.py | head -1
 
 bump-patch:  ## Bump patch version  (1.0.0 → 1.0.1)
-	$(CONDA_RUN) python scripts/bump_version.py patch
+	$(CONDA_RUN) python tools/bump_version.py patch
 
 bump-minor:  ## Bump minor version  (1.0.1 → 1.1.0, resets patch)
-	$(CONDA_RUN) python scripts/bump_version.py minor
+	$(CONDA_RUN) python tools/bump_version.py minor
 
 bump-major:  ## Bump major version  (1.1.0 → 2.0.0, resets minor+patch)
-	$(CONDA_RUN) python scripts/bump_version.py major
+	$(CONDA_RUN) python tools/bump_version.py major
 
 # ---------------------------------------------------------------------------
 # Help

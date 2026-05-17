@@ -43,7 +43,7 @@ Added
 * **SVG icons** – custom 24×24 outline icons for all toolbar actions;
   icon resolution chain: desktop theme → QRC resource → filesystem → Qt
   standard.
-* **Semver version management** – ``scripts/bump_version.py`` and Makefile
+* **Semver version management** – ``tools/bump_version.py`` and Makefile
   targets ``bump-patch``, ``bump-minor``, ``bump-major``.
 * **Five new UI languages** – Español (es), Italiano (it), Русский (ru),
   Tiếng Việt (vi), 中文(简体) (zh_CN).

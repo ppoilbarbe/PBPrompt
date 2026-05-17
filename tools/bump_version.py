@@ -2,7 +2,7 @@
 """Bump the semantic version of PBPrompt.
 
 Usage:
-    python scripts/bump_version.py {major|minor|patch}
+    python tools/bump_version.py {major|minor|patch}
 
 Updates version strings in:
     - src/pbprompt/__init__.py  (__version__ = "...")
