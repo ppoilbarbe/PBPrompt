@@ -80,17 +80,17 @@ $(LOCALES)/%/LC_MESSAGES/messages.mo: $(LOCALES)/%/LC_MESSAGES/messages.po
 
 # Update .pot template from source
 pot:  ## Extract translatable strings from Python sources
-	$(CONDA_RUN) xgettext --language=Python --keyword=_ \
-	    --output=$(LOCALES)/messages.pot \
-	    --from-code=UTF-8 \
-	    $(shell find src -name "*.py" | grep -v ui_ | grep -v resources_rc)
+	$(CONDA_RUN) pybabel extract -F babel.cfg -k _ \
+	    --input-dirs=src \
+	    -o $(LOCALES)/messages.pot
 	@echo "[i18n] updated $(LOCALES)/messages.pot"
 
 # Merge updated template into existing .po files
 merge-po: pot  ## Merge new strings into .po files
 	@for lang in $(LOCALE_LANGS); do \
-	    dir=$(LOCALES)/$$lang/LC_MESSAGES; \
-	    $(CONDA_RUN) msgmerge --update $$dir/messages.po $(LOCALES)/messages.pot; \
+	    $(CONDA_RUN) pybabel update -i $(LOCALES)/messages.pot \
+	        -d $(LOCALES) -l $$lang \
+	        -D messages; \
 	done
 
 # ---------------------------------------------------------------------------

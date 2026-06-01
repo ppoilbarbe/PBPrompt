@@ -6,885 +6,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PBPrompt 1.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-12 23:15+0200\n"
+"POT-Creation-Date: 2026-06-01 21:08+0200\n"
 "PO-Revision-Date: 2026-01-01 00:00+0000\n"
 "Last-Translator: PBMou\n"
-"Language-Team: Russian\n"
 "Language: ru\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: Russian\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-
-# About dialog
-#: src/pbprompt/gui/about_dialog.py:43
-#, python-brace-format
-msgid "About {app}"
-msgstr "О программе {app}"
-
-#: src/pbprompt/gui/about_dialog.py:47
-msgid "MIT License"
-msgstr "Лицензия MIT"
-
-# Settings dialog
-#: src/pbprompt/gui/settings_dialog.py:148
-msgid "Settings"
-msgstr "Настройки"
-
-#: src/pbprompt/gui/settings_dialog.py:151
-msgid "Language"
-msgstr "Язык"
-
-#: src/pbprompt/gui/settings_dialog.py:152
-msgid "Display language:"
-msgstr "Язык интерфейса:"
-
-#: src/pbprompt/gui/settings_dialog.py:155
-msgid ""
-"Language used for the user interface.\n"
-"'System default' uses the operating system locale."
-msgstr ""
-"Язык пользовательского интерфейса.\n"
-"«По умолчанию системы» использует локаль операционной системы."
-
-#: src/pbprompt/gui/settings_dialog.py:159
-msgid "Translation language:"
-msgstr "Язык перевода:"
-
-#: src/pbprompt/gui/settings_dialog.py:162
-msgid ""
-"Language of the 'Local language' column.\n"
-"Used as the source or target when translating prompts.\n"
-"'System default' uses the operating system locale."
-msgstr ""
-"Язык столбца «Местный язык».\n"
-"Используется как источник или цель при переводе подсказок.\n"
-"«По умолчанию системы» использует локаль операционной системы."
-
-#: src/pbprompt/gui/settings_dialog.py:169
-msgid "Translation service"
-msgstr "Служба перевода"
-
-#: src/pbprompt/gui/settings_dialog.py:170
-msgid "Service:"
-msgstr "Служба:"
-
-#: src/pbprompt/gui/settings_dialog.py:173
-msgid ""
-"Translation service used to fill the 'Local language' column\n"
-"automatically when clicking the Translate button."
-msgstr ""
-"Служба перевода, используемая для автоматического заполнения\n"
-"столбца «Местный язык» при нажатии кнопки «Перевести»."
-
-#: src/pbprompt/gui/settings_dialog.py:177
-msgid "API key:"
-msgstr "Ключ API:"
-
-#: src/pbprompt/gui/settings_dialog.py:180
-msgid ""
-"API key required by DeepL, Microsoft Translator, Yandex,\n"
-"QCRI and LibreTranslate.\n"
-"Leave blank for services that do not require one\n"
-"(Google, MyMemory, PONS, Linguee, Reverso…)."
-msgstr ""
-"Ключ API, необходимый для DeepL, Microsoft Translator, Yandex,\n"
-"QCRI и LibreTranslate.\n"
-"Оставьте пустым для служб, которым он не нужен\n"
-"(Google, MyMemory, PONS, Linguee, Reverso…)."
-
-#: src/pbprompt/gui/settings_dialog.py:187
-msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
-msgstr "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
-
-#: src/pbprompt/gui/settings_dialog.py:189
-msgid "App ID:"
-msgstr "ID приложения:"
-
-#: src/pbprompt/gui/settings_dialog.py:192
-msgid ""
-"Application identifier required by some services:\n"
-"• Baidu: appid\n"
-"• Papago: client_id"
-msgstr ""
-"Идентификатор приложения, необходимый для некоторых служб:\n"
-"• Baidu: appid\n"
-"• Papago: client_id"
-
-#: src/pbprompt/gui/settings_dialog.py:197
-msgid "Baidu (appid) · Papago (client_id)"
-msgstr "Baidu (appid) · Papago (client_id)"
-
-#: src/pbprompt/gui/settings_dialog.py:198
-msgid "App secret:"
-msgstr "Секрет приложения:"
-
-#: src/pbprompt/gui/settings_dialog.py:201
-msgid ""
-"Application secret required by some services:\n"
-"• Baidu: appkey\n"
-"• Papago: secret_key"
-msgstr ""
-"Секрет приложения, необходимый для некоторых служб:\n"
-"• Baidu: appkey\n"
-"• Papago: secret_key"
-
-#: src/pbprompt/gui/settings_dialog.py:207
-msgid "Baidu (appkey) · Papago (secret_key)"
-msgstr "Baidu (appkey) · Papago (secret_key)"
-
-#: src/pbprompt/gui/settings_dialog.py:211
-msgid "Logging"
-msgstr "Журналирование"
-
-#: src/pbprompt/gui/settings_dialog.py:212
-msgid "Log level:"
-msgstr "Уровень журнала:"
-
-#: src/pbprompt/gui/settings_dialog.py:215
-msgid ""
-"Verbosity of the application log.\n"
-"DEBUG shows all messages; ERROR shows only critical failures.\n"
-"Effective after restarting the application."
-msgstr ""
-"Уровень детализации журнала приложения.\n"
-"DEBUG показывает все сообщения; ERROR показывает только критические сбои.\n"
-"Вступает в силу после перезапуска приложения."
-
-#: src/pbprompt/gui/settings_dialog.py:222
-msgid "Files"
-msgstr "Файлы"
-
-#: src/pbprompt/gui/settings_dialog.py:223
-msgid "Maximum recent files:"
-msgstr "Максимум недавних файлов:"
-
-#: src/pbprompt/gui/settings_dialog.py:225
-msgid "Maximum number of recently opened files shown in the File menu."
-msgstr "Максимальное количество недавно открытых файлов, отображаемых в меню «Файл»."
-
-# Settings dialog – Images group
-#: src/pbprompt/gui/settings_dialog.py:229
-msgid "Images"
-msgstr "Изображения"
-
-#: src/pbprompt/gui/settings_dialog.py:230
-msgid "Thumbnail width (px):"
-msgstr "Ширина миниатюры (пкс):"
-
-#: src/pbprompt/gui/settings_dialog.py:233
-msgid ""
-"Maximum width (in pixels) of the thumbnail stored in the database.\n"
-"Larger values improve quality but increase database size."
-msgstr ""
-"Максимальная ширина (в пикселях) миниатюры, хранящейся в базе данных.\n"
-"Большие значения улучшают качество, но увеличивают размер базы данных."
-
-#: src/pbprompt/gui/settings_dialog.py:237
-msgid "Thumbnail height (px):"
-msgstr "Высота миниатюры (пкс):"
-
-#: src/pbprompt/gui/settings_dialog.py:240
-msgid ""
-"Maximum height (in pixels) of the thumbnail stored in the database.\n"
-"Larger values improve quality but increase database size."
-msgstr ""
-"Максимальная высота (в пикселях) миниатюры, хранящейся в базе данных.\n"
-"Большие значения улучшают качество, но увеличивают размер базы данных."
-
-# Settings dialog – language selector
-#: src/pbprompt/gui/settings_dialog.py:254
-#: src/pbprompt/gui/settings_dialog.py:260
-msgid "System default"
-msgstr "Системный язык"
-
-# Column headers
-#: src/pbprompt/gui/main_window.py:81 src/pbprompt/gui/main_window.py:264
-msgid "AI"
-msgstr "ИИ"
-
-#: src/pbprompt/gui/main_window.py:82 src/pbprompt/gui/main_window.py:265
-msgid "Group"
-msgstr "Группа"
-
-#: src/pbprompt/gui/main_window.py:83 src/pbprompt/gui/main_window.py:266
-msgid "Name"
-msgstr "Имя"
-
-# IMAGE column
-#: src/pbprompt/gui/main_window.py:84 src/pbprompt/gui/main_window.py:267
-msgid "Image"
-msgstr "Изображение"
-
-#: src/pbprompt/gui/main_window.py:86 src/pbprompt/gui/main_window.py:271
-msgid "English"
-msgstr "Английский"
-
-# Column header tooltips
-#: src/pbprompt/gui/main_window.py:90 src/pbprompt/gui/main_window.py:275
-msgid ""
-"Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
-"Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
-msgstr ""
-"Enter: подтвердить  ·  Ctrl+Enter или Shift+Enter: вставить перевод строки\n"
-"Tab / Shift+Tab: следующая / предыдущая ячейка  ·  Esc: отмена"
-
-#: src/pbprompt/gui/main_window.py:95 src/pbprompt/gui/main_window.py:280
-msgid ""
-"AI model name.\n"
-"Sort: primary AI → Group → Name"
-msgstr ""
-"Название модели ИИ.\n"
-"Сортировка: ИИ → Группа → Название"
-
-#: src/pbprompt/gui/main_window.py:96 src/pbprompt/gui/main_window.py:281
-msgid ""
-"Prompt group / category.\n"
-"Sort: primary Group → Name → AI"
-msgstr ""
-"Группа / категория промпта.\n"
-"Сортировка: Группа → Название → ИИ"
-
-#: src/pbprompt/gui/main_window.py:97 src/pbprompt/gui/main_window.py:282
-msgid ""
-"Prompt title.\n"
-"Sort: primary Name → Group → AI"
-msgstr ""
-"Заголовок промпта.\n"
-"Сортировка: Название → Группа → ИИ"
-
-#: src/pbprompt/gui/main_window.py:98 src/pbprompt/gui/main_window.py:283
-msgid ""
-"Double-click to view · Right-click for options\n"
-"Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
-msgstr ""
-"Двойной щелчок для просмотра · Правый щелчок для параметров\n"
-"Enter: загрузить из файла  ·  Ctrl+V: вставить  ·  Backspace: очистить"
-
-#: src/pbprompt/gui/main_window.py:99 src/pbprompt/gui/main_window.py:284
-msgid "Prompt in local language.\n"
-msgstr "Промпт на родном языке.\n"
-
-#: src/pbprompt/gui/main_window.py:100 src/pbprompt/gui/main_window.py:285
-msgid "Prompt in English.\n"
-msgstr "Промпт на английском.\n"
-
-# Status messages
-#: src/pbprompt/gui/main_window.py:158 src/pbprompt/gui/main_window.py:1192
-msgid "Ready"
-msgstr "Готово"
-
-# Main window – filters
-#: src/pbprompt/gui/main_window.py:183
-msgid "Filter:"
-msgstr "Фильтр:"
-
-#: src/pbprompt/gui/main_window.py:184
-msgid "AI…"
-msgstr "ИИ…"
-
-msgid "Filter the AI column. Supports regular expressions."
-msgstr "Фильтр по колонке «ИИ». Поддерживаются регулярные выражения."
-
-msgid "Filter the Group column. Supports regular expressions."
-msgstr "Фильтр по колонке «Группа». Поддерживаются регулярные выражения."
-
-msgid "Filter the Name column. Supports regular expressions."
-msgstr "Фильтр по колонке «Имя». Поддерживаются регулярные выражения."
-
-msgid "Filter the local language column. Supports regular expressions."
-msgstr "Фильтр по колонке «Локальный язык». Поддерживаются регулярные выражения."
-
-msgid "Filter the English column. Supports regular expressions."
-msgstr "Фильтр по колонке «Английский». Поддерживаются регулярные выражения."
-
-#: src/pbprompt/gui/main_window.py:185
-msgid "Group…"
-msgstr "Группа…"
-
-#: src/pbprompt/gui/main_window.py:186
-msgid "Name…"
-msgstr "Имя…"
-
-#: src/pbprompt/gui/main_window.py:187
-msgid "Local language…"
-msgstr "Локальный язык…"
-
-#: src/pbprompt/gui/main_window.py:188
-msgid "English…"
-msgstr "Английский…"
-
-#: src/pbprompt/gui/main_window.py:189
-msgid "Clear"
-msgstr "Очистить"
-
-#: src/pbprompt/gui/main_window.py:190
-msgid "Clear all filters"
-msgstr "Очистить все фильтры"
-
-# Main window – menu
-#: src/pbprompt/gui/main_window.py:192
-msgid "&File"
-msgstr "&Файл"
-
-#: src/pbprompt/gui/main_window.py:193
-msgid "&Tools"
-msgstr "&Инструменты"
-
-#: src/pbprompt/gui/main_window.py:194
-msgid "&Help"
-msgstr "&Справка"
-
-#: src/pbprompt/gui/main_window.py:196
-msgid "&New"
-msgstr "&Новый"
-
-# Main window – toolbar / actions
-#: src/pbprompt/gui/main_window.py:197
-msgid "New file"
-msgstr "Новый файл"
-
-#: src/pbprompt/gui/main_window.py:198
-msgid "&Open…"
-msgstr "&Открыть…"
-
-#: src/pbprompt/gui/main_window.py:199
-msgid "Open a prompt file"
-msgstr "Открыть файл промптов"
-
-#: src/pbprompt/gui/main_window.py:200
-msgid "&Save"
-msgstr "&Сохранить"
-
-#: src/pbprompt/gui/main_window.py:201
-msgid "Save the current file"
-msgstr "Сохранить текущий файл"
-
-#: src/pbprompt/gui/main_window.py:202
-msgid "Save &As…"
-msgstr "Сохранить &как…"
-
-#: src/pbprompt/gui/main_window.py:203
-msgid "Save to a new file"
-msgstr "Сохранить в новый файл"
-
-#: src/pbprompt/gui/main_window.py:204
-msgid "&Close"
-msgstr "&Закрыть"
-
-#: src/pbprompt/gui/main_window.py:205
-msgid "Close current file"
-msgstr "Закрыть текущий файл"
-
-#: src/pbprompt/gui/main_window.py:206
-msgid "&Quit"
-msgstr "&Выход"
-
-#: src/pbprompt/gui/main_window.py:207
-msgid "Quit PBPrompt"
-msgstr "Выйти из PBPrompt"
-
-#: src/pbprompt/gui/main_window.py:208
-msgid "&Options…"
-msgstr "&Настройки…"
-
-#: src/pbprompt/gui/main_window.py:209
-msgid "Open settings dialog"
-msgstr "Открыть настройки"
-
-#: src/pbprompt/gui/main_window.py:210
-msgid "&About…"
-msgstr "&О программе…"
-
-#: src/pbprompt/gui/main_window.py:211
-msgid "About PBPrompt"
-msgstr "О программе PBPrompt"
-
-#: src/pbprompt/gui/main_window.py:212
-msgid "New Prompt"
-msgstr "Новый промпт"
-
-#: src/pbprompt/gui/main_window.py:213
-msgid "Add a new prompt entry"
-msgstr "Добавить новый промпт"
-
-#: src/pbprompt/gui/main_window.py:214
-msgid "Duplicate"
-msgstr "Дублировать"
-
-#: src/pbprompt/gui/main_window.py:215
-msgid "Duplicate the current row"
-msgstr "Дублировать текущую строку"
-
-#: src/pbprompt/gui/main_window.py:216
-msgid "Delete"
-msgstr "Удалить"
-
-#: src/pbprompt/gui/main_window.py:217
-msgid "Delete selected prompts"
-msgstr "Удалить выбранные промпты"
-
-#: src/pbprompt/gui/main_window.py:218
-msgid "→ English"
-msgstr "→ Английский"
-
-#: src/pbprompt/gui/main_window.py:220
-msgid "Translate selected rows to English"
-msgstr "Перевести выбранные строки на английский"
-
-#: src/pbprompt/gui/main_window.py:222
-msgid "← Local"
-msgstr "← Локальный"
-
-#: src/pbprompt/gui/main_window.py:224
-msgid "Translate selected rows from English"
-msgstr "Перевести выбранные строки с английского"
-
-# File menu – YAML import/export
-#: src/pbprompt/gui/main_window.py:226
-msgid "Import &YAML"
-msgstr "Импорт &YAML"
-
-#: src/pbprompt/gui/main_window.py:227
-msgid "Add entries…"
-msgstr "Добавить записи…"
-
-#: src/pbprompt/gui/main_window.py:228
-msgid "Import YAML file (append)"
-msgstr "Импорт YAML-файла (добавить)"
-
-#: src/pbprompt/gui/main_window.py:229
-msgid "Replace all…"
-msgstr "Заменить все…"
-
-#: src/pbprompt/gui/main_window.py:230
-msgid "Import YAML file (replace all)"
-msgstr "Импорт YAML-файла (заменить все)"
-
-#: src/pbprompt/gui/main_window.py:231
-msgid "Export &YAML…"
-msgstr "Экспорт &YAML…"
-
-#: src/pbprompt/gui/main_window.py:232
-msgid "Export YAML file"
-msgstr "Экспорт YAML-файла"
-
-#: src/pbprompt/gui/main_window.py:233
-msgid "Refresh Thumbnails"
-msgstr "Обновить миниатюры"
-
-#: src/pbprompt/gui/main_window.py:235
-msgid "Regenerate all thumbnails from stored images"
-msgstr "Создать заново все миниатюры из сохранённых изображений"
-
-#: src/pbprompt/gui/main_window.py:238
-msgid "Recent &Files"
-msgstr "&Недавние файлы"
-
-#: src/pbprompt/gui/main_window.py:407
-#, python-format
-msgid "Copied: %s"
-msgstr "Скопировано: %s"
-
-#: src/pbprompt/gui/main_window.py:448
-msgid "New file created"
-msgstr "Новый файл создан"
-
-# Dialogs – file operations
-#: src/pbprompt/gui/main_window.py:455
-msgid "Open Prompt File"
-msgstr "Открыть файл промптов"
-
-# Dialogs – file operations (SQLite)
-#: src/pbprompt/gui/main_window.py:457 src/pbprompt/gui/main_window.py:506
-msgid "PBPrompt database (*.sqlite);;All files (*.*)"
-msgstr "База данных PBPrompt (*.sqlite);;Все файлы (*.*)"
-
-#: src/pbprompt/gui/main_window.py:471 src/pbprompt/gui/main_window.py:1146
-#: src/pbprompt/gui/main_window.py:1176 src/pbprompt/gui/main_window.py:1215
-#, python-brace-format
-msgid "Loaded {n} entries from {path}"
-msgstr "Загружено {n} запись(ей) из {path}"
-
-#: src/pbprompt/gui/main_window.py:479 src/pbprompt/gui/main_window.py:1184
-msgid "Error Opening File"
-msgstr "Ошибка открытия файла"
-
-#: src/pbprompt/gui/main_window.py:480 src/pbprompt/gui/main_window.py:1185
-#, python-brace-format
-msgid ""
-"Could not open file:\n"
-"{path}\n"
-"\n"
-"{error}"
-msgstr ""
-"Не удалось открыть файл:\n"
-"{path}\n"
-"\n"
-"{error}"
-
-# Dialogs – errors
-#: src/pbprompt/gui/main_window.py:491 src/pbprompt/gui/main_window.py:524
-#: src/pbprompt/gui/main_window.py:565 src/pbprompt/gui/main_window.py:594
-#: src/pbprompt/gui/main_window.py:891 src/pbprompt/gui/main_window.py:1154
-msgid "Error"
-msgstr "Ошибка"
-
-#: src/pbprompt/gui/main_window.py:492 src/pbprompt/gui/main_window.py:1155
-#, python-brace-format
-msgid ""
-"Could not open file:\n"
-"{path}"
-msgstr ""
-"Не удалось открыть файл:\n"
-"{path}"
-
-#: src/pbprompt/gui/main_window.py:504
-msgid "Save Prompt File"
-msgstr "Сохранить файл промптов"
-
-#: src/pbprompt/gui/main_window.py:519
-msgid "File saved successfully"
-msgstr "Файл успешно сохранён"
-
-#: src/pbprompt/gui/main_window.py:525
-#, python-brace-format
-msgid ""
-"Could not save file:\n"
-"{path}"
-msgstr ""
-"Не удалось сохранить файл:\n"
-"{path}"
-
-#: src/pbprompt/gui/main_window.py:532
-msgid "Import YAML"
-msgstr "Импорт YAML"
-
-#: src/pbprompt/gui/main_window.py:534 src/pbprompt/gui/main_window.py:575
-msgid "YAML files (*.yaml *.yml);;All files (*.*)"
-msgstr "Файлы YAML (*.yaml *.yml);;Все файлы (*.*)"
-
-# Status messages (YAML import/export)
-#: src/pbprompt/gui/main_window.py:555
-#, python-brace-format
-msgid "Imported {n} entries from {path}"
-msgstr "Импортировано {n} запись(ей) из {path}"
-
-#: src/pbprompt/gui/main_window.py:559
-#, python-brace-format
-msgid "({k} duplicate(s) skipped)"
-msgstr "({k} дубликат(ов) пропущено)"
-
-# Dialogs – errors (YAML import/export)
-#: src/pbprompt/gui/main_window.py:566
-#, python-brace-format
-msgid ""
-"Import failed:\n"
-"{error}"
-msgstr ""
-"Ошибка импорта:\n"
-"{error}"
-
-#: src/pbprompt/gui/main_window.py:573
-msgid "Export YAML"
-msgstr "Экспорт YAML"
-
-#: src/pbprompt/gui/main_window.py:585
-#, python-brace-format
-msgid "Exported {n} entries to {path}"
-msgstr "Экспортировано {n} запись(ей) в {path}"
-
-#: src/pbprompt/gui/main_window.py:595
-#, python-brace-format
-msgid ""
-"Export failed:\n"
-"{error}"
-msgstr ""
-"Ошибка экспорта:\n"
-"{error}"
-
-#: src/pbprompt/gui/main_window.py:604
-msgid "File closed"
-msgstr "Файл закрыт"
-
-# Dialogs – confirmation
-#: src/pbprompt/gui/main_window.py:612
-msgid "Unsaved Changes"
-msgstr "Несохранённые изменения"
-
-#: src/pbprompt/gui/main_window.py:614
-msgid ""
-"The document has been modified.\n"
-"Do you want to save your changes?"
-msgstr ""
-"Документ был изменён.\n"
-"Сохранить изменения?"
-
-#: src/pbprompt/gui/main_window.py:655
-msgid "Row duplicated"
-msgstr "Строка дублирована"
-
-#: src/pbprompt/gui/main_window.py:664
-msgid "Confirm Delete"
-msgstr "Подтверждение удаления"
-
-#: src/pbprompt/gui/main_window.py:665
-#, python-brace-format
-msgid "Are you sure you want to delete {n} selected row(s)?"
-msgstr "Вы уверены, что хотите удалить {n} выбранную(ых) строку(к)?"
-
-#: src/pbprompt/gui/main_window.py:678
-#, python-brace-format
-msgid "Deleted {n} row(s)"
-msgstr "Удалено {n} строк(а)"
-
-# Context menu
-#: src/pbprompt/gui/main_window.py:732
-msgid "Copy"
-msgstr "Копировать"
-
-#: src/pbprompt/gui/main_window.py:734
-msgid "Cut"
-msgstr "Вырезать"
-
-#: src/pbprompt/gui/main_window.py:736
-msgid "Paste"
-msgstr "Вставить"
-
-#: src/pbprompt/gui/main_window.py:770
-#, python-brace-format
-msgid "Thumbnails refreshed: {n} image(s) updated"
-msgstr "Миниатюры обновлены: {n} изображение(й) обновлено"
-
-#: src/pbprompt/gui/main_window.py:833 src/pbprompt/gui/main_window.py:898
-#: src/pbprompt/gui/main_window.py:952
-msgid "Unsupported Format"
-msgstr "Неподдерживаемый формат"
-
-#: src/pbprompt/gui/main_window.py:834 src/pbprompt/gui/main_window.py:899
-#: src/pbprompt/gui/main_window.py:953
-msgid "Unsupported image format"
-msgstr "Неподдерживаемый формат изображения"
-
-#: src/pbprompt/gui/main_window.py:853
-msgid "Load image from file…"
-msgstr "Загрузить изображение из файла…"
-
-#: src/pbprompt/gui/main_window.py:855
-msgid "Paste image"
-msgstr "Вставить изображение"
-
-#: src/pbprompt/gui/main_window.py:858
-msgid "Clear image"
-msgstr "Очистить изображение"
-
-#: src/pbprompt/gui/main_window.py:975
-msgid "Confirm Clear Image"
-msgstr "Подтвердить очистку изображения"
-
-#: src/pbprompt/gui/main_window.py:976
-#, python-brace-format
-msgid "Clear the image from {n} selected row(s)?"
-msgstr "Очистить изображение в {n} выбранной(ых) строке(ах)?"
-
-#: src/pbprompt/gui/main_window.py:893
-msgid "Load Image"
-msgstr "Загрузить изображение"
-
-#: src/pbprompt/gui/main_window.py:880
-msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
-msgstr "Файлы изображений (*.jpg *.jpeg *.png);;Все файлы (*.*)"
-
-#: src/pbprompt/gui/main_window.py:881
-msgid "No preview"
-msgstr "Нет предпросмотра"
-
-#: src/pbprompt/gui/main_window.py:892
-#, python-brace-format
-msgid ""
-"Could not read file:\n"
-"{error}"
-msgstr ""
-"Не удалось прочитать файл:\n"
-"{error}"
-
-#: src/pbprompt/gui/main_window.py:945
-msgid "No Image"
-msgstr "Нет изображения"
-
-#: src/pbprompt/gui/main_window.py:946
-msgid "No image in clipboard"
-msgstr "В буфере обмена нет изображения"
-
-#: src/pbprompt/gui/main_window.py:988
-msgid "No rows selected"
-msgstr "Строки не выбраны"
-
-#: src/pbprompt/gui/main_window.py:999 src/pbprompt/gui/main_window.py:1033
-msgid "Translation Error"
-msgstr "Ошибка перевода"
-
-#: src/pbprompt/gui/main_window.py:1001
-msgid ""
-"Could not initialise the translation service.\n"
-"Check your API key in Options."
-msgstr ""
-"Не удалось инициализировать службу перевода.\n"
-"Проверьте ключ API в настройках."
-
-#: src/pbprompt/gui/main_window.py:1034
-#, python-brace-format
-msgid ""
-"Translation failed:\n"
-"{error}"
-msgstr ""
-"Ошибка перевода:\n"
-"{error}"
-
-#: src/pbprompt/gui/main_window.py:1040
-#, python-brace-format
-msgid "Translated {n} row(s)"
-msgstr "Переведено {n} строк(а)"
-
-#: src/pbprompt/gui/main_window.py:1092
-msgid "No recent files"
-msgstr "Нет недавних файлов"
-
-#: src/pbprompt/gui/main_window.py:1104
-msgid "Clear list"
-msgstr "Очистить список"
-
-#: src/pbprompt/gui/main_window.py:1135
-msgid "File Not Found"
-msgstr "Файл не найден"
-
-#: src/pbprompt/gui/main_window.py:1136
-#, python-brace-format
-msgid ""
-"The file no longer exists:\n"
-"{path}"
-msgstr ""
-"Файл больше не существует:\n"
-"{path}"
-
-#: src/pbprompt/gui/main_window.py:1233
-msgid "Untitled"
-msgstr "Без названия"
-
-# Image viewer toolbar
-#: src/pbprompt/gui/image_utils.py
-msgid "Fit"
-msgstr "По размеру"
-
-#: src/pbprompt/gui/image_utils.py
-msgid "×1"
-msgstr "×1"
-
-#: src/pbprompt/gui/image_utils.py
-msgid "Width"
-msgstr "Ширина"
-
-#: src/pbprompt/gui/image_utils.py
-msgid "Height"
-msgstr "Высота"
-
-#: src/pbprompt/gui/image_utils.py
-msgid "+50%"
-msgstr "+50 %"
-
-#: src/pbprompt/gui/image_utils.py
-msgid "-50%"
-msgstr "-50 %"
-
-#: src/pbprompt/gui/image_utils.py
-msgid "l"
-msgstr "w"
-
-#: src/pbprompt/gui/image_utils.py
-msgid "Fit image to window (max ×%d)"
-msgstr "Вписать изображение в окно (макс ×%d)"
-
-#: src/pbprompt/gui/image_utils.py
-msgid "Actual size — 1 pixel = 1 displayed pixel  [1]"
-msgstr "Реальный размер — 1 пиксель = 1 отображаемый пиксель  [1]"
-
-#: src/pbprompt/gui/image_utils.py
-#, python-format
-msgid "Fit image width to window  [%s]"
-msgstr "По ширине окна  [%s]"
-
-#: src/pbprompt/gui/image_utils.py
-msgid "Fit image height to window  [H]"
-msgstr "По высоте окна  [H]"
-
-#: src/pbprompt/gui/image_utils.py
-msgid "Zoom in +50%  [+]"
-msgstr "Увеличить +50 %  [+]"
-
-#: src/pbprompt/gui/image_utils.py
-msgid "Zoom out -50%  [−]"
-msgstr "Уменьшить -50 %  [−]"
-
-#: src/pbprompt/gui/image_utils.py
-msgid "(No image)"
-msgstr "(Нет изображения)"
-
-# Settings dialog – image viewer
-#: src/pbprompt/gui/settings_dialog.py
-msgid "Image viewer max zoom (×):"
-msgstr "Максимальный зум просмотрщика (×):"
-
-#: src/pbprompt/gui/settings_dialog.py
-msgid "Maximum magnification in 'Fit' mode when the image is smaller\nthan the viewer window.\n1× to 16× (default: 4×)."
-msgstr "Максимальное увеличение в режиме 'По размеру', когда\nизображение меньше окна просмотра.\nОт 1× до 16× (по умолчанию: 4×)."
-
-msgid "Zoom step (%):"
-msgstr "Шаг масштаба (%):"
-
-msgid "Percentage added or removed when clicking + or −,\nor scrolling the mouse wheel in the image viewer.\n1% to 50% (default: 10%)."
-msgstr "Процент, добавляемый или убираемый при нажатии + или −,\nили при прокрутке колёсика мыши в просмотрщике.\nОт 1% до 50% (по умолчанию: 10%)."
-
-msgid "Keep original dimensions"
-msgstr "Сохранить оригинальные размеры"
-
-msgid "When checked, images are stored as-is regardless of their size.\nWhen unchecked, images larger than the limits below are resized\nproportionally before being stored in the database."
-msgstr "Если отмечено, изображения хранятся как есть, независимо от размера.\nЕсли не отмечено, изображения, превышающие указанные ниже ограничения,\nпропорционально уменьшаются перед сохранением в базе данных."
-
-msgid "Max width (px):"
-msgstr "Макс. ширина (пкс):"
-
-msgid "Maximum width (in pixels) for images stored in the database.\nImages wider than this value are resized proportionally."
-msgstr "Максимальная ширина (в пикселях) изображений, хранящихся в базе данных.\nБолее широкие изображения пропорционально уменьшаются."
-
-msgid "Max height (px):"
-msgstr "Макс. высота (пкс):"
-
-msgid "Maximum height (in pixels) for images stored in the database.\nImages taller than this value are resized proportionally."
-msgstr "Максимальная высота (в пикселях) изображений, хранящихся в базе данных.\nБолее высокие изображения пропорционально уменьшаются."
-
-msgid "Copy image"
-msgstr "Копировать изображение"
-
-msgid "Save image to file…"
-msgstr "Сохранить изображение в файл…"
-
-msgid "Save Image"
-msgstr "Сохранить изображение"
-
-msgid "JPEG image (*.jpg *.jpeg)"
-msgstr "Изображение JPEG (*.jpg *.jpeg)"
-
-msgid "PNG image (*.png)"
-msgstr "Изображение PNG (*.png)"
-
-#, python-brace-format
-msgid ""
-"Could not save file:\n"
-"{error}"
-msgstr ""
-"Не удалось сохранить файл:\n"
-"{error}"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
 
 #~ msgid "Copied to clipboard"
 #~ msgstr "Скопировано в буфер обмена"
@@ -903,3 +35,718 @@ msgstr ""
 
 #~ msgid "A program to register and categorize AI prompts to keep tries."
 #~ msgstr "Программа для регистрации и категоризации промптов ИИ."
+
+# About dialog
+#~ msgid "About {app}"
+#~ msgstr "О программе {app}"
+
+#~ msgid "MIT License"
+#~ msgstr "Лицензия MIT"
+
+# Settings dialog
+#~ msgid "Settings"
+#~ msgstr "Настройки"
+
+#~ msgid "Language"
+#~ msgstr "Язык"
+
+#~ msgid "Display language:"
+#~ msgstr "Язык интерфейса:"
+
+#~ msgid ""
+#~ "Language used for the user interface.\n"
+#~ "'System default' uses the operating system locale."
+#~ msgstr ""
+#~ "Язык пользовательского интерфейса.\n"
+#~ "«По умолчанию системы» использует локаль операционной системы."
+
+#~ msgid "Translation language:"
+#~ msgstr "Язык перевода:"
+
+#~ msgid ""
+#~ "Language of the 'Local language' column.\n"
+#~ "Used as the source or target when translating prompts.\n"
+#~ "'System default' uses the operating system locale."
+#~ msgstr ""
+#~ "Язык столбца «Местный язык».\n"
+#~ "Используется как источник или цель при переводе подсказок.\n"
+#~ "«По умолчанию системы» использует локаль операционной системы."
+
+#~ msgid "Translation service"
+#~ msgstr "Служба перевода"
+
+#~ msgid "Service:"
+#~ msgstr "Служба:"
+
+#~ msgid ""
+#~ "Translation service used to fill the 'Local language' column\n"
+#~ "automatically when clicking the Translate button."
+#~ msgstr ""
+#~ "Служба перевода, используемая для автоматического заполнения\n"
+#~ "столбца «Местный язык» при нажатии кнопки «Перевести»."
+
+#~ msgid "API key:"
+#~ msgstr "Ключ API:"
+
+#~ msgid ""
+#~ "API key required by DeepL, Microsoft Translator, Yandex,\n"
+#~ "QCRI and LibreTranslate.\n"
+#~ "Leave blank for services that do not require one\n"
+#~ "(Google, MyMemory, PONS, Linguee, Reverso…)."
+#~ msgstr ""
+#~ "Ключ API, необходимый для DeepL, Microsoft Translator, Yandex,\n"
+#~ "QCRI и LibreTranslate.\n"
+#~ "Оставьте пустым для служб, которым он не нужен\n"
+#~ "(Google, MyMemory, PONS, Linguee, Reverso…)."
+
+#~ msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+#~ msgstr "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+
+#~ msgid "App ID:"
+#~ msgstr "ID приложения:"
+
+#~ msgid ""
+#~ "Application identifier required by some services:\n"
+#~ "• Baidu: appid\n"
+#~ "• Papago: client_id"
+#~ msgstr ""
+#~ "Идентификатор приложения, необходимый для некоторых служб:\n"
+#~ "• Baidu: appid\n"
+#~ "• Papago: client_id"
+
+#~ msgid "Baidu (appid) · Papago (client_id)"
+#~ msgstr "Baidu (appid) · Papago (client_id)"
+
+#~ msgid "App secret:"
+#~ msgstr "Секрет приложения:"
+
+#~ msgid ""
+#~ "Application secret required by some services:\n"
+#~ "• Baidu: appkey\n"
+#~ "• Papago: secret_key"
+#~ msgstr ""
+#~ "Секрет приложения, необходимый для некоторых служб:\n"
+#~ "• Baidu: appkey\n"
+#~ "• Papago: secret_key"
+
+#~ msgid "Baidu (appkey) · Papago (secret_key)"
+#~ msgstr "Baidu (appkey) · Papago (secret_key)"
+
+#~ msgid "Logging"
+#~ msgstr "Журналирование"
+
+#~ msgid "Log level:"
+#~ msgstr "Уровень журнала:"
+
+#~ msgid ""
+#~ "Verbosity of the application log.\n"
+#~ "DEBUG shows all messages; ERROR shows only critical failures.\n"
+#~ "Effective after restarting the application."
+#~ msgstr ""
+#~ "Уровень детализации журнала приложения.\n"
+#~ "DEBUG показывает все сообщения; ERROR "
+#~ "показывает только критические сбои.\n"
+#~ "Вступает в силу после перезапуска приложения."
+
+#~ msgid "Files"
+#~ msgstr "Файлы"
+
+#~ msgid "Maximum recent files:"
+#~ msgstr "Максимум недавних файлов:"
+
+#~ msgid "Maximum number of recently opened files shown in the File menu."
+#~ msgstr ""
+#~ "Максимальное количество недавно открытых "
+#~ "файлов, отображаемых в меню «Файл»."
+
+# Settings dialog – Images group
+#~ msgid "Images"
+#~ msgstr "Изображения"
+
+#~ msgid "Thumbnail width (px):"
+#~ msgstr "Ширина миниатюры (пкс):"
+
+#~ msgid ""
+#~ "Maximum width (in pixels) of the thumbnail stored in the database.\n"
+#~ "Larger values improve quality but increase database size."
+#~ msgstr ""
+#~ "Максимальная ширина (в пикселях) миниатюры, хранящейся в базе данных.\n"
+#~ "Большие значения улучшают качество, но увеличивают размер базы данных."
+
+#~ msgid "Thumbnail height (px):"
+#~ msgstr "Высота миниатюры (пкс):"
+
+#~ msgid ""
+#~ "Maximum height (in pixels) of the thumbnail stored in the database.\n"
+#~ "Larger values improve quality but increase database size."
+#~ msgstr ""
+#~ "Максимальная высота (в пикселях) миниатюры, хранящейся в базе данных.\n"
+#~ "Большие значения улучшают качество, но увеличивают размер базы данных."
+
+# Settings dialog – language selector
+#~ msgid "System default"
+#~ msgstr "Системный язык"
+
+# Column headers
+#~ msgid "AI"
+#~ msgstr "ИИ"
+
+#~ msgid "Group"
+#~ msgstr "Группа"
+
+#~ msgid "Name"
+#~ msgstr "Имя"
+
+# IMAGE column
+#~ msgid "Image"
+#~ msgstr "Изображение"
+
+#~ msgid "English"
+#~ msgstr "Английский"
+
+# Column header tooltips
+#~ msgid ""
+#~ "Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
+#~ "Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
+#~ msgstr ""
+#~ "Enter: подтвердить  ·  Ctrl+Enter или "
+#~ "Shift+Enter: вставить перевод строки\n"
+#~ "Tab / Shift+Tab: следующая / предыдущая ячейка  ·  Esc: отмена"
+
+#~ msgid ""
+#~ "AI model name.\n"
+#~ "Sort: primary AI → Group → Name"
+#~ msgstr ""
+#~ "Название модели ИИ.\n"
+#~ "Сортировка: ИИ → Группа → Название"
+
+#~ msgid ""
+#~ "Prompt group / category.\n"
+#~ "Sort: primary Group → Name → AI"
+#~ msgstr ""
+#~ "Группа / категория промпта.\n"
+#~ "Сортировка: Группа → Название → ИИ"
+
+#~ msgid ""
+#~ "Prompt title.\n"
+#~ "Sort: primary Name → Group → AI"
+#~ msgstr ""
+#~ "Заголовок промпта.\n"
+#~ "Сортировка: Название → Группа → ИИ"
+
+#~ msgid ""
+#~ "Double-click to view · Right-click for options\n"
+#~ "Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
+#~ msgstr ""
+#~ "Двойной щелчок для просмотра · Правый щелчок для параметров\n"
+#~ "Enter: загрузить из файла  ·  Ctrl+V: вставить  ·  Backspace: очистить"
+
+#~ msgid "Prompt in local language.\n"
+#~ msgstr "Промпт на родном языке.\n"
+
+#~ msgid "Prompt in English.\n"
+#~ msgstr "Промпт на английском.\n"
+
+# Status messages
+#~ msgid "Ready"
+#~ msgstr "Готово"
+
+# Main window – filters
+#~ msgid "Filter:"
+#~ msgstr "Фильтр:"
+
+#~ msgid "AI…"
+#~ msgstr "ИИ…"
+
+#~ msgid "Filter the AI column. Supports regular expressions."
+#~ msgstr "Фильтр по колонке «ИИ». Поддерживаются регулярные выражения."
+
+#~ msgid "Filter the Group column. Supports regular expressions."
+#~ msgstr "Фильтр по колонке «Группа». Поддерживаются регулярные выражения."
+
+#~ msgid "Filter the Name column. Supports regular expressions."
+#~ msgstr "Фильтр по колонке «Имя». Поддерживаются регулярные выражения."
+
+#~ msgid "Filter the local language column. Supports regular expressions."
+#~ msgstr ""
+#~ "Фильтр по колонке «Локальный язык». "
+#~ "Поддерживаются регулярные выражения."
+
+#~ msgid "Filter the English column. Supports regular expressions."
+#~ msgstr "Фильтр по колонке «Английский». Поддерживаются регулярные выражения."
+
+#~ msgid "Group…"
+#~ msgstr "Группа…"
+
+#~ msgid "Name…"
+#~ msgstr "Имя…"
+
+#~ msgid "Local language…"
+#~ msgstr "Локальный язык…"
+
+#~ msgid "English…"
+#~ msgstr "Английский…"
+
+#~ msgid "Clear"
+#~ msgstr "Очистить"
+
+#~ msgid "Clear all filters"
+#~ msgstr "Очистить все фильтры"
+
+# Main window – menu
+#~ msgid "&File"
+#~ msgstr "&Файл"
+
+#~ msgid "&Tools"
+#~ msgstr "&Инструменты"
+
+#~ msgid "&Help"
+#~ msgstr "&Справка"
+
+#~ msgid "&New"
+#~ msgstr "&Новый"
+
+# Main window – toolbar / actions
+#~ msgid "New file"
+#~ msgstr "Новый файл"
+
+#~ msgid "&Open…"
+#~ msgstr "&Открыть…"
+
+#~ msgid "Open a prompt file"
+#~ msgstr "Открыть файл промптов"
+
+#~ msgid "&Save"
+#~ msgstr "&Сохранить"
+
+#~ msgid "Save the current file"
+#~ msgstr "Сохранить текущий файл"
+
+#~ msgid "Save &As…"
+#~ msgstr "Сохранить &как…"
+
+#~ msgid "Save to a new file"
+#~ msgstr "Сохранить в новый файл"
+
+#~ msgid "&Close"
+#~ msgstr "&Закрыть"
+
+#~ msgid "Close current file"
+#~ msgstr "Закрыть текущий файл"
+
+#~ msgid "&Quit"
+#~ msgstr "&Выход"
+
+#~ msgid "Quit PBPrompt"
+#~ msgstr "Выйти из PBPrompt"
+
+#~ msgid "&Options…"
+#~ msgstr "&Настройки…"
+
+#~ msgid "Open settings dialog"
+#~ msgstr "Открыть настройки"
+
+#~ msgid "&About…"
+#~ msgstr "&О программе…"
+
+#~ msgid "About PBPrompt"
+#~ msgstr "О программе PBPrompt"
+
+#~ msgid "New Prompt"
+#~ msgstr "Новый промпт"
+
+#~ msgid "Add a new prompt entry"
+#~ msgstr "Добавить новый промпт"
+
+#~ msgid "Duplicate"
+#~ msgstr "Дублировать"
+
+#~ msgid "Duplicate the current row"
+#~ msgstr "Дублировать текущую строку"
+
+#~ msgid "Delete"
+#~ msgstr "Удалить"
+
+#~ msgid "Delete selected prompts"
+#~ msgstr "Удалить выбранные промпты"
+
+#~ msgid "→ English"
+#~ msgstr "→ Английский"
+
+#~ msgid "Translate selected rows to English"
+#~ msgstr "Перевести выбранные строки на английский"
+
+#~ msgid "← Local"
+#~ msgstr "← Локальный"
+
+#~ msgid "Translate selected rows from English"
+#~ msgstr "Перевести выбранные строки с английского"
+
+# File menu – YAML import/export
+#~ msgid "Import &YAML"
+#~ msgstr "Импорт &YAML"
+
+#~ msgid "Add entries…"
+#~ msgstr "Добавить записи…"
+
+#~ msgid "Import YAML file (append)"
+#~ msgstr "Импорт YAML-файла (добавить)"
+
+#~ msgid "Replace all…"
+#~ msgstr "Заменить все…"
+
+#~ msgid "Import YAML file (replace all)"
+#~ msgstr "Импорт YAML-файла (заменить все)"
+
+#~ msgid "Export &YAML…"
+#~ msgstr "Экспорт &YAML…"
+
+#~ msgid "Export YAML file"
+#~ msgstr "Экспорт YAML-файла"
+
+#~ msgid "Refresh Thumbnails"
+#~ msgstr "Обновить миниатюры"
+
+#~ msgid "Regenerate all thumbnails from stored images"
+#~ msgstr "Создать заново все миниатюры из сохранённых изображений"
+
+#~ msgid "Recent &Files"
+#~ msgstr "&Недавние файлы"
+
+#~ msgid "Copied: %s"
+#~ msgstr "Скопировано: %s"
+
+#~ msgid "New file created"
+#~ msgstr "Новый файл создан"
+
+# Dialogs – file operations
+#~ msgid "Open Prompt File"
+#~ msgstr "Открыть файл промптов"
+
+# Dialogs – file operations (SQLite)
+#~ msgid "PBPrompt database (*.sqlite);;All files (*.*)"
+#~ msgstr "База данных PBPrompt (*.sqlite);;Все файлы (*.*)"
+
+#~ msgid "Loaded {n} entries from {path}"
+#~ msgstr "Загружено {n} запись(ей) из {path}"
+
+#~ msgid "Error Opening File"
+#~ msgstr "Ошибка открытия файла"
+
+#~ msgid ""
+#~ "Could not open file:\n"
+#~ "{path}\n"
+#~ "\n"
+#~ "{error}"
+#~ msgstr ""
+#~ "Не удалось открыть файл:\n"
+#~ "{path}\n"
+#~ "\n"
+#~ "{error}"
+
+# Dialogs – errors
+#~ msgid "Error"
+#~ msgstr "Ошибка"
+
+#~ msgid ""
+#~ "Could not open file:\n"
+#~ "{path}"
+#~ msgstr ""
+#~ "Не удалось открыть файл:\n"
+#~ "{path}"
+
+#~ msgid "Save Prompt File"
+#~ msgstr "Сохранить файл промптов"
+
+#~ msgid "File saved successfully"
+#~ msgstr "Файл успешно сохранён"
+
+#~ msgid ""
+#~ "Could not save file:\n"
+#~ "{path}"
+#~ msgstr ""
+#~ "Не удалось сохранить файл:\n"
+#~ "{path}"
+
+#~ msgid "Import YAML"
+#~ msgstr "Импорт YAML"
+
+#~ msgid "YAML files (*.yaml *.yml);;All files (*.*)"
+#~ msgstr "Файлы YAML (*.yaml *.yml);;Все файлы (*.*)"
+
+# Status messages (YAML import/export)
+#~ msgid "Imported {n} entries from {path}"
+#~ msgstr "Импортировано {n} запись(ей) из {path}"
+
+#~ msgid "({k} duplicate(s) skipped)"
+#~ msgstr "({k} дубликат(ов) пропущено)"
+
+# Dialogs – errors (YAML import/export)
+#~ msgid ""
+#~ "Import failed:\n"
+#~ "{error}"
+#~ msgstr ""
+#~ "Ошибка импорта:\n"
+#~ "{error}"
+
+#~ msgid "Export YAML"
+#~ msgstr "Экспорт YAML"
+
+#~ msgid "Exported {n} entries to {path}"
+#~ msgstr "Экспортировано {n} запись(ей) в {path}"
+
+#~ msgid ""
+#~ "Export failed:\n"
+#~ "{error}"
+#~ msgstr ""
+#~ "Ошибка экспорта:\n"
+#~ "{error}"
+
+#~ msgid "File closed"
+#~ msgstr "Файл закрыт"
+
+# Dialogs – confirmation
+#~ msgid "Unsaved Changes"
+#~ msgstr "Несохранённые изменения"
+
+#~ msgid ""
+#~ "The document has been modified.\n"
+#~ "Do you want to save your changes?"
+#~ msgstr ""
+#~ "Документ был изменён.\n"
+#~ "Сохранить изменения?"
+
+#~ msgid "Row duplicated"
+#~ msgstr "Строка дублирована"
+
+#~ msgid "Confirm Delete"
+#~ msgstr "Подтверждение удаления"
+
+#~ msgid "Are you sure you want to delete {n} selected row(s)?"
+#~ msgstr "Вы уверены, что хотите удалить {n} выбранную(ых) строку(к)?"
+
+#~ msgid "Deleted {n} row(s)"
+#~ msgstr "Удалено {n} строк(а)"
+
+# Context menu
+#~ msgid "Copy"
+#~ msgstr "Копировать"
+
+#~ msgid "Cut"
+#~ msgstr "Вырезать"
+
+#~ msgid "Paste"
+#~ msgstr "Вставить"
+
+#~ msgid "Thumbnails refreshed: {n} image(s) updated"
+#~ msgstr "Миниатюры обновлены: {n} изображение(й) обновлено"
+
+#~ msgid "Unsupported Format"
+#~ msgstr "Неподдерживаемый формат"
+
+#~ msgid "Unsupported image format"
+#~ msgstr "Неподдерживаемый формат изображения"
+
+#~ msgid "Load image from file…"
+#~ msgstr "Загрузить изображение из файла…"
+
+#~ msgid "Paste image"
+#~ msgstr "Вставить изображение"
+
+#~ msgid "Clear image"
+#~ msgstr "Очистить изображение"
+
+#~ msgid "Confirm Clear Image"
+#~ msgstr "Подтвердить очистку изображения"
+
+#~ msgid "Clear the image from {n} selected row(s)?"
+#~ msgstr "Очистить изображение в {n} выбранной(ых) строке(ах)?"
+
+#~ msgid "Load Image"
+#~ msgstr "Загрузить изображение"
+
+#~ msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
+#~ msgstr "Файлы изображений (*.jpg *.jpeg *.png);;Все файлы (*.*)"
+
+#~ msgid "No preview"
+#~ msgstr "Нет предпросмотра"
+
+#~ msgid ""
+#~ "Could not read file:\n"
+#~ "{error}"
+#~ msgstr ""
+#~ "Не удалось прочитать файл:\n"
+#~ "{error}"
+
+#~ msgid "No Image"
+#~ msgstr "Нет изображения"
+
+#~ msgid "No image in clipboard"
+#~ msgstr "В буфере обмена нет изображения"
+
+#~ msgid "No rows selected"
+#~ msgstr "Строки не выбраны"
+
+#~ msgid "Translation Error"
+#~ msgstr "Ошибка перевода"
+
+#~ msgid ""
+#~ "Could not initialise the translation service.\n"
+#~ "Check your API key in Options."
+#~ msgstr ""
+#~ "Не удалось инициализировать службу перевода.\n"
+#~ "Проверьте ключ API в настройках."
+
+#~ msgid ""
+#~ "Translation failed:\n"
+#~ "{error}"
+#~ msgstr ""
+#~ "Ошибка перевода:\n"
+#~ "{error}"
+
+#~ msgid "Translated {n} row(s)"
+#~ msgstr "Переведено {n} строк(а)"
+
+#~ msgid "No recent files"
+#~ msgstr "Нет недавних файлов"
+
+#~ msgid "Clear list"
+#~ msgstr "Очистить список"
+
+#~ msgid "File Not Found"
+#~ msgstr "Файл не найден"
+
+#~ msgid ""
+#~ "The file no longer exists:\n"
+#~ "{path}"
+#~ msgstr ""
+#~ "Файл больше не существует:\n"
+#~ "{path}"
+
+#~ msgid "Untitled"
+#~ msgstr "Без названия"
+
+# Image viewer toolbar
+#~ msgid "Fit"
+#~ msgstr "По размеру"
+
+#~ msgid "×1"
+#~ msgstr "×1"
+
+#~ msgid "Width"
+#~ msgstr "Ширина"
+
+#~ msgid "Height"
+#~ msgstr "Высота"
+
+#~ msgid "+50%"
+#~ msgstr "+50 %"
+
+#~ msgid "-50%"
+#~ msgstr "-50 %"
+
+#~ msgid "l"
+#~ msgstr "w"
+
+#~ msgid "Fit image to window (max ×%d)"
+#~ msgstr "Вписать изображение в окно (макс ×%d)"
+
+#~ msgid "Actual size — 1 pixel = 1 displayed pixel  [1]"
+#~ msgstr "Реальный размер — 1 пиксель = 1 отображаемый пиксель  [1]"
+
+#~ msgid "Fit image width to window  [%s]"
+#~ msgstr "По ширине окна  [%s]"
+
+#~ msgid "Fit image height to window  [H]"
+#~ msgstr "По высоте окна  [H]"
+
+#~ msgid "Zoom in +50%  [+]"
+#~ msgstr "Увеличить +50 %  [+]"
+
+#~ msgid "Zoom out -50%  [−]"
+#~ msgstr "Уменьшить -50 %  [−]"
+
+#~ msgid "(No image)"
+#~ msgstr "(Нет изображения)"
+
+# Settings dialog – image viewer
+#~ msgid "Image viewer max zoom (×):"
+#~ msgstr "Максимальный зум просмотрщика (×):"
+
+#~ msgid ""
+#~ "Maximum magnification in 'Fit' mode when the image is smaller\n"
+#~ "than the viewer window.\n"
+#~ "1× to 16× (default: 4×)."
+#~ msgstr ""
+#~ "Максимальное увеличение в режиме 'По размеру', когда\n"
+#~ "изображение меньше окна просмотра.\n"
+#~ "От 1× до 16× (по умолчанию: 4×)."
+
+#~ msgid "Zoom step (%):"
+#~ msgstr "Шаг масштаба (%):"
+
+#~ msgid ""
+#~ "Percentage added or removed when clicking + or −,\n"
+#~ "or scrolling the mouse wheel in the image viewer.\n"
+#~ "1% to 50% (default: 10%)."
+#~ msgstr ""
+#~ "Процент, добавляемый или убираемый при нажатии + или −,\n"
+#~ "или при прокрутке колёсика мыши в просмотрщике.\n"
+#~ "От 1% до 50% (по умолчанию: 10%)."
+
+#~ msgid "Keep original dimensions"
+#~ msgstr "Сохранить оригинальные размеры"
+
+#~ msgid ""
+#~ "When checked, images are stored as-is regardless of their size.\n"
+#~ "When unchecked, images larger than the limits below are resized\n"
+#~ "proportionally before being stored in the database."
+#~ msgstr ""
+#~ "Если отмечено, изображения хранятся как есть, независимо от размера.\n"
+#~ "Если не отмечено, изображения, превышающие "
+#~ "указанные ниже ограничения,\n"
+#~ "пропорционально уменьшаются перед сохранением в базе данных."
+
+#~ msgid "Max width (px):"
+#~ msgstr "Макс. ширина (пкс):"
+
+#~ msgid ""
+#~ "Maximum width (in pixels) for images stored in the database.\n"
+#~ "Images wider than this value are resized proportionally."
+#~ msgstr ""
+#~ "Максимальная ширина (в пикселях) изображений,"
+#~ " хранящихся в базе данных.\n"
+#~ "Более широкие изображения пропорционально уменьшаются."
+
+#~ msgid "Max height (px):"
+#~ msgstr "Макс. высота (пкс):"
+
+#~ msgid ""
+#~ "Maximum height (in pixels) for images stored in the database.\n"
+#~ "Images taller than this value are resized proportionally."
+#~ msgstr ""
+#~ "Максимальная высота (в пикселях) изображений,"
+#~ " хранящихся в базе данных.\n"
+#~ "Более высокие изображения пропорционально уменьшаются."
+
+#~ msgid "Copy image"
+#~ msgstr "Копировать изображение"
+
+#~ msgid "Save image to file…"
+#~ msgstr "Сохранить изображение в файл…"
+
+#~ msgid "Save Image"
+#~ msgstr "Сохранить изображение"
+
+#~ msgid "JPEG image (*.jpg *.jpeg)"
+#~ msgstr "Изображение JPEG (*.jpg *.jpeg)"
+
+#~ msgid "PNG image (*.png)"
+#~ msgstr "Изображение PNG (*.png)"
+
+#~ msgid ""
+#~ "Could not save file:\n"
+#~ "{error}"
+#~ msgstr ""
+#~ "Не удалось сохранить файл:\n"
+#~ "{error}"

@@ -1,7 +1,7 @@
 PBPrompt — Implementation Summary
 ==================================
-Version: 1.7.1
-Last updated: 2026-05-17
+Version: 1.8.0
+Last updated: 2026-06-01
 
 
 Overview
@@ -21,7 +21,7 @@ Project structure
 -----------------
 PBPrompt/
 ├── src/pbprompt/
-│   ├── __init__.py            # __version__ = "1.4.0", __app_name__, __author__
+│   ├── __init__.py            # __version__ = "1.8.0", __app_name__, __author__
 │   ├── __main__.py            # argparse entry point: [FILE] [--version] [--log-level]
 │   ├── config.py              # AppConfig dataclass, YAML persistence via ruamel.yaml
 │   ├── data.py                # PromptEntry, PromptCollection, SQLite + YAML I/O
@@ -423,8 +423,14 @@ Makefile notes
 translations target: uses file-based dependencies (%.mo: %.po), NOT .PHONY without deps.
   This ensures Make only recompiles .mo files when the corresponding .po is newer.
   MO_FILES computed via $(foreach lang,...) so all locales are covered.
-dist target: builds the PyInstaller standalone binary (renamed from `bundle`).
-srcdist target: builds dist/pbprompt-x.y.z.tar.gz and .zip (renamed from `dist`).
+pot/merge-po targets: use pybabel exclusively (not xgettext/msgmerge).
+  babel.cfg at repo root configures extraction: [python: src/**.py]
+dist target: builds the PyInstaller standalone binary; renames dist/pbprompt[.exe] to
+  dist/pbprompt-VERSION-OS-ARCH[.exe].  VERSION from tools/git_version.sh (semver on
+  clean tagged HEAD, otherwise "dev").  Windows .exe detection via file existence check
+  ([ -f dist/pbprompt.exe ]) — uname -s on GitHub Actions Windows runners returns
+  MINGW64_NT-…, not "windows", so a string comparison would silently skip the .exe suffix.
+srcdist target: builds dist/pbprompt-x.y.z.tar.gz and .zip.
   make clean preserves pbprompt.spec (exception in the find command).
 png target removed: make_png.py script and pbprompt.png deleted.
 
@@ -449,6 +455,19 @@ ReadTheDocs: triggered only on semver tags; pre-build step runs make translation
 macOS runner: macos-14 (Apple Silicon arm64/M1); artifact named pbprompt-vX.Y.Z-macos-arm64.
 Node.js: all actions on v5+ with FORCE_JAVASCRIPT_ACTIONS_TO_NODE24="true".
 PyInstaller: pbprompt.spec committed; hooks/rthook_ssl.py for SSL cert path in frozen builds.
+
+Artifact upload / download (critical):
+  make dist produces dist/pbprompt-VERSION-OS-ARCH[.exe], not dist/pbprompt.
+  Build jobs upload with globs:
+    Linux:   dist/pbprompt-*-linux-*
+    macOS:   dist/pbprompt-*-darwin-*
+    Windows: dist/pbprompt-*.exe
+  upload-artifact@v6 strips the leading dist/ prefix: files land at the artifact root
+  (e.g. executable-linux/pbprompt-1.8.0-linux-x86_64, no dist/ subdirectory).
+  The release job's "Rename executables" step therefore uses:
+    mv executable-linux/pbprompt-*       dist/pbprompt-${TAG}-linux-amd64
+    mv executable-windows/pbprompt-*.exe dist/pbprompt-${TAG}-windows-amd64.exe
+    mv executable-macos/pbprompt-*       dist/pbprompt-${TAG}-macos-arm64
 
 
 Known limitations / open issues

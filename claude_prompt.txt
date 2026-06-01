@@ -408,6 +408,11 @@ avec leur description (grep sur ## dans le Makefile).
 
 
 7) Internationalisation (i18n)
+- Outillage : pybabel exclusivement (pas xgettext/msgmerge/msgfmt/msginit).
+  * pot   : pybabel extract -F babel.cfg -k _ --input-dirs=src -o locales/messages.pot
+  * merge-po : pybabel update -i locales/messages.pot -d locales -l <lang> -D messages
+  * translations : pybabel compile -f -i <file>.po -o <file>.mo
+  babel.cfg à la racine du projet : [python: src/**.py]
 - Architecture multilingue : fichiers gettext (.po/.mo) pour au moins français, anglais,
   espagnol, italien, russe, vietnamien, chinois simplifié (zh_CN).
 - Mécanisme pour changer la langue dans Paramètres et recharger l'UI sans redémarrage.
@@ -568,6 +573,19 @@ Intégration CI (.github/workflows/ci.yml) :
   * Step "Clean up old Read the Docs versions" ajouté en fin du job "release".
   * S'exécute uniquement sur les tags semver (job "release" déjà conditionnel).
 
+Points critiques pour les artifacts PyInstaller dans la CI :
+  * make dist produit dist/pbprompt-VERSION-OS-ARCH[.exe], pas dist/pbprompt.
+    Les chemins d'upload doivent utiliser des globs :
+      Linux:   path: dist/pbprompt-*-linux-*
+      macOS:   path: dist/pbprompt-*-darwin-*
+      Windows: path: dist/pbprompt-*.exe
+  * upload-artifact@v6 SUPPRIME le préfixe dist/ : les fichiers arrivent à la racine
+    de l'artifact (ex : executable-linux/pbprompt-1.8.0-linux-x86_64, sans dist/).
+    Le step "Rename executables" du job release doit donc utiliser :
+      mv executable-linux/pbprompt-*       dist/pbprompt-${TAG}-linux-amd64
+      mv executable-windows/pbprompt-*.exe dist/pbprompt-${TAG}-windows-amd64.exe
+      mv executable-macos/pbprompt-*       dist/pbprompt-${TAG}-macos-arm64
+
 
 12) pyproject.toml et packaging
 - build-backend doit être "setuptools.build_meta" (PAS "setuptools.backends.legacy:build"
@@ -638,7 +656,14 @@ Intégration CI (.github/workflows/ci.yml) :
           --add-data "locales:locales" \
           --add-data "resources:resources" \
           src/pbprompt/__main__.py
-  * Le binaire est écrit dans dist/.
+  * PyInstaller écrit dist/pbprompt (ou dist/pbprompt.exe sur Windows).
+  * Après la build, la cible renomme le binaire :
+      dist/pbprompt-VERSION-OS-ARCH[.exe]
+    VERSION = tools/git_version.sh (semver si HEAD tagué et arbre propre, sinon "dev").
+    OS = uname -s | tr '[:upper:]' '[:lower:]' (ex : "linux", "darwin").
+    ARCH = uname -m (ex : "x86_64", "arm64").
+  * Détection de l'extension Windows : [ -f dist/pbprompt.exe ] — NE PAS comparer $OS à
+    "windows" : sur les runners GitHub Actions, uname -s retourne "MINGW64_NT-…".
 
   Cible srcdist — points critiques :
   * Dépend de all (les fichiers générés sont inclus dans l'archive).
