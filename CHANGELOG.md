@@ -4,6 +4,30 @@ All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/) and
 the format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.8.0] – 2026-06-01
+
+### Added
+- **`tools/git_version.sh`**: new script that outputs the semver string from the
+  current Git tag (`v1.2.3` → `1.2.3`) or `dev` when HEAD is untagged or the
+  working tree is dirty; called by the `dist` and `srcdist` Makefile targets so
+  binaries and source archives carry the real version on clean tagged builds.
+- **Image viewer — double-click zoom-to-point**: double-clicking the left mouse button
+  zooms in by one step and centers the clicked pixel in the viewport.
+- **Image viewer — persistent geometry**: the viewer window size and position are saved
+  on close and restored on the next open (stored in `config.yaml` as
+  `image_viewer_x/y/width/height`).
+
+### Changed
+- **`scripts/` renamed to `tools/`**: all build and maintenance scripts moved to
+  `tools/` (`build_linux.sh`, `build_macos.sh`, `build_windows.bat`, `build_qm.sh`,
+  `compile_translations.sh`, `bump_version.py`, `extract_changelog.py`,
+  `rtd_cleanup.py`); CI, README, docs and reference files updated accordingly.
+- **ruff pre-commit hook** bumped to v0.15.13.
+
+### Fixed
+- **Image viewer — wheel zoom crash (PySide6 6.x)**: `QWheelEvent.pos()` was removed in
+  recent PySide6 releases; replaced with `.position().toPoint()`.
+
 ## [1.7.1] – 2026-05-17
 
 ### Fixed
