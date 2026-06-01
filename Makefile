@@ -189,7 +189,7 @@ dist: all  ## Build a standalone binary with PyInstaller (named pbprompt-VERSION
 	    echo "[dist] using existing $(SPEC_FILE)"; \
 	    $(CONDA_RUN) pyinstaller $(SPEC_FILE); \
 	fi; \
-	EXT=""; [ "$$OS" = "windows" ] && EXT=".exe"; \
+	EXT=""; [ -f $(DIST_DIR)/pbprompt.exe ] && EXT=".exe"; \
 	mv $(DIST_DIR)/pbprompt$$EXT $(DIST_DIR)/$$EXENAME$$EXT; \
 	echo "[dist] $(DIST_DIR)/$$EXENAME$$EXT"
 

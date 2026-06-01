@@ -27,6 +27,14 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Fixed
 - **Image viewer — wheel zoom crash (PySide6 6.x)**: `QWheelEvent.pos()` was removed in
   recent PySide6 releases; replaced with `.position().toPoint()`.
+- **CI build — artifact upload failures**: `upload-artifact` paths were hardcoded to
+  `dist/pbprompt` / `dist/pbprompt.exe` but `make dist` produces versioned filenames
+  (`pbprompt-VERSION-os-arch`).  Fixed upload globs and updated the release rename step
+  to match `upload-artifact@v6` path-preservation behaviour.
+- **CI build — Windows `.exe` detection in Makefile**: the `EXT=.exe` guard compared
+  `$OS` to the literal string `"windows"` but `uname -s` on GitHub Actions Windows
+  runners returns `MINGW64_NT-…`.  Replaced with a file-existence check on
+  `dist/pbprompt.exe`.
 
 ## [1.7.1] – 2026-05-17
 

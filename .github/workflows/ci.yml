@@ -143,7 +143,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: executable-linux
-          path: dist/pbprompt
+          path: dist/pbprompt-*-linux-*
           if-no-files-found: error
 
   build-windows:
@@ -176,7 +176,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: executable-windows
-          path: dist/pbprompt.exe
+          path: dist/pbprompt-*.exe
           if-no-files-found: error
 
   build-macos:
@@ -214,7 +214,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: executable-macos
-          path: dist/pbprompt
+          path: dist/pbprompt-*-darwin-*
           if-no-files-found: error
           # Note: artifact contains the arm64 binary built on macos-14 (M1).
 
@@ -257,12 +257,14 @@ jobs:
 
       # Rename executables to include the version tag before uploading to the
       # release (e.g. pbprompt-v1.0.1-linux-amd64).
+      # upload-artifact@v6 strips the dist/ prefix, so downloaded files
+      # land directly under executable-<os>/.
       - name: Rename executables
         run: |
           TAG="${{ github.ref_name }}"
-          mv executable-linux/pbprompt       dist/pbprompt-${TAG}-linux-amd64
-          mv executable-windows/pbprompt.exe dist/pbprompt-${TAG}-windows-amd64.exe
-          mv executable-macos/pbprompt       dist/pbprompt-${TAG}-macos-arm64
+          mv executable-linux/pbprompt-*       dist/pbprompt-${TAG}-linux-amd64
+          mv executable-windows/pbprompt-*.exe dist/pbprompt-${TAG}-windows-amd64.exe
+          mv executable-macos/pbprompt-*       dist/pbprompt-${TAG}-macos-arm64
           chmod +x dist/pbprompt-${TAG}-linux-amd64 dist/pbprompt-${TAG}-macos-arm64
 
       - name: Publish GitHub Release
