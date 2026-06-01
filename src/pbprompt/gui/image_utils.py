@@ -244,12 +244,14 @@ class ImageViewDialog(QDialog):
         zoom_step: int = 10,
         title: str = "Image",
         parent: Any = None,
+        config: Any = None,
     ) -> None:
         super().__init__(parent)
         self.setWindowTitle(title)
         self.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
         self.setMinimumSize(self._MIN_SIZE, self._MIN_SIZE)
 
+        self._config = config
         self._max_zoom: int = max_zoom
         self._zoom_step: float = max(1, zoom_step) / 100.0
         self._mode: _ZoomMode = ImageViewDialog._last_mode
@@ -374,6 +376,7 @@ class ImageViewDialog(QDialog):
             from pbprompt.i18n import get_translate as _gt  # noqa: PLC0415
 
             self._img_label.setText(_gt()("(No image)"))
+        self._img_label.installEventFilter(self)
         self._scroll.setWidget(self._img_label)
         layout.addWidget(self._scroll, 1)
 
@@ -383,7 +386,16 @@ class ImageViewDialog(QDialog):
         layout.addWidget(btn_box)
 
     def _setup_initial_size(self) -> None:
-        if self._pixmap:
+        cfg = self._config
+        if (
+            cfg is not None
+            and cfg.image_viewer_width is not None
+            and cfg.image_viewer_height is not None
+        ):
+            self.resize(cfg.image_viewer_width, cfg.image_viewer_height)
+            if cfg.image_viewer_x is not None and cfg.image_viewer_y is not None:
+                self.move(cfg.image_viewer_x, cfg.image_viewer_y)
+        elif self._pixmap:
             screen = self.screen() if hasattr(self, "screen") else None
             if screen:
                 sg = screen.availableGeometry()
@@ -403,11 +415,18 @@ class ImageViewDialog(QDialog):
     # ------------------------------------------------------------------
 
     def eventFilter(self, obj: Any, event: Any) -> bool:  # type: ignore[override]  # noqa: N802
+        if (
+            obj is self._img_label
+            and event.type() == QEvent.Type.MouseButtonDblClick
+            and event.button() == Qt.MouseButton.LeftButton
+        ):
+            self._zoom_to_point(event.pos())
+            return True
         if obj is self._scroll.viewport() and event.type() == QEvent.Type.Wheel:
             # Fraction of the image under the cursor before zoom (anchor point).
             # QScrollArea::setWidget reparents the label onto the viewport, so
             # mapFrom gives coordinates in the label's own space.
-            cursor_vp = event.pos()
+            cursor_vp = event.position().toPoint()
             lbl_w = max(self._img_label.width(), 1)
             lbl_h = max(self._img_label.height(), 1)
             cursor_lbl = self._img_label.mapFrom(self._scroll.viewport(), cursor_vp)
@@ -430,6 +449,15 @@ class ImageViewDialog(QDialog):
             self._scroll.verticalScrollBar().setValue(round(fy * new_h) - cursor_vp.y())
             return True
         return super().eventFilter(obj, event)
+
+    def closeEvent(self, event: Any) -> None:  # type: ignore[override]  # noqa: N802
+        if self._config is not None:
+            self._config.image_viewer_x = self.x()
+            self._config.image_viewer_y = self.y()
+            self._config.image_viewer_width = self.width()
+            self._config.image_viewer_height = self.height()
+            self._config.save()
+        super().closeEvent(event)
 
     def showEvent(self, event: Any) -> None:  # type: ignore[override]  # noqa: N802
         super().showEvent(event)
@@ -561,6 +589,27 @@ class ImageViewDialog(QDialog):
         self._mode = ImageViewDialog._last_mode = _ZoomMode.HEIGHT
         self._update_mode_buttons()
         self._apply_mode()
+
+    def _zoom_to_point(self, label_pos: Any) -> None:
+        label_w = self._img_label.width()
+        label_h = self._img_label.height()
+        if label_w == 0 or label_h == 0:
+            self._on_zoom_in()
+            return
+        fx = label_pos.x() / label_w
+        fy = label_pos.y() / label_h
+        new_scale = min(self._scale + self._zoom_step, float(self._max_zoom))
+        self._scale = ImageViewDialog._last_scale = new_scale
+        self._mode = ImageViewDialog._last_mode = _ZoomMode.MANUAL
+        self._update_mode_buttons()
+        self._apply_mode()
+        vp = self._scroll.viewport()
+        self._scroll.horizontalScrollBar().setValue(
+            round(fx * self._img_label.width() - vp.width() / 2)
+        )
+        self._scroll.verticalScrollBar().setValue(
+            round(fy * self._img_label.height() - vp.height() / 2)
+        )
 
     def _on_zoom_in(self) -> None:
         new_scale = min(self._scale + self._zoom_step, float(self._max_zoom))

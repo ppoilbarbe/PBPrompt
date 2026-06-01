@@ -71,6 +71,10 @@ class AppConfig:
     last_image_dir: str = ""
     image_viewer_zoom_max: int = 4
     image_viewer_zoom_step: int = 10
+    image_viewer_x: int | None = None
+    image_viewer_y: int | None = None
+    image_viewer_width: int | None = None
+    image_viewer_height: int | None = None
     image_store_keep_original: bool = True
     image_store_max_width: int = 1920
     image_store_max_height: int = 1080
@@ -153,6 +157,10 @@ class AppConfig:
         cfg.window_y = cls._opt_int(raw, "window_y")
         cfg.window_width = cls._opt_int(raw, "window_width", min_val=100)
         cfg.window_height = cls._opt_int(raw, "window_height", min_val=100)
+        cfg.image_viewer_x = cls._opt_int(raw, "image_viewer_x")
+        cfg.image_viewer_y = cls._opt_int(raw, "image_viewer_y")
+        cfg.image_viewer_width = cls._opt_int(raw, "image_viewer_width", min_val=100)
+        cfg.image_viewer_height = cls._opt_int(raw, "image_viewer_height", min_val=100)
         cfg.last_import_dir = cls._str_or(raw, "last_import_dir", "")
         cfg.last_export_dir = cls._str_or(raw, "last_export_dir", "")
         cfg.last_image_dir = cls._str_or(raw, "last_image_dir", "")
@@ -186,6 +194,10 @@ class AppConfig:
             "window_y",
             "window_width",
             "window_height",
+            "image_viewer_x",
+            "image_viewer_y",
+            "image_viewer_width",
+            "image_viewer_height",
             "last_import_dir",
             "last_export_dir",
             "last_image_dir",
@@ -219,7 +231,16 @@ class AppConfig:
             "image_store_max_width": self.image_store_max_width,
             "image_store_max_height": self.image_store_max_height,
         }
-        for key in ("window_x", "window_y", "window_width", "window_height"):
+        for key in (
+            "window_x",
+            "window_y",
+            "window_width",
+            "window_height",
+            "image_viewer_x",
+            "image_viewer_y",
+            "image_viewer_width",
+            "image_viewer_height",
+        ):
             val = getattr(self, key)
             if val is not None:
                 data[key] = val

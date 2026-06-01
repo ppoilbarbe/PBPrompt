@@ -833,6 +833,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             max_zoom=self._config.image_viewer_zoom_max,
             zoom_step=self._config.image_viewer_zoom_step,
             parent=self,
+            config=self._config,
         )
         dlg.exec()
 
