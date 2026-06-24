@@ -39,6 +39,9 @@ dependencies:
   - sphinx-rtd-theme>=2.0
   - babel>=2.14
 
+  # Fonts bundled in the PyInstaller binary (portable rendering on any machine)
+  - fonts-conda-ecosystem   # meta-package: Ubuntu, DejaVu, Inconsolata, SourceCodePro
+
   # ---- packaging ----
   - pyinstaller>=6.0
 

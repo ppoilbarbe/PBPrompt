@@ -4,6 +4,22 @@ All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/) and
 the format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Added
+- **Portable font bundling in PyInstaller builds**: `fonts-conda-ecosystem`
+  (Ubuntu, DejaVu, Inconsolata, SourceCodePro) added to `environment.yml` and
+  bundled into the frozen binary via `pbprompt.spec`. A runtime hook
+  (`hooks/rthook_fonts.py`) generates a portable `fonts.conf` at startup on
+  Linux, pointing to the bundled fonts and including the system
+  `/etc/fonts/fonts.conf`, so fontconfig rendering settings (anti-aliasing,
+  hinting…) are inherited from the host. `_load_bundled_fonts()` in
+  `__main__.py` registers all bundled `.ttf` files into `QFontDatabase` and
+  explicitly sets **Ubuntu** as the application font, bypassing fontconfig
+  for font selection: the bundled `libfontconfig.so` has its default config
+  path hardcoded to the build machine's conda prefix, which does not exist on
+  target machines, so font selection cannot rely on fontconfig.
+
 ## [1.8.1] – 2026-06-24
 
 ### Added

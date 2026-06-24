@@ -51,19 +51,29 @@ def _ssl_binaries():
     return result
 
 
+_datas = [
+    ("locales", "locales"),
+    ("src/pbprompt/icons", "pbprompt/icons"),
+    (certifi.where(), "certifi"),
+]
+
+# Conda fonts: bundled to guarantee identical rendering across machines.
+# On Linux, fontconfig resolves fonts via absolute paths written into fonts.conf
+# at build time; those paths do not exist on the target machine.
+# The runtime hook hooks/rthook_fonts.py generates a portable fonts.conf at startup.
+_conda_fonts = os.path.join(sys.prefix, "fonts")
+if os.path.isdir(_conda_fonts):
+    _datas += [(_conda_fonts, "fonts")]
+
 a = Analysis(
     ["src/pbprompt/__main__.py"],
     pathex=[],
     binaries=_ssl_binaries(),
-    datas=[
-        ("locales", "locales"),
-        ("src/pbprompt/icons", "pbprompt/icons"),
-        (certifi.where(), "certifi"),
-    ],
+    datas=_datas,
     hiddenimports=["certifi", "ssl", "_ssl", "_hashlib"],
     hookspath=[],
     hooksconfig={},
-    runtime_hooks=["hooks/rthook_ssl.py"],
+    runtime_hooks=["hooks/rthook_ssl.py", "hooks/rthook_fonts.py"],
     excludes=[],
     noarchive=False,
     optimize=0,

@@ -587,8 +587,17 @@ Critical points for PyInstaller artefacts in CI:
 - Scripts in tools/: build_linux.sh, build_windows.bat, build_macos.sh,
   compile_translations.sh, build_qm.sh, bump_version.py, extract_changelog.py,
   rtd_cleanup.py, git_version.sh.
-- hooks/: rthook_ssl.py (PyInstaller runtime hook — SSL cert path in frozen builds).
+- hooks/:
+  * rthook_ssl.py — PyInstaller runtime hook: points SSL/requests to the bundled
+    certifi CA bundle (sets SSL_CERT_FILE and REQUESTS_CA_BUNDLE).
+  * rthook_fonts.py — PyInstaller runtime hook (Linux only): generates a portable
+    fonts.conf in sys._MEIPASS pointing to the bundled fonts/ directory and
+    including the system /etc/fonts/fonts.conf; sets FONTCONFIG_FILE; calls
+    FcFini()/FcInit() via ctypes to reinitialise fontconfig before Qt loads.
 - pbprompt.spec: PyInstaller spec file committed to the repository.
+  Bundles: locales/, src/pbprompt/icons/, certifi CA bundle, $CONDA_PREFIX/fonts/
+  (conda font packages — requires fonts-conda-ecosystem in the conda environment).
+  Runtime hooks: hooks/rthook_ssl.py, hooks/rthook_fonts.py.
 - Sphinx documentation in doc/.
 - Makefile with targets: all, translations, pot, merge-po, run, lint, format, test,
   test-cov, docs, dist, srcdist, clean, version, bump-patch, bump-minor, bump-major,
@@ -658,6 +667,37 @@ Critical points for PyInstaller artefacts in CI:
       return Path(sys._MEIPASS) / "pbprompt" / "icons"  (frozen)
       return Path(__file__).parent.parent / "icons"      (normal)
     Never compute the icons path via Path(__file__).parent... in other modules.
+  * Conda fonts are bundled via:
+      _conda_fonts = os.path.join(sys.prefix, "fonts")
+      if os.path.isdir(_conda_fonts):
+          _datas += [(_conda_fonts, "fonts")]
+    Requires fonts-conda-ecosystem to be installed in the conda env at build time.
+
+Font handling in frozen builds — critical points:
+  The libfontconfig.so bundled by PyInstaller has its default config path hardcoded
+  to the build machine's conda prefix.  On any other machine that path is absent and
+  fontconfig fails silently.  Three-layer solution:
+
+  1. environment.yml declares fonts-conda-ecosystem; pbprompt.spec bundles
+     $CONDA_PREFIX/fonts/ as "fonts/" in the binary.
+
+  2. hooks/rthook_fonts.py (runtime hook, Linux only):
+     * Writes fonts.conf into sys._MEIPASS with <dir>{_MEIPASS}/fonts</dir> and
+       <include ignore_missing="yes">/etc/fonts/fonts.conf</include>.
+     * Sets os.environ["FONTCONFIG_FILE"] to that file.
+     * Calls ctypes.CDLL("libfontconfig.so.1").FcFini() then .FcInit() to force
+       fontconfig reinitialisation before Qt loads.
+     * Runs only when sys.frozen is True and fonts/ directory is present.
+
+  3. _load_bundled_fonts(app) in __main__.py, called just after QApplication():
+     * Active only when sys.frozen is True.
+     * Registers every *.ttf from sys._MEIPASS/fonts/ into QFontDatabase via
+       addApplicationFont().
+     * Explicitly sets Ubuntu as the application font if "Ubuntu" is in the loaded
+       families, bypassing fontconfig for font-family selection.
+     * Rationale: fontconfig-based font selection is unreliable in the bundle even
+       with the hook (FcFini/FcInit may reinitialise the wrong library instance).
+       Forcing Ubuntu guarantees a consistent, known-good UI font on any machine.
 
 
 14) IMAGE column
