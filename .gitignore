@@ -38,4 +38,5 @@ Thumbs.db
 
 # Sphinx build output
 doc/_build/
+doc/changelog.rst
 *.po~

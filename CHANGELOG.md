@@ -4,6 +4,14 @@ All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/) and
 the format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Fixed
+- **ReadTheDocs changelog**: `doc/changelog.rst` is now generated automatically
+  from `CHANGELOG.md` at Sphinx build time (`doc/conf.py`), replacing the
+  static RST file that had stalled at version 1.0.6. `doc/changelog.rst` is
+  gitignored.
+
 ## [1.8.2] – 2026-06-24
 
 ### Added
