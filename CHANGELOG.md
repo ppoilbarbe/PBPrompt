@@ -4,7 +4,7 @@ All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/) and
 the format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [Unreleased]
+## [1.8.2] – 2026-06-24
 
 ### Added
 - **Portable font bundling in PyInstaller builds**: `fonts-conda-ecosystem`
@@ -19,6 +19,10 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
   for font selection: the bundled `libfontconfig.so` has its default config
   path hardcoded to the build machine's conda prefix, which does not exist on
   target machines, so font selection cannot rely on fontconfig.
+
+### Fixed
+- **Sphinx docs**: Makefile target table completed and corrected; all RST grid
+  tables converted to `.. list-table::` to avoid Sphinx parse errors.
 
 ## [1.8.1] – 2026-06-24
 
