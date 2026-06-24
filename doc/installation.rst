@@ -6,7 +6,6 @@ Requirements
 
 * Python 3.11 or 3.12
 * PySide6 ≥ 6.5
-* ``gettext`` tools (``msgfmt``) for compiling translations
 
 
 From source (recommended)
@@ -16,14 +15,14 @@ From source (recommended)
 
    git clone https://github.com/pbsoft/pbprompt.git
    cd pbprompt
-   make all          # compile UI, resources and translations
+   make all          # compile translations (.po → .mo)
    make run          # launch without installing
 
 Using a **conda** environment (recommended on Linux with system Qt):
 
 .. code-block:: bash
 
-   conda create -n pbprompt python=3.12 pyside6 ruamel.yaml platformdirs requests
+   conda create -n pbprompt python=3.12 pyside6 ruamel.yaml platformdirs requests babel
    conda activate pbprompt
    pip install deep-translator
    pip install -e . --no-deps   # --no-deps: do not reinstall conda-managed packages
@@ -45,14 +44,14 @@ Building a standalone executable
 ---------------------------------
 
 PyInstaller is used to produce a single-file executable.  Use the ``make
-bundle`` target, which compiles all required artefacts (UI files, Qt resources,
-translation ``.mo`` files) before invoking PyInstaller:
+dist`` target, which compiles translations before invoking PyInstaller:
 
 .. code-block:: bash
 
-   make bundle
+   make dist
 
-The resulting executable is placed in ``dist/``.
+The resulting executable is placed in ``dist/`` and named
+``pbprompt-VERSION-os-arch`` (e.g. ``pbprompt-1.8.0-linux-x86_64``).
 
 .. note::
 

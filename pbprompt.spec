@@ -57,7 +57,7 @@ a = Analysis(
     binaries=_ssl_binaries(),
     datas=[
         ("locales", "locales"),
-        ("resources", "resources"),
+        ("src/pbprompt/icons", "pbprompt/icons"),
         (certifi.where(), "certifi"),
     ],
     hiddenimports=["certifi", "ssl", "_ssl", "_hashlib"],

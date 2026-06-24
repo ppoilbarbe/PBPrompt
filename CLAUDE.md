@@ -1,133 +1,135 @@
 # CLAUDE.md — PBPrompt
 
-Application PySide6 de gestion et traduction de prompts IA.
-Auteur : PBMou. Licence MIT. Python ≥ 3.11.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## État courant
+## Mode
 
-- **Version** : 1.8.0
-- **Stockage** : SQLite (`.sqlite`, WAL). YAML = import/export uniquement.
-- **Colonnes** : `Column(IntEnum)` AI=0, GROUP=1, NAME=2, IMAGE=3, LOCAL=4, ENGLISH=5
-- **Locales compilées** : en, de, fr, es, it, ru, vi, zh_CN
+**Active mode: `full-en`**
 
-## Commandes essentielles
+| Layer | Language |
+|---|---|
+| Code (identifiers, comments, docstrings, debug messages) | English |
+| Docs & prose (README, CHANGELOG, commit messages, reference files) | English |
+| User-facing strings (UI labels, CLI messages, error messages) | English |
+
+## Current state
+
+- **Version**: 1.8.0
+- **Storage**: SQLite (`.sqlite`, WAL). YAML = import/export only.
+- **Columns**: `Column(IntEnum)` AI=0, GROUP=1, NAME=2, IMAGE=3, LOCAL=4, ENGLISH=5
+- **Compiled locales**: en, de, fr, es, it, ru, vi, zh_CN
+
+## Key commands
 
 ```
-make all              # compile UI + resources + traductions (obligatoire après tout .ui modifié)
-make run              # lance l'application (PYTHONPATH=src)
-make clean all        # recréation complète depuis les sources
-make test             # pytest (pytest-xvfb gère le display virtuel sur Linux)
+make all              # compile translations (.po → .mo)
+make run              # run the application (PYTHONPATH=src)
+make clean all        # full rebuild from sources
+make test             # pytest (pytest-xvfb handles virtual display on Linux)
 make test-cov         # pytest --cov --cov-report=html
 make lint             # ruff check
 make format           # ruff format + check --fix
-make docs             # Sphinx (après make clean all)
-make dist             # exécutable standalone PyInstaller (dist/pbprompt)
-make srcdist          # archives dist/pbprompt-x.y.z.tar.gz et .zip
-make translations     # compile les .po → .mo
-make bump-patch/minor/major  # incrémente la version semver
+make docs             # Sphinx (after make clean all)
+make dist             # standalone PyInstaller executable (dist/pbprompt)
+make srcdist          # archives dist/pbprompt-x.y.z.tar.gz and .zip
+make translations     # compile .po → .mo
+make bump-patch/minor/major  # bump semver version
 ```
 
-## Règles impératives — code
+## Mandatory rules — code
 
-**Fichiers générés — ne jamais éditer manuellement :**
-- `src/pbprompt/gui/ui_*.py` (générés par `pyuic5`)
-- `src/pbprompt/gui/resources_rc.py` (généré par `pyrcc5`)
-- Toutes les actions `QAction` (y compris les raccourcis) doivent être définies dans le
-  fichier `.ui`, jamais ajoutées à la main dans le `.py` généré.
+**UI definition files — `*_ui.py`:**
+- `src/pbprompt/gui/main_window_ui.py`, `about_dialog_ui.py`, `settings_dialog_ui.py`
+  are **source-controlled files** — edit them directly.
+- `.ui` files (Qt Designer) are kept as reference but are no longer compiled.
+  The `make ui` and `make resources` targets no longer exist.
+- All `QAction` instances are defined in the `*_ui.py` files, never in
+  `main_window.py` or other behaviour files.
 
-**SQL — `"group"` est un mot-clé réservé :**
-Toujours entre guillemets dans toutes les requêtes SQL : `"group"`.
+**Icons — `src/pbprompt/icons/`:**
+- SVG files are loaded directly from the package via `get_icon_dir()` in
+  `icons.py` (handles both normal execution and PyInstaller bundles).
+- No more `resources_rc.py` or `resources.qrc`. To add an icon: drop a SVG in
+  `src/pbprompt/icons/` and call `get_icon("name")`.
+- `get_icon()` lookup order: FreeDesktop theme → file (`name`, `name_color`,
+  `name_light`, `name_dark`) → Qt standard icon.
+- PyInstaller: the directory is declared in `pbprompt.spec` under `pbprompt/icons/`.
 
-**Bug MRO — raccourcis clavier :**
-`MainWindow` hérite de `QMainWindow` ET `Ui_MainWindow`. Python's MRO fait que
-`MainWindow.retranslateUi()` masque `Ui_MainWindow.retranslateUi()` → tous les
-`setShortcut()` du fichier généré sont du code mort.
-→ Tous les raccourcis doivent être définis dans `MainWindow.retranslateUi()` avec le
-commentaire : `# Keyboard shortcuts — set here because Ui_MainWindow.retranslateUi is
-# shadowed by this override (Python MRO) and therefore never called at runtime.`
+**SQL — `"group"` is a reserved keyword:**
+Always quote it in every SQL query: `"group"`.
 
-**Icônes QRC :**
-Toujours vérifier `QFile.exists(path)` AVANT `QIcon(path)`. Ne jamais appeler
-`QIcon(":/icons/name.svg")` directement — produit des warnings Qt si le fichier manque.
+**MRO bug — keyboard shortcuts:**
+`MainWindow` inherits from both `QMainWindow` and `Ui_MainWindow`. Python MRO causes
+`MainWindow.retranslateUi()` to shadow `Ui_MainWindow.retranslateUi()` → all
+`setShortcut()` calls in the `*_ui.py` files are dead code.
+→ All shortcuts must be defined in `MainWindow.retranslateUi()` with the comment:
+`# Keyboard shortcuts — set here because Ui_MainWindow.retranslateUi is`
+`# shadowed by this override (Python MRO) and therefore never called at runtime.`
 
-**Proxy model — `Column(IntEnum)` :**
-Convertir explicitement en `int()` avant tout appel à `model.index()`. Certains builds
-PySide6/Shiboken retournent silencieusement un `QModelIndex` invalide avec un `IntEnum`.
+**Proxy model — `Column(IntEnum)`:**
+Explicitly cast to `int()` before any `model.index()` call. Some PySide6/Shiboken
+builds silently return an invalid `QModelIndex` when passed an `IntEnum`.
 
-## Règles impératives — fichiers `.ui` Qt Designer
+## Mandatory rules — internationalisation
 
-- **Commentaires XML** : interdits à l'intérieur des éléments `<layout>` ou `<widget>`
-  (pyuic5 plante). Autorisés uniquement hors des éléments enfants de widgets.
-- **Marges de layout** : utiliser quatre propriétés séparées :
-  ```xml
-  <property name="leftMargin"><number>6</number></property>
-  <property name="topMargin"><number>6</number></property>
-  <property name="rightMargin"><number>6</number></property>
-  <property name="bottomMargin"><number>4</number></property>
-  ```
-  Les formes `<contentsMargins>`, `<margins>`, `<number>` seul sont toutes invalides.
-- **Sous-classes Qt** : toujours déclarer dans `<customwidgets>` (ex: `PromptTableView`).
+When a translated string is **added or changed**:
+- Update **all** languages in `locales/*/LC_MESSAGES/messages.po`
+- Never leave a `msgstr` empty or unchanged in an existing `.po` file
+- Run `make translations` to recompile the `.mo` files
 
-## Règles impératives — internationalisation
+Language resolution: `lang = config.xxx_language or system_language()`.
+Never compute the `locales/` path via `Path(__file__).parent...` outside of
+`i18n.py`. Use `get_locale_dir()` from `i18n.py` (handles PyInstaller).
 
-Quand une chaîne traduite est **ajoutée ou modifiée** :
-- Mettre à jour **toutes** les langues dans `locales/*/LC_MESSAGES/messages.po`
-- Ne jamais laisser un `msgstr` vide ou inchangé dans un fichier `.po` existant
-- Lancer `make translations` pour recompiler les `.mo`
+## Mandatory rules — RST documentation (Sphinx)
 
-Résolution de la langue : `lang = config.xxx_language or system_language()`.
-Ne jamais calculer le chemin de `locales/` via `Path(__file__).parent...` hors de
-`i18n.py`. Utiliser `get_locale_dir()` de `i18n.py` (gère PyInstaller).
+- Validate every modified `.rst`: `python3 -m docutils <file> /dev/null` (exit 0, no output).
+- Use `.. list-table::` exclusively — never grid tables (`+----+----+`).
+- Directive indentation: **3 spaces**, never tabs.
+- After any `.rst` or docstring change: `make clean all docs` must complete
+  **without any Sphinx WARNING or ERROR**. Running `make docs` alone is not enough.
 
-## Règles impératives — documentation RST (Sphinx)
+## Git workflow
 
-- Valider chaque `.rst` modifié : `python3 -m docutils <fichier> /dev/null` (code 0, aucun message).
-- Utiliser `.. list-table::` exclusivement — jamais de tables en grille (`+----+----+`).
-- Indentation dans les directives : **3 espaces**, jamais de tabulation.
-- Après toute modification `.rst` ou docstring : `make clean all docs` doit se terminer
-  **sans aucun WARNING ni ERROR Sphinx**. Ne pas se contenter de `make docs`.
-
-## Workflow Git
-
-**Avant tout commit :**
+**Before every commit:**
 ```
 pre-commit run --all-files
 ```
-Vérifier que tous les hooks passent (code 0, aucun fichier modifié). Ne jamais publier
-si cette commande échoue ou modifie des fichiers.
+Verify all hooks pass (exit 0, no files modified). Never push if this command
+fails or modifies files.
 
-**Avant tout push — squash obligatoire :**
+**Before every push — squash required:**
 ```
-git log --oneline origin/main..HEAD   # compter N commits
+git log --oneline origin/main..HEAD   # count N commits
 git reset --soft HEAD~N
 git commit -m "..."
 ```
-Un push = un commit. Le message de commit résume **tous** les changements inclus.
+One push = one commit. The commit message summarises **all** included changes.
 
-**Messages de commit et noms de tags** : toujours en anglais.
+**Commit messages and tag names**: always in English.
 
-**Avant tout tag/release :**
-Mettre à jour `CHANGELOG.md` avec une section `## [X.Y.Z] – YYYY-MM-DD` (Added /
-Changed / Fixed). Le pipeline CI extrait les notes de release depuis ce fichier.
+**Before any tag/release:**
+Update `CHANGELOG.md` with a `## [X.Y.Z] – YYYY-MM-DD` section (Added /
+Changed / Fixed). The CI pipeline extracts release notes from this file.
 
-## Installation (environnement conda)
+## Installation (conda environment)
 
 ```
 pip install deep-translator
-pip install -e . --no-deps    # --no-deps obligatoire : ne pas réinstaller les paquets conda
+pip install -e . --no-deps    # --no-deps required: do not reinstall conda packages
 ```
 
-## Maintenance des fichiers de référence — OBLIGATOIRE
+## Reference file maintenance — REQUIRED
 
-À chaque session qui modifie le projet, mettre à jour ces deux fichiers :
+At the end of every session that modifies the project, update these two files:
 
-**`claude_prompt.txt`** — spécification complète du projet :
-- Ajouter toute nouvelle fonctionnalité, contrainte technique ou correction notable
-- Maintenir la cohérence avec le code source effectif
+**`claude_prompt.txt`** — complete project specification:
+- Add any new feature, technical constraint, or notable fix
+- Keep it consistent with the actual source code
 
-**`claude_summary.txt`** — état de l'implémentation actuelle :
-- Mettre à jour la version, l'architecture, les modules, les décisions techniques
-- Ce fichier permet de reprendre le contexte d'une session à l'autre sans relire le code
-- Mettre à jour après chaque modification significative
+**`claude_summary.txt`** — current implementation state:
+- Update version, architecture, modules, technical decisions
+- This file allows resuming context across sessions without re-reading the code
+- Update after every significant change
 
-En cas de divergence entre ces fichiers et le code source, **le code source fait foi**.
+If these files diverge from the source code, **the source code prevails**.

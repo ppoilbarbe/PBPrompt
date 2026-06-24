@@ -36,13 +36,13 @@ Build system (Makefile)
    * - Target
      - Description
    * - ``make all``
-     - Compile UI files, resources and translations
-   * - ``make ui``
-     - ``pyside6-uic *.ui → ui_*.py``
-   * - ``make resources``
-     - ``pyside6-rcc resources.qrc → resources_rc.py``
+     - Compile translations (``.po`` → ``.mo``)
    * - ``make translations``
-     - ``msgfmt *.po → *.mo`` for all locales
+     - ``pybabel compile *.po → *.mo`` for all locales
+   * - ``make pot``
+     - Extract translatable strings into ``locales/messages.pot``
+   * - ``make merge-po``
+     - Merge updated template into existing ``.po`` files
    * - ``make run``
      - Launch without installing (``PYTHONPATH=src``)
    * - ``make lint``
@@ -55,9 +55,9 @@ Build system (Makefile)
      - Pytest with HTML coverage report
    * - ``make docs``
      - Build Sphinx HTML documentation
-   * - ``make bundle``
-     - Build standalone executable with PyInstaller
    * - ``make dist``
+     - Build standalone executable with PyInstaller (named ``pbprompt-VERSION-os-arch``)
+   * - ``make srcdist``
      - Create ``dist/pbprompt-x.y.z.{tar.gz,zip}``
    * - ``make clean``
      - Remove all generated artefacts including ``dist/``
@@ -92,42 +92,49 @@ Project structure
 .. code-block:: text
 
    src/pbprompt/
-   ├── __init__.py          package metadata, __version__
-   ├── __main__.py          CLI entry point (argparse)
-   ├── config.py            AppConfig dataclass + YAML I/O
-   ├── data.py              PromptEntry, PromptCollection
-   ├── i18n.py              gettext helpers
+   ├── __init__.py              package metadata, __version__
+   ├── __main__.py              CLI entry point (argparse)
+   ├── config.py                AppConfig dataclass + YAML I/O
+   ├── data.py                  PromptEntry, PromptCollection
+   ├── i18n.py                  gettext helpers, get_locale_dir()
+   ├── icons/                   SVG icon files (loaded directly at runtime)
    ├── gui/
-   │   ├── main_window.py   main window behaviour
-   │   ├── models.py        Qt models and item delegates
-   │   ├── icons.py         icon resolution chain
+   │   ├── main_window.py       main window behaviour
+   │   ├── main_window_ui.py    UI definition (source-controlled)
+   │   ├── about_dialog.py
+   │   ├── about_dialog_ui.py   UI definition (source-controlled)
    │   ├── settings_dialog.py
-   │   └── about_dialog.py
-   ├── platform/            OS-specific paths and notifications
-   └── translate/           translation service adapters
+   │   ├── settings_dialog_ui.py  UI definition (source-controlled)
+   │   ├── models.py            Qt models and item delegates
+   │   ├── icons.py             icon resolution chain, get_icon_dir()
+   │   └── image_utils.py       image helpers and viewer dialog
+   ├── platform/                OS-specific paths
+   └── translate/               translation service adapters
 
 
-Qt Designer files
------------------
+UI definition files
+-------------------
 
-The ``.ui`` XML files in ``src/pbprompt/gui/`` are the source of truth for
-widget layouts.  **Never** edit the generated ``ui_*.py`` files directly;
-changes would be overwritten by ``make ui``.
+Widget layouts are defined in pure-Python ``*_ui.py`` files in
+``src/pbprompt/gui/``.  These files are **source-controlled** — edit them
+directly.  Qt Designer ``.ui`` XML files are kept as reference only and are
+no longer compiled; the ``make ui`` and ``make resources`` targets have been
+removed.
 
-Rules for editing ``.ui`` files:
+Icons
+-----
 
-* Do **not** insert XML comments inside ``<layout>`` or ``<widget>`` elements
-  — pyuic5 may crash on comment nodes.
-* Use four separate margin properties instead of ``<contentsMargins>``::
+SVG icons live in ``src/pbprompt/icons/`` and are loaded at runtime via
+``get_icon_dir()`` in ``gui/icons.py``.  No QRC compilation is required.
+The lookup chain for ``get_icon(name)`` is:
 
-    <property name="leftMargin"><number>6</number></property>
-    <property name="topMargin"><number>6</number></property>
-    <property name="rightMargin"><number>6</number></property>
-    <property name="bottomMargin"><number>4</number></property>
+#. FreeDesktop desktop theme (Linux/KDE/GNOME).
+#. Package file — variants tried in order: ``name``, ``name_color``,
+   ``name_light``, ``name_dark`` (``*.svg`` then ``*.png``).
+#. Qt built-in standard icon as last resort.
 
-* Declare any custom widget subclass in a ``<customwidgets>`` section with
-  ``<header>`` set to the Python module path.
-* Define all QActions (including shortcuts) in the ``.ui`` file.
+To add an icon: drop a SVG in ``src/pbprompt/icons/`` and call
+``get_icon("name")``.
 
 
 Adding a translation service

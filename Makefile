@@ -9,7 +9,6 @@ CONDA_RUN  := conda run -n $(CONDA_ENV) --no-capture-output
 endif
 
 SRC_GUI    := src/pbprompt/gui
-RESOURCES  := resources
 LOCALES    := locales
 LOCALE_LANGS := en de fr es it ru vi zh_CN
 MO_FILES     := $(foreach lang,$(LOCALE_LANGS),$(LOCALES)/$(lang)/LC_MESSAGES/messages.mo)
@@ -17,15 +16,11 @@ MO_FILES     := $(foreach lang,$(LOCALE_LANGS),$(LOCALES)/$(lang)/LC_MESSAGES/me
 VERSION    := $(shell sed -n "s/__version__ = [\"']\([^\"']*\)[\"']/\1/p" src/pbprompt/__init__.py)
 DIST_DIR   := dist
 
-UI_FILES   := $(wildcard $(SRC_GUI)/*.ui)
-PY_UI_FILES := $(UI_FILES:$(SRC_GUI)/%.ui=$(SRC_GUI)/ui_%.py)
-
-
 .DEFAULT_GOAL := help
 
-.PHONY: all ui resources translations run dist clean lint format test test-cov docs help version bump-patch bump-minor bump-major srcdist venv pyvenv pot merge-po hooks
+.PHONY: all translations run dist clean lint format test test-cov docs help version bump-patch bump-minor bump-major srcdist venv pyvenv pot merge-po hooks
 
-all: ui resources translations  ## Build everything (UI, resources, translations)
+all: translations  ## Compile translations (.po → .mo)
 
 # ---------------------------------------------------------------------------
 # Environment setup
@@ -50,24 +45,6 @@ pyvenv:  ## Create Python virtual environment 'pypbprompt' with all deps via pip
 # ---------------------------------------------------------------------------
 run:  ## Run the application without installing (uses src/ layout)
 	PYTHONPATH=src $(CONDA_RUN) python -m pbprompt
-
-# ---------------------------------------------------------------------------
-# Compile Qt Designer .ui files → ui_*.py
-# ---------------------------------------------------------------------------
-ui: $(PY_UI_FILES)  ## Compile all .ui files with pyside6-uic
-
-$(SRC_GUI)/ui_%.py: $(SRC_GUI)/%.ui
-	$(CONDA_RUN) pyside6-uic $< -o $@
-	@echo "[ui] compiled $< → $@"
-
-# ---------------------------------------------------------------------------
-# Compile Qt resource file → resources_rc.py
-# ---------------------------------------------------------------------------
-resources: $(SRC_GUI)/resources_rc.py  ## Compile resources.qrc with pyside6-rcc
-
-$(SRC_GUI)/resources_rc.py: $(RESOURCES)/resources.qrc $(wildcard $(RESOURCES)/icons/*)
-	$(CONDA_RUN) pyside6-rcc $< -o $@
-	@echo "[res] compiled $< → $@"
 
 # ---------------------------------------------------------------------------
 # Compile gettext translations (.po → .mo)
@@ -125,8 +102,7 @@ docs:  ## Build Sphinx documentation
 # ---------------------------------------------------------------------------
 # Cleanup
 # ---------------------------------------------------------------------------
-clean:  ## Remove generated artefacts (UI, resources, .mo, dist, caches)
-	rm -f $(PY_UI_FILES) $(SRC_GUI)/resources_rc.py
+clean:  ## Remove generated artefacts (.mo, dist, caches)
 	find $(LOCALES) -name "*.mo" -delete
 	rm -rf doc/_build $(DIST_DIR)
 	rm -rf .ruff_cache .pytest_cache htmlcov .coverage

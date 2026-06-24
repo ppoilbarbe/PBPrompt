@@ -6,8 +6,8 @@ from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QDialog
 
 from pbprompt import __app_name__, __description__, __version__
+from pbprompt.gui.about_dialog_ui import Ui_AboutDialog
 from pbprompt.gui.icons import get_icon
-from pbprompt.gui.ui_about_dialog import Ui_AboutDialog
 from pbprompt.i18n import get_translate
 
 

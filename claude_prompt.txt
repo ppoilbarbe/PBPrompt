@@ -1,288 +1,252 @@
-Génère un projet Python complet pour une application graphique nommée PBPrompt qui utilise PySide6.
-La description du projet est "A program to register and categorize AI prompts to keep tries."
-Le nom de l'éditeur du programme est PBMou.
+Generate a complete Python project for a graphical application named PBPrompt using PySide6.
+The project description is "A program to register and categorize AI prompts to keep tries."
+The publisher name is PBMou.
 
 
-Caractéristiques requises :
+Required features:
 
-1) Ce que fait le programme
-- Le programme contient une liste de "prompts" d'I.A. à conserver.
-- Il y a 5 colonnes dans la liste: IA (nom de l'I.A. utilisée), Groupe (un groupe de prompts), Nom (nom de l'entrée), Langue locale (Prompt en langue locale), Anglais (prompt en anglais).
-- Les lignes peuvent être sélectionnées. On peut sélectionner plusieurs lignes.
-- Les cellules des colonnes Langue locale et Anglais sont éditables en multiligne :
-  un double-clic ouvre un éditeur en ligne (QPlainTextEdit) permettant la saisie
-  sur plusieurs lignes. La touche Entrée valide l'édition et ferme l'éditeur (identique
-  à Tab). Ctrl+Entrée ou Maj+Entrée insèrent un saut de ligne réel à la position du
-  curseur. Tab / Maj+Tab valident et passent à la cellule suivante / précédente,
-  Échap annule, un clic en dehors valide.
-- La hauteur de chaque ligne s'adapte automatiquement à la longueur du texte
-  (y compris les retours à la ligne) afin que tout le contenu soit entièrement visible.
-- Les lignes longues qui ne tiennent pas en largeur sont renvoyées automatiquement
-  à la ligne suivante en affichage uniquement (sans modifier les données).
-- Les vrais sauts de ligne présents dans les données sont matérialisés à l'affichage
-  par le caractère Unicode ↵ (U+21B5) placé juste avant le saut de ligne.
-- Un clic droit sur une cellule affiche un menu contextuel avec les actions
-  Copier / Couper / Coller pour le presse-papiers. Les raccourcis clavier
-  Ctrl+C / Ctrl+X / Ctrl+V sont également disponibles depuis la liste.
-  Le menu contextuel est traduit via le système i18n (gettext).
-- Il y a un filtre pour chaque colonne pour rechercher des éléments par expression régulière et n'afficher que ceux-là. Tous les filtres de colonnes sont cumulatifs (une ligne doit valider tous les filtres définis pour être affichée).
-- Les filtres sont persistants : leur valeur est sauvegardée dans la configuration
-  à la fermeture de la fenêtre (closeEvent) et restaurée au prochain démarrage.
-  Implémentation : champ column_filters: dict[str, str] dans AppConfig (clés = noms
-  de colonnes : "ai", "group", "name", "local", "english") ; restauration via
-  widget.setText() dans _connect_signals() (déclenche set_filter via textChanged) ;
-  sauvegarde dans closeEvent() avant config.save().
-- Chaque champ filtre (QLineEdit) affiche une infobulle précisant que les expressions
-  régulières sont acceptées (ex : "Filtre la colonne IA. Accepte les expressions régulières.").
-  Les infobulles sont définies dans retranslateUi() et traduites via i18n.
-- Il y a des boutons dans la barre d'outils :
-  - Nouveau prompt (pour créer une nouvelle ligne vide, raccourci Ins),
-  - Dupliquer (pour dupliquer la ligne courante et l'insérer immédiatement en dessous,
-    raccourci Ctrl+D), placé entre le bouton Nouveau prompt et le bouton Supprimer,
-  - Supprimer (pour supprimer les lignes sélectionnées après confirmation, raccourci Del),
-  - Flèche vers la droite pour traduire de la langue de la colonne "Langue locale"
-    (définie dans les paramètres) vers l'anglais (raccourci F6),
-  - Flèche vers la gauche pour traduire de l'anglais vers la langue de la colonne
-    "Langue locale" (raccourci F7).
-- Lorsqu'on clique sur un des deux boutons de traduction, l'édition en cours est
-  validée avant de réaliser la traduction. Implémentation : récupérer le widget
-  actuellement focalisé via QApplication.focusWidget() ; s'il est un descendant
-  de la vue (tableView.isAncestorOf(fw)), appeler fw.clearFocus() pour déclencher
-  un FocusOut inconditionnel → commitData + closeEditor via l'eventFilter du delegate.
-  Ne pas utiliser tableView.setFocus() : Qt annule le commit si le widget cible est
-  un ancêtre de l'éditeur.
-- La cellule courante (currentIndex) doit apparaître visuellement différente de toutes
-  les autres cellules de la même ligne sélectionnée. Implémenter cela via un delegate
-  dédié CurrentCellHighlightDelegate(QStyledItemDelegate) qui :
-  * stocke une référence à la vue (self._view),
-  * dans paint(), compare l'index avec self._view.currentIndex() et, si la ligne est
-    sélectionnée (State_Selected), dessine une bordure colorée de 2 px autour de la
-    cellule courante (couleur : palette Highlight assombrie à 160 %).
-  * S'applique aux colonnes AI, Group, Name via setItemDelegateForColumn().
-  * MultiLineDelegate (colonnes Local et English) hérite de CurrentCellHighlightDelegate
-    (pas de QStyledItemDelegate directement). Son constructeur prend (view, parent) et
-    appelle super().__init__(view, parent). La méthode paint() appelle
-    self._draw_current_highlight() à la fin du tracé du texte.
-- Si une traduction échoue (clé API manquante ou invalide, erreur réseau, quota
-  dépassé, etc.), une boîte de dialogue d'erreur (QMessageBox.critical) s'affiche
-  avec le message exact retourné par le service. Le traitement s'arrête à la
-  première erreur. Les lignes déjà traduites avant l'erreur conservent leur résultat.
-  Le texte original n'est jamais recopié à la place d'une traduction manquante.
-- Le format de stockage primaire est SQLite (.sqlite). Les fichiers YAML servent
-  uniquement d'import/export (pas de sauvegarde directe en YAML).
-- Chaque ligne est une entrée dans la table "prompts" avec les colonnes :
-  ai, group, name, local, english (toutes TEXT NOT NULL DEFAULT '').
-  "group" est un mot-clé SQL et doit être systématiquement entre guillemets dans
-  toutes les requêtes SQL.
-- Le fichier SQLite contient aussi une table "pbprompt" (signature) avec les colonnes
-  key TEXT PRIMARY KEY et value TEXT NOT NULL DEFAULT ''. Elle stocke notamment
-  key='version' avec le numéro de version de l'application qui a écrit le fichier.
-  Schéma complet :
+1) What the program does
+- The program holds a list of AI prompts to keep.
+- There are 5 columns in the list: AI (name of the AI used), Group (a prompt group),
+  Name (entry title), Local language (prompt in the local language), English (prompt in English).
+- Rows can be selected. Multiple rows can be selected at once.
+- The Local language and English column cells are editable in multiline mode:
+  a double-click opens an inline editor (QPlainTextEdit) allowing multi-line input.
+  Enter confirms the edit and closes the editor (same as Tab). Ctrl+Enter or Shift+Enter
+  insert a real line break at the cursor position. Tab / Shift+Tab confirm and move to
+  the next / previous cell. Escape cancels; clicking outside confirms.
+- Each row height adapts automatically to the text length (including line breaks) so
+  that all content is fully visible.
+- Long lines that do not fit in width are word-wrapped in the display only
+  (without modifying the data).
+- Real line breaks in the data are shown in the display with the Unicode character
+  ↵ (U+21B5) placed just before the line break.
+- A right-click on a cell shows a context menu with Copy / Cut / Paste actions for
+  the clipboard. The keyboard shortcuts Ctrl+C / Ctrl+X / Ctrl+V are also available
+  from the list. The context menu is translated via the i18n system (gettext).
+- There is a filter for each column to search by regular expression and display only
+  matching rows. All column filters are cumulative (a row must match all active filters
+  to be shown).
+- Filters are persistent: their values are saved in the configuration on window close
+  (closeEvent) and restored on next startup.
+  Implementation: column_filters: dict[str, str] field in AppConfig (keys = column names:
+  "ai", "group", "name", "local", "english"); restoration via widget.setText() in
+  _connect_signals() (triggers set_filter via textChanged); save in closeEvent() before
+  config.save().
+- Each filter field (QLineEdit) shows a tooltip stating that regular expressions are
+  accepted (e.g. "Filter the AI column. Supports regular expressions.").
+  Tooltips are defined in retranslateUi() and translated via i18n.
+- There are buttons in the toolbar:
+  - New prompt (to create a new empty row, shortcut Ins),
+  - Duplicate (to duplicate the current row and insert it immediately below,
+    shortcut Ctrl+D), placed between the New prompt and Delete buttons,
+  - Delete (to delete the selected rows after confirmation, shortcut Del),
+  - Right arrow to translate from the language in the "Local language" column
+    (configured in Settings) to English (shortcut F6),
+  - Left arrow to translate from English to the "Local language" column language
+    (shortcut F7).
+- When one of the two translation buttons is clicked, any in-progress edit is committed
+  before the translation runs. Implementation: retrieve the currently focused widget via
+  QApplication.focusWidget(); if it is a descendant of the table view
+  (tableView.isAncestorOf(fw)), call fw.clearFocus() to unconditionally trigger FocusOut
+  → commitData + closeEditor via the delegate's eventFilter. Do NOT use
+  tableView.setFocus(): Qt cancels the commit if the target widget is an ancestor of
+  the editor.
+- The current cell (currentIndex) must look visually different from all other cells in
+  the same selected row. Implement this via a dedicated CurrentCellHighlightDelegate
+  (QStyledItemDelegate) that:
+  * stores a reference to the view (self._view),
+  * in paint(), compares the index with self._view.currentIndex() and, if the row is
+    selected (State_Selected), draws a 2 px coloured border around the current cell
+    (colour: Highlight palette darkened by 160%).
+  * Applied to the AI, Group, Name columns via setItemDelegateForColumn().
+  * MultiLineDelegate (Local and English columns) inherits from
+    CurrentCellHighlightDelegate (not QStyledItemDelegate directly). Its constructor
+    takes (view, parent) and calls super().__init__(view, parent). The paint() method
+    calls self._draw_current_highlight() at the end of text painting.
+- If a translation fails (missing or invalid API key, network error, quota exceeded,
+  etc.), an error dialog (QMessageBox.critical) appears with the exact message returned
+  by the service. Processing stops at the first error. Rows already translated before
+  the error keep their result. The original text is never copied in place of a missing
+  translation.
+- The primary storage format is SQLite (.sqlite). YAML files are used only for
+  import/export (no direct YAML save).
+- Each row is an entry in the "prompts" table with columns:
+  ai, group, name, local, english (all TEXT NOT NULL DEFAULT '').
+  "group" is a SQL keyword and must always be quoted in all SQL queries.
+- The SQLite file also contains a "pbprompt" table (signature) with columns
+  key TEXT PRIMARY KEY and value TEXT NOT NULL DEFAULT ''. It stores in particular
+  key='version' with the version number of the application that wrote the file.
+  Full schema:
     CREATE TABLE IF NOT EXISTS pbprompt (key TEXT PRIMARY KEY, value TEXT NOT NULL DEFAULT '')
     CREATE TABLE IF NOT EXISTS prompts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         ai TEXT NOT NULL DEFAULT '', "group" TEXT NOT NULL DEFAULT '',
         name TEXT NOT NULL DEFAULT '', local TEXT NOT NULL DEFAULT '',
         english TEXT NOT NULL DEFAULT '')
-  Mode WAL activé (PRAGMA journal_mode=WAL). Row factory = sqlite3.Row.
-- Logique d'ouverture d'un fichier SQLite (PromptCollection.load) :
-  * Si la table "pbprompt" n'existe pas → ValueError("Not a PBPrompt database: {path}")
-    L'IHM attrape ValueError séparément et affiche le message d'erreur + chemin
-    (could not open file:\n{path}\n\n{error}) puis charge une collection vide.
-  * Si "pbprompt" existe mais que la table "prompts" manque des colonnes →
-    ALTER TABLE ADD COLUMN "col" TEXT NOT NULL DEFAULT "" pour chaque colonne manquante,
-    puis tamponner la version. Retourner la liste des colonnes ajoutées.
-  * Lire toutes les lignes avec SELECT ai, "group", name, local, english FROM prompts ORDER BY id.
-- Sauvegarde (PromptCollection.save) : crée/met à jour le fichier SQLite via
-  _create_schema (CREATE TABLE IF NOT EXISTS) + DELETE FROM prompts + INSERT pour
-  chaque entrée + INSERT OR REPLACE INTO pbprompt key='version'.
-- Lors de la sauvegarde (Enregistrer sous), si le nom de fichier saisi ne comporte
-  pas l'extension .sqlite, l'extension .sqlite est ajoutée automatiquement.
-- Import YAML (menu Fichier → Importer YAML → sous-menu) :
-  * "Ajouter des entrées…" : les entrées du YAML sont ajoutées (append) à la collection.
-  * "Remplacer tout…" : la collection est vidée puis remplacée par le contenu du YAML.
-  * Les clés du YAML inconnues (ne correspondant pas à une colonne) sont ignorées.
-  * Les clés manquantes dans le YAML prennent la valeur par défaut "".
-  * Après import, set_collection() est appelé pour rafraîchir l'affichage Qt.
-- Export YAML (menu Fichier → Exporter YAML…) :
-  * Toutes les colonnes de PROMPTS_COLUMNS sont toujours écrites, même si vides.
-  * L'extension .yaml est ajoutée automatiquement si le nom ne se termine pas par
-    .yaml ou .yml.
-- La constante PROMPTS_COLUMNS: tuple[str, ...] = ("ai", "group", "name", "local", "english")
-  est l'unique source de vérité pour l'ordre des colonnes dans SQL, YAML et l'affichage.
-- L'historique des fichiers récents reflète les fichiers SQLite (plus les YAML).
-- Le menu Fichier contient un sous-menu "Fichiers récents" listant les fichiers de
-  données récemment chargés. Ce sous-menu se termine par une ligne de séparation
-  puis une entrée "Vider la liste" qui efface la liste. Cliquer sur un fichier de la
-  liste l'ouvre (avec détection des modifications non sauvegardées). Si le fichier
-  n'existe plus, un avertissement s'affiche, l'entrée est supprimée de la liste et
-  une collection vide est présentée.
-- Au démarrage de l'application, si aucun fichier n'est fourni sur la ligne de
-  commande, le dernier fichier utilisé est chargé automatiquement et silencieusement.
-  S'il n'existe plus, la liste est mise à jour (entrée supprimée) et une collection
-  vide est présentée.
-- La liste des fichiers récents (chemins complets, ordre chronologique inversé) est
-  persistée dans le fichier de configuration YAML.
-- Les en-têtes de colonnes affichent des infobulles (tooltip) décrivant chaque colonne
-  et indiquant les raccourcis clavier non standards :
-  * AI, Groupe, Nom : description de la colonne + comportement de tri secondaire
-    (ex : "Tri primaire sur IA → Groupe → Nom").
-  * Langue locale, Anglais : description + raccourcis de l'éditeur multiligne
-    (Entrée : valider · Ctrl+Entrée ou Maj+Entrée : saut de ligne ·
-    Tab / Maj+Tab : cellule suivante/précédente · Échap : annuler).
-  * IMAGE : description + raccourcis d'interaction sur 2 lignes :
-    "Double-clic pour voir · Clic droit pour options\n
-    Entrée : charger depuis un fichier  ·  Ctrl+V : coller  ·  Backspace : effacer"
-  Les tooltips sont traduits via le système i18n (gettext).
-  Implémentation : PromptTableModel.headerData() gère Qt.ToolTipRole via un champ
-  _header_tooltips (list[str]) et une méthode set_header_tooltips(tooltips: list[str])
-  symétrique à set_header_labels(). Les tooltips sont définis dans retranslateUi() et
-  dans __init__() (après création de _source_model), exactement comme set_header_labels().
+  WAL mode enabled (PRAGMA journal_mode=WAL). Row factory = sqlite3.Row.
+- Logic for opening a SQLite file (PromptCollection.load):
+  * If the "pbprompt" table does not exist → ValueError("Not a PBPrompt database: {path}")
+    The UI catches ValueError separately and displays the error message + path
+    (could not open file:\n{path}\n\n{error}) then loads an empty collection.
+  * If "pbprompt" exists but the "prompts" table is missing columns →
+    ALTER TABLE ADD COLUMN "col" TEXT NOT NULL DEFAULT "" for each missing column,
+    then update the version. Return the list of added columns.
+  * Read all rows with SELECT ai, "group", name, local, english FROM prompts ORDER BY id.
+- Saving (PromptCollection.save): creates/updates the SQLite file via
+  _create_schema (CREATE TABLE IF NOT EXISTS) + DELETE FROM prompts + INSERT for
+  each entry + INSERT OR REPLACE INTO pbprompt key='version'.
+- On save (Save As), if the entered filename has no .sqlite extension, it is added
+  automatically.
+- YAML import (File menu → Import YAML → submenu):
+  * "Add entries…": YAML entries are appended to the collection.
+  * "Replace all…": the collection is cleared then replaced by the YAML content.
+  * Unknown YAML keys (not matching a column) are ignored.
+  * Missing keys in the YAML default to "".
+  * After import, set_collection() is called to refresh the Qt display.
+- YAML export (File menu → Export YAML…):
+  * All columns in PROMPTS_COLUMNS are always written, even if empty.
+  * The .yaml extension is added automatically if the name does not end in .yaml or .yml.
+- The constant PROMPTS_COLUMNS: tuple[str, ...] = ("ai", "group", "name", "local", "english")
+  is the single source of truth for column order in SQL, YAML, and the display.
+- The recent files history reflects SQLite files (not YAML).
+- The File menu contains a "Recent Files" submenu listing recently loaded data files.
+  This submenu ends with a separator followed by a "Clear list" entry that clears the
+  list. Clicking a file in the list opens it (with unsaved-changes detection). If the
+  file no longer exists, a warning is shown, the entry is removed from the list, and an
+  empty collection is displayed.
+- On application startup, if no file is provided on the command line, the last used file
+  is loaded automatically and silently. If it no longer exists, the list is updated
+  (entry removed) and an empty collection is displayed.
+- The recent files list (full paths, reverse chronological order) is persisted in the
+  YAML configuration file.
+- Column headers display tooltips describing each column and listing non-standard
+  keyboard shortcuts:
+  * AI, Group, Name: column description + secondary sort behaviour
+    (e.g. "Primary sort on AI → Group → Name").
+  * Local language, English: description + multiline editor shortcuts
+    (Enter: confirm · Ctrl+Enter or Shift+Enter: line break ·
+    Tab / Shift+Tab: next/previous cell · Escape: cancel).
+  * IMAGE: description + interaction shortcuts on 2 lines:
+    "Double-click to view · Right-click for options\n
+    Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
+  Tooltips are translated via the i18n system (gettext).
+  Implementation: PromptTableModel.headerData() handles Qt.ToolTipRole via a
+  _header_tooltips (list[str]) field and a set_header_tooltips(tooltips: list[str])
+  method symmetric to set_header_labels(). Tooltips are set in retranslateUi() and
+  in __init__() (after creating _source_model), exactly like set_header_labels().
 
 
-2) Ligne de commande (argparse)
+2) Command line (argparse)
 
-Le point d'entrée (__main__.py) doit examiner les options avec argparse :
+The entry point (__main__.py) must parse options with argparse:
 
   pbprompt [FILE] [--version] [--log-level LEVEL]
 
-- --help / -h : affiche la description du programme et toutes les options, puis quitte.
-- --version : affiche "pbprompt X.Y.Z" (lu depuis __version__) et quitte.
-- --log-level LEVEL : surcharge le niveau de log défini dans le fichier de
-  configuration. Valeurs acceptées : DEBUG, INFO, WARNING, ERROR, CRITICAL.
-- FILE (argument positionnel optionnel) : fichier SQLite PBPrompt à ouvrir au démarrage.
-  * Prend la priorité sur le dernier fichier utilisé (l'autoload est ignoré).
-  * Si le fichier peut être lu : il est chargé et ajouté aux fichiers récents.
-  * Si le fichier ne peut pas être lu : une boîte de dialogue indique le chemin
-    ET le message d'erreur exact (str(exc)), puis une liste vide est chargée.
-  * Implémenter via un paramètre initial_file: Path | None = None dans
-    MainWindow.__init__, et une méthode _open_initial_file(path) distincte
-    de _autoload_last_file().
+- --help / -h: shows the program description and all options, then exits.
+- --version: shows "pbprompt X.Y.Z" (read from __version__) and exits.
+- --log-level LEVEL: overrides the log level set in the configuration file.
+  Accepted values: DEBUG, INFO, WARNING, ERROR, CRITICAL.
+- FILE (optional positional argument): PBPrompt SQLite file to open at startup.
+  * Takes priority over the last used file (autoload is ignored).
+  * If the file can be read: it is loaded and added to recent files.
+  * If the file cannot be read: a dialog shows the path AND the exact error message
+    (str(exc)), then an empty list is loaded.
+  * Implement via an initial_file: Path | None = None parameter in
+    MainWindow.__init__, and a separate _open_initial_file(path) method
+    distinct from _autoload_last_file().
 
-MainWindow.__init__ a la signature :
+MainWindow.__init__ signature:
   __init__(self, config: AppConfig, initial_file: Path | None = None, parent: None = None)
 
-La version dans setApplicationVersion() doit lire __version__ depuis pbprompt/__init__.py,
-pas être codée en dur.
+The version in setApplicationVersion() must read __version__ from pbprompt/__init__.py,
+not be hard-coded.
 
 
-3) Structure du projet
-- Fournis une arborescence de fichiers complète avec code source, tests et fichiers de configuration.
-- Inclure: pyproject.toml, README.md, main.py (point d'entrée), un package principal
-  (src/pbprompt/), modules séparés pour l'UI, la logique métier, la configuration et
-  l'accès système par plateforme.
+3) Project structure
+- Provide a complete file tree with source code, tests, and configuration files.
+- Include: pyproject.toml, README.md, main.py (entry point), a main package
+  (src/pbprompt/), separate modules for UI, business logic, configuration, and
+  platform-specific access.
 
 
-4) Fonctionnalités UI
-- Fenêtre principale simple avec un titre (nom du programme), la liste de lignes, toolbar et status bar.
-  * menu Fichier qui contient les entrées suivantes (avec raccourcis et icônes) :
-    - Nouveau (Ctrl+N) : crée une nouvelle collection vide
-    - Ouvrir… (Ctrl+O) : ouvre un fichier SQLite
-    - Fichiers récents : sous-menu avec les fichiers récents
-    - Enregistrer (Ctrl+S) : enregistre le fichier courant
-    - Enregistrer sous… (Ctrl+Shift+S) : enregistre dans un nouveau fichier
-    - Importer YAML : sous-menu avec :
-        · Ajouter des entrées… (Ctrl+I) : importe un YAML en ajoutant
-        · Remplacer tout… (Ctrl+Shift+I) : importe un YAML en remplaçant tout
-    - Exporter YAML… (Ctrl+E) : exporte toutes les entrées en YAML
-    - Fermer (Ctrl+W) : ferme le fichier courant
-    - Quitter (Ctrl+Q) : quitte l'application
-  * menu Outils qui contient :
-    - Options… (Ctrl+,) : ouvre la boîte de dialogue de paramètres
-    - Actualiser les miniatures (Ctrl+R) : recrée toutes les imagettes à partir des images
-      stockées (utile après changement de taille de miniature)
-  * menu Aide contient une entrée À propos (F1) qui ouvre une boîte de dialogue À propos.
-  * Les lignes peuvent être triées selon la valeur d'une colonne (en cliquant sur l'en-tête
-    de cette colonne). Un autre clic renverse le sens du tri. Le premier clic donne un tri
-    ascendant.
-  * les tris de colonnes se font sur les trois colonnes IA, groupe et nom. La colonne
-    sélectionnée comme tri primaire et les tris secondaires sont dans le même sens.
-    + Tri primaire sur IA: sous-critère de tri sur "groupe" puis "nom".
-    + Tri primaire sur Groupe: sous-critère de tri sur "nom" puis "ia".
-    + Tri primaire sur Nom: sous-critère de tri sur "groupe" puis "ia".
-  * Un petit marqueur dans l'en-tête de colonne indique le tri primaire et son sens.
-  * Le tri par défaut au démarrage est la colonne IA en ascendant.
-  * Implémentation du tri — points critiques pour éviter les bugs :
-    - L'état du tri (_sort_col, _sort_order) est stocké dans des variables d'instance
-      sur la fenêtre principale. Ne jamais interroger QHeaderView.sortIndicatorOrder() :
-      cet état interne peut être réinitialisé par les signaux Qt émis pendant
-      QSortFilterProxyModel.sort().
-    - Dans lessThan() du proxy model, les valeurs Column (IntEnum) doivent être
-      converties explicitement en int() avant tout appel à model.index(). Certaines
-      versions de PySide6/SIP retournent silencieusement un QModelIndex invalide sinon.
-      Appeler model.data(idx, role) directement plutôt que idx.data(role).
-    - Lorsqu'un clic sur une colonne non triable (IMAGE, LOCAL, ENGLISH) est reçu
-      dans _on_header_clicked(), Qt a déjà déplacé visuellement l'indicateur de tri.
-      Il faut impérativement appeler setSortIndicator(_sort_col, _sort_order) pour
-      le remettre en place avant de retourner.
-- Boîte de dialogue "Paramètres" avec les options suivantes:
-  * Langue d'affichage de l'interface (comboDisplayLanguage) :
-    - La liste est construite dynamiquement en scannant locales/*/LC_MESSAGES/messages.mo
-      à l'exécution (pas de liste codée en dur).
-    - "Langue par défaut du système" (userData="") est toujours le premier élément,
-      sélectionné par défaut si display_language vaut "" dans la config.
-  * Langue de traduction de la colonne "Langue locale" (comboTranslationLanguage) :
-    - "Langue par défaut du système" (userData="") est toujours le premier élément,
-      sélectionné par défaut si translation_language vaut "" dans la config.
-  * Sélection du service de traduction parmi tous les services supportés par
-    deep-translator, plus Reverso (API publique non officielle).
-  * Champs de credentials : Clé API, App ID, App secret selon le service.
-  * Niveau de log.
-  * Nombre maximum de fichiers récents (entier 1–50, défaut 10).
-  * Boutons "Enregistrer" / "Annuler".
-- Boîte de dialogue "À propos" contenant icône, nom, version, auteur et lien de licence.
-- La fenêtre principale mémorise sa position et sa taille entre les sessions :
-  * À la fermeture (closeEvent, après confirmation si modifications non sauvegardées) :
-    enregistrer self.x(), self.y(), self.width(), self.height() dans AppConfig puis
-    appeler self._config.save().
-  * Au démarrage (dans __init__, après setupUi) : si window_width et window_height sont
-    définis dans la config, appeler self.resize(w, h) ; si window_x et window_y sont
-    définis, appeler self.move(x, y). Ne rien faire si les valeurs sont None (premier
-    lancement : Qt choisit la position et la taille par défaut).
-- La fenêtre principale, les boîtes de dialogue "Paramètres" et "À propos" sont définies
-  dans le dossier gui/ à partir des fichiers XML Qt Designer, transformés avec pyside6-uic.
-  Les classes comportementales dérivent des classes générées.
+4) UI features
+- Simple main window with a title (program name), the row list, toolbar, and status bar.
+  * File menu containing the following entries (with shortcuts and icons):
+    - New (Ctrl+N): creates a new empty collection
+    - Open… (Ctrl+O): opens a SQLite file
+    - Recent Files: submenu with recent files
+    - Save (Ctrl+S): saves the current file
+    - Save As… (Ctrl+Shift+S): saves to a new file
+    - Import YAML: submenu with:
+        · Add entries… (Ctrl+I): imports a YAML file appending entries
+        · Replace all… (Ctrl+Shift+I): imports a YAML file replacing everything
+    - Export YAML… (Ctrl+E): exports all entries to YAML
+    - Close (Ctrl+W): closes the current file
+    - Quit (Ctrl+Q): quits the application
+  * Tools menu containing:
+    - Options… (Ctrl+,): opens the settings dialog
+    - Refresh Thumbnails (Ctrl+R): recreates all thumbnails from stored images
+      (useful after changing thumbnail size)
+  * Help menu containing an About entry (F1) that opens an About dialog.
+  * Rows can be sorted by column value (by clicking the column header). A second click
+    reverses the sort direction. The first click gives ascending order.
+  * Sorting applies to the AI, Group, and Name columns. The selected primary sort column
+    and secondary sort columns all sort in the same direction.
+    + Primary sort on AI: secondary sort on "group" then "name".
+    + Primary sort on Group: secondary sort on "name" then "ai".
+    + Primary sort on Name: secondary sort on "group" then "ai".
+  * A small marker in the column header indicates the primary sort and its direction.
+  * Default sort on startup: AI column, ascending.
+  * Sort implementation — critical points to avoid bugs:
+    - Sort state (_sort_col, _sort_order) is stored in instance variables on the main
+      window. Never query QHeaderView.sortIndicatorOrder(): that internal state can be
+      reset by Qt signals emitted during QSortFilterProxyModel.sort().
+    - In the proxy model's lessThan(), Column (IntEnum) values must be explicitly cast
+      to int() before any model.index() call. Some PySide6/SIP builds silently return
+      an invalid QModelIndex otherwise.
+      Call model.data(idx, role) directly rather than idx.data(role).
+    - When a click on a non-sortable column (IMAGE, LOCAL, ENGLISH) is received in
+      _on_header_clicked(), Qt has already moved the sort indicator visually.
+      setSortIndicator(_sort_col, _sort_order) must be called to restore it before
+      returning.
+- Settings dialog with the following options:
+  * UI display language (comboDisplayLanguage):
+    - The list is built dynamically by scanning locales/*/LC_MESSAGES/messages.mo
+      at runtime (no hard-coded list).
+    - "System default language" (userData="") is always the first item, selected by
+      default when display_language is "" in the config.
+  * Translation language for the "Local language" column (comboTranslationLanguage):
+    - "System default language" (userData="") is always the first item, selected by
+      default when translation_language is "" in the config.
+  * Translation service selection from all services supported by deep-translator,
+    plus Reverso (unofficial public API).
+  * Credential fields: API key, App ID, App secret depending on the service.
+  * Log level.
+  * Maximum number of recent files (integer 1–50, default 10).
+  * Save / Cancel buttons.
+- About dialog containing icon, name, version, author, and license link.
+- The main window saves its position and size between sessions:
+  * On close (closeEvent, after unsaved-changes confirmation):
+    save self.x(), self.y(), self.width(), self.height() into AppConfig then call
+    self._config.save().
+  * On startup (in __init__, after setupUi): if window_width and window_height are set
+    in the config, call self.resize(w, h); if window_x and window_y are set, call
+    self.move(x, y). Do nothing if values are None (first launch: Qt picks defaults).
+- The main window and the Settings and About dialogs are defined in the gui/ folder
+  as source-controlled Python files (`*_ui.py`). Behaviour classes inherit from these
+  UI classes.
 
-Points critiques pour les fichiers .ui (Qt Designer XML) :
-  * Ne jamais insérer de commentaires XML (<!-- ... -->) à l'intérieur d'éléments
-    <layout> ou <widget> : pyside6-uic peut planter sur ces nœuds commentaires.
-    Les commentaires XML ne sont autorisés qu'en dehors des éléments enfants de widgets.
-  * Pour les marges d'un layout, NE PAS utiliser <contentsMargins> ni <margins> ni
-    <number> multiples. Utiliser quatre propriétés séparées :
-      <property name="leftMargin"><number>6</number></property>
-      <property name="topMargin"><number>6</number></property>
-      <property name="rightMargin"><number>6</number></property>
-      <property name="bottomMargin"><number>4</number></property>
-    Toute autre forme (<rect>, <margins>, <number> seul) génère une erreur ou
-    un appel PySide6 invalide à l'exécution.
-  * Toute sous-classe de widget Qt utilisée dans un .ui (ex : PromptTableView qui
-    hérite de QTableView) doit être déclarée dans une section <customwidgets> :
-      <customwidgets>
-        <customwidget>
-          <class>PromptTableView</class>
-          <extends>QTableView</extends>
-          <header>pbprompt.gui.models</header>
-          <container>0</container>
-        </customwidget>
-      </customwidgets>
-    La valeur de <header> est le chemin Python pointé (module path) d'où importer
-    la classe. pyside6-uic génère alors : from pbprompt.gui.models import PromptTableView.
-  * Toutes les actions (y compris actionDuplicatePrompt avec Ctrl+D) doivent être
-    définies directement dans le fichier .ui. Ne jamais les ajouter à la main dans
-    le fichier .py généré par pyside6-uic : ces modifications seraient perdues au prochain
-    make clean/all.
-
-Points critiques pour les raccourcis clavier — bug MRO Python :
-  * La classe MainWindow hérite à la fois de QMainWindow et de Ui_MainWindow.
-    Python's Method Resolution Order (MRO) fait que MainWindow.retranslateUi()
-    MASQUE Ui_MainWindow.retranslateUi() : lorsque setupUi() appelle self.retranslateUi(),
-    Python dispatche vers MainWindow.retranslateUi() et n'appelle JAMAIS
+Critical points for keyboard shortcuts — Python MRO bug:
+  * MainWindow inherits from both QMainWindow and Ui_MainWindow.
+    Python's Method Resolution Order (MRO) causes MainWindow.retranslateUi()
+    to SHADOW Ui_MainWindow.retranslateUi(): when setupUi() calls self.retranslateUi(),
+    Python dispatches to MainWindow.retranslateUi() and NEVER calls
     Ui_MainWindow.retranslateUi().
-  * Conséquence : tous les setShortcut() définis dans Ui_MainWindow.retranslateUi()
-    sont du code mort — les raccourcis clavier définis dans le fichier .py généré
-    par pyside6-uic ne sont JAMAIS installés à l'exécution.
-  * Correction : placer TOUS les setShortcut(QKeySequence(...)) directement dans
-    MainWindow.retranslateUi() avec un commentaire explicatif :
+  * Consequence: all setShortcut() calls in Ui_MainWindow.retranslateUi() are dead
+    code — shortcuts defined in *_ui.py are NEVER installed at runtime.
+  * Fix: place ALL setShortcut(QKeySequence(...)) calls directly in
+    MainWindow.retranslateUi() with an explanatory comment:
 
     # Keyboard shortcuts — set here because Ui_MainWindow.retranslateUi is
     # shadowed by this override (Python MRO) and therefore never called at runtime.
@@ -302,14 +266,14 @@ Points critiques pour les raccourcis clavier — bug MRO Python :
     self.actionImportYamlReplace.setShortcut(QKeySequence("Ctrl+Shift+I"))
     self.actionExportYaml.setShortcut(QKeySequence("Ctrl+E"))
 
-  * QKeySequence doit être importé depuis PySide6.QtWidgets (ou PySide6.QtGui).
+  * QKeySequence must be imported from PySide6.QtGui.
 
-Points critiques pour la status bar et les tooltips d'actions :
-  * Qt affiche automatiquement le statusTip d'une QAction dans la status bar
-    quand l'utilisateur survole un élément de menu OU un bouton de barre d'outils.
-    (Le toolTip est réservé aux infobulles flottantes des boutons de toolbar.)
-  * Pour afficher tooltip + raccourci dans la status bar, ajouter la méthode
-    _update_status_tips() dans MainWindow et l'appeler à la fin de retranslateUi() :
+Critical points for the status bar and action tooltips:
+  * Qt automatically shows the statusTip of a QAction in the status bar when the user
+    hovers over a menu item OR a toolbar button. (toolTip is reserved for floating
+    button tooltips.)
+  * To show tooltip + shortcut in the status bar, add the method _update_status_tips()
+    to MainWindow and call it at the end of retranslateUi():
 
     def _update_status_tips(self) -> None:
         for action in self.findChildren(QAction):
@@ -319,290 +283,287 @@ Points critiques pour la status bar et les tooltips d'actions :
             sc = action.shortcut().toString()
             action.setStatusTip(f"{tip}  ({sc})" if sc else tip)
 
-  * findChildren(QAction) retourne toutes les QAction enfants de la fenêtre,
-    incluant celles des menus et de la toolbar.
+  * findChildren(QAction) returns all QAction children of the window,
+    including those in menus and the toolbar.
 
-Points critiques pour les hauteurs de lignes :
-  * resizeRowsToContents() doit être appelé APRÈS que Qt a finalisé les largeurs des
-    colonnes Stretch (colonnes Langue locale et Anglais). Si appelé trop tôt (avant
-    le premier layout), columnWidth() retourne une valeur incorrecte → sizeHint()
-    calcule des hauteurs absurdes.
-  * Implémentation correcte dans MainWindow :
-    - _resize_rows() : appelle resizeRowsToContents() uniquement si isVisible() est True ;
-      ne se re-programme pas via singleShot si la fenêtre n'est pas visible.
-    - showEvent() (override) : appelle QTimer.singleShot(0, self.tableView.resizeRowsToContents)
-      pour déclencher le redimensionnement après le premier passage de layout Qt
-      (les colonnes Stretch ont alors leur vraie largeur).
-    - _on_section_resized(col, old, new) : appelle resizeRowsToContents() quand
-      les colonnes LOCAL ou ENGLISH sont redimensionnées (gère les redimensionnements
-      dynamiques par l'utilisateur).
-  * MultiLineDelegate.sizeHint() utilise self._view.columnWidth(col) pour calculer
-    la hauteur nécessaire au texte avec word-wrap. Un fallback à 100 px est appliqué
-    si la largeur retournée est ≤ 8 px (avant le premier layout).
+Critical points for row heights:
+  * resizeRowsToContents() must be called AFTER Qt has finalised the widths of Stretch
+    columns (Local language and English). If called too early (before the first layout),
+    columnWidth() returns an incorrect value → sizeHint() computes absurd heights.
+  * Correct implementation in MainWindow:
+    - _resize_rows(): calls resizeRowsToContents() only if isVisible() is True;
+      does not reschedule via singleShot if the window is not visible.
+    - showEvent() (override): calls
+      QTimer.singleShot(0, self.tableView.resizeRowsToContents)
+      to trigger resizing after the first Qt layout pass (Stretch columns have their
+      real width at that point).
+    - _on_section_resized(col, old, new): calls resizeRowsToContents() when the LOCAL
+      or ENGLISH columns are resized (handles user-driven dynamic resizing).
+  * MultiLineDelegate.sizeHint() uses self._view.columnWidth(col) to compute the height
+    needed for the text with word-wrap. A fallback of 100 px is applied if the returned
+    width is ≤ 8 px (before the first layout).
 
-Points critiques pour l'éditeur multiligne (MultiLineDelegate.eventFilter) :
-  * Enter / Return seul → valide l'édition (commitData + closeEditor).
-  * Ctrl+Enter ou Maj+Enter → insère un saut de ligne réel (insertPlainText("\n")).
-    Implémentation : if event.modifiers() & (Qt.ControlModifier | Qt.ShiftModifier)
-  * Tab → valide et passe à la cellule suivante (EditNextItem).
-  * Backtab (Maj+Tab) → valide et passe à la cellule précédente (EditPreviousItem).
-  * Up / Down → mouvement naturel du curseur dans QPlainTextEdit (return False).
-  * Escape / FocusOut → géré par la classe de base (annule sur Escape).
+Critical points for the multiline editor (MultiLineDelegate.eventFilter):
+  * Enter / Return alone → commit the edit (commitData + closeEditor).
+  * Ctrl+Enter or Shift+Enter → insert a real line break (insertPlainText("\n")).
+    Implementation: if event.modifiers() & (Qt.ControlModifier | Qt.ShiftModifier)
+  * Tab → commit and move to the next cell (EditNextItem).
+  * Backtab (Shift+Tab) → commit and move to the previous cell (EditPreviousItem).
+  * Up / Down → natural cursor movement in QPlainTextEdit (return False).
+  * Escape / FocusOut → handled by the base class (cancels on Escape).
 
 
-5) Icônes
+5) Icons
 
-Créer un jeu complet d'icônes SVG 24×24 (style outline, trait #404040, stroke-width 1.5)
-pour chacune des actions suivantes : new, open, save, save_as, close, quit, delete,
+A complete set of 24×24 SVG icons (outline style, stroke #404040, stroke-width 1.5)
+for each of the following actions: new, open, save, save_as, close, quit, delete,
 options, about, translate_right, translate_left, new_prompt, duplicate,
 import_yaml, export_yaml.
-Plus trois variantes de l'icône application : app_color.svg, app_light.svg, app_dark.svg.
+Plus three variants of the application icon: app_color.svg, app_light.svg, app_dark.svg.
 
-Les placer dans resources/icons/ et les référencer dans resources/resources.qrc.
-Compiler avec pyside6-rcc → src/pbprompt/gui/resources_rc.py (cible "make resources").
+Icons are placed in src/pbprompt/icons/ inside the Python package.
+They are loaded directly by get_icon_dir() in gui/icons.py without any QRC compilation.
 
-Implémentation de get_icon(name) dans gui/icons.py — ordre de résolution :
-1. QIcon.fromTheme(theme_name) avec mapping FreeDesktop :
+Implementation of get_icon(name) in gui/icons.py — lookup order:
+1. QIcon.fromTheme(theme_name) with FreeDesktop mapping:
      new→document-new, open→document-open, save→document-save,
      save_as→document-save-as, close→window-close, quit→application-exit,
      delete→edit-delete, options→preferences-system, about→help-about,
      translate_right→go-next, translate_left→go-previous,
      new_prompt→list-add, duplicate→edit-copy,
      import_yaml→document-import, export_yaml→document-export
-2. QRC — vérifier QFile.exists(qrc_path) AVANT QIcon(qrc_path) pour éviter
-   les warnings Qt "Cannot open file ':/icons/...', because: No such file or directory".
-3. Fichier SVG sur le disque (variantes _light, plain, _color).
-4. Qt standard icon (QStyle.StandardPixmap) comme ultime recours :
+2. Package icon file — try variants in order: name, name_color, name_light, name_dark
+   (for .svg then .png). Use get_icon_dir() which handles PyInstaller bundles:
+     if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+         return Path(sys._MEIPASS) / "pbprompt" / "icons"
+     return Path(__file__).parent.parent / "icons"
+3. Qt standard icon (QStyle.StandardPixmap) as last resort:
      import_yaml→SP_DialogOpenButton, export_yaml→SP_DialogSaveButton
 
-Ne jamais appeler QIcon(":/icons/name.svg") sans vérifier d'abord QFile.exists().
+PyInstaller datas entry:
+     ("src/pbprompt/icons", "pbprompt/icons")
 
-Description des icônes import_yaml et export_yaml (24×24, stroke #404040,
-stroke-width 1.5, fill none, round linecap/linejoin) :
-- import_yaml.svg : document YAML (gauche, x=1–9) + flèche droite (centre)
-  + tableau de données avec lignes (droite, x=15–23). Les lignes de texte du
-  document YAML utilisent stroke-width=1.2. Symbolise "YAML → application".
-- export_yaml.svg : miroir de import_yaml : tableau (gauche) + flèche droite
-  + document YAML (droite). Symbolise "application → YAML".
+Description of import_yaml and export_yaml icons (24×24, stroke #404040,
+stroke-width 1.5, fill none, round linecap/linejoin):
+- import_yaml.svg: YAML document (left, x=1–9) + right arrow (centre)
+  + data table with rows (right, x=15–23). The YAML document text lines use
+  stroke-width=1.2. Symbolises "YAML → application".
+- export_yaml.svg: mirror of import_yaml: table (left) + right arrow
+  + YAML document (right). Symbolises "application → YAML".
 
 
-6) Gestion de version semver
+6) Semver version management
 
-Créer tools/bump_version.py qui :
-- Lit la version courante depuis src/pbprompt/__init__.py (__version__ = "X.Y.Z").
-- Accepte un argument positionnel : major, minor ou patch.
-- Incrémente la partie choisie (major remet minor et patch à 0, minor remet patch à 0).
-- Met à jour simultanément :
-  * src/pbprompt/__init__.py : pattern __version__ = "..."
-  * pyproject.toml : pattern ^version = "..." (nécessite re.MULTILINE)
-- Affiche : "Version bumped (part): old → new"
+Create tools/bump_version.py that:
+- Reads the current version from src/pbprompt/__init__.py (__version__ = "X.Y.Z").
+- Accepts a positional argument: major, minor, or patch.
+- Increments the chosen part (major resets minor and patch to 0, minor resets patch to 0).
+- Updates simultaneously:
+  * src/pbprompt/__init__.py: pattern __version__ = "..."
+  * pyproject.toml: pattern ^version = "..." (requires re.MULTILINE)
+- Prints: "Version bumped (part): old → new"
 
-Ajouter dans le Makefile les cibles :
-  version     — affiche la version courante (grep __version__ dans __init__.py)
+Add the following targets to the Makefile:
+  version     — show the current version (grep __version__ in __init__.py)
   bump-patch  — python tools/bump_version.py patch
   bump-minor  — python tools/bump_version.py minor
   bump-major  — python tools/bump_version.py major
 
-Et améliorer la cible "help" pour qu'elle affiche un en-tête et liste toutes les cibles
-avec leur description (grep sur ## dans le Makefile).
+And improve the "help" target to display a header and list all targets with their
+description (grep on ## in the Makefile).
 
 
 7) Internationalisation (i18n)
-- Outillage : pybabel exclusivement (pas xgettext/msgmerge/msgfmt/msginit).
-  * pot   : pybabel extract -F babel.cfg -k _ --input-dirs=src -o locales/messages.pot
-  * merge-po : pybabel update -i locales/messages.pot -d locales -l <lang> -D messages
-  * translations : pybabel compile -f -i <file>.po -o <file>.mo
-  babel.cfg à la racine du projet : [python: src/**.py]
-- Architecture multilingue : fichiers gettext (.po/.mo) pour au moins français, anglais,
-  espagnol, italien, russe, vietnamien, chinois simplifié (zh_CN).
-- Mécanisme pour changer la langue dans Paramètres et recharger l'UI sans redémarrage.
-- La langue au démarrage est celle du fichier de configuration ou la langue système.
-  Si non trouvée, fallback vers anglais.
-- Exposer une fonction publique system_language() -> str dans i18n.py qui détecte
-  la langue système (locale.getlocale(), fallback "en"). L'alias privé _system_language
-  peut pointer sur la même fonction.
-- La valeur "" dans display_language ou translation_language signifie "langue par
-  défaut du système". Partout où ces valeurs sont utilisées (en-tête de colonne,
-  appel au service de traduction), résoudre "" par or system_language() :
+- Tooling: pybabel exclusively (not xgettext/msgmerge/msgfmt/msginit).
+  * pot:      pybabel extract -F babel.cfg -k _ --input-dirs=src -o locales/messages.pot
+  * merge-po: pybabel update -i locales/messages.pot -d locales -l <lang> -D messages
+  * translations: pybabel compile -f -i <file>.po -o <file>.mo
+  babel.cfg at the project root: [python: src/**.py]
+- Multilingual architecture: gettext files (.po/.mo) for at least French, English,
+  Spanish, Italian, Russian, Vietnamese, Simplified Chinese (zh_CN).
+- Mechanism to change language in Settings and reload the UI without restarting.
+- The startup language is the one in the configuration file or the system language.
+  If not found, fall back to English.
+- Expose a public function system_language() -> str in i18n.py that detects the system
+  language (locale.getlocale(), fallback "en"). The private alias _system_language
+  can point to the same function.
+- The value "" in display_language or translation_language means "system default
+  language". Everywhere these values are used (column header, translation service call),
+  resolve "" with or system_language():
     lang = config.translation_language or system_language()
-- L'en-tête de la colonne "Langue locale" doit afficher dès le démarrage le nom
-  de la langue de traduction (ex : "Français (fr)"), pas "Langue locale".
-  Cela requiert un appel explicite à set_header_labels() juste après la création
-  de _source_model dans MainWindow.__init__(), indépendamment de retranslateUi()
-  qui s'exécute avant que le modèle existe.
-- Le nom affiché pour chaque langue suit le format "Nom natif (code)" (ex :
-  "Français (fr)", "中文(简体) (zh_CN)"). Centraliser ce formatage dans une
-  fonction language_label(code: str) -> str dans i18n.py, s'appuyant sur un dict
-  _LANGUAGE_NAMES avec les noms natifs.
-- Les valeurs par défaut dans AppConfig :
-    display_language: str = ""      # "" = langue système
-    translation_language: str = ""  # "" = langue système
-    window_x: int | None = None     # position et taille de la fenêtre principale
-    window_y: int | None = None     # None = pas encore sauvegardé (premier lancement)
+- The "Local language" column header must display the translation language name from
+  startup (e.g. "Français (fr)"), not "Local language". This requires an explicit call
+  to set_header_labels() right after creating _source_model in MainWindow.__init__(),
+  independently of retranslateUi() which runs before the model exists.
+- The display name for each language follows the format "Native name (code)"
+  (e.g. "Français (fr)", "中文(简体) (zh_CN)"). Centralise this formatting in a
+  function language_label(code: str) -> str in i18n.py, using a _LANGUAGE_NAMES dict
+  with native names.
+- AppConfig default values:
+    display_language: str = ""      # "" = system language
+    translation_language: str = ""  # "" = system language
+    window_x: int | None = None     # main window position and size
+    window_y: int | None = None     # None = not yet saved (first launch)
     window_width: int | None = None
     window_height: int | None = None
-  AppConfig.load() lit ces quatre champs via un helper _opt_int(d, key, min_val=None)
-  qui retourne None si la valeur absente ou non entière ; min_val=100 pour width/height
-  afin de rejeter des valeurs aberrantes. AppConfig.save() ne les écrit que s'ils sont
-  différents de None (fichier propre au premier lancement).
-- Exposer une fonction publique get_locale_dir() -> Path dans i18n.py qui retourne
-  le répertoire locales/ en tenant compte d'un éventuel bundle PyInstaller :
+  AppConfig.load() reads these four fields via a helper _opt_int(d, key, min_val=None)
+  that returns None if the value is absent or not an integer; min_val=100 for
+  width/height to reject nonsensical values. AppConfig.save() only writes them if they
+  differ from None (clean file on first launch).
+- Expose a public function get_locale_dir() -> Path in i18n.py that returns the locales/
+  directory taking into account a possible PyInstaller bundle:
     import sys
     def get_locale_dir() -> Path:
         if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
             return Path(sys._MEIPASS) / "locales"
         return Path(__file__).parent.parent.parent / "locales"
-  Utiliser get_locale_dir() partout où le chemin du répertoire locales/ est nécessaire
-  (dans i18n.py lui-même pour _LOCALE_DIR, et dans settings_dialog.py pour scanner
-  les langues disponibles). Ne jamais calculer ce chemin via Path(__file__).parent...
-  directement dans d'autres modules.
+  Use get_locale_dir() everywhere the locales/ directory path is needed (in i18n.py
+  itself for _LOCALE_DIR, and in settings_dialog.py to scan available languages).
+  Never compute this path via Path(__file__).parent... directly in other modules.
 
 
-8) Modularité et séparation des accès système
-- Les chemins de configuration spécifiques à chaque OS sont isolés dans pbprompt/platform/*.py.
-- Interface commune : get_config_dir() → Path.
-- pbprompt/platform/__init__.py n'exporte QUE get_config_dir via __all__. Ne pas y
-  déclarer notify() ni aucune autre fonction non implémentée : les tests qui feraient
-  `from pbprompt.platform import notify` échoueraient avec ImportError.
-- Le YAML est géré avec Ruamel YAML. Écriture en YAML 1.2.
-  Note : Ruamel YAML est utilisé pour la configuration (AppConfig) ET pour l'import/export
-  des données de prompts. Il ne sert plus de format de sauvegarde principal (remplacé par SQLite).
-- Classe racine BaseTranslator (ABC) dans pbprompt/translate/base.py avec :
-    to_english(text, source_language) et from_english(text, target_language).
-  Les méthodes ne doivent PAS capturer les exceptions en interne. Toute exception
-  remonte jusqu'à _on_translate() dans la fenêtre principale qui affiche la
-  QMessageBox.critical.
-- Services de traduction supportés :
+8) Modularity and platform access separation
+- OS-specific configuration paths are isolated in pbprompt/platform/*.py.
+- Common interface: get_config_dir() → Path.
+- pbprompt/platform/__init__.py exports ONLY get_config_dir via __all__. Do not declare
+  notify() or any other unimplemented function there: tests doing
+  `from pbprompt.platform import notify` would fail with ImportError.
+- YAML is managed with Ruamel YAML. Writing in YAML 1.2.
+  Note: Ruamel YAML is used for configuration (AppConfig) AND for prompt data
+  import/export. It is no longer the primary save format (replaced by SQLite).
+- Root class BaseTranslator (ABC) in pbprompt/translate/base.py with:
+    to_english(text, source_language) and from_english(text, target_language).
+  The methods must NOT catch exceptions internally. Any exception propagates up to
+  _on_translate() in the main window which shows the QMessageBox.critical.
+- Supported translation services:
   google, mymemory, deepl, microsoft, yandex, libretranslate (LibreTranslator),
-  baidu, papago, qcri, pons, linguee, reverso (API non officielle).
-  Note : dans deep_translator la classe LibreTranslate s'appelle LibreTranslator.
+  baidu, papago, qcri, pons, linguee, reverso (unofficial API).
+  Note: in deep_translator the LibreTranslate class is called LibreTranslator.
 
 
-9) Documentation RST (Sphinx)
-- OBLIGATOIRE : valider chaque fichier .rst modifié avec `python3 -m docutils <fichier> /dev/null`
-  avant tout commit. La commande doit retourner un code de sortie 0 sans aucun message d'erreur.
-- Ne jamais utiliser de tables RST en grille (``+----+----+``). Utiliser exclusivement
-  ``.. list-table::`` : ce format n'impose aucune contrainte d'alignement de colonnes et
-  évite les erreurs "Malformed table" / "unexpected indentation" causées par des cellules
-  plus larges que la largeur de colonne définie.
-- Indentation dans les directives (``.. note::``, ``.. warning::``, ``.. code-block::``
-  etc.) : toujours 3 espaces, jamais de tabulation.
-- OBLIGATOIRE après toute modification de fichier .rst ou de docstring Python :
-  vérifier avec `make clean all docs` (environnement propre, recompile tout).
-  La commande doit se terminer sans aucun WARNING ni ERROR Sphinx.
-  Ne jamais se contenter d'un build incrémental (`make docs`) : certaines
-  erreurs n'apparaissent qu'après `make clean`.
+9) RST documentation (Sphinx)
+- REQUIRED: validate every modified .rst file with `python3 -m docutils <file> /dev/null`
+  before any commit. The command must return exit code 0 with no error messages.
+- Never use RST grid tables (``+----+----+``). Use ``.. list-table::`` exclusively:
+  this format imposes no column-alignment constraint and avoids "Malformed table" /
+  "unexpected indentation" errors caused by cells wider than the defined column width.
+- Indentation in directives (``.. note::``, ``.. warning::``, ``.. code-block::``
+  etc.): always 3 spaces, never tabs.
+- REQUIRED after any .rst file or Python docstring modification: verify with
+  `make clean all docs` (clean environment, recompiles everything).
+  The command must complete without any Sphinx WARNING or ERROR.
+  Never rely on an incremental build (`make docs`): some errors only appear after
+  `make clean`.
 
 
-10) Tests et CI
-- Utiliser pre-commit avec hooks ruff (lint et format) et check-yaml.
-- Configurations ruff dans pyproject.toml.
-- Fichier GitHub Actions (ci.yml).
-- OBLIGATOIRE avant tout commit ou release : exécuter `pre-commit run --all-files`
-  sur l'intégralité de l'arbre de travail (pas seulement les fichiers stagés) et
-  vérifier que tous les hooks passent. Ne jamais publier une version si cette
-  commande retourne un code de sortie non nul ou si elle a modifié des fichiers.
+10) Tests and CI
+- Use pre-commit with ruff (lint and format) and check-yaml hooks.
+- Ruff configuration in pyproject.toml.
+- GitHub Actions file (ci.yml).
+- REQUIRED before any commit or release: run `pre-commit run --all-files` on the full
+  working tree (not just staged files) and verify all hooks pass. Never publish a
+  version if this command returns a non-zero exit code or has modified files.
 
-État actuel des tests (83 tests, tous verts) :
-  * tests/test_config.py   — couverture 100% sur pbprompt.config
-  * tests/test_data.py     — couverture 100% sur pbprompt.data
-  * tests/test_platform.py — sélection du module plateforme
-  * tests/test_translate.py — BaseTranslator et services de traduction
-  Lancer : pytest (pytest-xvfb gère le display virtuel automatiquement)
-  Couverture : pytest --cov=pbprompt --cov-report=html
+Current test state (87 tests, all green):
+  * tests/test_config.py   — 100% coverage on pbprompt.config
+  * tests/test_data.py     — 100% coverage on pbprompt.data
+  * tests/test_platform.py — platform module selection
+  * tests/test_translate.py — BaseTranslator and translation services
+  Run: pytest (pytest-xvfb handles the virtual display automatically)
+  Coverage: pytest --cov=pbprompt --cov-report=html
 
-Points critiques pour les tests :
-  * Les valeurs par défaut de AppConfig sont display_language="" et
-    translation_language="" (chaîne vide = langue système). Ne pas asserter "en" ou "fr".
-  * BaseTranslator.to_english() et from_english() propagent les exceptions sans les
-    capturer. Un test qui vérifie le comportement en cas d'erreur doit utiliser
-    pytest.raises(RuntimeError), PAS asserter que le texte original est retourné.
-  * Ne pas écrire de test pour une fonction (ex. notify()) qui n'est pas exportée
-    dans pbprompt/platform/__init__.__all__. Un tel test échoue avec ImportError.
-  * import_yaml() et export_yaml() utilisent le format YAML (ruamel.yaml), PAS SQLite.
-    Le fixture conftest tmp_yaml est mal nommé : il crée un fichier SQLite. Ne pas
-    l'utiliser pour tester l'import/export YAML ; utiliser export_yaml() directement.
-  * Pour tester la branche except de from_dict() (base64 invalide), utiliser
-    monkeypatch sur pbprompt.data.base64.b64decode plutôt que de forger un vrai
-    payload invalide (le comportement de b64decode avec validate=False est ambigu).
+Critical points for tests:
+  * AppConfig default values are display_language="" and translation_language=""
+    (empty string = system language). Do not assert "en" or "fr".
+  * BaseTranslator.to_english() and from_english() propagate exceptions without catching
+    them. A test verifying error behaviour must use pytest.raises(RuntimeError),
+    NOT assert that the original text is returned.
+  * Do not write a test for a function (e.g. notify()) that is not exported in
+    pbprompt/platform/__init__.__all__. Such a test fails with ImportError.
+  * import_yaml() and export_yaml() use the YAML format (ruamel.yaml), NOT SQLite.
+    The conftest tmp_yaml fixture is poorly named: it creates a SQLite file. Do not
+    use it to test YAML import/export; use export_yaml() directly.
+  * To test the except branch of from_dict() (invalid base64), use monkeypatch on
+    pbprompt.data.base64.b64decode rather than forging a genuinely invalid payload
+    (the behaviour of b64decode with validate=False is ambiguous).
 
 
-11) Workflow Git
-- OBLIGATOIRE avant tout push : fusionner tous les commits locaux en attente en un
-  seul commit (squash) avec un message synthétique couvrant l'ensemble des changements.
-  Procédure : `git log --oneline origin/main..HEAD` pour compter N commits en avance,
-  puis `git reset --soft HEAD~N` et `git commit -m "..."`.
-- Ne jamais pousser plusieurs commits séparés : un push = un commit.
-- Le message de commit doit résumer toutes les modifications incluses (plusieurs
-  paragraphes ou puces si nécessaire), pas seulement le dernier changement.
-- Les messages de commit et les noms de tags sont toujours rédigés en anglais.
-- OBLIGATOIRE à chaque incrément de version et tag : mettre à jour CHANGELOG.md
-  avec une section `## [X.Y.Z] – YYYY-MM-DD` décrivant les ajouts (### Added),
-  modifications (### Changed) et corrections (### Fixed) de la version.
-  Le tag ne doit jamais être créé avant que la section correspondante existe dans
-  CHANGELOG.md, car le pipeline CI extrait les notes de release depuis ce fichier.
+11) Git workflow
+- REQUIRED before every push: squash all pending local commits into a single commit
+  with a summary message covering all changes.
+  Procedure: `git log --oneline origin/main..HEAD` to count N commits ahead,
+  then `git reset --soft HEAD~N` and `git commit -m "..."`.
+- Never push multiple separate commits: one push = one commit.
+- The commit message must summarise all included changes (multiple paragraphs or
+  bullet points if needed), not just the last change.
+- Commit messages and tag names are always written in English.
+- REQUIRED at every version increment and tag: update CHANGELOG.md with a
+  `## [X.Y.Z] – YYYY-MM-DD` section describing additions (### Added), changes
+  (### Changed), and fixes (### Fixed) for the version.
+  The tag must never be created before the corresponding section exists in CHANGELOG.md,
+  as the CI pipeline extracts release notes from this file.
 
-11.1) Nettoyage automatique des versions Read the Docs
+11.1) Automatic Read the Docs version cleanup
 
-Après chaque release, le job CI "release" exécute tools/rtd_cleanup.py pour
-désactiver les versions obsolètes dans le menu déroulant RTD.
+After each release, the CI "release" job runs tools/rtd_cleanup.py to deactivate
+obsolete versions in the RTD version dropdown.
 
-Politique de rétention (version courante X.Y.Z) :
-  * Versions majeures antérieures (< X) :
-      Conserver uniquement la dernière release des 3 versions majeures les plus récentes.
-  * Version majeure courante X, versions mineures antérieures (< Y) :
-      Pour chacune des 3 versions mineures les plus récentes, conserver uniquement
-      le dernier patch.
-  * Version majeure X, version mineure Y courante, patchs antérieurs (< Z) :
-      Conserver les 3 patchs les plus récents.
-  * Les pseudo-versions "latest" et "stable" ne sont jamais touchées.
+Retention policy (current version X.Y.Z):
+  * Prior major versions (< X):
+      Keep only the latest release of the 3 most recent major versions.
+  * Current major version X, prior minor versions (< Y):
+      For each of the 3 most recent minor versions, keep only the latest patch.
+  * Major X, minor Y (current), prior patches (< Z):
+      Keep the 3 most recent patches.
+  * The pseudo-versions "latest" and "stable" are never touched.
 
-Implémentation — tools/rtd_cleanup.py :
-  * Appel API RTD v3 (GET /versions/?active=true&type=tag, PATCH /versions/{slug}/).
-  * Pagination gérée (champ "next" dans la réponse).
-  * SemVer(NamedTuple) : (major, minor, patch, slug) — triable nativement.
-  * compute_slugs_to_keep(versions) applique la politique et retourne l'ensemble des
-    slugs à conserver.
-  * Les versions hors politique sont désactivées (active=False), pas supprimées.
-  * Paramètres CLI : --project (défaut "pbprompt"), --token (requis), --dry-run,
+Implementation — tools/rtd_cleanup.py:
+  * RTD v3 API calls (GET /versions/?active=true&type=tag, PATCH /versions/{slug}/).
+  * Pagination handled ("next" field in the response).
+  * SemVer(NamedTuple): (major, minor, patch, slug) — natively sortable.
+  * compute_slugs_to_keep(versions) applies the policy and returns the set of slugs
+    to keep.
+  * Out-of-policy versions are deactivated (active=False), not deleted.
+  * CLI parameters: --project (default "pbprompt"), --token (required), --dry-run,
     --verbose.
-  * continue-on-error: true dans la CI (échec du nettoyage ne bloque pas la release).
-  * Secret GitHub requis : READTHEDOCS_TOKEN (API token RTD avec accès en écriture).
+  * continue-on-error: true in CI (cleanup failure does not block the release).
+  * GitHub secret required: READTHEDOCS_TOKEN (RTD API token with write access).
 
-Intégration CI (.github/workflows/ci.yml) :
-  * Step "Clean up old Read the Docs versions" ajouté en fin du job "release".
-  * S'exécute uniquement sur les tags semver (job "release" déjà conditionnel).
+CI integration (.github/workflows/ci.yml):
+  * "Clean up old Read the Docs versions" step added at the end of the "release" job.
+  * Runs only on semver tags (the "release" job is already conditional).
 
-Points critiques pour les artifacts PyInstaller dans la CI :
-  * make dist produit dist/pbprompt-VERSION-OS-ARCH[.exe], pas dist/pbprompt.
-    Les chemins d'upload doivent utiliser des globs :
+Critical points for PyInstaller artefacts in CI:
+  * make dist produces dist/pbprompt-VERSION-OS-ARCH[.exe], not dist/pbprompt.
+    Upload paths must use globs:
       Linux:   path: dist/pbprompt-*-linux-*
       macOS:   path: dist/pbprompt-*-darwin-*
       Windows: path: dist/pbprompt-*.exe
-  * upload-artifact@v6 SUPPRIME le préfixe dist/ : les fichiers arrivent à la racine
-    de l'artifact (ex : executable-linux/pbprompt-1.8.0-linux-x86_64, sans dist/).
-    Le step "Rename executables" du job release doit donc utiliser :
+  * upload-artifact@v6 STRIPS the dist/ prefix: files land at the root of the
+    artefact (e.g. executable-linux/pbprompt-1.8.0-linux-x86_64, without dist/).
+    The "Rename executables" step in the release job must therefore use:
       mv executable-linux/pbprompt-*       dist/pbprompt-${TAG}-linux-amd64
       mv executable-windows/pbprompt-*.exe dist/pbprompt-${TAG}-windows-amd64.exe
       mv executable-macos/pbprompt-*       dist/pbprompt-${TAG}-macos-arm64
 
 
-12) pyproject.toml et packaging
-- build-backend doit être "setuptools.build_meta" (PAS "setuptools.backends.legacy:build"
-  qui est incompatible avec setuptools ≥ 68 de conda-forge).
-- Métadonnées : nom, version, auteur, licence, dépendances, scripts/entry-points.
+12) pyproject.toml and packaging
+- build-backend must be "setuptools.build_meta" (NOT "setuptools.backends.legacy:build"
+  which is incompatible with setuptools ≥ 68 from conda-forge).
+- Metadata: name, version, author, licence, dependencies, scripts/entry-points.
 - requires-python = ">=3.11".
-- Support Python 3.11 et 3.12.
-- Entry point : pbprompt = "pbprompt.__main__:main"
-- Ruff extend-exclude pour les fichiers générés (ui_*.py, resources_rc.py).
-- [tool.ruff.lint.per-file-ignores] :
-  * "src/pbprompt/gui/models.py" = ["N802"] (méthodes camelCase imposées par PySide6)
-  * Ajouter # noqa: N802 sur retranslateUi() et closeEvent() dans main_window.py etc.
-  * Dans translate/*.py, les imports différés `from deep_translator import XxxTranslator
-    as _XT` doivent avoir # noqa: PLC0415, N814
-- Dépendances dev :
+- Python 3.11 and 3.12 support.
+- Entry point: pbprompt = "pbprompt.__main__:main"
+- package-data: "pbprompt" = ["py.typed", "icons/*.svg"]
+- [tool.ruff.lint.per-file-ignores]:
+  * "src/pbprompt/gui/models.py" = ["N802"] (camelCase methods imposed by PySide6)
+  * "src/pbprompt/gui/*_ui.py" = ["N801", "N802", "N803"] (Qt naming conventions)
+  * Add # noqa: N802 on retranslateUi() and closeEvent() in main_window.py etc.
+  * In translate/*.py, deferred imports `from deep_translator import XxxTranslator
+    as _XT` must have # noqa: PLC0415, N814
+- Dev dependencies:
     "pytest>=7.4",
-    "pytest-cov>=4.1",   ← requis pour make test-cov (--cov=pbprompt --cov-report=html)
+    "pytest-cov>=4.1",   ← required for make test-cov (--cov=pbprompt --cov-report=html)
     "pytest-qt>=4.2",
     "ruff>=0.4",
     "pre-commit>=3.6",
@@ -611,250 +572,249 @@ Points critiques pour les artifacts PyInstaller dans la CI :
     "sphinx-rtd-theme>=2.0",
 
 
-13) Documentation et scripts
-- README.md avec :
-  * Section Installation avec conda (conda-forge + pip install deep-translator +
-    pip install -e . --no-deps) et avec venv/pip.
-    Note : pip install -e . --no-deps est requis en environnement conda pour ne pas
-    réinstaller les paquets déjà gérés par conda.
-  * Section "Running / Command-line options" : tableau des options avec le comportement
-    détaillé de l'argument FILE (priorité sur autoload, dialog d'erreur + liste vide).
-  * Section "Version management" : make bump-patch/minor/major, script direct, exemple.
-  * Section "Adding a language".
-  * Section "Build standalone executables" (PyInstaller, make dist).
-  * Section "Known limitations".
-- Scripts dans tools/ : build_linux.sh, build_windows.bat, build_macos.sh,
+13) Documentation and scripts
+- README.md with:
+  * Installation section with conda (conda-forge + pip install deep-translator +
+    pip install -e . --no-deps) and with venv/pip.
+    Note: pip install -e . --no-deps is required in a conda environment to avoid
+    reinstalling packages already managed by conda.
+  * "Running / Command-line options" section: option table with detailed behaviour of
+    the FILE argument (priority over autoload, error dialog + empty list).
+  * "Version management" section: make bump-patch/minor/major, direct script, example.
+  * "Adding a language" section.
+  * "Build standalone executables" section (PyInstaller, make dist).
+  * "Known limitations" section.
+- Scripts in tools/: build_linux.sh, build_windows.bat, build_macos.sh,
   compile_translations.sh, build_qm.sh, bump_version.py, extract_changelog.py,
   rtd_cleanup.py, git_version.sh.
-- hooks/ : rthook_ssl.py (PyInstaller runtime hook — SSL cert path in frozen builds).
-- pbprompt.spec : spec PyInstaller commité dans le dépôt.
-- Sphinx documentation dans doc/.
-- Makefile avec cibles : all, ui, resources, translations, pot, merge-po, run,
-  lint, format, test, test-cov, docs, dist, srcdist, clean, version, bump-patch,
-  bump-minor, bump-major, help.
-  La cible par défaut est help (.DEFAULT_GOAL := help).
-  La cible help liste toutes les cibles avec leur description ## en couleur.
+- hooks/: rthook_ssl.py (PyInstaller runtime hook — SSL cert path in frozen builds).
+- pbprompt.spec: PyInstaller spec file committed to the repository.
+- Sphinx documentation in doc/.
+- Makefile with targets: all, translations, pot, merge-po, run, lint, format, test,
+  test-cov, docs, dist, srcdist, clean, version, bump-patch, bump-minor, bump-major,
+  help, venv, pyvenv, hooks.
+  The default target is help (.DEFAULT_GOAL := help).
+  The help target lists all targets with their ## description in colour.
 
-  Cible translations — IMPORTANT : utiliser des dépendances fichier, PAS .PHONY seul :
+  translations target — IMPORTANT: use file dependencies, NOT .PHONY alone:
     MO_FILES := $(foreach lang,$(LOCALE_LANGS),$(LOCALES)/$(lang)/LC_MESSAGES/messages.mo)
     translations: $(MO_FILES)
     $(LOCALES)/%/LC_MESSAGES/messages.mo: $(LOCALES)/%/LC_MESSAGES/messages.po
-        $(MSGFMT) $< -o $@
-  Ne JAMAIS écrire "translations:" comme cible .PHONY sans prérequis fichiers : Make
-  recompilerait alors tous les .mo à chaque `make all`, même si aucun .po n'a changé.
-  La cible `translations` elle-même reste dans .PHONY (c'est un agrégat sans fichier
-  de sortie propre) ; les cibles %.mo ne doivent PAS être dans .PHONY.
+        pybabel compile -f -i $< -o $@
+  NEVER write "translations:" as a .PHONY target without file prerequisites: Make would
+  then recompile all .mo files on every `make all`, even if no .po has changed.
+  The `translations` target itself stays in .PHONY (it is an aggregate with no own
+  output file); the %.mo targets must NOT be in .PHONY.
 
-  Cible dist — build du binaire standalone avec PyInstaller :
-  * Dépend de all (UI, ressources et traductions compilés avant de lancer pyinstaller).
-  * Si pbprompt.spec existe, l'utilise : pyinstaller pbprompt.spec
-  * Sinon, génère un .spec à la volée :
+  dist target — standalone binary build with PyInstaller:
+  * Depends on all (UI, resources, and translations compiled before launching pyinstaller).
+  * If pbprompt.spec exists, use it: pyinstaller pbprompt.spec
+  * Otherwise, generate a .spec on the fly:
       pyinstaller \
           --onefile \
           --windowed \
           --name pbprompt \
           --add-data "locales:locales" \
-          --add-data "resources:resources" \
+          --add-data "src/pbprompt/icons:pbprompt/icons" \
           src/pbprompt/__main__.py
-  * PyInstaller écrit dist/pbprompt (ou dist/pbprompt.exe sur Windows).
-  * Après la build, la cible renomme le binaire :
+  * PyInstaller writes dist/pbprompt (or dist/pbprompt.exe on Windows).
+  * After the build, the target renames the binary:
       dist/pbprompt-VERSION-OS-ARCH[.exe]
-    VERSION = tools/git_version.sh (semver si HEAD tagué et arbre propre, sinon "dev").
-    OS = uname -s | tr '[:upper:]' '[:lower:]' (ex : "linux", "darwin").
-    ARCH = uname -m (ex : "x86_64", "arm64").
-  * Détection de l'extension Windows : [ -f dist/pbprompt.exe ] — NE PAS comparer $OS à
-    "windows" : sur les runners GitHub Actions, uname -s retourne "MINGW64_NT-…".
+    VERSION = tools/git_version.sh (semver if HEAD is tagged and tree is clean, else "dev").
+    OS = uname -s | tr '[:upper:]' '[:lower:]' (e.g. "linux", "darwin").
+    ARCH = uname -m (e.g. "x86_64", "arm64").
+  * Windows extension detection: [ -f dist/pbprompt.exe ] — do NOT compare $OS to
+    "windows": on GitHub Actions runners, uname -s returns "MINGW64_NT-…".
 
-  Cible srcdist — points critiques :
-  * Dépend de all (les fichiers générés sont inclus dans l'archive).
-  * Le répertoire racine dans l'archive est "pbprompt-x.y.z/" où x.y.z est la version.
-  * Produit dist/pbprompt-x.y.z.tar.gz et dist/pbprompt-x.y.z.zip.
-  * Extraction de la version dans le Makefile :
+  srcdist target — critical points:
+  * Depends on all (generated files are included in the archive).
+  * The root directory in the archive is "pbprompt-x.y.z/" where x.y.z is the version.
+  * Produces dist/pbprompt-x.y.z.tar.gz and dist/pbprompt-x.y.z.zip.
+  * Version extraction in the Makefile:
       VERSION := $(shell sed -n "s/__version__ = [\"']\([^\"']*\)[\"']/\1/p" src/pbprompt/__init__.py)
-    Ce pattern fonctionne que __version__ utilise des guillemets simples ou doubles.
-  * Utiliser une copie de transit (staging dir) dans dist/.tmp-pbprompt-x.y.z/ puis
-    tar/zip depuis ce répertoire.
-  * Exclure du find : .git, dist/, __pycache__, *.pyc, *.pyo, *.egg-info,
+    This pattern works whether __version__ uses single or double quotes.
+  * Use a staging directory (dist/.tmp-pbprompt-x.y.z/) then tar/zip from it.
+  * Exclude from find: .git, dist/, __pycache__, *.pyc, *.pyo, *.egg-info,
     doc/_build, .ruff_cache, build/, *.spec
-  * Ne pas utiliser read -d '' (option bash, non disponible dans /bin/sh/dash).
-    Utiliser à la place : find ... -type f | sort | while IFS= read -r f; do ... done
-  * make clean doit supprimer dist/ en plus des artefacts habituels.
+  * Do not use read -d '' (a bash option, not available in /bin/sh/dash).
+    Use instead: find ... -type f | sort | while IFS= read -r f; do ... done
+  * make clean must delete dist/ in addition to the usual artefacts.
 
-  Cible clean — doit supprimer TOUS les artefacts générés :
-    rm -f $(PY_UI_FILES) $(SRC_GUI)/resources_rc.py
+  clean target — must remove ALL generated artefacts:
     find $(LOCALES) -name "*.mo" -delete
     rm -rf doc/_build $(DIST_DIR)
     rm -rf .ruff_cache .pytest_cache htmlcov .coverage
     rm -rf build
-    find . -name "*.spec" -not -path "./.git/*" -delete
+    find . -name "*.spec" -not -path "./.git/*" -not -name "pbprompt.spec" -delete
     find . -name "__pycache__" -not -path "./.git/*" -exec rm -rf {} +
 
-- Fichier pbprompt.spec pour PyInstaller — points critiques :
-  * Les fichiers de traduction (.mo) et les ressources (icônes) doivent être inclus
-    via le paramètre datas :
-      datas=[('locales', 'locales'), ('resources', 'resources')]
-  * Les .mo doivent être compilés (make translations) AVANT de lancer pyinstaller.
-  * La résolution du chemin locales/ dans le code utilise get_locale_dir() de i18n.py
-    (voir section 7) qui gère automatiquement sys._MEIPASS pour les bundles one-file.
-    Ne jamais calculer le chemin des locales via Path(__file__).parent... dans un module
-    autre que i18n.py.
+- pbprompt.spec for PyInstaller — critical points:
+  * Translation files (.mo) and icons must be included via the datas parameter:
+      datas=[('locales', 'locales'), ('src/pbprompt/icons', 'pbprompt/icons')]
+  * .mo files must be compiled (make translations) BEFORE running pyinstaller.
+  * The locales/ path in code uses get_locale_dir() from i18n.py (see section 7)
+    which automatically handles sys._MEIPASS for one-file bundles.
+  * The icons/ path uses get_icon_dir() from gui/icons.py which handles sys._MEIPASS:
+      return Path(sys._MEIPASS) / "pbprompt" / "icons"  (frozen)
+      return Path(__file__).parent.parent / "icons"      (normal)
+    Never compute the icons path via Path(__file__).parent... in other modules.
 
 
-14) Colonne IMAGE
+14) IMAGE column
 
-La grille possède six colonnes : AI, Group, Name, Image, Local language, English.
-(Column enum : AI=0, GROUP=1, NAME=2, IMAGE=3, LOCAL=4, ENGLISH=5)
+The grid has six columns: AI, Group, Name, Image, Local language, English.
+(Column enum: AI=0, GROUP=1, NAME=2, IMAGE=3, LOCAL=4, ENGLISH=5)
 
-Stockage en base :
-  * Deux colonnes BLOB dans la table "prompts" : image (image complète) et thumbnail
-    (imagette pour l'affichage dans la grille).
-  * Ces colonnes sont nullable, sans DEFAULT (contrairement aux colonnes texte).
-  * La migration SQL ajoute ces colonnes avec ALTER TABLE (sans DEFAULT pour les BLOB).
-  * PROMPTS_COLUMNS = ("ai", "group", "name", "local", "english") — texte seulement.
+Database storage:
+  * Two BLOB columns in the "prompts" table: image (full image) and thumbnail
+    (small image for display in the grid).
+  * These columns are nullable, with no DEFAULT (unlike the text columns).
+  * SQL migration adds these columns with ALTER TABLE (no DEFAULT for BLOBs).
+  * PROMPTS_COLUMNS = ("ai", "group", "name", "local", "english") — text only.
   * PROMPTS_BLOB_COLUMNS = ("image", "thumbnail").
 
-PromptEntry (data.py) :
-  * Nouveaux champs : image: bytes | None = None, thumbnail: bytes | None = None
-    placés entre name et local.
-  * to_dict() : encode l'image complète en Base64 ASCII si présente.
-  * from_dict() : décode le Base64 si présent.
-  * Les thumbnails ne sont PAS exportées en YAML (seulement l'image complète).
+PromptEntry (data.py):
+  * New fields: image: bytes | None = None, thumbnail: bytes | None = None
+    placed between name and local.
+  * to_dict(): encodes the full image in Base64 ASCII if present.
+  * from_dict(): decodes Base64 if present.
+  * Thumbnails are NOT exported to YAML (only the full image).
 
-Imagettes (thumbnails) :
-  * Taille configurable dans Options (largeur × hauteur en pixels, défaut 64×64).
-  * Créées automatiquement à l'ajout d'une image (chargement fichier, coller, import YAML).
-  * Modification de la taille dans Options ne recrée PAS les imagettes existantes.
-  * Action "Refresh Thumbnails" (menu Outils) → recréer toutes les imagettes de la base.
-  * Génération : QImage.scaled(w, h, KeepAspectRatio, SmoothTransformation) → PNG bytes.
-  * Détection du format : par magic bytes (pas par extension) :
-    - JPEG : data[:3] == b'\xff\xd8\xff'
-    - PNG  : data[:8] == b'\x89PNG\r\n\x1a\n'
+Thumbnails:
+  * Configurable size in Options (width × height in pixels, default 64×64).
+  * Created automatically when an image is added (file load, paste, YAML import).
+  * Changing the size in Options does NOT recreate existing thumbnails.
+  * "Refresh Thumbnails" action (Tools menu) → recreate all thumbnails in the database.
+  * Generation: QImage.scaled(w, h, KeepAspectRatio, SmoothTransformation) → PNG bytes.
+  * Format detection: by magic bytes (not by extension):
+    - JPEG: data[:3] == b'\xff\xd8\xff'
+    - PNG:  data[:8] == b'\x89PNG\r\n\x1a\n'
 
-Module image_utils.py (src/pbprompt/gui/) :
+Module image_utils.py (src/pbprompt/gui/):
   * detect_image_format(data) → "jpeg" | "png" | None
   * generate_thumbnail(image_data, width, height) → bytes | None (PNG)
   * pixmap_from_bytes(data) → QPixmap | None
   * qimage_to_bytes(image, fmt="PNG") → bytes | None
-  * ImageViewDialog(QDialog) — dialogue de visualisation plein écran avec scroll.
-    - Zoom à la molette : centrage sur le pixel sous le curseur (zoom-to-cursor).
-      Algorithme : capturer la fraction (fx, fy) du label sous le curseur avant le zoom
-      via label.mapFrom(viewport, pos), puis après _apply_mode() repositionner les
-      ascenseurs avec hbar.setValue(round(fx*new_w) - cursor_vp.x()).
-      QScrollArea::setWidget reparente le label sur le viewport → mapFrom est fiable.
-      setValue clamp automatiquement à [min, max] (meilleure approximation possible).
+  * ImageViewDialog(QDialog) — full-screen image viewer dialog with scroll.
+    - Mouse-wheel zoom: centred on the pixel under the cursor (zoom-to-cursor).
+      Algorithm: capture the fraction (fx, fy) of the label under the cursor before
+      zooming via label.mapFrom(viewport, pos), then after _apply_mode() reposition
+      the scrollbars with hbar.setValue(round(fx*new_w) - cursor_vp.x()).
+      QScrollArea::setWidget reparents the label on the viewport → mapFrom is reliable.
+      setValue clamps automatically to [min, max] (best possible approximation).
 
-Affichage et interactions :
-  * ImageDelegate : peint l'imagette centrée, ou un cadre pointillé "pas d'image".
-  * Double-clic → ImageViewDialog (image complète).
-  * Clic droit → menu contextuel spécifique image :
-    - "Load image from file…" : QFileDialog, filtre *.jpg *.jpeg *.png
-    - "Paste image" : image du presse-papiers OU chemin de fichier en texte
+Display and interactions:
+  * ImageDelegate: paints the thumbnail centred, or a dashed "no image" frame.
+  * Double-click → ImageViewDialog (full image).
+  * Right-click → image-specific context menu:
+    - "Load image from file…": QFileDialog, filter *.jpg *.jpeg *.png
+    - "Paste image": image from clipboard OR file path as text
     - (separator)
-    - "Copy image" : copie l'image complète dans le presse-papiers (setPixmap)
-    - "Save image to file…" : QFileDialog Save, filtre + suffixe selon detect_image_format()
-      (JPEG → *.jpg/*.jpeg, PNG → *.png), setDefaultSuffix(), écriture bytes bruts.
+    - "Copy image": copies the full image to the clipboard (setPixmap)
+    - "Save image to file…": QFileDialog Save, filter + suffix from detect_image_format()
+      (JPEG → *.jpg/*.jpeg, PNG → *.png), setDefaultSuffix(), write raw bytes.
     - (separator)
-    - "Clear image" : efface image + thumbnail
-    Les trois dernières actions sont désactivées (setEnabled(False)) si la cellule
-    n'a pas d'image (has_image = entry.image is not None).
-  * Glisser-déposer : image QMimeData ou URL de fichier local sur la cellule IMAGE.
-    - dragEnterEvent / dragMoveEvent : accepte hasImage() ou hasUrls() (fichier local).
-    - dropEvent : émet image_drop_requested(source_idx, mime_data).
-  * La colonne IMAGE n'est pas éditable en ligne (createEditor retourne None).
-  * La colonne IMAGE n'est pas triable ni filtrable.
-  * Largeur de colonne fixe : thumbnail_width + 12 px.
+    - "Clear image": clears image + thumbnail
+    The last three actions are disabled (setEnabled(False)) if the cell has no image
+    (has_image = entry.image is not None).
+  * Drag and drop: image QMimeData or local file URL onto the IMAGE cell.
+    - dragEnterEvent / dragMoveEvent: accepts hasImage() or hasUrls() (local file).
+    - dropEvent: emits image_drop_requested(source_idx, mime_data).
+  * The IMAGE column is not inline-editable (createEditor returns None).
+  * The IMAGE column is not sortable or filterable.
+  * Fixed column width: thumbnail_width + 12 px.
 
-Signaux PromptTableView :
-  * image_activated = pyqtSignal(QModelIndex) — double-clic sur colonne IMAGE
+PromptTableView signals:
+  * image_activated = pyqtSignal(QModelIndex) — double-click on IMAGE column
   * image_drop_requested = pyqtSignal(object, object) — drop mime data
 
-Modèle :
-  * PromptTableModel.set_image(source_row, full_image, thumbnail) :
-    - Met à jour entry.image et entry.thumbnail
-    - Émet dataChanged(…, [Qt.DecorationRole])
-    - Émet collection_modified
+Model:
+  * PromptTableModel.set_image(source_row, full_image, thumbnail):
+    - Updates entry.image and entry.thumbnail
+    - Emits dataChanged(…, [Qt.DecorationRole])
+    - Emits collection_modified
 
-Import/export YAML :
-  * Export : seule l'image complète est écrite en Base64 (pas la thumbnail).
-  * Import : thumbnail_factory (callable ou None) est passé à import_yaml() pour créer
-    les imagettes au moment de l'import.
+YAML import/export:
+  * Export: only the full image is written in Base64 (not the thumbnail).
+  * Import: thumbnail_factory (callable or None) is passed to import_yaml() to create
+    thumbnails at import time.
   * import_yaml(path, replace=False, thumbnail_factory=None) → tuple[int, int]
-    (importées, ignorées).
-  * Déduplication : une ligne YAML dont les 5 champs texte (ai, group, name, local,
-    english) correspondent exactement à une entrée existante est ignorée (skipped).
-    Cela vaut aussi pour les doublons dans le fichier YAML lui-même.
+    (imported, skipped).
+  * Deduplication: a YAML row whose 5 text fields (ai, group, name, local, english)
+    exactly match an existing entry is skipped. This also applies to duplicates within
+    the YAML file itself.
 
-AppConfig (champs image) :
+AppConfig image fields:
   * thumbnail_width: int = 80
-  * thumbnail_height: int = 80  → plage valide 16–512 px.
-  * image_viewer_zoom_max: int = 4   → zoom max pour le mode Fit, plage 1–16.
-  * image_viewer_zoom_step: int = 10  → pas de zoom en %, plage 1–100.
+  * thumbnail_height: int = 80  → valid range 16–512 px.
+  * image_viewer_zoom_max: int = 4   → max zoom for Fit mode, range 1–16.
+  * image_viewer_zoom_step: int = 10  → zoom step in %, range 1–100.
   * image_store_keep_original: bool = True
   * image_store_max_width: int = 1920
   * image_store_max_height: int = 1080
-  * Tous persistés dans config.yaml.
+  * All persisted in config.yaml.
 
-Settings dialog (groupImages) :
-  * Deux QSpinBox : spinBoxThumbnailWidth et spinBoxThumbnailHeight (16–512, défaut 64).
-  * Après fermeture avec Save, MainWindow met à jour l'ImageDelegate et la largeur de
-    la colonne IMAGE.
+Settings dialog (groupImages):
+  * Two QSpinBox widgets: spinBoxThumbnailWidth and spinBoxThumbnailHeight (16–512,
+    default 64).
+  * After closing with Save, MainWindow updates the ImageDelegate and the IMAGE column
+    width.
 
-Icône refresh_thumbnails :
-  * resources/icons/refresh_thumbnails.svg (24×24, stroke #404040, style cohérent).
-  * FreeDesktop theme : "view-refresh".
-  * Fallback Qt standard : SP_BrowserReload.
+refresh_thumbnails icon:
+  * src/pbprompt/icons/refresh_thumbnails.svg (24×24, stroke #404040, consistent style).
+  * FreeDesktop theme: "view-refresh".
+  * Qt standard fallback: SP_BrowserReload.
 
-_on_context_menu() dans MainWindow :
-  * Vérifie si la cellule cliquée est la colonne IMAGE → _show_image_context_menu().
-  * Sinon, menu normal Copy/Cut/Paste.
-
-
-12.1) Qualité du code
-- Code typé (type hints), docstrings pour fonctions/classes publiques, logging configurable.
-- PEP8/ruff, longueur de lignes 88 caractères.
-- Aucune clé secrète ni info sensible dans le projet.
+_on_context_menu() in MainWindow:
+  * Checks if the clicked cell is the IMAGE column → _show_image_context_menu().
+  * Otherwise, normal Copy/Cut/Paste menu.
 
 
-Contraintes supplémentaires
-- Priorise la portabilité et la maintenabilité.
-- Le projet doit être prêt à l'emploi.
-- Tout le source est dans src/. Les modules sont dans src/pbprompt/.
-- Les noms de fichiers sont en anglais.
-- Le code, les fichiers de configuration et le README sont en anglais.
-- Les commentaires de code et docstrings sont en anglais.
-- Les fichiers de traduction contiennent au moins le français, l'anglais, l'espagnol,
-  l'italien, le russe, le vietnamien et le chinois simplifié.
-- Lorsqu'une chaîne traduite est ajoutée ou modifiée, toutes les langues présentes dans
-  locales/*/LC_MESSAGES/messages.po doivent être mises à jour, pas seulement le français.
-  Ne jamais laisser un msgstr vide ou inchangé dans l'un des fichiers .po existants.
+12.1) Code quality
+- Typed code (type hints), docstrings for public functions/classes, configurable logging.
+- PEP 8/ruff, line length 88 characters.
+- No secret keys or sensitive information in the project.
 
-15) Maintenance des fichiers de référence du projet
 
-Deux fichiers de référence doivent être maintenus à jour dans le répertoire racine
-du projet. À chaque session qui modifie le projet, Claude doit mettre à jour ces
-fichiers pour refléter l'état courant :
+Additional constraints
+- Prioritise portability and maintainability.
+- The project must be ready to use.
+- All source is in src/. Modules are in src/pbprompt/.
+- File names are in English.
+- Code, configuration files, and README are in English.
+- Code comments and docstrings are in English.
+- Translation files contain at least French, English, Spanish, Italian, Russian,
+  Vietnamese, and Simplified Chinese.
+- When a translated string is added or changed, all languages present in
+  locales/*/LC_MESSAGES/messages.po must be updated, not just French.
+  Never leave a msgstr empty or unchanged in any existing .po file.
 
-claude_prompt.txt — le présent fichier de prompt
-  * Ce fichier est la spécification complète du projet, tel que fourni à Claude pour
-    générer et faire évoluer le code.
-  * Toute nouvelle fonctionnalité, contrainte technique, correction de bug notable ou
-    point critique doit être ajouté dans la section appropriée.
-  * Les sections doivent rester cohérentes avec le code source effectif.
-  * Il est normal que ce fichier évolue : de nouvelles sections peuvent être ajoutées,
-    des sections existantes peuvent être enrichies ou corrigées.
+15) Project reference file maintenance
 
-claude_summary.txt — description de l'implémentation actuelle
-  * Ce fichier décrit l'état réel de l'implémentation (pas la spécification).
-  * Il couvre : la version courante, l'architecture, les modules et leur rôle,
-    les décisions d'implémentation importantes, les points techniques clés,
-    les bugs connus, les limitations.
-  * Il est destiné à permettre à Claude de reprendre rapidement le contexte d'une
-    session à l'autre sans relire tout le code source.
-  * Structure suggérée : Version / Architecture / Modules / Points techniques /
-    État des fonctionnalités / Limitations connues.
-  * Mettre à jour après chaque modification significative du code.
+Two reference files must be kept up to date in the project root directory.
+At the end of every session that modifies the project, update these files to reflect
+the current state:
 
-Ces deux fichiers doivent toujours être cohérents entre eux et avec le code source.
-En cas de divergence, le code source fait foi.
+claude_prompt.txt — this prompt file
+  * This file is the complete project specification, as provided to Claude to generate
+    and evolve the code.
+  * Any new feature, technical constraint, notable bug fix, or critical point must be
+    added in the appropriate section.
+  * Sections must remain consistent with the actual source code.
+  * It is normal for this file to evolve: new sections can be added, existing sections
+    can be enriched or corrected.
 
-Commencez la génération maintenant.
+claude_summary.txt — description of the current implementation
+  * This file describes the actual state of the implementation (not the specification).
+  * It covers: current version, architecture, modules and their role, important
+    implementation decisions, key technical points, known bugs, limitations.
+  * It is intended to allow Claude to quickly resume context across sessions without
+    re-reading all the source code.
+  * Suggested structure: Version / Architecture / Modules / Technical points /
+    Feature state / Known limitations.
+  * Update after every significant code change.
+
+These two files must always be consistent with each other and with the source code.
+If they diverge, the source code prevails.
+
+Begin generation now.

@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
 from pbprompt import __app_name__, __version__
 from pbprompt.data import PromptCollection, PromptEntry
 from pbprompt.gui.icons import get_icon
+from pbprompt.gui.main_window_ui import Ui_MainWindow
 from pbprompt.gui.models import (
     Column,
     CurrentCellHighlightDelegate,
@@ -28,7 +29,6 @@ from pbprompt.gui.models import (
     MultiLineDelegate,
     PromptTableModel,
 )
-from pbprompt.gui.ui_main_window import Ui_MainWindow
 from pbprompt.i18n import get_translate, language_label, system_language
 
 if TYPE_CHECKING:
@@ -57,7 +57,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__(parent)
         self._config = config
 
-        # Set up the UI from the generated Ui_MainWindow
+        # Set up the UI from Ui_MainWindow
         self.setupUi(self)
 
         # Override retranslateUi strings with gettext immediately

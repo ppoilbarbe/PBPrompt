@@ -11,7 +11,7 @@ build:
   jobs:
     # Compile .mo files before Sphinx runs autodoc (i18n.py imports them)
     pre_build:
-      - make translations
+      - make translations NOCONDA=1
 
 python:
   install:

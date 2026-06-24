@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 from PySide6.QtWidgets import QDialog
 
 from pbprompt.config import TRANSLATION_SERVICES, VALID_LOG_LEVELS, AppConfig
-from pbprompt.gui.ui_settings_dialog import Ui_SettingsDialog
+from pbprompt.gui.settings_dialog_ui import Ui_SettingsDialog
 from pbprompt.i18n import get_locale_dir, get_translate, language_label
 
 if TYPE_CHECKING:

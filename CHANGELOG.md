@@ -4,6 +4,41 @@ All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/) and
 the format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Added
+- **`src/pbprompt/icons/`**: SVG icons moved into the Python package; loaded
+  directly via the new `get_icon_dir()` helper in `gui/icons.py`, which resolves
+  the correct path both in normal execution and in PyInstaller one-file bundles
+  (`sys._MEIPASS / "pbprompt" / "icons"`). No QRC compilation required.
+
+### Changed
+- **UI definition files** (`*_ui.py`): Qt Designer `.ui` files replaced by
+  source-controlled pure-Python files (`main_window_ui.py`, `about_dialog_ui.py`,
+  `settings_dialog_ui.py`). The `make ui` and `make resources` targets are removed;
+  `*_ui.py` files are edited directly.
+- **Icons — QRC system removed**: `resources_rc.py`, `resources.qrc`, and the
+  `resources/` directory are deleted. `pbprompt.spec` and `pyproject.toml`
+  package-data updated to reference `src/pbprompt/icons/`.
+- **i18n tooling**: `pot` and `merge-po` Makefile targets migrated from
+  `xgettext` / `msgmerge` to `pybabel extract` / `pybabel update`.
+  `babel.cfg` updated accordingly.
+- **ReadTheDocs `pre_build`**: `make translations` → `make translations NOCONDA=1`
+  so `pybabel` is called directly from the RTD pip environment without requiring
+  conda.
+- **`CLAUDE.md` and `claude_prompt.txt`**: translated from French to English.
+- **ruff pre-commit hook** bumped to latest version.
+- **Sphinx docs** (`development.rst`, `installation.rst`): updated to reflect the
+  current build system — removed obsolete `make ui` / `make resources` / `make bundle`
+  targets; documented `make dist` (PyInstaller), `make srcdist`, `make pot`,
+  `make merge-po`; replaced Qt Designer `.ui` section with source-controlled
+  `*_ui.py` and Icons sections; dropped `gettext`/`msgfmt` from requirements.
+
+### Removed
+- **`resources/` directory** (QRC sources and compiled icons): superseded by
+  `src/pbprompt/icons/` (direct file loading).
+- **`src/pbprompt/gui/resources_rc.py`**: compiled QRC module no longer needed.
+
 ## [1.8.0] – 2026-06-01
 
 ### Added
