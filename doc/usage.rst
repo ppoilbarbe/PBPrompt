@@ -23,19 +23,22 @@ The prompt table
 
 Each row represents one prompt entry with five fields:
 
-+----------------+--------------------------------------------------+
-| Column         | Description                                      |
-+================+==================================================+
-| AI             | Name of the AI model (e.g. *ChatGPT*, *Claude*)  |
-+----------------+--------------------------------------------------+
-| Group          | Category grouping related prompts                |
-+----------------+--------------------------------------------------+
-| Name           | Short descriptive name for the prompt            |
-+----------------+--------------------------------------------------+
-| Local language | Prompt text in the configured local language     |
-+----------------+--------------------------------------------------+
-| English        | Prompt text in English                           |
-+----------------+--------------------------------------------------+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Column
+     - Description
+   * - AI
+     - Name of the AI model (e.g. *ChatGPT*, *Claude*)
+   * - Group
+     - Category grouping related prompts
+   * - Name
+     - Short descriptive name for the prompt
+   * - Local language
+     - Prompt text in the configured local language
+   * - English
+     - Prompt text in English
 
 The column header for *Local language* displays the actual language name and
 code (e.g. **Français (fr)**) as configured in Settings.
@@ -75,39 +78,58 @@ A status bar message confirms the copied text (``Copied: …``).
 Toolbar and keyboard shortcuts
 -------------------------------
 
-+-------------------------+---------------+----------------------------------------------+
-| Action                  | Shortcut      | Description                                  |
-+=========================+===============+==============================================+
-| New file                | Ctrl+N        | Create an empty collection                   |
-+-------------------------+---------------+----------------------------------------------+
-| Open…                   | Ctrl+O        | Open a SQLite file                           |
-+-------------------------+---------------+----------------------------------------------+
-| Save                    | Ctrl+S        | Save the current file                        |
-+-------------------------+---------------+----------------------------------------------+
-| Save As…                | Ctrl+Shift+S  | Save to a new file                           |
-+-------------------------+---------------+----------------------------------------------+
-| Import YAML — Add…      | Ctrl+I        | Append entries from a YAML file              |
-+-------------------------+---------------+----------------------------------------------+
-| Import YAML — Replace…  | Ctrl+Shift+I  | Replace all entries from a YAML file         |
-+-------------------------+---------------+----------------------------------------------+
-| Export YAML…            | Ctrl+E        | Export all entries to a YAML file            |
-+-------------------------+---------------+----------------------------------------------+
-| Close                   | Ctrl+W        | Close the current file                       |
-+-------------------------+---------------+----------------------------------------------+
-| Quit                    | Ctrl+Q        | Quit the application                         |
-+-------------------------+---------------+----------------------------------------------+
-| Options…                | Ctrl+,        | Open the settings dialog                     |
-+-------------------------+---------------+----------------------------------------------+
-| New Prompt              | Ins           | Append a new empty row                       |
-+-------------------------+---------------+----------------------------------------------+
-| Duplicate               | Ctrl+D        | Duplicate the current row and insert below   |
-+-------------------------+---------------+----------------------------------------------+
-| Delete                  | Del           | Delete selected rows (with confirmation)     |
-+-------------------------+---------------+----------------------------------------------+
-| → English               | F6            | Translate selected rows to English           |
-+-------------------------+---------------+----------------------------------------------+
-| ← Local                 | F7            | Translate selected rows from English         |
-+-------------------------+---------------+----------------------------------------------+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 20 50
+
+   * - Action
+     - Shortcut
+     - Description
+   * - New file
+     - Ctrl+N
+     - Create an empty collection
+   * - Open…
+     - Ctrl+O
+     - Open a SQLite file
+   * - Save
+     - Ctrl+S
+     - Save the current file
+   * - Save As…
+     - Ctrl+Shift+S
+     - Save to a new file
+   * - Import YAML — Add…
+     - Ctrl+I
+     - Append entries from a YAML file
+   * - Import YAML — Replace…
+     - Ctrl+Shift+I
+     - Replace all entries from a YAML file
+   * - Export YAML…
+     - Ctrl+E
+     - Export all entries to a YAML file
+   * - Close
+     - Ctrl+W
+     - Close the current file
+   * - Quit
+     - Ctrl+Q
+     - Quit the application
+   * - Options…
+     - Ctrl+,
+     - Open the settings dialog
+   * - New Prompt
+     - Ins
+     - Append a new empty row
+   * - Duplicate
+     - Ctrl+D
+     - Duplicate the current row and insert below
+   * - Delete
+     - Del
+     - Delete selected rows (with confirmation)
+   * - → English
+     - F6
+     - Translate selected rows to English
+   * - ← Local
+     - F7
+     - Translate selected rows from English
 
 All action tooltips are also shown in the status bar when hovering over menu
 items and toolbar buttons.
@@ -146,15 +168,18 @@ Sorting
 Click any **AI**, **Group** or **Name** column header to sort.  A second click
 reverses the direction.  Sub-sort criteria are applied automatically:
 
-+--------------+-----------------------------+
-| Primary key  | Sub-sort order              |
-+==============+=============================+
-| AI           | Group → Name                |
-+--------------+-----------------------------+
-| Group        | Name → AI                   |
-+--------------+-----------------------------+
-| Name         | Group → AI                  |
-+--------------+-----------------------------+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Primary key
+     - Sub-sort order
+   * - AI
+     - Group → Name
+   * - Group
+     - Name → AI
+   * - Name
+     - Group → AI
 
 
 Recent files
@@ -192,33 +217,49 @@ Language tab
 Translation service tab
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-+-------------------+---------------------------------+--------------------+
-| Service           | Required credentials            | Notes              |
-+===================+=================================+====================+
-| Google Translate  | none                            | Unofficial API     |
-+-------------------+---------------------------------+--------------------+
-| MyMemory          | none                            | 10k chars/day free |
-+-------------------+---------------------------------+--------------------+
-| DeepL             | API key                         |                    |
-+-------------------+---------------------------------+--------------------+
-| Microsoft         | API key                         |                    |
-+-------------------+---------------------------------+--------------------+
-| Yandex            | API key                         |                    |
-+-------------------+---------------------------------+--------------------+
-| LibreTranslate    | URL + optional key              | Self-hostable      |
-+-------------------+---------------------------------+--------------------+
-| Baidu             | App ID + App secret             |                    |
-+-------------------+---------------------------------+--------------------+
-| Papago            | App ID + App secret             |                    |
-+-------------------+---------------------------------+--------------------+
-| QCRI              | API key                         | Arabic focus       |
-+-------------------+---------------------------------+--------------------+
-| PONS              | none                            | Dictionary only    |
-+-------------------+---------------------------------+--------------------+
-| Linguee           | none                            | Dictionary only    |
-+-------------------+---------------------------------+--------------------+
-| Reverso           | none                            | Unofficial API     |
-+-------------------+---------------------------------+--------------------+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 40 35
+
+   * - Service
+     - Required credentials
+     - Notes
+   * - Google Translate
+     - none
+     - Unofficial API
+   * - MyMemory
+     - none
+     - 10k chars/day free
+   * - DeepL
+     - API key
+     -
+   * - Microsoft
+     - API key
+     -
+   * - Yandex
+     - API key
+     -
+   * - LibreTranslate
+     - URL + optional key
+     - Self-hostable
+   * - Baidu
+     - App ID + App secret
+     -
+   * - Papago
+     - App ID + App secret
+     -
+   * - QCRI
+     - API key
+     - Arabic focus
+   * - PONS
+     - none
+     - Dictionary only
+   * - Linguee
+     - none
+     - Dictionary only
+   * - Reverso
+     - none
+     - Unofficial API
 
 Configuration is stored in the platform-appropriate directory:
 
@@ -247,5 +288,5 @@ Known limitations
 * **DeepL / Yandex / Microsoft** require a paid or free-tier API key.
 * **LibreTranslate** requires a running instance; the default public endpoint
   may need an API key.
-* The compiled files ``resources_rc.py``, ``ui_*.py`` and ``locales/**/*.mo``
-  are not committed to the repository.  Run ``make all`` after cloning.
+* The compiled ``.mo`` files in ``locales/**/*.mo`` are not committed to the
+  repository.  Run ``make all`` after cloning to generate them.

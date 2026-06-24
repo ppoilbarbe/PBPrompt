@@ -57,7 +57,7 @@ The resulting executable is placed in ``dist/`` and named
 
    **No cross-compilation.** PyInstaller produces an executable for the
    platform it runs on.  To build for Linux, Windows, and macOS you must run
-   ``make bundle`` on each target platform (or rely on the CI pipeline, which
+   ``make dist`` on each target platform (or rely on the CI pipeline, which
    builds all three in parallel).
 
 .. warning::

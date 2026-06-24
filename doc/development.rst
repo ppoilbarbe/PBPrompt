@@ -18,7 +18,7 @@ With **conda**:
 
 .. code-block:: bash
 
-   conda create -n pbprompt-dev python=3.12 pyside6 ruamel.yaml platformdirs requests pytest-xvfb
+   conda create -n pbprompt-dev python=3.12 pyside6 ruamel.yaml platformdirs requests babel pytest-xvfb
    conda activate pbprompt-dev
    pip install deep-translator
    pip install -e ".[dev]" --no-deps
@@ -49,6 +49,8 @@ Build system (Makefile)
      - ``ruff check`` + ``ruff format --check``
    * - ``make format``
      - ``ruff format`` + ``ruff check --fix``
+   * - ``make hooks``
+     - Run all pre-commit hooks on all files (``pre-commit run --all-files``)
    * - ``make test``
      - ``pytest tests/``
    * - ``make test-cov``
@@ -69,6 +71,12 @@ Build system (Makefile)
      - Bump minor version (1.0.1 → 1.1.0)
    * - ``make bump-major``
      - Bump major version (1.1.0 → 2.0.0)
+   * - ``make venv``
+     - Create conda environment ``pbprompt`` from ``environment.yml``
+   * - ``make pyvenv``
+     - Create Python virtual environment ``pypbprompt`` with all deps via pip
+   * - ``make help``
+     - List all available targets with descriptions
 
 
 Version management
