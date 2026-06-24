@@ -14,7 +14,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Current state
 
-- **Version**: 1.8.0
+- **Version**: 1.8.1
 - **Storage**: SQLite (`.sqlite`, WAL). YAML = import/export only.
 - **Columns**: `Column(IntEnum)` AI=0, GROUP=1, NAME=2, IMAGE=3, LOCAL=4, ENGLISH=5
 - **Compiled locales**: en, de, fr, es, it, ru, vi, zh_CN
