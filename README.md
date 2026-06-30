@@ -272,38 +272,58 @@ REM Output: dist\pbprompt.exe
 
 ```text
 PBPrompt/
-├── src/pbprompt/          # Main package
-│   ├── __main__.py        # Entry point
-│   ├── config.py          # Settings management
-│   ├── data.py            # Domain model + SQLite I/O + YAML import/export
-│   ├── i18n.py            # Gettext helpers
-│   ├── gui/               # PySide6 UI
-│   │   ├── *.ui           # Qt Designer sources
-│   │   ├── ui_*.py        # Compiled UI (pyuic5) — excluded from ruff
-│   │   ├── resources_rc.py# Compiled resources (pyrcc5) — excluded from ruff
-│   │   ├── models.py      # Qt item models + delegate + table view
-│   │   ├── main_window.py
-│   │   ├── settings_dialog.py
-│   │   └── about_dialog.py
-│   ├── platform/          # OS-specific code
-│   │   ├── linux.py
-│   │   ├── windows.py
-│   │   └── macos.py
-│   └── translate/         # Translation back-ends
-│       ├── base.py
-│       ├── google.py
-│       ├── deepl.py
-│       ├── mymemory.py
-│       ├── yandex.py
-│       ├── reverso.py
-│       └── libretranslate.py
-├── locales/               # gettext .po / .mo files
-├── resources/             # Icons + .qrc
-├── tests/                 # pytest suite
-├── doc/                   # Sphinx documentation
-├── tools/                 # Build helpers and maintenance scripts
-├── claude_original_prompt.txt  # The original prompt sent to Claude on day one — never modified
-├── claude_prompt.txt           # Living specification: updated by Claude after each session
+├── src/pbprompt/              # Main package
+│   ├── __init__.py            # Version, app name, description
+│   ├── __main__.py            # Entry point (argparse)
+│   ├── config.py              # AppConfig dataclass, YAML persistence
+│   ├── data.py                # PromptEntry, PromptCollection, SQLite + YAML I/O
+│   ├── i18n.py                # gettext helpers, system_language(), get_locale_dir()
+│   ├── gui/
+│   │   ├── main_window_ui.py  # UI definition (source-controlled, edit directly)
+│   │   ├── main_window.py     # MainWindow behaviour
+│   │   ├── settings_dialog_ui.py / settings_dialog.py
+│   │   ├── about_dialog_ui.py   / about_dialog.py
+│   │   ├── models.py          # PromptTableModel, MultiFilterProxyModel,
+│   │   │                      #   delegates, PromptTableView, Column(IntEnum)
+│   │   ├── image_utils.py     # Image helpers + ImageViewDialog
+│   │   └── icons.py           # get_icon() — theme → SVG file → Qt standard
+│   ├── icons/                 # SVG icons (kebab-case, 24×24, stroke #404040)
+│   │   ├── pbprompt.svg, help-about.svg, preferences-system.svg
+│   │   ├── new.svg, open.svg, save.svg, save-as.svg, quit.svg, delete.svg
+│   │   ├── new-prompt.svg, duplicate.svg, refresh-icons.svg
+│   │   ├── import-yaml.svg, import-yaml-merged.svg, export-yaml.svg
+│   │   ├── translate-left.svg, translate-right.svg
+│   │   └── zoom-fit/in/out/original/width/height.svg
+│   ├── platform/              # OS-specific config directory
+│   │   ├── linux.py           # ~/.config/pbprompt/
+│   │   ├── windows.py         # %APPDATA%\pbprompt\
+│   │   └── macos.py           # ~/Library/Application Support/pbprompt/
+│   └── translate/             # Translation back-ends (deep-translator + Reverso)
+│       ├── base.py            # BaseTranslator(ABC)
+│       ├── google.py, mymemory.py, deepl.py, microsoft.py
+│       ├── yandex.py, libretranslate.py, baidu.py, papago.py
+│       ├── qcri.py, pons.py, linguee.py, reverso.py
+├── locales/                   # gettext catalogs: de, en, es, fr, it, ru, vi, zh_CN
+│   └── {lang}/LC_MESSAGES/messages.{po,mo}
+├── tests/                     # pytest suite (4 modules, 87 tests)
+├── doc/                       # Sphinx documentation
+├── hooks/                     # PyInstaller runtime hooks
+│   ├── rthook_ssl.py          # SSL certificate path for frozen builds
+│   └── rthook_fonts.py        # Portable fontconfig on Linux (frozen builds)
+├── tools/                     # Build and maintenance scripts
+│   ├── bump_version.py        # Semver bump (major/minor/patch)
+│   ├── extract_changelog.py   # Extract release notes for CI
+│   ├── rtd_cleanup.py         # Deactivate old Read the Docs versions
+│   ├── git_version.sh         # Semver from git tag or "dev"
+│   ├── fix_po_files.py        # Normalise .po files after pybabel update
+│   ├── po_check.py            # Inspect .po catalogs (stats, untranslated, search)
+│   └── build_*.sh / build_*.bat  # Platform build helpers
+├── pbprompt.spec              # PyInstaller spec (committed)
+├── environment.yml            # conda environment (includes fonts-conda-ecosystem)
+├── babel.cfg                  # pybabel extraction config
+├── claude_original_prompt.txt # Original specification prompt — never modified
+├── claude_prompt.txt          # Living specification: updated after each session
+├── claude_summary.txt         # Implementation state: updated after each session
 ├── Makefile
 └── pyproject.toml
 ```
