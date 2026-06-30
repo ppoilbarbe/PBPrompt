@@ -1,7 +1,7 @@
 PBPrompt — Implementation Summary
 ==================================
-Version: 1.8.1
-Last updated: 2026-06-24
+Version: 1.8.3
+Last updated: 2026-06-30
 
 
 Overview
@@ -21,7 +21,7 @@ Project structure
 -----------------
 PBPrompt/
 ├── src/pbprompt/
-│   ├── __init__.py            # __version__ = "1.8.1", __app_name__, __author__
+│   ├── __init__.py            # __version__ = "1.8.3", __app_name__, __author__
 │   ├── __main__.py            # argparse entry point: [FILE] [--version] [--log-level]
 │   │                          #   _load_bundled_fonts(app): registers bundled .ttf files,
 │   │                          #   sets Ubuntu as application font (frozen builds only)
@@ -43,10 +43,12 @@ PBPrompt/
 │   │   └── icons.py           # get_icon(): theme → file-system → Qt standard
 │   │                          #   get_icon_dir(): PyInstaller-aware path to icons/
 │   ├── icons/                 # 24×24 SVG, stroke #404040, stroke-width 1.5
-│   │   ├── app_color.svg, app_light.svg, app_dark.svg
-│   │   ├── new, open, save, save_as, close, quit, delete, options, about
-│   │   ├── translate_right, translate_left, new_prompt, duplicate
-│   │   └── import_yaml, export_yaml, refresh_thumbnails
+│   │   │                      # All filenames use kebab-case (no underscores)
+│   │   ├── pbprompt.svg (app icon), help-about.svg, preferences-system.svg
+│   │   ├── new, open, save, save-as, quit, delete, new-prompt, duplicate
+│   │   ├── translate-right, translate-left, refresh-icons
+│   │   ├── import-yaml, import-yaml-merged, export-yaml
+│   │   └── zoom-fit, zoom-height, zoom-in, zoom-original, zoom-out, zoom-width
 │   ├── platform/
 │   │   ├── __init__.py        # exports only get_config_dir()
 │   │   ├── linux.py           # ~/.config/pbprompt/
@@ -79,7 +81,8 @@ PBPrompt/
 │                              #            $CONDA_PREFIX/fonts/ (conda font packages)
 ├── environment.yml            # conda env: includes fonts-conda-ecosystem
 ├── tools/                     # bump_version.py, build_*.sh, compile_translations.sh,
-│                              #   extract_changelog.py, rtd_cleanup.py, git_version.sh
+│                              #   extract_changelog.py, rtd_cleanup.py, git_version.sh,
+│                              #   fix_po_files.py, po_check.py
 ├── CLAUDE.md                  # Operational instructions for Claude Code
 ├── claude_prompt.txt          # Project specification (this project's input prompt)
 ├── claude_summary.txt         # This file — implementation state
@@ -340,7 +343,7 @@ Row height management:
 
 Icons (icons.py)
 -----------------
-Icons live in src/pbprompt/icons/ (inside the Python package).
+Icons live in src/pbprompt/icons/ (inside the Python package). Kebab-case filenames.
 No QRC compilation required — loaded directly from the filesystem.
 No resources_rc.py or resources.qrc (removed in v1.8.1).
 
@@ -348,26 +351,27 @@ get_icon_dir() → Path to the icons directory, PyInstaller-aware:
   frozen: Path(sys._MEIPASS) / "pbprompt" / "icons"
   normal: Path(__file__).parent.parent / "icons"
 
-get_icon(name) lookup chain:
-  1. QIcon.fromTheme(theme_name) — FreeDesktop theme (Linux/KDE/GNOME)
-  2. File system via get_icon_dir() — tries: name, name_color, name_light, name_dark
-     (.svg then .png)
-  3. QStyle.StandardPixmap — Qt built-in fallback
+get_icon(svg_name) — PBPicat mechanic (v1.8.3+):
+  svg_name is the bare filename (no extension) and is used as the key for all lookups.
+  _THEME_MAP maps svg_name → FreeDesktop theme name.
+  Lookup chain:
+    1. QIcon.fromTheme(_THEME_MAP[svg_name]) — FreeDesktop theme (Linux/KDE/GNOME)
+    2. _ICON_DIR / f"{svg_name}.svg"         — package SVG file
+    3. _STANDARD_ICON_MAP[svg_name]          — Qt built-in QStyle.StandardPixmap
+  No variant logic (_color/_light/_dark). No _FILE_NAME_MAP indirection.
 
-FreeDesktop mappings include:
-  import_yaml → document-import, export_yaml → document-export
-  refresh_thumbnails → view-refresh
-
-Standard icon fallbacks include:
-  import_yaml → SP_DialogOpenButton, export_yaml → SP_DialogSaveButton
-  refresh_thumbnails → SP_BrowserReload
+Selected _THEME_MAP entries:
+  import-yaml → document-import, import-yaml-merged → document-import
+  export-yaml → document-export, refresh-icons → view-refresh
+  preferences-system → preferences-system, help-about → help-about
+  quit → application-exit, pbprompt → pbprompt
 
 All SVG icons: 24×24, fill=none, stroke=#404040, stroke-width=1.5, round linecap/join.
-import_yaml.svg: YAML doc (left) + right arrow + data table (right)
-export_yaml.svg: data table (left) + right arrow + YAML doc (right)
-refresh_thumbnails.svg: circular refresh arrows with small image frame inside
-zoom_fit.svg, zoom_in.svg, zoom_out.svg, zoom_original.svg,
-zoom_width.svg, zoom_height.svg: toolbar icons for ImageViewDialog zoom modes.
+import-yaml.svg: YAML doc (left) + right arrow + data table (right)
+import-yaml-merged.svg: two overlapping docs (left) + right arrow + data table (right)
+export-yaml.svg: data table (left) + right arrow + YAML doc (right)
+refresh-icons.svg: circular refresh arrows with small image frame inside
+zoom-fit/in/out/original/width/height.svg: ImageViewDialog zoom toolbar icons.
 
 
 i18n (i18n.py)
@@ -437,7 +441,10 @@ translations target: uses file-based dependencies (%.mo: %.po), NOT .PHONY witho
   This ensures Make only recompiles .mo files when the corresponding .po is newer.
   MO_FILES computed via $(foreach lang,...) so all locales are covered.
 pot/merge-po targets: use pybabel exclusively (not xgettext/msgmerge).
-  babel.cfg at repo root configures extraction: [python: src/**.py]
+  babel.cfg: [python: **.py] (NOT src/**.py — with --input-dirs=src that would double
+  the prefix to src/src/**.py, producing an empty .pot and making all entries obsolete).
+  *.pot is listed in .gitignore; it is a generated artifact, not tracked in git.
+  merge-po runs tools/fix_po_files.py after pybabel update to normalise .po files.
 dist target: builds the PyInstaller standalone binary; renames dist/pbprompt[.exe] to
   dist/pbprompt-VERSION-OS-ARCH[.exe].  VERSION from tools/git_version.sh (semver on
   clean tagged HEAD, otherwise "dev").  Windows .exe detection via file existence check
@@ -485,7 +492,11 @@ settings (antialiasing, hinting) from the system fonts.conf.
 CI / Release pipeline (GitHub Actions)
 ----------------------------------------
 Triggers: push (all branches) for build + test; semver tag (vX.Y.Z) for releases.
-Jobs: tests → build-linux/build-windows/build-macos (PyInstaller) → GitHub Release.
+Concurrency: cancel-in-progress for the same ref (avoids redundant runs on fast pushes).
+Jobs:
+  test (matrix 3.11/3.12) ─┐
+  hooks (pre-commit cache) ─┼→ build-linux/windows/macos → GitHub Release
+  docs (needs: test) ────────┘ (build-* need: [test, hooks])
   PyInstaller builds use: make dist NOCONDA=1
   Source archives use: make srcdist NOCONDA=1
 Release notes: extracted from CHANGELOG.md by tools/extract_changelog.py (stdout).

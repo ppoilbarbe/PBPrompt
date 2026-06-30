@@ -315,41 +315,46 @@ Critical points for the multiline editor (MultiLineDelegate.eventFilter):
 
 5) Icons
 
-A complete set of 24×24 SVG icons (outline style, stroke #404040, stroke-width 1.5)
-for each of the following actions: new, open, save, save_as, close, quit, delete,
-options, about, translate_right, translate_left, new_prompt, duplicate,
-import_yaml, export_yaml.
-Plus three variants of the application icon: app_color.svg, app_light.svg, app_dark.svg.
+SVG icons in src/pbprompt/icons/ (inside the Python package).
+All filenames use kebab-case (no underscores).
+Current SVG files: delete, duplicate, export-yaml, help-about, import-yaml,
+import-yaml-merged, new, new-prompt, open, pbprompt, preferences-system, quit,
+refresh-icons, save, save-as, translate-left, translate-right,
+zoom-fit, zoom-height, zoom-in, zoom-original, zoom-out, zoom-width.
 
-Icons are placed in src/pbprompt/icons/ inside the Python package.
-They are loaded directly by get_icon_dir() in gui/icons.py without any QRC compilation.
+Icons are loaded directly by get_icon_dir() in gui/icons.py without any QRC
+compilation. No resources_rc.py or resources.qrc.
 
-Implementation of get_icon(name) in gui/icons.py — lookup order:
-1. QIcon.fromTheme(theme_name) with FreeDesktop mapping:
-     new→document-new, open→document-open, save→document-save,
-     save_as→document-save-as, close→window-close, quit→application-exit,
-     delete→edit-delete, options→preferences-system, about→help-about,
-     translate_right→go-next, translate_left→go-previous,
-     new_prompt→list-add, duplicate→edit-copy,
-     import_yaml→document-import, export_yaml→document-export
-2. Package icon file — try variants in order: name, name_color, name_light, name_dark
-   (for .svg then .png). Use get_icon_dir() which handles PyInstaller bundles:
-     if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
-         return Path(sys._MEIPASS) / "pbprompt" / "icons"
-     return Path(__file__).parent.parent / "icons"
-3. Qt standard icon (QStyle.StandardPixmap) as last resort:
-     import_yaml→SP_DialogOpenButton, export_yaml→SP_DialogSaveButton
+Implementation of get_icon(svg_name) in gui/icons.py — PBPicat mechanic:
+  svg_name is the bare filename (no extension). It IS the key for all three lookups.
+  _THEME_MAP: dict[str, str] maps svg_name to a FreeDesktop theme name.
+  Lookup order:
+    1. QIcon.fromTheme(_THEME_MAP[svg_name]) if svg_name in _THEME_MAP (Linux/KDE/GNOME)
+    2. _ICON_DIR / f"{svg_name}.svg"  (package file, loaded directly)
+    3. _STANDARD_ICON_MAP[svg_name]   (Qt built-in QStyle.StandardPixmap, last resort)
+  No variant logic (_color/_light/_dark). No _FILE_NAME_MAP.
+
+_THEME_MAP mappings (kebab svg_name → FreeDesktop theme name):
+  new→document-new, open→document-open, save→document-save,
+  save-as→document-save-as, quit→application-exit, delete→edit-delete,
+  preferences-system→preferences-system, help-about→help-about,
+  translate-right→go-next, translate-left→go-previous,
+  new-prompt→list-add, duplicate→edit-copy,
+  import-yaml→document-import, import-yaml-merged→document-import,
+  export-yaml→document-export, refresh-icons→view-refresh,
+  zoom-fit→zoom-fit-best, zoom-original→zoom-original,
+  zoom-width→zoom-fit-width, zoom-height→zoom-fit-height,
+  zoom-in→zoom-in, zoom-out→zoom-out, pbprompt→pbprompt
+
+get_icon_dir() handles PyInstaller one-file bundles:
+  frozen: Path(sys._MEIPASS) / "pbprompt" / "icons"
+  normal: Path(__file__).parent.parent / "icons"
 
 PyInstaller datas entry:
      ("src/pbprompt/icons", "pbprompt/icons")
 
-Description of import_yaml and export_yaml icons (24×24, stroke #404040,
-stroke-width 1.5, fill none, round linecap/linejoin):
-- import_yaml.svg: YAML document (left, x=1–9) + right arrow (centre)
-  + data table with rows (right, x=15–23). The YAML document text lines use
-  stroke-width=1.2. Symbolises "YAML → application".
-- export_yaml.svg: mirror of import_yaml: table (left) + right arrow
-  + YAML document (right). Symbolises "application → YAML".
+"Add entries" import YAML action uses import-yaml-merged.svg (distinct icon).
+"Replace all" import YAML action uses import-yaml.svg.
 
 
 6) Semver version management
@@ -377,8 +382,19 @@ description (grep on ## in the Makefile).
 - Tooling: pybabel exclusively (not xgettext/msgmerge/msgfmt/msginit).
   * pot:      pybabel extract -F babel.cfg -k _ --input-dirs=src -o locales/messages.pot
   * merge-po: pybabel update -i locales/messages.pot -d locales -l <lang> -D messages
+              then: python tools/fix_po_files.py (normalises headers, removes obsoletes)
   * translations: pybabel compile -f -i <file>.po -o <file>.mo
-  babel.cfg at the project root: [python: src/**.py]
+  babel.cfg at the project root: [python: **.py]
+  IMPORTANT: NOT [python: src/**.py] — with --input-dirs=src, pybabel would resolve
+  src/**.py relative to the input-dirs root, giving src/src/**.py (path doubling).
+  *.pot is a generated artifact; it is listed in .gitignore and NOT tracked in git.
+- tools/fix_po_files.py: normalises .po files after pybabel update.
+  Resets POT-Creation-Date to 2001-01-01 00:00+0000, strips version from
+  Project-Id-Version, removes obsolete #~ entries and #: location comments.
+  Called automatically by `make merge-po`. Glob: locales/*/LC_MESSAGES/messages.po.
+- tools/po_check.py: .po inspection tool using babel.messages.pofile (safe multi-line).
+  CLI: --lang LANG, --empty, --search PATTERN [--msgstr], --diff LANG_A LANG_B.
+  NEVER use grep or msgfmt on .po files — both break on multi-line entries.
 - Multilingual architecture: gettext files (.po/.mo) for at least French, English,
   Spanish, Italian, Russian, Vietnamese, Simplified Chinese (zh_CN).
 - Mechanism to change language in Settings and reload the UI without restarting.
@@ -457,9 +473,19 @@ description (grep on ## in the Makefile).
 
 
 10) Tests and CI
-- Use pre-commit with ruff (lint and format) and check-yaml hooks.
-- Ruff configuration in pyproject.toml.
-- GitHub Actions file (ci.yml).
+- pre-commit hooks (.pre-commit-config.yaml):
+  * pre-commit-hooks: trailing-whitespace, end-of-file-fixer, mixed-line-ending (--fix=lf),
+    check-merge-conflict, check-added-large-files, check-yaml, check-toml, check-json,
+    check-xml, debug-statements
+  * ruff (linting: --fix) and ruff-format
+  * markdownlint-cli2 (with .markdownlint-cli2.yaml: MD013 disabled, MD024 siblings_only,
+    CLAUDE.md excluded)
+- Ruff configuration in pyproject.toml (line-length=88, per-file ignores for Qt files).
+- GitHub Actions (.github/workflows/ci.yml):
+  * concurrency: cancel-in-progress for same-ref runs.
+  * Jobs: test (matrix 3.11/3.12), hooks (parallel to test, has pre-commit cache),
+    docs (needs: test), build-linux/windows/macos (needs: [test, hooks]), release.
+  * NOCONDA=1 for all make invocations (conda env already active in CI).
 - REQUIRED before any commit or release: run `pre-commit run --all-files` on the full
   working tree (not just staged files) and verify all hooks pass. Never publish a
   version if this command returns a non-zero exit code or has modified files.
@@ -585,8 +611,8 @@ Critical points for PyInstaller artefacts in CI:
   * "Build standalone executables" section (PyInstaller, make dist).
   * "Known limitations" section.
 - Scripts in tools/: build_linux.sh, build_windows.bat, build_macos.sh,
-  compile_translations.sh, build_qm.sh, bump_version.py, extract_changelog.py,
-  rtd_cleanup.py, git_version.sh.
+  compile_translations.sh, bump_version.py, extract_changelog.py,
+  rtd_cleanup.py, git_version.sh, fix_po_files.py, po_check.py.
 - hooks/:
   * rthook_ssl.py — PyInstaller runtime hook: points SSL/requests to the bundled
     certifi CA bundle (sets SSL_CERT_FILE and REQUESTS_CA_BUNDLE).
