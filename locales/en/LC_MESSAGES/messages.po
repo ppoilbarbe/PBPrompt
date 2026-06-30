@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PBPrompt 1.0.0\n"
+"Project-Id-Version:  PBPrompt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-01 21:08+0200\n"
+"POT-Creation-Date: 2001-01-01 00:00+0000\n"
 "PO-Revision-Date: 2026-01-01 00:00+0000\n"
 "Last-Translator: PBMou\n"
 "Language: en\n"
@@ -17,728 +17,748 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#~ msgid "Copied to clipboard"
-#~ msgstr "Copied to clipboard"
+msgid "Version:"
+msgstr "Version:"
 
-#~ msgid "Language used in the user interface"
-#~ msgstr "Language used in the user interface"
-
-#~ msgid "Source/target language for the local column"
-#~ msgstr "Source/target language for the local column"
-
-#~ msgid "Version:"
-#~ msgstr "Version:"
-
-#~ msgid "Authors:"
-#~ msgstr "Authors:"
-
-#~ msgid "A program to register and categorize AI prompts to keep tries."
-#~ msgstr "A program to register and categorize AI prompts to keep tries."
+msgid "Authors:"
+msgstr "Authors:"
 
 # About dialog
-#~ msgid "About {app}"
-#~ msgstr "About {app}"
+#, python-brace-format
+msgid "About {app}"
+msgstr "About {app}"
 
-#~ msgid "MIT License"
-#~ msgstr "MIT License"
+msgid "A program to register and categorize AI prompts to keep tries."
+msgstr "A program to register and categorize AI prompts to keep tries."
 
-# Settings dialog
-#~ msgid "Settings"
-#~ msgstr "Settings"
+msgid "MIT License"
+msgstr "MIT License"
 
-#~ msgid "Language"
-#~ msgstr "Language"
-
-#~ msgid "Display language:"
-#~ msgstr "Display language:"
-
-#~ msgid ""
-#~ "Language used for the user interface.\n"
-#~ "'System default' uses the operating system locale."
-#~ msgstr ""
-#~ "Language used for the user interface.\n"
-#~ "'System default' uses the operating system locale."
-
-#~ msgid "Translation language:"
-#~ msgstr "Translation language:"
-
-#~ msgid ""
-#~ "Language of the 'Local language' column.\n"
-#~ "Used as the source or target when translating prompts.\n"
-#~ "'System default' uses the operating system locale."
-#~ msgstr ""
-#~ "Language of the 'Local language' column.\n"
-#~ "Used as the source or target when translating prompts.\n"
-#~ "'System default' uses the operating system locale."
-
-#~ msgid "Translation service"
-#~ msgstr "Translation service"
-
-#~ msgid "Service:"
-#~ msgstr "Service:"
-
-#~ msgid ""
-#~ "Translation service used to fill the 'Local language' column\n"
-#~ "automatically when clicking the Translate button."
-#~ msgstr ""
-#~ "Translation service used to fill the 'Local language' column\n"
-#~ "automatically when clicking the Translate button."
-
-#~ msgid "API key:"
-#~ msgstr "API key:"
-
-#~ msgid ""
-#~ "API key required by DeepL, Microsoft Translator, Yandex,\n"
-#~ "QCRI and LibreTranslate.\n"
-#~ "Leave blank for services that do not require one\n"
-#~ "(Google, MyMemory, PONS, Linguee, Reverso…)."
-#~ msgstr ""
-#~ "API key required by DeepL, Microsoft Translator, Yandex,\n"
-#~ "QCRI and LibreTranslate.\n"
-#~ "Leave blank for services that do not require one\n"
-#~ "(Google, MyMemory, PONS, Linguee, Reverso…)."
-
-#~ msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
-#~ msgstr "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
-
-#~ msgid "App ID:"
-#~ msgstr "App ID:"
-
-#~ msgid ""
-#~ "Application identifier required by some services:\n"
-#~ "• Baidu: appid\n"
-#~ "• Papago: client_id"
-#~ msgstr ""
-#~ "Application identifier required by some services:\n"
-#~ "• Baidu: appid\n"
-#~ "• Papago: client_id"
-
-#~ msgid "Baidu (appid) · Papago (client_id)"
-#~ msgstr "Baidu (appid) · Papago (client_id)"
-
-#~ msgid "App secret:"
-#~ msgstr "App secret:"
-
-#~ msgid ""
-#~ "Application secret required by some services:\n"
-#~ "• Baidu: appkey\n"
-#~ "• Papago: secret_key"
-#~ msgstr ""
-#~ "Application secret required by some services:\n"
-#~ "• Baidu: appkey\n"
-#~ "• Papago: secret_key"
-
-#~ msgid "Baidu (appkey) · Papago (secret_key)"
-#~ msgstr "Baidu (appkey) · Papago (secret_key)"
-
-#~ msgid "Logging"
-#~ msgstr "Logging"
-
-#~ msgid "Log level:"
-#~ msgstr "Log level:"
-
-#~ msgid ""
-#~ "Verbosity of the application log.\n"
-#~ "DEBUG shows all messages; ERROR shows only critical failures.\n"
-#~ "Effective after restarting the application."
-#~ msgstr ""
-#~ "Verbosity of the application log.\n"
-#~ "DEBUG shows all messages; ERROR shows only critical failures.\n"
-#~ "Effective after restarting the application."
-
-#~ msgid "Files"
-#~ msgstr "Files"
-
-#~ msgid "Maximum recent files:"
-#~ msgstr "Maximum recent files:"
-
-#~ msgid "Maximum number of recently opened files shown in the File menu."
-#~ msgstr "Maximum number of recently opened files shown in the File menu."
-
-# Settings dialog – Images group
-#~ msgid "Images"
-#~ msgstr "Images"
-
-#~ msgid "Thumbnail width (px):"
-#~ msgstr "Thumbnail width (px):"
-
-#~ msgid ""
-#~ "Maximum width (in pixels) of the thumbnail stored in the database.\n"
-#~ "Larger values improve quality but increase database size."
-#~ msgstr ""
-#~ "Maximum width (in pixels) of the thumbnail stored in the database.\n"
-#~ "Larger values improve quality but increase database size."
-
-#~ msgid "Thumbnail height (px):"
-#~ msgstr "Thumbnail height (px):"
-
-#~ msgid ""
-#~ "Maximum height (in pixels) of the thumbnail stored in the database.\n"
-#~ "Larger values improve quality but increase database size."
-#~ msgstr ""
-#~ "Maximum height (in pixels) of the thumbnail stored in the database.\n"
-#~ "Larger values improve quality but increase database size."
-
-# Settings dialog – language selector
-#~ msgid "System default"
-#~ msgstr "System default"
-
-# Column headers
-#~ msgid "AI"
-#~ msgstr "AI"
-
-#~ msgid "Group"
-#~ msgstr "Group"
-
-#~ msgid "Name"
-#~ msgstr "Name"
-
-# IMAGE column
-#~ msgid "Image"
-#~ msgstr "Image"
-
-#~ msgid "English"
-#~ msgstr "English"
-
-# Column header tooltips
-#~ msgid ""
-#~ "Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
-#~ "Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
-#~ msgstr ""
-#~ "Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
-#~ "Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
-
-#~ msgid ""
-#~ "AI model name.\n"
-#~ "Sort: primary AI → Group → Name"
-#~ msgstr ""
-#~ "AI model name.\n"
-#~ "Sort: primary AI → Group → Name"
-
-#~ msgid ""
-#~ "Prompt group / category.\n"
-#~ "Sort: primary Group → Name → AI"
-#~ msgstr ""
-#~ "Prompt group / category.\n"
-#~ "Sort: primary Group → Name → AI"
-
-#~ msgid ""
-#~ "Prompt title.\n"
-#~ "Sort: primary Name → Group → AI"
-#~ msgstr ""
-#~ "Prompt title.\n"
-#~ "Sort: primary Name → Group → AI"
-
-#~ msgid ""
-#~ "Double-click to view · Right-click for options\n"
-#~ "Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
-#~ msgstr ""
-#~ "Double-click to view · Right-click for options\n"
-#~ "Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
-
-#~ msgid "Prompt in local language.\n"
-#~ msgstr "Prompt in local language.\n"
-
-#~ msgid "Prompt in English.\n"
-#~ msgstr "Prompt in English.\n"
-
-# Status messages
-#~ msgid "Ready"
-#~ msgstr "Ready"
-
-# Main window – filters
-#~ msgid "Filter:"
-#~ msgstr "Filter:"
-
-#~ msgid "AI…"
-#~ msgstr "AI…"
-
-#~ msgid "Filter the AI column. Supports regular expressions."
-#~ msgstr "Filter the AI column. Supports regular expressions."
-
-#~ msgid "Filter the Group column. Supports regular expressions."
-#~ msgstr "Filter the Group column. Supports regular expressions."
-
-#~ msgid "Filter the Name column. Supports regular expressions."
-#~ msgstr "Filter the Name column. Supports regular expressions."
-
-#~ msgid "Filter the local language column. Supports regular expressions."
-#~ msgstr "Filter the local language column. Supports regular expressions."
-
-#~ msgid "Filter the English column. Supports regular expressions."
-#~ msgstr "Filter the English column. Supports regular expressions."
-
-#~ msgid "Group…"
-#~ msgstr "Group…"
-
-#~ msgid "Name…"
-#~ msgstr "Name…"
-
-#~ msgid "Local language…"
-#~ msgstr "Local language…"
-
-#~ msgid "English…"
-#~ msgstr "English…"
-
-#~ msgid "Clear"
-#~ msgstr "Clear"
-
-#~ msgid "Clear all filters"
-#~ msgstr "Clear all filters"
-
-# Main window – menu
-#~ msgid "&File"
-#~ msgstr "&File"
-
-#~ msgid "&Tools"
-#~ msgstr "&Tools"
-
-#~ msgid "&Help"
-#~ msgstr "&Help"
-
-#~ msgid "&New"
-#~ msgstr "&New"
-
-# Main window – toolbar / actions
-#~ msgid "New file"
-#~ msgstr "New file"
-
-#~ msgid "&Open…"
-#~ msgstr "&Open…"
-
-#~ msgid "Open a prompt file"
-#~ msgstr "Open a prompt file"
-
-#~ msgid "&Save"
-#~ msgstr "&Save"
-
-#~ msgid "Save the current file"
-#~ msgstr "Save the current file"
-
-#~ msgid "Save &As…"
-#~ msgstr "Save &As…"
-
-#~ msgid "Save to a new file"
-#~ msgstr "Save to a new file"
-
-#~ msgid "&Close"
-#~ msgstr "&Close"
-
-#~ msgid "Close current file"
-#~ msgstr "Close current file"
-
-#~ msgid "&Quit"
-#~ msgstr "&Quit"
-
-#~ msgid "Quit PBPrompt"
-#~ msgstr "Quit PBPrompt"
-
-#~ msgid "&Options…"
-#~ msgstr "&Options…"
-
-#~ msgid "Open settings dialog"
-#~ msgstr "Open settings dialog"
-
-#~ msgid "&About…"
-#~ msgstr "&About…"
-
-#~ msgid "About PBPrompt"
-#~ msgstr "About PBPrompt"
-
-#~ msgid "New Prompt"
-#~ msgstr "New Prompt"
-
-#~ msgid "Add a new prompt entry"
-#~ msgstr "Add a new prompt entry"
-
-# Duplicate action
-#~ msgid "Duplicate"
-#~ msgstr "Duplicate"
-
-#~ msgid "Duplicate the current row"
-#~ msgstr "Duplicate the current row"
-
-#~ msgid "Delete"
-#~ msgstr "Delete"
-
-#~ msgid "Delete selected prompts"
-#~ msgstr "Delete selected prompts"
-
-#~ msgid "→ English"
-#~ msgstr "→ English"
-
-#~ msgid "Translate selected rows to English"
-#~ msgstr "Translate selected rows to English"
-
-#~ msgid "← Local"
-#~ msgstr "← Local"
-
-#~ msgid "Translate selected rows from English"
-#~ msgstr "Translate selected rows from English"
-
-# File menu – YAML import/export
-#~ msgid "Import &YAML"
-#~ msgstr "Import &YAML"
-
-#~ msgid "Add entries…"
-#~ msgstr "Add entries…"
-
-#~ msgid "Import YAML file (append)"
-#~ msgstr "Import YAML file (append)"
-
-#~ msgid "Replace all…"
-#~ msgstr "Replace all…"
-
-#~ msgid "Import YAML file (replace all)"
-#~ msgstr "Import YAML file (replace all)"
-
-#~ msgid "Export &YAML…"
-#~ msgstr "Export &YAML…"
-
-#~ msgid "Export YAML file"
-#~ msgstr "Export YAML file"
-
-#~ msgid "Refresh Thumbnails"
-#~ msgstr "Refresh Thumbnails"
-
-#~ msgid "Regenerate all thumbnails from stored images"
-#~ msgstr "Regenerate all thumbnails from stored images"
-
-#~ msgid "Recent &Files"
-#~ msgstr "Recent &Files"
-
-#~ msgid "Copied: %s"
-#~ msgstr "Copied: %s"
-
-#~ msgid "New file created"
-#~ msgstr "New file created"
-
-# Dialogs – file operations
-#~ msgid "Open Prompt File"
-#~ msgstr "Open Prompt File"
-
-# Dialogs – file operations (SQLite)
-#~ msgid "PBPrompt database (*.sqlite);;All files (*.*)"
-#~ msgstr "PBPrompt database (*.sqlite);;All files (*.*)"
-
-#~ msgid "Loaded {n} entries from {path}"
-#~ msgstr "Loaded {n} entries from {path}"
-
-# Error opening a file passed on the command line
-#~ msgid "Error Opening File"
-#~ msgstr "Error Opening File"
-
-#~ msgid ""
-#~ "Could not open file:\n"
-#~ "{path}\n"
-#~ "\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Could not open file:\n"
-#~ "{path}\n"
-#~ "\n"
-#~ "{error}"
-
-# Dialogs – errors
-#~ msgid "Error"
-#~ msgstr "Error"
-
-#~ msgid ""
-#~ "Could not open file:\n"
-#~ "{path}"
-#~ msgstr ""
-#~ "Could not open file:\n"
-#~ "{path}"
-
-#~ msgid "Save Prompt File"
-#~ msgstr "Save Prompt File"
-
-#~ msgid "File saved successfully"
-#~ msgstr "File saved successfully"
-
-#~ msgid ""
-#~ "Could not save file:\n"
-#~ "{path}"
-#~ msgstr ""
-#~ "Could not save file:\n"
-#~ "{path}"
-
-#~ msgid "Import YAML"
-#~ msgstr "Import YAML"
-
-#~ msgid "YAML files (*.yaml *.yml);;All files (*.*)"
-#~ msgstr "YAML files (*.yaml *.yml);;All files (*.*)"
-
-# Status messages (YAML import/export)
-#~ msgid "Imported {n} entries from {path}"
-#~ msgstr "Imported {n} entries from {path}"
-
-#~ msgid "({k} duplicate(s) skipped)"
-#~ msgstr "({k} duplicate(s) skipped)"
-
-# Dialogs – errors (YAML import/export)
-#~ msgid ""
-#~ "Import failed:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Import failed:\n"
-#~ "{error}"
-
-#~ msgid "Export YAML"
-#~ msgstr "Export YAML"
-
-#~ msgid "Exported {n} entries to {path}"
-#~ msgstr "Exported {n} entries to {path}"
-
-#~ msgid ""
-#~ "Export failed:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Export failed:\n"
-#~ "{error}"
-
-#~ msgid "File closed"
-#~ msgstr "File closed"
-
-# Dialogs – confirmation
-#~ msgid "Unsaved Changes"
-#~ msgstr "Unsaved Changes"
-
-#~ msgid ""
-#~ "The document has been modified.\n"
-#~ "Do you want to save your changes?"
-#~ msgstr ""
-#~ "The document has been modified.\n"
-#~ "Do you want to save your changes?"
-
-#~ msgid "Row duplicated"
-#~ msgstr "Row duplicated"
-
-#~ msgid "Confirm Delete"
-#~ msgstr "Confirm Delete"
-
-#~ msgid "Are you sure you want to delete {n} selected row(s)?"
-#~ msgstr "Are you sure you want to delete {n} selected row(s)?"
-
-#~ msgid "Deleted {n} row(s)"
-#~ msgstr "Deleted {n} row(s)"
-
-# Context menu
-#~ msgid "Copy"
-#~ msgstr "Copy"
-
-#~ msgid "Cut"
-#~ msgstr "Cut"
-
-#~ msgid "Paste"
-#~ msgstr "Paste"
-
-#~ msgid "Thumbnails refreshed: {n} image(s) updated"
-#~ msgstr "Thumbnails refreshed: {n} image(s) updated"
-
-#~ msgid "Unsupported Format"
-#~ msgstr "Unsupported Format"
-
-#~ msgid "Unsupported image format"
-#~ msgstr "Unsupported image format"
-
-#~ msgid "Load image from file…"
-#~ msgstr "Load image from file…"
-
-#~ msgid "Paste image"
-#~ msgstr "Paste image"
-
-#~ msgid "Clear image"
-#~ msgstr "Clear image"
-
-#~ msgid "Confirm Clear Image"
-#~ msgstr "Confirm Clear Image"
-
-#~ msgid "Clear the image from {n} selected row(s)?"
-#~ msgstr "Clear the image from {n} selected row(s)?"
-
-#~ msgid "Load Image"
-#~ msgstr "Load Image"
-
-#~ msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
-#~ msgstr "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
-
-#~ msgid "No preview"
-#~ msgstr "No preview"
-
-#~ msgid ""
-#~ "Could not read file:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Could not read file:\n"
-#~ "{error}"
-
-#~ msgid "No Image"
-#~ msgstr "No Image"
-
-#~ msgid "No image in clipboard"
-#~ msgstr "No image in clipboard"
-
-#~ msgid "No rows selected"
-#~ msgstr "No rows selected"
-
-#~ msgid "Translation Error"
-#~ msgstr "Translation Error"
-
-#~ msgid ""
-#~ "Could not initialise the translation service.\n"
-#~ "Check your API key in Options."
-#~ msgstr ""
-#~ "Could not initialise the translation service.\n"
-#~ "Check your API key in Options."
-
-#~ msgid ""
-#~ "Translation failed:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Translation failed:\n"
-#~ "{error}"
-
-#~ msgid "Translated {n} row(s)"
-#~ msgstr "Translated {n} row(s)"
-
-#~ msgid "No recent files"
-#~ msgstr "No recent files"
-
-#~ msgid "Clear list"
-#~ msgstr "Clear list"
-
-#~ msgid "File Not Found"
-#~ msgstr "File Not Found"
-
-#~ msgid ""
-#~ "The file no longer exists:\n"
-#~ "{path}"
-#~ msgstr ""
-#~ "The file no longer exists:\n"
-#~ "{path}"
-
-#~ msgid "Untitled"
-#~ msgstr "Untitled"
+msgid "l"
+msgstr "w"
 
 # Image viewer toolbar
-#~ msgid "Fit"
-#~ msgstr "Fit"
+msgid "Fit"
+msgstr "Fit"
 
-#~ msgid "×1"
-#~ msgstr "×1"
+#, python-format
+msgid "Fit image to window (max ×%d)"
+msgstr "Fit image to window (max ×%d)"
 
-#~ msgid "Width"
-#~ msgstr "Width"
+msgid "×1"
+msgstr "×1"
 
-#~ msgid "Height"
-#~ msgstr "Height"
+msgid "Actual size — 1 pixel = 1 displayed pixel  [1]"
+msgstr "Actual size — 1 pixel = 1 displayed pixel  [1]"
 
-#~ msgid "+50%"
-#~ msgstr "+50%"
+msgid "Width"
+msgstr "Width"
 
-#~ msgid "-50%"
-#~ msgstr "-50%"
+#, python-format
+msgid "Fit image width to window  [%s]"
+msgstr "Fit image width to window  [%s]"
 
-#~ msgid "l"
-#~ msgstr "w"
+msgid "Height"
+msgstr "Height"
 
-#~ msgid "Fit image to window (max ×%d)"
-#~ msgstr "Fit image to window (max ×%d)"
+msgid "Fit image height to window  [H]"
+msgstr "Fit image height to window  [H]"
 
-#~ msgid "Actual size — 1 pixel = 1 displayed pixel  [1]"
-#~ msgstr "Actual size — 1 pixel = 1 displayed pixel  [1]"
+#, python-format
+msgid "+%d%%"
+msgstr ""
 
-#~ msgid "Fit image width to window  [%s]"
-#~ msgstr "Fit image width to window  [%s]"
+#, python-format
+msgid "Zoom in +%d%%  [+]"
+msgstr "Zoom in +%d%%  [+]"
 
-#~ msgid "Fit image height to window  [H]"
-#~ msgstr "Fit image height to window  [H]"
+#, python-format
+msgid "-%d%%"
+msgstr ""
 
-#~ msgid "Zoom in +50%  [+]"
-#~ msgstr "Zoom in +50%  [+]"
+#, python-format
+msgid "Zoom out -%d%%  [−]"
+msgstr "Zoom out -%d%%  [−]"
 
-#~ msgid "Zoom out -50%  [−]"
-#~ msgstr "Zoom out -50%  [−]"
+# Column headers
+msgid "AI"
+msgstr "AI"
 
-#~ msgid "(No image)"
-#~ msgstr "(No image)"
+msgid "Group"
+msgstr "Group"
+
+msgid "Name"
+msgstr "Name"
+
+# IMAGE column
+msgid "Image"
+msgstr "Image"
+
+msgid "English"
+msgstr "English"
+
+# Column header tooltips
+msgid ""
+"Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
+"Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
+msgstr ""
+"Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
+"Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
+
+msgid ""
+"AI model name.\n"
+"Sort: primary AI → Group → Name"
+msgstr ""
+"AI model name.\n"
+"Sort: primary AI → Group → Name"
+
+msgid ""
+"Prompt group / category.\n"
+"Sort: primary Group → Name → AI"
+msgstr ""
+"Prompt group / category.\n"
+"Sort: primary Group → Name → AI"
+
+msgid ""
+"Prompt title.\n"
+"Sort: primary Name → Group → AI"
+msgstr ""
+"Prompt title.\n"
+"Sort: primary Name → Group → AI"
+
+#, fuzzy
+msgid "Double-click to view · Right-click for options"
+msgstr ""
+"Double-click to view · Right-click for options\n"
+"Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
+
+msgid "Prompt in local language.\n"
+msgstr "Prompt in local language.\n"
+
+msgid "Prompt in English.\n"
+msgstr "Prompt in English.\n"
+
+# Status messages
+msgid "Ready"
+msgstr "Ready"
+
+# Main window – filters
+msgid "Filter:"
+msgstr "Filter:"
+
+msgid "AI…"
+msgstr "AI…"
+
+msgid "Filter the AI column. Supports regular expressions."
+msgstr "Filter the AI column. Supports regular expressions."
+
+msgid "Group…"
+msgstr "Group…"
+
+msgid "Filter the Group column. Supports regular expressions."
+msgstr "Filter the Group column. Supports regular expressions."
+
+msgid "Name…"
+msgstr "Name…"
+
+msgid "Filter the Name column. Supports regular expressions."
+msgstr "Filter the Name column. Supports regular expressions."
+
+msgid "Local language…"
+msgstr "Local language…"
+
+msgid "Filter the local language column. Supports regular expressions."
+msgstr "Filter the local language column. Supports regular expressions."
+
+msgid "English…"
+msgstr "English…"
+
+msgid "Filter the English column. Supports regular expressions."
+msgstr "Filter the English column. Supports regular expressions."
+
+msgid "Clear"
+msgstr "Clear"
+
+msgid "Clear all filters"
+msgstr "Clear all filters"
+
+# Main window – menu
+msgid "&File"
+msgstr "&File"
+
+msgid "&Tools"
+msgstr "&Tools"
+
+msgid "&Help"
+msgstr "&Help"
+
+msgid "&New"
+msgstr "&New"
+
+# Main window – toolbar / actions
+msgid "New file"
+msgstr "New file"
+
+msgid "&Open…"
+msgstr "&Open…"
+
+msgid "Open a prompt file"
+msgstr "Open a prompt file"
+
+msgid "&Save"
+msgstr "&Save"
+
+msgid "Save the current file"
+msgstr "Save the current file"
+
+msgid "Save &As…"
+msgstr "Save &As…"
+
+msgid "Save to a new file"
+msgstr "Save to a new file"
+
+msgid "&Close"
+msgstr "&Close"
+
+msgid "Close current file"
+msgstr "Close current file"
+
+msgid "&Quit"
+msgstr "&Quit"
+
+msgid "Quit PBPrompt"
+msgstr "Quit PBPrompt"
+
+msgid "&Options…"
+msgstr "&Options…"
+
+msgid "Open settings dialog"
+msgstr "Open settings dialog"
+
+msgid "&About…"
+msgstr "&About…"
+
+msgid "About PBPrompt"
+msgstr "About PBPrompt"
+
+msgid "New Prompt"
+msgstr "New Prompt"
+
+msgid "Add a new prompt entry"
+msgstr "Add a new prompt entry"
+
+# Duplicate action
+msgid "Duplicate"
+msgstr "Duplicate"
+
+msgid "Duplicate the current row"
+msgstr "Duplicate the current row"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Delete selected prompts"
+msgstr "Delete selected prompts"
+
+msgid "→ English"
+msgstr "→ English"
+
+msgid "Translate selected rows to English"
+msgstr "Translate selected rows to English"
+
+msgid "← Local"
+msgstr "← Local"
+
+msgid "Translate selected rows from English"
+msgstr "Translate selected rows from English"
+
+# File menu – YAML import/export
+msgid "Import &YAML"
+msgstr "Import &YAML"
+
+msgid "Add entries…"
+msgstr "Add entries…"
+
+msgid "Import YAML file (append)"
+msgstr "Import YAML file (append)"
+
+msgid "Replace all…"
+msgstr "Replace all…"
+
+msgid "Import YAML file (replace all)"
+msgstr "Import YAML file (replace all)"
+
+msgid "Export &YAML…"
+msgstr "Export &YAML…"
+
+msgid "Export YAML file"
+msgstr "Export YAML file"
+
+msgid "Refresh Thumbnails"
+msgstr "Refresh Thumbnails"
+
+msgid "Regenerate all thumbnails from stored images"
+msgstr "Regenerate all thumbnails from stored images"
+
+msgid "Recent &Files"
+msgstr "Recent &Files"
+
+msgid ""
+"Double-click to view · Right-click for options\n"
+"Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
+msgstr ""
+"Double-click to view · Right-click for options\n"
+"Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
+
+#, python-format
+msgid "Copied: %s"
+msgstr "Copied: %s"
+
+msgid "New file created"
+msgstr "New file created"
+
+# Dialogs – file operations
+msgid "Open Prompt File"
+msgstr "Open Prompt File"
+
+# Dialogs – file operations (SQLite)
+msgid "PBPrompt database (*.sqlite);;All files (*.*)"
+msgstr "PBPrompt database (*.sqlite);;All files (*.*)"
+
+#, python-brace-format
+msgid "Loaded {n} entries from {path}"
+msgstr "Loaded {n} entries from {path}"
+
+# Error opening a file passed on the command line
+msgid "Error Opening File"
+msgstr "Error Opening File"
+
+#, python-brace-format
+msgid ""
+"Could not open file:\n"
+"{path}\n"
+"\n"
+"{error}"
+msgstr ""
+"Could not open file:\n"
+"{path}\n"
+"\n"
+"{error}"
+
+# Dialogs – errors
+msgid "Error"
+msgstr "Error"
+
+#, python-brace-format
+msgid ""
+"Could not open file:\n"
+"{path}"
+msgstr ""
+"Could not open file:\n"
+"{path}"
+
+msgid "Save Prompt File"
+msgstr "Save Prompt File"
+
+msgid "File saved successfully"
+msgstr "File saved successfully"
+
+#, python-brace-format
+msgid ""
+"Could not save file:\n"
+"{path}"
+msgstr ""
+"Could not save file:\n"
+"{path}"
+
+msgid "Import YAML"
+msgstr "Import YAML"
+
+msgid "YAML files (*.yaml *.yml);;All files (*.*)"
+msgstr "YAML files (*.yaml *.yml);;All files (*.*)"
+
+# Status messages (YAML import/export)
+#, python-brace-format
+msgid "Imported {n} entries from {path}"
+msgstr "Imported {n} entries from {path}"
+
+#, python-brace-format
+msgid "({k} duplicate(s) skipped)"
+msgstr "({k} duplicate(s) skipped)"
+
+# Dialogs – errors (YAML import/export)
+#, python-brace-format
+msgid ""
+"Import failed:\n"
+"{error}"
+msgstr ""
+"Import failed:\n"
+"{error}"
+
+msgid "Export YAML"
+msgstr "Export YAML"
+
+#, python-brace-format
+msgid "Exported {n} entries to {path}"
+msgstr "Exported {n} entries to {path}"
+
+#, python-brace-format
+msgid ""
+"Export failed:\n"
+"{error}"
+msgstr ""
+"Export failed:\n"
+"{error}"
+
+msgid "File closed"
+msgstr "File closed"
+
+# Dialogs – confirmation
+msgid "Unsaved Changes"
+msgstr "Unsaved Changes"
+
+msgid ""
+"The document has been modified.\n"
+"Do you want to save your changes?"
+msgstr ""
+"The document has been modified.\n"
+"Do you want to save your changes?"
+
+msgid "Row duplicated"
+msgstr "Row duplicated"
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+#, python-brace-format
+msgid "Are you sure you want to delete {n} selected row(s)?"
+msgstr "Are you sure you want to delete {n} selected row(s)?"
+
+#, python-brace-format
+msgid "Deleted {n} row(s)"
+msgstr "Deleted {n} row(s)"
+
+# Context menu
+msgid "Copy"
+msgstr "Copy"
+
+msgid "Cut"
+msgstr "Cut"
+
+msgid "Paste"
+msgstr "Paste"
+
+#, python-brace-format
+msgid "Thumbnails refreshed: {n} image(s) updated"
+msgstr "Thumbnails refreshed: {n} image(s) updated"
+
+msgid "Unsupported Format"
+msgstr "Unsupported Format"
+
+msgid "Unsupported image format"
+msgstr "Unsupported image format"
+
+msgid "Load image from file…"
+msgstr "Load image from file…"
+
+msgid "Paste image"
+msgstr "Paste image"
+
+msgid "Copy image"
+msgstr "Copy image"
+
+msgid "Save image to file…"
+msgstr "Save image to file…"
+
+msgid "Clear image"
+msgstr "Clear image"
+
+msgid "Load Image"
+msgstr "Load Image"
+
+msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
+msgstr "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
+
+msgid "No preview"
+msgstr "No preview"
+
+#, python-brace-format
+msgid ""
+"Could not read file:\n"
+"{error}"
+msgstr ""
+"Could not read file:\n"
+"{error}"
+
+msgid "No Image"
+msgstr "No Image"
+
+msgid "No image in clipboard"
+msgstr "No image in clipboard"
+
+msgid "JPEG image (*.jpg *.jpeg)"
+msgstr "JPEG image (*.jpg *.jpeg)"
+
+msgid "PNG image (*.png)"
+msgstr "PNG image (*.png)"
+
+msgid "Save Image"
+msgstr "Save Image"
+
+#, python-brace-format
+msgid ""
+"Could not save file:\n"
+"{error}"
+msgstr ""
+"Could not save file:\n"
+"{error}"
+
+msgid "Confirm Clear Image"
+msgstr "Confirm Clear Image"
+
+#, python-brace-format
+msgid "Clear the image from {n} selected row(s)?"
+msgstr "Clear the image from {n} selected row(s)?"
+
+msgid "No rows selected"
+msgstr "No rows selected"
+
+msgid "Translation Error"
+msgstr "Translation Error"
+
+msgid ""
+"Could not initialise the translation service.\n"
+"Check your API key in Options."
+msgstr ""
+"Could not initialise the translation service.\n"
+"Check your API key in Options."
+
+#, python-brace-format
+msgid ""
+"Translation failed:\n"
+"{error}"
+msgstr ""
+"Translation failed:\n"
+"{error}"
+
+#, python-brace-format
+msgid "Translated {n} row(s)"
+msgstr "Translated {n} row(s)"
+
+msgid "No recent files"
+msgstr "No recent files"
+
+msgid "Clear list"
+msgstr "Clear list"
+
+msgid "File Not Found"
+msgstr "File Not Found"
+
+#, python-brace-format
+msgid ""
+"The file no longer exists:\n"
+"{path}"
+msgstr ""
+"The file no longer exists:\n"
+"{path}"
+
+msgid "Untitled"
+msgstr "Untitled"
+
+# Settings dialog
+msgid "Settings"
+msgstr "Settings"
+
+msgid "Language"
+msgstr "Language"
+
+msgid "Display language:"
+msgstr "Display language:"
+
+msgid ""
+"Language used for the user interface.\n"
+"'System default' uses the operating system locale."
+msgstr ""
+"Language used for the user interface.\n"
+"'System default' uses the operating system locale."
+
+msgid "Translation language:"
+msgstr "Translation language:"
+
+msgid ""
+"Language of the 'Local language' column.\n"
+"Used as the source or target when translating prompts.\n"
+"'System default' uses the operating system locale."
+msgstr ""
+"Language of the 'Local language' column.\n"
+"Used as the source or target when translating prompts.\n"
+"'System default' uses the operating system locale."
+
+msgid "Translation service"
+msgstr "Translation service"
+
+msgid "Service:"
+msgstr "Service:"
+
+msgid ""
+"Translation service used to fill the 'Local language' column\n"
+"automatically when clicking the Translate button."
+msgstr ""
+"Translation service used to fill the 'Local language' column\n"
+"automatically when clicking the Translate button."
+
+msgid "API key:"
+msgstr "API key:"
+
+msgid ""
+"API key required by DeepL, Microsoft Translator, Yandex,\n"
+"QCRI and LibreTranslate.\n"
+"Leave blank for services that do not require one\n"
+"(Google, MyMemory, PONS, Linguee, Reverso…)."
+msgstr ""
+"API key required by DeepL, Microsoft Translator, Yandex,\n"
+"QCRI and LibreTranslate.\n"
+"Leave blank for services that do not require one\n"
+"(Google, MyMemory, PONS, Linguee, Reverso…)."
+
+msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+msgstr "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+
+msgid "App ID:"
+msgstr "App ID:"
+
+msgid ""
+"Application identifier required by some services:\n"
+"• Baidu: appid\n"
+"• Papago: client_id"
+msgstr ""
+"Application identifier required by some services:\n"
+"• Baidu: appid\n"
+"• Papago: client_id"
+
+msgid "Baidu (appid) · Papago (client_id)"
+msgstr "Baidu (appid) · Papago (client_id)"
+
+msgid "App secret:"
+msgstr "App secret:"
+
+msgid ""
+"Application secret required by some services:\n"
+"• Baidu: appkey\n"
+"• Papago: secret_key"
+msgstr ""
+"Application secret required by some services:\n"
+"• Baidu: appkey\n"
+"• Papago: secret_key"
+
+msgid "Baidu (appkey) · Papago (secret_key)"
+msgstr "Baidu (appkey) · Papago (secret_key)"
+
+msgid "Logging"
+msgstr "Logging"
+
+msgid "Log level:"
+msgstr "Log level:"
+
+msgid ""
+"Verbosity of the application log.\n"
+"DEBUG shows all messages; ERROR shows only critical failures.\n"
+"Effective after restarting the application."
+msgstr ""
+"Verbosity of the application log.\n"
+"DEBUG shows all messages; ERROR shows only critical failures.\n"
+"Effective after restarting the application."
+
+msgid "Files"
+msgstr "Files"
+
+msgid "Maximum recent files:"
+msgstr "Maximum recent files:"
+
+msgid "Maximum number of recently opened files shown in the File menu."
+msgstr "Maximum number of recently opened files shown in the File menu."
+
+# Settings dialog – Images group
+msgid "Images"
+msgstr "Images"
+
+msgid "Thumbnail width (px):"
+msgstr "Thumbnail width (px):"
+
+msgid ""
+"Maximum width (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
+msgstr ""
+"Maximum width (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
+
+msgid "Thumbnail height (px):"
+msgstr "Thumbnail height (px):"
+
+msgid ""
+"Maximum height (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
+msgstr ""
+"Maximum height (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
 
 # Settings dialog – image viewer
-#~ msgid "Image viewer max zoom (×):"
-#~ msgstr "Image viewer max zoom (×):"
+msgid "Image viewer max zoom (×):"
+msgstr "Image viewer max zoom (×):"
 
-#~ msgid ""
-#~ "Maximum magnification in 'Fit' mode when the image is smaller\n"
-#~ "than the viewer window.\n"
-#~ "1× to 16× (default: 4×)."
-#~ msgstr ""
-#~ "Maximum magnification in 'Fit' mode when the image is smaller\n"
-#~ "than the viewer window.\n"
-#~ "1× to 16× (default: 4×)."
+msgid ""
+"Maximum magnification in 'Fit' mode when the image is smaller\n"
+"than the viewer window.\n"
+"1× to 16× (default: 4×)."
+msgstr ""
+"Maximum magnification in 'Fit' mode when the image is smaller\n"
+"than the viewer window.\n"
+"1× to 16× (default: 4×)."
 
-#~ msgid "Zoom step (%):"
-#~ msgstr "Zoom step (%):"
+msgid "Zoom step (%):"
+msgstr "Zoom step (%):"
 
-#~ msgid ""
-#~ "Percentage added or removed when clicking + or −,\n"
-#~ "or scrolling the mouse wheel in the image viewer.\n"
-#~ "1% to 50% (default: 10%)."
-#~ msgstr ""
-#~ "Percentage added or removed when clicking + or −,\n"
-#~ "or scrolling the mouse wheel in the image viewer.\n"
-#~ "1% to 50% (default: 10%)."
+msgid ""
+"Percentage added or removed when clicking + or −,\n"
+"or scrolling the mouse wheel in the image viewer.\n"
+"1% to 50% (default: 10%)."
+msgstr ""
+"Percentage added or removed when clicking + or −,\n"
+"or scrolling the mouse wheel in the image viewer.\n"
+"1% to 50% (default: 10%)."
 
-#~ msgid "Keep original dimensions"
-#~ msgstr "Keep original dimensions"
+msgid "Keep original dimensions"
+msgstr "Keep original dimensions"
 
-#~ msgid ""
-#~ "When checked, images are stored as-is regardless of their size.\n"
-#~ "When unchecked, images larger than the limits below are resized\n"
-#~ "proportionally before being stored in the database."
-#~ msgstr ""
-#~ "When checked, images are stored as-is regardless of their size.\n"
-#~ "When unchecked, images larger than the limits below are resized\n"
-#~ "proportionally before being stored in the database."
+msgid ""
+"When checked, images are stored as-is regardless of their size.\n"
+"When unchecked, images larger than the limits below are resized\n"
+"proportionally before being stored in the database."
+msgstr ""
+"When checked, images are stored as-is regardless of their size.\n"
+"When unchecked, images larger than the limits below are resized\n"
+"proportionally before being stored in the database."
 
-#~ msgid "Max width (px):"
-#~ msgstr "Max width (px):"
+msgid "Max width (px):"
+msgstr "Max width (px):"
 
-#~ msgid ""
-#~ "Maximum width (in pixels) for images stored in the database.\n"
-#~ "Images wider than this value are resized proportionally."
-#~ msgstr ""
-#~ "Maximum width (in pixels) for images stored in the database.\n"
-#~ "Images wider than this value are resized proportionally."
+msgid ""
+"Maximum width (in pixels) for images stored in the database.\n"
+"Images wider than this value are resized proportionally."
+msgstr ""
+"Maximum width (in pixels) for images stored in the database.\n"
+"Images wider than this value are resized proportionally."
 
-#~ msgid "Max height (px):"
-#~ msgstr "Max height (px):"
+msgid "Max height (px):"
+msgstr "Max height (px):"
 
-#~ msgid ""
-#~ "Maximum height (in pixels) for images stored in the database.\n"
-#~ "Images taller than this value are resized proportionally."
-#~ msgstr ""
-#~ "Maximum height (in pixels) for images stored in the database.\n"
-#~ "Images taller than this value are resized proportionally."
+msgid ""
+"Maximum height (in pixels) for images stored in the database.\n"
+"Images taller than this value are resized proportionally."
+msgstr ""
+"Maximum height (in pixels) for images stored in the database.\n"
+"Images taller than this value are resized proportionally."
 
-#~ msgid "Copy image"
-#~ msgstr "Copy image"
-
-#~ msgid "Save image to file…"
-#~ msgstr "Save image to file…"
-
-#~ msgid "Save Image"
-#~ msgstr "Save Image"
-
-#~ msgid "JPEG image (*.jpg *.jpeg)"
-#~ msgstr "JPEG image (*.jpg *.jpeg)"
-
-#~ msgid "PNG image (*.png)"
-#~ msgstr "PNG image (*.png)"
-
-#~ msgid ""
-#~ "Could not save file:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Could not save file:\n"
-#~ "{error}"
+# Settings dialog – language selector
+msgid "System default"
+msgstr "System default"

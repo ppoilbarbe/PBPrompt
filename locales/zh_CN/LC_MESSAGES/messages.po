@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PBPrompt 1.0.1\n"
+"Project-Id-Version:  PBPrompt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-01 21:08+0200\n"
+"POT-Creation-Date: 2001-01-01 00:00+0000\n"
 "PO-Revision-Date: 2026-01-01 00:00+0000\n"
 "Last-Translator: PBMou\n"
 "Language: zh_CN\n"
@@ -17,726 +17,751 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#~ msgid "Copied to clipboard"
-#~ msgstr "已复制到剪贴板"
+# ==AUTO== Automatically translated
+msgid "Version:"
+msgstr "版本："
 
-#~ msgid "Language used in the user interface"
-#~ msgstr "用户界面使用的语言"
-
-#~ msgid "Source/target language for the local column"
-#~ msgstr "本地列的源语言/目标语言"
-
-#~ msgid "Version:"
-#~ msgstr "版本："
-
-#~ msgid "Authors:"
-#~ msgstr "作者："
-
-#~ msgid "A program to register and categorize AI prompts to keep tries."
-#~ msgstr "一个用于记录和分类 AI 提示词的程序。"
+# ==AUTO== Automatically translated
+msgid "Authors:"
+msgstr "作者："
 
 # About dialog
-#~ msgid "About {app}"
-#~ msgstr "关于 {app}"
-
-#~ msgid "MIT License"
-#~ msgstr "MIT 许可证"
-
-# Settings dialog
-#~ msgid "Settings"
-#~ msgstr "设置"
-
-#~ msgid "Language"
-#~ msgstr "语言"
-
-#~ msgid "Display language:"
-#~ msgstr "显示语言："
-
-#~ msgid ""
-#~ "Language used for the user interface.\n"
-#~ "'System default' uses the operating system locale."
-#~ msgstr ""
-#~ "用于用户界面的语言。\n"
-#~ "“系统默认”使用操作系统的语言设置。"
-
-#~ msgid "Translation language:"
-#~ msgstr "翻译语言："
-
-#~ msgid ""
-#~ "Language of the 'Local language' column.\n"
-#~ "Used as the source or target when translating prompts.\n"
-#~ "'System default' uses the operating system locale."
-#~ msgstr ""
-#~ "“本地语言”列的语言。\n"
-#~ "翻译提示词时用作源语言或目标语言。\n"
-#~ "“系统默认”使用操作系统的语言设置。"
-
-#~ msgid "Translation service"
-#~ msgstr "翻译服务"
-
-#~ msgid "Service:"
-#~ msgstr "服务："
-
-#~ msgid ""
-#~ "Translation service used to fill the 'Local language' column\n"
-#~ "automatically when clicking the Translate button."
-#~ msgstr ""
-#~ "用于自动填充“本地语言”列的翻译服务，\n"
-#~ "点击“翻译”按鈕时生效。"
-
-#~ msgid "API key:"
-#~ msgstr "API 密钥："
-
-#~ msgid ""
-#~ "API key required by DeepL, Microsoft Translator, Yandex,\n"
-#~ "QCRI and LibreTranslate.\n"
-#~ "Leave blank for services that do not require one\n"
-#~ "(Google, MyMemory, PONS, Linguee, Reverso…)."
-#~ msgstr ""
-#~ "DeepL、Microsoft Translator、Yandex、\n"
-#~ "QCRI 和 LibreTranslate 所需的 API 密鑰。\n"
-#~ "对于不需要密鑰的服务可留空\n"
-#~ "（Google、MyMemory、PONS、Linguee、Reverso…）。"
-
-#~ msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
-#~ msgstr "DeepL、Microsoft、Yandex、QCRI、LibreTranslate"
-
-#~ msgid "App ID:"
-#~ msgstr "应用 ID："
-
-#~ msgid ""
-#~ "Application identifier required by some services:\n"
-#~ "• Baidu: appid\n"
-#~ "• Papago: client_id"
-#~ msgstr ""
-#~ "某些服务所需的应用程序标识符：\n"
-#~ "• Baidu: appid\n"
-#~ "• Papago: client_id"
-
-#~ msgid "Baidu (appid) · Papago (client_id)"
-#~ msgstr "百度 (appid) · Papago (client_id)"
-
-#~ msgid "App secret:"
-#~ msgstr "应用密钥："
-
-#~ msgid ""
-#~ "Application secret required by some services:\n"
-#~ "• Baidu: appkey\n"
-#~ "• Papago: secret_key"
-#~ msgstr ""
-#~ "某些服务所需的应用程序密鑰：\n"
-#~ "• Baidu: appkey\n"
-#~ "• Papago: secret_key"
-
-#~ msgid "Baidu (appkey) · Papago (secret_key)"
-#~ msgstr "百度 (appkey) · Papago (secret_key)"
-
-#~ msgid "Logging"
-#~ msgstr "日志"
-
-#~ msgid "Log level:"
-#~ msgstr "日志级别："
-
-#~ msgid ""
-#~ "Verbosity of the application log.\n"
-#~ "DEBUG shows all messages; ERROR shows only critical failures.\n"
-#~ "Effective after restarting the application."
-#~ msgstr ""
-#~ "应用程序日志的详细程度。\n"
-#~ "DEBUG 显示所有消息；ERROR 仅显示关键错误。\n"
-#~ "重启应用程序后生效。"
-
-#~ msgid "Files"
-#~ msgstr "文件"
-
-#~ msgid "Maximum recent files:"
-#~ msgstr "最多最近文件数："
-
-#~ msgid "Maximum number of recently opened files shown in the File menu."
-#~ msgstr "文件菜单中显示的最近打开文件的最大数量。"
-
-# Settings dialog – Images group
-#~ msgid "Images"
-#~ msgstr "图片"
-
-#~ msgid "Thumbnail width (px):"
-#~ msgstr "缩略图宽度 (px)："
-
-#~ msgid ""
-#~ "Maximum width (in pixels) of the thumbnail stored in the database.\n"
-#~ "Larger values improve quality but increase database size."
-#~ msgstr ""
-#~ "存储在数据库中的缩略图的最大宽度（像素）。\n"
-#~ "较大的值可提高质量，但会增加数据库大小。"
-
-#~ msgid "Thumbnail height (px):"
-#~ msgstr "缩略图高度 (px)："
-
-#~ msgid ""
-#~ "Maximum height (in pixels) of the thumbnail stored in the database.\n"
-#~ "Larger values improve quality but increase database size."
-#~ msgstr ""
-#~ "存储在数据库中的缩略图的最大高度（像素）。\n"
-#~ "较大的值可提高质量，但会增加数据库大小。"
-
-# Settings dialog – language selector
-#~ msgid "System default"
-#~ msgstr "系统默认"
-
-# Column headers
-#~ msgid "AI"
-#~ msgstr "AI"
-
-#~ msgid "Group"
-#~ msgstr "分组"
-
-#~ msgid "Name"
-#~ msgstr "名称"
-
-# IMAGE column
-#~ msgid "Image"
-#~ msgstr "图片"
-
-#~ msgid "English"
-#~ msgstr "英文"
-
-# Column header tooltips
-#~ msgid ""
-#~ "Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
-#~ "Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
-#~ msgstr ""
-#~ "Enter：确认  ·  Ctrl+Enter 或 Shift+Enter：插入换行\n"
-#~ "Tab / Shift+Tab：移至相邻单元格  ·  Esc：取消"
-
-#~ msgid ""
-#~ "AI model name.\n"
-#~ "Sort: primary AI → Group → Name"
-#~ msgstr ""
-#~ "AI 模型名称。\n"
-#~ "排序：主键 AI → 分组 → 名称"
-
-#~ msgid ""
-#~ "Prompt group / category.\n"
-#~ "Sort: primary Group → Name → AI"
-#~ msgstr ""
-#~ "提示词分组 / 分类。\n"
-#~ "排序：主键 分组 → 名称 → AI"
-
-#~ msgid ""
-#~ "Prompt title.\n"
-#~ "Sort: primary Name → Group → AI"
-#~ msgstr ""
-#~ "提示词标题。\n"
-#~ "排序：主键 名称 → 分组 → AI"
-
-#~ msgid ""
-#~ "Double-click to view · Right-click for options\n"
-#~ "Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
-#~ msgstr ""
-#~ "双击查看 · 右键获取选项\n"
-#~ "Enter：从文件加载  ·  Ctrl+V：粘贴  ·  Backspace：清除"
-
-#~ msgid "Prompt in local language.\n"
-#~ msgstr "本地语言提示词。\n"
-
-#~ msgid "Prompt in English.\n"
-#~ msgstr "英文提示词。\n"
-
-# Status messages
-#~ msgid "Ready"
-#~ msgstr "就绪"
-
-# Main window – filters
-#~ msgid "Filter:"
-#~ msgstr "筛选："
-
-#~ msgid "AI…"
-#~ msgstr "AI…"
-
-#~ msgid "Filter the AI column. Supports regular expressions."
-#~ msgstr "筛选「AI」列，支持正则表达式。"
-
-#~ msgid "Filter the Group column. Supports regular expressions."
-#~ msgstr "筛选「分组」列，支持正则表达式。"
-
-#~ msgid "Filter the Name column. Supports regular expressions."
-#~ msgstr "筛选「名称」列，支持正则表达式。"
-
-#~ msgid "Filter the local language column. Supports regular expressions."
-#~ msgstr "筛选「本地语言」列，支持正则表达式。"
-
-#~ msgid "Filter the English column. Supports regular expressions."
-#~ msgstr "筛选「英文」列，支持正则表达式。"
-
-#~ msgid "Group…"
-#~ msgstr "分组…"
-
-#~ msgid "Name…"
-#~ msgstr "名称…"
-
-#~ msgid "Local language…"
-#~ msgstr "本地语言…"
-
-#~ msgid "English…"
-#~ msgstr "英文…"
-
-#~ msgid "Clear"
-#~ msgstr "清除"
-
-#~ msgid "Clear all filters"
-#~ msgstr "清除所有筛选条件"
-
-# Main window – menu
-#~ msgid "&File"
-#~ msgstr "文件(&F)"
-
-#~ msgid "&Tools"
-#~ msgstr "工具(&T)"
-
-#~ msgid "&Help"
-#~ msgstr "帮助(&H)"
-
-#~ msgid "&New"
-#~ msgstr "新建(&N)"
-
-# Main window – toolbar / actions
-#~ msgid "New file"
-#~ msgstr "新建文件"
-
-#~ msgid "&Open…"
-#~ msgstr "打开(&O)…"
-
-#~ msgid "Open a prompt file"
-#~ msgstr "打开提示词文件"
-
-#~ msgid "&Save"
-#~ msgstr "保存(&S)"
-
-#~ msgid "Save the current file"
-#~ msgstr "保存当前文件"
-
-#~ msgid "Save &As…"
-#~ msgstr "另存为(&A)…"
-
-#~ msgid "Save to a new file"
-#~ msgstr "另存为新文件"
-
-#~ msgid "&Close"
-#~ msgstr "关闭(&C)"
-
-#~ msgid "Close current file"
-#~ msgstr "关闭当前文件"
-
-#~ msgid "&Quit"
-#~ msgstr "退出(&Q)"
-
-#~ msgid "Quit PBPrompt"
-#~ msgstr "退出 PBPrompt"
-
-#~ msgid "&Options…"
-#~ msgstr "选项(&O)…"
-
-#~ msgid "Open settings dialog"
-#~ msgstr "打开设置对话框"
-
-#~ msgid "&About…"
-#~ msgstr "关于(&A)…"
-
-#~ msgid "About PBPrompt"
-#~ msgstr "关于 PBPrompt"
-
-#~ msgid "New Prompt"
-#~ msgstr "新建提示词"
-
-#~ msgid "Add a new prompt entry"
-#~ msgstr "添加新提示词条目"
-
-#~ msgid "Duplicate"
-#~ msgstr "复制行"
-
-#~ msgid "Duplicate the current row"
-#~ msgstr "复制当前行"
-
-#~ msgid "Delete"
-#~ msgstr "删除"
-
-#~ msgid "Delete selected prompts"
-#~ msgstr "删除所选提示词"
-
-#~ msgid "→ English"
-#~ msgstr "→ 英文"
-
-#~ msgid "Translate selected rows to English"
-#~ msgstr "将所选行翻译为英文"
-
-#~ msgid "← Local"
-#~ msgstr "← 本地语言"
-
-#~ msgid "Translate selected rows from English"
-#~ msgstr "将所选行从英文翻译为本地语言"
-
-# File menu – YAML import/export
-#~ msgid "Import &YAML"
-#~ msgstr "导入(&Y) YAML"
-
-#~ msgid "Add entries…"
-#~ msgstr "添加条目…"
-
-#~ msgid "Import YAML file (append)"
-#~ msgstr "导入 YAML 文件（追加）"
-
-#~ msgid "Replace all…"
-#~ msgstr "替换全部…"
-
-#~ msgid "Import YAML file (replace all)"
-#~ msgstr "导入 YAML 文件（替换全部）"
-
-#~ msgid "Export &YAML…"
-#~ msgstr "导出(&Y) YAML…"
-
-#~ msgid "Export YAML file"
-#~ msgstr "导出 YAML 文件"
-
-#~ msgid "Refresh Thumbnails"
-#~ msgstr "刷新缩略图"
-
-#~ msgid "Regenerate all thumbnails from stored images"
-#~ msgstr "从存储的图像重新生成所有缩略图"
-
-#~ msgid "Recent &Files"
-#~ msgstr "最近文件(&F)"
-
-#~ msgid "Copied: %s"
-#~ msgstr "已复制：%s"
-
-#~ msgid "New file created"
-#~ msgstr "新文件已创建"
-
-# Dialogs – file operations
-#~ msgid "Open Prompt File"
-#~ msgstr "打开提示词文件"
-
-# Dialogs – file operations (SQLite)
-#~ msgid "PBPrompt database (*.sqlite);;All files (*.*)"
-#~ msgstr "PBPrompt 数据库 (*.sqlite);;所有文件 (*.*)"
-
-#~ msgid "Loaded {n} entries from {path}"
-#~ msgstr "已从 {path} 加载 {n} 条记录"
-
-#~ msgid "Error Opening File"
-#~ msgstr "打开文件错误"
-
-#~ msgid ""
-#~ "Could not open file:\n"
-#~ "{path}\n"
-#~ "\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "无法打开文件：\n"
-#~ "{path}\n"
-#~ "\n"
-#~ "{error}"
-
-# Dialogs – errors
-#~ msgid "Error"
-#~ msgstr "错误"
-
-#~ msgid ""
-#~ "Could not open file:\n"
-#~ "{path}"
-#~ msgstr ""
-#~ "无法打开文件：\n"
-#~ "{path}"
-
-#~ msgid "Save Prompt File"
-#~ msgstr "保存提示词文件"
-
-#~ msgid "File saved successfully"
-#~ msgstr "文件保存成功"
-
-#~ msgid ""
-#~ "Could not save file:\n"
-#~ "{path}"
-#~ msgstr ""
-#~ "无法保存文件：\n"
-#~ "{path}"
-
-#~ msgid "Import YAML"
-#~ msgstr "导入 YAML"
-
-#~ msgid "YAML files (*.yaml *.yml);;All files (*.*)"
-#~ msgstr "YAML 文件 (*.yaml *.yml);;所有文件 (*.*)"
-
-# Status messages (YAML import/export)
-#~ msgid "Imported {n} entries from {path}"
-#~ msgstr "已从 {path} 导入 {n} 条记录"
-
-#~ msgid "({k} duplicate(s) skipped)"
-#~ msgstr "（跳过了 {k} 个重复项）"
-
-# Dialogs – errors (YAML import/export)
-#~ msgid ""
-#~ "Import failed:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "导入失败：\n"
-#~ "{error}"
-
-#~ msgid "Export YAML"
-#~ msgstr "导出 YAML"
-
-#~ msgid "Exported {n} entries to {path}"
-#~ msgstr "已将 {n} 条记录导出到 {path}"
-
-#~ msgid ""
-#~ "Export failed:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "导出失败：\n"
-#~ "{error}"
-
-#~ msgid "File closed"
-#~ msgstr "文件已关闭"
-
-# Dialogs – confirmation
-#~ msgid "Unsaved Changes"
-#~ msgstr "未保存的更改"
-
-#~ msgid ""
-#~ "The document has been modified.\n"
-#~ "Do you want to save your changes?"
-#~ msgstr ""
-#~ "文档已被修改。\n"
-#~ "是否保存更改？"
-
-#~ msgid "Row duplicated"
-#~ msgstr "行已复制"
-
-#~ msgid "Confirm Delete"
-#~ msgstr "确认删除"
-
-#~ msgid "Are you sure you want to delete {n} selected row(s)?"
-#~ msgstr "确定要删除所选的 {n} 行吗？"
-
-#~ msgid "Deleted {n} row(s)"
-#~ msgstr "已删除 {n} 行"
-
-# Context menu
-#~ msgid "Copy"
-#~ msgstr "复制"
-
-#~ msgid "Cut"
-#~ msgstr "剪切"
-
-#~ msgid "Paste"
-#~ msgstr "粘贴"
-
-#~ msgid "Thumbnails refreshed: {n} image(s) updated"
-#~ msgstr "缩略图已刷新：已更新 {n} 张图片"
-
-#~ msgid "Unsupported Format"
-#~ msgstr "不支持的格式"
-
-#~ msgid "Unsupported image format"
-#~ msgstr "不支持的图片格式"
-
-#~ msgid "Load image from file…"
-#~ msgstr "从文件加载图片…"
-
-#~ msgid "Paste image"
-#~ msgstr "粘贴图片"
-
-#~ msgid "Clear image"
-#~ msgstr "清除图片"
-
-#~ msgid "Confirm Clear Image"
-#~ msgstr "确认清除图片"
-
-#~ msgid "Clear the image from {n} selected row(s)?"
-#~ msgstr "清除 {n} 行的图片？"
-
-#~ msgid "Load Image"
-#~ msgstr "加载图片"
-
-#~ msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
-#~ msgstr "图片文件 (*.jpg *.jpeg *.png);;所有文件 (*.*)"
-
-#~ msgid "No preview"
-#~ msgstr "无预览"
-
-#~ msgid ""
-#~ "Could not read file:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "无法读取文件：\n"
-#~ "{error}"
-
-#~ msgid "No Image"
-#~ msgstr "无图片"
-
-#~ msgid "No image in clipboard"
-#~ msgstr "剪贴板中没有图片"
-
-#~ msgid "No rows selected"
-#~ msgstr "未选择任何行"
-
-#~ msgid "Translation Error"
-#~ msgstr "翻译错误"
-
-#~ msgid ""
-#~ "Could not initialise the translation service.\n"
-#~ "Check your API key in Options."
-#~ msgstr ""
-#~ "无法初始化翻译服务。\n"
-#~ "请在选项中检查 API 密钥。"
-
-#~ msgid ""
-#~ "Translation failed:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "翻译失败：\n"
-#~ "{error}"
-
-#~ msgid "Translated {n} row(s)"
-#~ msgstr "已翻译 {n} 行"
-
-#~ msgid "No recent files"
-#~ msgstr "无最近文件"
-
-#~ msgid "Clear list"
-#~ msgstr "清空列表"
-
-#~ msgid "File Not Found"
-#~ msgstr "文件未找到"
-
-#~ msgid ""
-#~ "The file no longer exists:\n"
-#~ "{path}"
-#~ msgstr ""
-#~ "文件不再存在：\n"
-#~ "{path}"
-
-#~ msgid "Untitled"
-#~ msgstr "无标题"
+#, python-brace-format
+msgid "About {app}"
+msgstr "关于 {app}"
+
+# ==AUTO== Automatically translated
+msgid "A program to register and categorize AI prompts to keep tries."
+msgstr "一个用于注册和分类AI提示词的程序。"
+
+msgid "MIT License"
+msgstr "MIT 许可证"
+
+msgid "l"
+msgstr "w"
 
 # Image viewer toolbar
-#~ msgid "Fit"
-#~ msgstr "适应窗口"
+msgid "Fit"
+msgstr "适应窗口"
 
-#~ msgid "×1"
-#~ msgstr "×1"
+#, python-format
+msgid "Fit image to window (max ×%d)"
+msgstr "适应窗口（最大 ×%d）"
 
-#~ msgid "Width"
-#~ msgstr "适应宽度"
+msgid "×1"
+msgstr "×1"
 
-#~ msgid "Height"
-#~ msgstr "适应高度"
+msgid "Actual size — 1 pixel = 1 displayed pixel  [1]"
+msgstr "实际大小 — 1 像素 = 1 显示像素  [1]"
 
-#~ msgid "+50%"
-#~ msgstr "+50%"
+msgid "Width"
+msgstr "适应宽度"
 
-#~ msgid "-50%"
-#~ msgstr "-50%"
+#, python-format
+msgid "Fit image width to window  [%s]"
+msgstr "适应窗口宽度  [%s]"
 
-#~ msgid "l"
-#~ msgstr "w"
+msgid "Height"
+msgstr "适应高度"
 
-#~ msgid "Fit image to window (max ×%d)"
-#~ msgstr "适应窗口（最大 ×%d）"
+msgid "Fit image height to window  [H]"
+msgstr "适应窗口高度  [H]"
 
-#~ msgid "Actual size — 1 pixel = 1 displayed pixel  [1]"
-#~ msgstr "实际大小 — 1 像素 = 1 显示像素  [1]"
+# ==AUTO== Automatically translated
+#, python-format
+msgid "+%d%%"
+msgstr "+%d%%"
 
-#~ msgid "Fit image width to window  [%s]"
-#~ msgstr "适应窗口宽度  [%s]"
+#, python-format
+msgid "Zoom in +%d%%  [+]"
+msgstr "放大 +%d%%  [+]"
 
-#~ msgid "Fit image height to window  [H]"
-#~ msgstr "适应窗口高度  [H]"
+# ==AUTO== Automatically translated
+#, python-format
+msgid "-%d%%"
+msgstr "-%d%%"
 
-#~ msgid "Zoom in +50%  [+]"
-#~ msgstr "放大 +50%  [+]"
+#, python-format
+msgid "Zoom out -%d%%  [−]"
+msgstr "缩小 -%d%%  [−]"
 
-#~ msgid "Zoom out -50%  [−]"
-#~ msgstr "缩小 -50%  [−]"
+# Column headers
+msgid "AI"
+msgstr "AI"
 
-#~ msgid "(No image)"
-#~ msgstr "（无图像）"
+msgid "Group"
+msgstr "分组"
+
+msgid "Name"
+msgstr "名称"
+
+# IMAGE column
+msgid "Image"
+msgstr "图片"
+
+msgid "English"
+msgstr "英文"
+
+# Column header tooltips
+msgid ""
+"Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
+"Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
+msgstr ""
+"Enter：确认  ·  Ctrl+Enter 或 Shift+Enter：插入换行\n"
+"Tab / Shift+Tab：移至相邻单元格  ·  Esc：取消"
+
+msgid ""
+"AI model name.\n"
+"Sort: primary AI → Group → Name"
+msgstr ""
+"AI 模型名称。\n"
+"排序：主键 AI → 分组 → 名称"
+
+msgid ""
+"Prompt group / category.\n"
+"Sort: primary Group → Name → AI"
+msgstr ""
+"提示词分组 / 分类。\n"
+"排序：主键 分组 → 名称 → AI"
+
+msgid ""
+"Prompt title.\n"
+"Sort: primary Name → Group → AI"
+msgstr ""
+"提示词标题。\n"
+"排序：主键 名称 → 分组 → AI"
+
+#, fuzzy
+msgid "Double-click to view · Right-click for options"
+msgstr ""
+"双击查看 · 右键获取选项\n"
+"Enter：从文件加载  ·  Ctrl+V：粘贴  ·  Backspace：清除"
+
+msgid "Prompt in local language.\n"
+msgstr "本地语言提示词。\n"
+
+msgid "Prompt in English.\n"
+msgstr "英文提示词。\n"
+
+# Status messages
+msgid "Ready"
+msgstr "就绪"
+
+# Main window – filters
+msgid "Filter:"
+msgstr "筛选："
+
+msgid "AI…"
+msgstr "AI…"
+
+msgid "Filter the AI column. Supports regular expressions."
+msgstr "筛选「AI」列，支持正则表达式。"
+
+msgid "Group…"
+msgstr "分组…"
+
+msgid "Filter the Group column. Supports regular expressions."
+msgstr "筛选「分组」列，支持正则表达式。"
+
+msgid "Name…"
+msgstr "名称…"
+
+msgid "Filter the Name column. Supports regular expressions."
+msgstr "筛选「名称」列，支持正则表达式。"
+
+msgid "Local language…"
+msgstr "本地语言…"
+
+msgid "Filter the local language column. Supports regular expressions."
+msgstr "筛选「本地语言」列，支持正则表达式。"
+
+msgid "English…"
+msgstr "英文…"
+
+msgid "Filter the English column. Supports regular expressions."
+msgstr "筛选「英文」列，支持正则表达式。"
+
+msgid "Clear"
+msgstr "清除"
+
+msgid "Clear all filters"
+msgstr "清除所有筛选条件"
+
+# Main window – menu
+msgid "&File"
+msgstr "文件(&F)"
+
+msgid "&Tools"
+msgstr "工具(&T)"
+
+msgid "&Help"
+msgstr "帮助(&H)"
+
+msgid "&New"
+msgstr "新建(&N)"
+
+# Main window – toolbar / actions
+msgid "New file"
+msgstr "新建文件"
+
+msgid "&Open…"
+msgstr "打开(&O)…"
+
+msgid "Open a prompt file"
+msgstr "打开提示词文件"
+
+msgid "&Save"
+msgstr "保存(&S)"
+
+msgid "Save the current file"
+msgstr "保存当前文件"
+
+msgid "Save &As…"
+msgstr "另存为(&A)…"
+
+msgid "Save to a new file"
+msgstr "另存为新文件"
+
+msgid "&Close"
+msgstr "关闭(&C)"
+
+msgid "Close current file"
+msgstr "关闭当前文件"
+
+msgid "&Quit"
+msgstr "退出(&Q)"
+
+msgid "Quit PBPrompt"
+msgstr "退出 PBPrompt"
+
+msgid "&Options…"
+msgstr "选项(&O)…"
+
+msgid "Open settings dialog"
+msgstr "打开设置对话框"
+
+msgid "&About…"
+msgstr "关于(&A)…"
+
+msgid "About PBPrompt"
+msgstr "关于 PBPrompt"
+
+msgid "New Prompt"
+msgstr "新建提示词"
+
+msgid "Add a new prompt entry"
+msgstr "添加新提示词条目"
+
+msgid "Duplicate"
+msgstr "复制行"
+
+msgid "Duplicate the current row"
+msgstr "复制当前行"
+
+msgid "Delete"
+msgstr "删除"
+
+msgid "Delete selected prompts"
+msgstr "删除所选提示词"
+
+msgid "→ English"
+msgstr "→ 英文"
+
+msgid "Translate selected rows to English"
+msgstr "将所选行翻译为英文"
+
+msgid "← Local"
+msgstr "← 本地语言"
+
+msgid "Translate selected rows from English"
+msgstr "将所选行从英文翻译为本地语言"
+
+# File menu – YAML import/export
+msgid "Import &YAML"
+msgstr "导入(&Y) YAML"
+
+msgid "Add entries…"
+msgstr "添加条目…"
+
+msgid "Import YAML file (append)"
+msgstr "导入 YAML 文件（追加）"
+
+msgid "Replace all…"
+msgstr "替换全部…"
+
+msgid "Import YAML file (replace all)"
+msgstr "导入 YAML 文件（替换全部）"
+
+msgid "Export &YAML…"
+msgstr "导出(&Y) YAML…"
+
+msgid "Export YAML file"
+msgstr "导出 YAML 文件"
+
+msgid "Refresh Thumbnails"
+msgstr "刷新缩略图"
+
+msgid "Regenerate all thumbnails from stored images"
+msgstr "从存储的图像重新生成所有缩略图"
+
+msgid "Recent &Files"
+msgstr "最近文件(&F)"
+
+msgid ""
+"Double-click to view · Right-click for options\n"
+"Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
+msgstr ""
+"双击查看 · 右键获取选项\n"
+"Enter：从文件加载  ·  Ctrl+V：粘贴  ·  Backspace：清除"
+
+#, python-format
+msgid "Copied: %s"
+msgstr "已复制：%s"
+
+msgid "New file created"
+msgstr "新文件已创建"
+
+# Dialogs – file operations
+msgid "Open Prompt File"
+msgstr "打开提示词文件"
+
+# Dialogs – file operations (SQLite)
+msgid "PBPrompt database (*.sqlite);;All files (*.*)"
+msgstr "PBPrompt 数据库 (*.sqlite);;所有文件 (*.*)"
+
+#, python-brace-format
+msgid "Loaded {n} entries from {path}"
+msgstr "已从 {path} 加载 {n} 条记录"
+
+msgid "Error Opening File"
+msgstr "打开文件错误"
+
+#, python-brace-format
+msgid ""
+"Could not open file:\n"
+"{path}\n"
+"\n"
+"{error}"
+msgstr ""
+"无法打开文件：\n"
+"{path}\n"
+"\n"
+"{error}"
+
+# Dialogs – errors
+msgid "Error"
+msgstr "错误"
+
+#, python-brace-format
+msgid ""
+"Could not open file:\n"
+"{path}"
+msgstr ""
+"无法打开文件：\n"
+"{path}"
+
+msgid "Save Prompt File"
+msgstr "保存提示词文件"
+
+msgid "File saved successfully"
+msgstr "文件保存成功"
+
+#, python-brace-format
+msgid ""
+"Could not save file:\n"
+"{path}"
+msgstr ""
+"无法保存文件：\n"
+"{path}"
+
+msgid "Import YAML"
+msgstr "导入 YAML"
+
+msgid "YAML files (*.yaml *.yml);;All files (*.*)"
+msgstr "YAML 文件 (*.yaml *.yml);;所有文件 (*.*)"
+
+# Status messages (YAML import/export)
+#, python-brace-format
+msgid "Imported {n} entries from {path}"
+msgstr "已从 {path} 导入 {n} 条记录"
+
+#, python-brace-format
+msgid "({k} duplicate(s) skipped)"
+msgstr "（跳过了 {k} 个重复项）"
+
+# Dialogs – errors (YAML import/export)
+#, python-brace-format
+msgid ""
+"Import failed:\n"
+"{error}"
+msgstr ""
+"导入失败：\n"
+"{error}"
+
+msgid "Export YAML"
+msgstr "导出 YAML"
+
+#, python-brace-format
+msgid "Exported {n} entries to {path}"
+msgstr "已将 {n} 条记录导出到 {path}"
+
+#, python-brace-format
+msgid ""
+"Export failed:\n"
+"{error}"
+msgstr ""
+"导出失败：\n"
+"{error}"
+
+msgid "File closed"
+msgstr "文件已关闭"
+
+# Dialogs – confirmation
+msgid "Unsaved Changes"
+msgstr "未保存的更改"
+
+msgid ""
+"The document has been modified.\n"
+"Do you want to save your changes?"
+msgstr ""
+"文档已被修改。\n"
+"是否保存更改？"
+
+msgid "Row duplicated"
+msgstr "行已复制"
+
+msgid "Confirm Delete"
+msgstr "确认删除"
+
+#, python-brace-format
+msgid "Are you sure you want to delete {n} selected row(s)?"
+msgstr "确定要删除所选的 {n} 行吗？"
+
+#, python-brace-format
+msgid "Deleted {n} row(s)"
+msgstr "已删除 {n} 行"
+
+# Context menu
+msgid "Copy"
+msgstr "复制"
+
+msgid "Cut"
+msgstr "剪切"
+
+msgid "Paste"
+msgstr "粘贴"
+
+#, python-brace-format
+msgid "Thumbnails refreshed: {n} image(s) updated"
+msgstr "缩略图已刷新：已更新 {n} 张图片"
+
+msgid "Unsupported Format"
+msgstr "不支持的格式"
+
+msgid "Unsupported image format"
+msgstr "不支持的图片格式"
+
+msgid "Load image from file…"
+msgstr "从文件加载图片…"
+
+msgid "Paste image"
+msgstr "粘贴图片"
+
+msgid "Copy image"
+msgstr "复制图片"
+
+msgid "Save image to file…"
+msgstr "将图片保存到文件…"
+
+msgid "Clear image"
+msgstr "清除图片"
+
+msgid "Load Image"
+msgstr "加载图片"
+
+msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
+msgstr "图片文件 (*.jpg *.jpeg *.png);;所有文件 (*.*)"
+
+msgid "No preview"
+msgstr "无预览"
+
+#, python-brace-format
+msgid ""
+"Could not read file:\n"
+"{error}"
+msgstr ""
+"无法读取文件：\n"
+"{error}"
+
+msgid "No Image"
+msgstr "无图片"
+
+msgid "No image in clipboard"
+msgstr "剪贴板中没有图片"
+
+msgid "JPEG image (*.jpg *.jpeg)"
+msgstr "JPEG 图片 (*.jpg *.jpeg)"
+
+msgid "PNG image (*.png)"
+msgstr "PNG 图片 (*.png)"
+
+msgid "Save Image"
+msgstr "保存图片"
+
+#, python-brace-format
+msgid ""
+"Could not save file:\n"
+"{error}"
+msgstr ""
+"无法保存文件:\n"
+"{error}"
+
+msgid "Confirm Clear Image"
+msgstr "确认清除图片"
+
+#, python-brace-format
+msgid "Clear the image from {n} selected row(s)?"
+msgstr "清除 {n} 行的图片？"
+
+msgid "No rows selected"
+msgstr "未选择任何行"
+
+msgid "Translation Error"
+msgstr "翻译错误"
+
+msgid ""
+"Could not initialise the translation service.\n"
+"Check your API key in Options."
+msgstr ""
+"无法初始化翻译服务。\n"
+"请在选项中检查 API 密钥。"
+
+#, python-brace-format
+msgid ""
+"Translation failed:\n"
+"{error}"
+msgstr ""
+"翻译失败：\n"
+"{error}"
+
+#, python-brace-format
+msgid "Translated {n} row(s)"
+msgstr "已翻译 {n} 行"
+
+msgid "No recent files"
+msgstr "无最近文件"
+
+msgid "Clear list"
+msgstr "清空列表"
+
+msgid "File Not Found"
+msgstr "文件未找到"
+
+#, python-brace-format
+msgid ""
+"The file no longer exists:\n"
+"{path}"
+msgstr ""
+"文件不再存在：\n"
+"{path}"
+
+msgid "Untitled"
+msgstr "无标题"
+
+# Settings dialog
+msgid "Settings"
+msgstr "设置"
+
+msgid "Language"
+msgstr "语言"
+
+msgid "Display language:"
+msgstr "显示语言："
+
+msgid ""
+"Language used for the user interface.\n"
+"'System default' uses the operating system locale."
+msgstr ""
+"用于用户界面的语言。\n"
+"“系统默认”使用操作系统的语言设置。"
+
+msgid "Translation language:"
+msgstr "翻译语言："
+
+msgid ""
+"Language of the 'Local language' column.\n"
+"Used as the source or target when translating prompts.\n"
+"'System default' uses the operating system locale."
+msgstr ""
+"“本地语言”列的语言。\n"
+"翻译提示词时用作源语言或目标语言。\n"
+"“系统默认”使用操作系统的语言设置。"
+
+msgid "Translation service"
+msgstr "翻译服务"
+
+msgid "Service:"
+msgstr "服务："
+
+msgid ""
+"Translation service used to fill the 'Local language' column\n"
+"automatically when clicking the Translate button."
+msgstr ""
+"用于自动填充“本地语言”列的翻译服务，\n"
+"点击“翻译”按鈕时生效。"
+
+msgid "API key:"
+msgstr "API 密钥："
+
+msgid ""
+"API key required by DeepL, Microsoft Translator, Yandex,\n"
+"QCRI and LibreTranslate.\n"
+"Leave blank for services that do not require one\n"
+"(Google, MyMemory, PONS, Linguee, Reverso…)."
+msgstr ""
+"DeepL、Microsoft Translator、Yandex、\n"
+"QCRI 和 LibreTranslate 所需的 API 密鑰。\n"
+"对于不需要密鑰的服务可留空\n"
+"（Google、MyMemory、PONS、Linguee、Reverso…）。"
+
+msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+msgstr "DeepL、Microsoft、Yandex、QCRI、LibreTranslate"
+
+msgid "App ID:"
+msgstr "应用 ID："
+
+msgid ""
+"Application identifier required by some services:\n"
+"• Baidu: appid\n"
+"• Papago: client_id"
+msgstr ""
+"某些服务所需的应用程序标识符：\n"
+"• Baidu: appid\n"
+"• Papago: client_id"
+
+msgid "Baidu (appid) · Papago (client_id)"
+msgstr "百度 (appid) · Papago (client_id)"
+
+msgid "App secret:"
+msgstr "应用密钥："
+
+msgid ""
+"Application secret required by some services:\n"
+"• Baidu: appkey\n"
+"• Papago: secret_key"
+msgstr ""
+"某些服务所需的应用程序密鑰：\n"
+"• Baidu: appkey\n"
+"• Papago: secret_key"
+
+msgid "Baidu (appkey) · Papago (secret_key)"
+msgstr "百度 (appkey) · Papago (secret_key)"
+
+msgid "Logging"
+msgstr "日志"
+
+msgid "Log level:"
+msgstr "日志级别："
+
+msgid ""
+"Verbosity of the application log.\n"
+"DEBUG shows all messages; ERROR shows only critical failures.\n"
+"Effective after restarting the application."
+msgstr ""
+"应用程序日志的详细程度。\n"
+"DEBUG 显示所有消息；ERROR 仅显示关键错误。\n"
+"重启应用程序后生效。"
+
+msgid "Files"
+msgstr "文件"
+
+msgid "Maximum recent files:"
+msgstr "最多最近文件数："
+
+msgid "Maximum number of recently opened files shown in the File menu."
+msgstr "文件菜单中显示的最近打开文件的最大数量。"
+
+# Settings dialog – Images group
+msgid "Images"
+msgstr "图片"
+
+msgid "Thumbnail width (px):"
+msgstr "缩略图宽度 (px)："
+
+msgid ""
+"Maximum width (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
+msgstr ""
+"存储在数据库中的缩略图的最大宽度（像素）。\n"
+"较大的值可提高质量，但会增加数据库大小。"
+
+msgid "Thumbnail height (px):"
+msgstr "缩略图高度 (px)："
+
+msgid ""
+"Maximum height (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
+msgstr ""
+"存储在数据库中的缩略图的最大高度（像素）。\n"
+"较大的值可提高质量，但会增加数据库大小。"
 
 # Settings dialog – image viewer
-#~ msgid "Image viewer max zoom (×):"
-#~ msgstr "图像查看器最大缩放比 (×)："
+msgid "Image viewer max zoom (×):"
+msgstr "图像查看器最大缩放比 (×)："
 
-#~ msgid ""
-#~ "Maximum magnification in 'Fit' mode when the image is smaller\n"
-#~ "than the viewer window.\n"
-#~ "1× to 16× (default: 4×)."
-#~ msgstr ""
-#~ "在『适应』模式下，当图像小于查看器窗口时的\n"
-#~ "最大放大倍数。\n"
-#~ "1× 至 16×（默认：4×）。"
+msgid ""
+"Maximum magnification in 'Fit' mode when the image is smaller\n"
+"than the viewer window.\n"
+"1× to 16× (default: 4×)."
+msgstr ""
+"在『适应』模式下，当图像小于查看器窗口时的\n"
+"最大放大倍数。\n"
+"1× 至 16×（默认：4×）。"
 
-#~ msgid "Zoom step (%):"
-#~ msgstr "缩放步幅（%）："
+msgid "Zoom step (%):"
+msgstr "缩放步幅（%）："
 
-#~ msgid ""
-#~ "Percentage added or removed when clicking + or −,\n"
-#~ "or scrolling the mouse wheel in the image viewer.\n"
-#~ "1% to 50% (default: 10%)."
-#~ msgstr ""
-#~ "点击 + 或 − 或在图像查看器中滚动鼠标滚轮时\n"
-#~ "增加或减少的百分比。\n"
-#~ "1% 至 50%（默认：10%）。"
+msgid ""
+"Percentage added or removed when clicking + or −,\n"
+"or scrolling the mouse wheel in the image viewer.\n"
+"1% to 50% (default: 10%)."
+msgstr ""
+"点击 + 或 − 或在图像查看器中滚动鼠标滚轮时\n"
+"增加或减少的百分比。\n"
+"1% 至 50%（默认：10%）。"
 
-#~ msgid "Keep original dimensions"
-#~ msgstr "保留原始尺寸"
+msgid "Keep original dimensions"
+msgstr "保留原始尺寸"
 
-#~ msgid ""
-#~ "When checked, images are stored as-is regardless of their size.\n"
-#~ "When unchecked, images larger than the limits below are resized\n"
-#~ "proportionally before being stored in the database."
-#~ msgstr ""
-#~ "勾选后，图像将原样存储，不受尺寸限制。\n"
-#~ "未勾选时，超出以下限制的图像将按比例\n"
-#~ "缩小后再存储到数据库中。"
+msgid ""
+"When checked, images are stored as-is regardless of their size.\n"
+"When unchecked, images larger than the limits below are resized\n"
+"proportionally before being stored in the database."
+msgstr ""
+"勾选后，图像将原样存储，不受尺寸限制。\n"
+"未勾选时，超出以下限制的图像将按比例\n"
+"缩小后再存储到数据库中。"
 
-#~ msgid "Max width (px):"
-#~ msgstr "最大宽度（像素）："
+msgid "Max width (px):"
+msgstr "最大宽度（像素）："
 
-#~ msgid ""
-#~ "Maximum width (in pixels) for images stored in the database.\n"
-#~ "Images wider than this value are resized proportionally."
-#~ msgstr ""
-#~ "数据库中存储图像的最大宽度（像素）。\n"
-#~ "超过此值的图像将按比例缩小。"
+msgid ""
+"Maximum width (in pixels) for images stored in the database.\n"
+"Images wider than this value are resized proportionally."
+msgstr ""
+"数据库中存储图像的最大宽度（像素）。\n"
+"超过此值的图像将按比例缩小。"
 
-#~ msgid "Max height (px):"
-#~ msgstr "最大高度（像素）："
+msgid "Max height (px):"
+msgstr "最大高度（像素）："
 
-#~ msgid ""
-#~ "Maximum height (in pixels) for images stored in the database.\n"
-#~ "Images taller than this value are resized proportionally."
-#~ msgstr ""
-#~ "数据库中存储图像的最大高度（像素）。\n"
-#~ "超过此值的图像将按比例缩小。"
+msgid ""
+"Maximum height (in pixels) for images stored in the database.\n"
+"Images taller than this value are resized proportionally."
+msgstr ""
+"数据库中存储图像的最大高度（像素）。\n"
+"超过此值的图像将按比例缩小。"
 
-#~ msgid "Copy image"
-#~ msgstr "复制图片"
-
-#~ msgid "Save image to file…"
-#~ msgstr "将图片保存到文件…"
-
-#~ msgid "Save Image"
-#~ msgstr "保存图片"
-
-#~ msgid "JPEG image (*.jpg *.jpeg)"
-#~ msgstr "JPEG 图片 (*.jpg *.jpeg)"
-
-#~ msgid "PNG image (*.png)"
-#~ msgstr "PNG 图片 (*.png)"
-
-#~ msgid ""
-#~ "Could not save file:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "无法保存文件:\n"
-#~ "{error}"
+# Settings dialog – language selector
+msgid "System default"
+msgstr "系统默认"

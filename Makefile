@@ -67,8 +67,9 @@ merge-po: pot  ## Merge new strings into .po files
 	@for lang in $(LOCALE_LANGS); do \
 	    $(CONDA_RUN) pybabel update -i $(LOCALES)/messages.pot \
 	        -d $(LOCALES) -l $$lang \
-	        -D messages; \
+	        -D messages --no-fuzzy-matching; \
 	done
+	$(CONDA_RUN) python tools/fix_po_files.py $(LOCALES)
 
 # ---------------------------------------------------------------------------
 # Linting / formatting

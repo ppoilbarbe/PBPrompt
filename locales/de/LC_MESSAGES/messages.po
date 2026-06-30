@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PBPrompt 1.0.0\n"
+"Project-Id-Version:  PBPrompt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-01 21:08+0200\n"
+"POT-Creation-Date: 2001-01-01 00:00+0000\n"
 "PO-Revision-Date: 2026-01-01 00:00+0000\n"
 "Last-Translator: PBMou\n"
 "Language: de\n"
@@ -17,722 +17,761 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
+# ==AUTO== Automatically translated
+msgid "Version:"
+msgstr "Version:"
+
+# ==AUTO== Automatically translated
+msgid "Authors:"
+msgstr "Autoren:"
+
 # About dialog
-#~ msgid "About {app}"
-#~ msgstr "Über {app}"
-
-#~ msgid "MIT License"
-#~ msgstr "MIT-Lizenz"
-
-# Settings dialog
-#~ msgid "Settings"
-#~ msgstr "Einstellungen"
-
-#~ msgid "Language"
-#~ msgstr "Sprache"
-
-#~ msgid "Display language:"
-#~ msgstr "Anzeigesprache:"
-
-#~ msgid ""
-#~ "Language used for the user interface.\n"
-#~ "'System default' uses the operating system locale."
-#~ msgstr ""
-#~ "Sprache der Benutzeroberfläche.\n"
-#~ "'Systemstandard' verwendet die Systemsprache des Betriebssystems."
-
-#~ msgid "Translation language:"
-#~ msgstr "Übersetzungssprache:"
-
-#~ msgid ""
-#~ "Language of the 'Local language' column.\n"
-#~ "Used as the source or target when translating prompts.\n"
-#~ "'System default' uses the operating system locale."
-#~ msgstr ""
-#~ "Sprache der Spalte 'Landessprache'.\n"
-#~ "Wird als Quelle oder Ziel beim Übersetzen von Prompts verwendet.\n"
-#~ "'Systemstandard' verwendet die Systemsprache des Betriebssystems."
-
-#~ msgid "Translation service"
-#~ msgstr "Übersetzungsdienst"
-
-#~ msgid "Service:"
-#~ msgstr "Dienst:"
-
-#~ msgid ""
-#~ "Translation service used to fill the 'Local language' column\n"
-#~ "automatically when clicking the Translate button."
-#~ msgstr ""
-#~ "Übersetzungsdienst zum automatischen Befüllen "
-#~ "der Spalte 'Landessprache'\n"
-#~ "beim Klicken auf die Schaltfläche 'Übersetzen'."
-
-#~ msgid "API key:"
-#~ msgstr "API-Schlüssel:"
-
-#~ msgid ""
-#~ "API key required by DeepL, Microsoft Translator, Yandex,\n"
-#~ "QCRI and LibreTranslate.\n"
-#~ "Leave blank for services that do not require one\n"
-#~ "(Google, MyMemory, PONS, Linguee, Reverso…)."
-#~ msgstr ""
-#~ "API-Schlüssel erforderlich für DeepL, Microsoft Translator, Yandex,\n"
-#~ "QCRI und LibreTranslate.\n"
-#~ "Leer lassen für Dienste, die keinen Schlüssel benötigen\n"
-#~ "(Google, MyMemory, PONS, Linguee, Reverso…)."
-
-#~ msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
-#~ msgstr "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
-
-#~ msgid "App ID:"
-#~ msgstr "App-ID:"
-
-#~ msgid ""
-#~ "Application identifier required by some services:\n"
-#~ "• Baidu: appid\n"
-#~ "• Papago: client_id"
-#~ msgstr ""
-#~ "Anwendungskennung für bestimmte Dienste erforderlich:\n"
-#~ "• Baidu: appid\n"
-#~ "• Papago: client_id"
-
-#~ msgid "Baidu (appid) · Papago (client_id)"
-#~ msgstr "Baidu (appid) · Papago (client_id)"
-
-#~ msgid "App secret:"
-#~ msgstr "App-Geheimnis:"
-
-#~ msgid ""
-#~ "Application secret required by some services:\n"
-#~ "• Baidu: appkey\n"
-#~ "• Papago: secret_key"
-#~ msgstr ""
-#~ "Anwendungsgeheimnis für bestimmte Dienste erforderlich:\n"
-#~ "• Baidu: appkey\n"
-#~ "• Papago: secret_key"
-
-#~ msgid "Baidu (appkey) · Papago (secret_key)"
-#~ msgstr "Baidu (appkey) · Papago (secret_key)"
-
-#~ msgid "Logging"
-#~ msgstr "Protokollierung"
-
-#~ msgid "Log level:"
-#~ msgstr "Protokollstufe:"
-
-#~ msgid ""
-#~ "Verbosity of the application log.\n"
-#~ "DEBUG shows all messages; ERROR shows only critical failures.\n"
-#~ "Effective after restarting the application."
-#~ msgstr ""
-#~ "Ausführlichkeit des Anwendungsprotokolls.\n"
-#~ "DEBUG zeigt alle Meldungen; ERROR zeigt nur kritische Fehler.\n"
-#~ "Wirksam nach dem Neustart der Anwendung."
-
-#~ msgid "Files"
-#~ msgstr "Dateien"
-
-#~ msgid "Maximum recent files:"
-#~ msgstr "Maximale Anzahl zuletzt geöffneter Dateien:"
-
-#~ msgid "Maximum number of recently opened files shown in the File menu."
-#~ msgstr "Maximale Anzahl zuletzt geöffneter Dateien im Menü 'Datei'."
-
-# Settings dialog – Images group
-#~ msgid "Images"
-#~ msgstr "Bilder"
-
-#~ msgid "Thumbnail width (px):"
-#~ msgstr "Miniaturbildbreite (px):"
-
-#~ msgid ""
-#~ "Maximum width (in pixels) of the thumbnail stored in the database.\n"
-#~ "Larger values improve quality but increase database size."
-#~ msgstr ""
-#~ "Maximale Breite (in Pixeln) des in "
-#~ "der Datenbank gespeicherten Miniaturbilds.\n"
-#~ "Größere Werte verbessern die Qualität, erhöhen aber die Datenbankgröße."
-
-#~ msgid "Thumbnail height (px):"
-#~ msgstr "Miniaturbildhöhe (px):"
-
-#~ msgid ""
-#~ "Maximum height (in pixels) of the thumbnail stored in the database.\n"
-#~ "Larger values improve quality but increase database size."
-#~ msgstr ""
-#~ "Maximale Höhe (in Pixeln) des in "
-#~ "der Datenbank gespeicherten Miniaturbilds.\n"
-#~ "Größere Werte verbessern die Qualität, erhöhen aber die Datenbankgröße."
-
-# Settings dialog – language selector
-#~ msgid "System default"
-#~ msgstr "Systemstandard"
-
-# Column headers
-#~ msgid "AI"
-#~ msgstr "KI"
-
-#~ msgid "Group"
-#~ msgstr "Gruppe"
-
-#~ msgid "Name"
-#~ msgstr "Name"
-
-# IMAGE column
-#~ msgid "Image"
-#~ msgstr "Bild"
-
-#~ msgid "English"
-#~ msgstr "Englisch"
-
-# Column header tooltips
-#~ msgid ""
-#~ "Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
-#~ "Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
-#~ msgstr ""
-#~ "Enter: bestätigen  ·  Strg+Enter oder "
-#~ "Umschalt+Enter: neue Zeile einfügen\n"
-#~ "Tab / Umschalt+Tab: benachbarte Zelle  ·  Esc: abbrechen"
-
-#~ msgid ""
-#~ "AI model name.\n"
-#~ "Sort: primary AI → Group → Name"
-#~ msgstr ""
-#~ "Name des KI-Modells.\n"
-#~ "Sortierung: primär KI → Gruppe → Name"
-
-#~ msgid ""
-#~ "Prompt group / category.\n"
-#~ "Sort: primary Group → Name → AI"
-#~ msgstr ""
-#~ "Prompt-Gruppe / -Kategorie.\n"
-#~ "Sortierung: primär Gruppe → Name → KI"
-
-#~ msgid ""
-#~ "Prompt title.\n"
-#~ "Sort: primary Name → Group → AI"
-#~ msgstr ""
-#~ "Prompt-Titel.\n"
-#~ "Sortierung: primär Name → Gruppe → KI"
-
-#~ msgid ""
-#~ "Double-click to view · Right-click for options\n"
-#~ "Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
-#~ msgstr ""
-#~ "Doppelklick zum Anzeigen · Rechtsklick für Optionen\n"
-#~ "Enter: aus Datei laden  ·  Strg+V: einfügen  ·  Rücktaste: löschen"
-
-#~ msgid "Prompt in local language.\n"
-#~ msgstr "Prompt in Landessprache.\n"
-
-#~ msgid "Prompt in English.\n"
-#~ msgstr "Prompt auf Englisch.\n"
-
-# Status messages
-#~ msgid "Ready"
-#~ msgstr "Bereit"
-
-# Main window – filters
-#~ msgid "Filter:"
-#~ msgstr "Filter:"
-
-#~ msgid "AI…"
-#~ msgstr "KI…"
-
-#~ msgid "Filter the AI column. Supports regular expressions."
-#~ msgstr "Filter für die KI-Spalte. Reguläre Ausdrücke werden unterstützt."
-
-#~ msgid "Filter the Group column. Supports regular expressions."
-#~ msgstr "Filter für die Spalte 'Gruppe'. Reguläre Ausdrücke werden unterstützt."
-
-#~ msgid "Filter the Name column. Supports regular expressions."
-#~ msgstr "Filter für die Spalte 'Name'. Reguläre Ausdrücke werden unterstützt."
-
-#~ msgid "Filter the local language column. Supports regular expressions."
-#~ msgstr ""
-#~ "Filter für die Landessprachen-Spalte. "
-#~ "Reguläre Ausdrücke werden unterstützt."
-
-#~ msgid "Filter the English column. Supports regular expressions."
-#~ msgstr "Filter für die Englisch-Spalte. Reguläre Ausdrücke werden unterstützt."
-
-#~ msgid "Group…"
-#~ msgstr "Gruppe…"
-
-#~ msgid "Name…"
-#~ msgstr "Name…"
-
-#~ msgid "Local language…"
-#~ msgstr "Landessprache…"
-
-#~ msgid "English…"
-#~ msgstr "Englisch…"
-
-#~ msgid "Clear"
-#~ msgstr "Zurücksetzen"
-
-#~ msgid "Clear all filters"
-#~ msgstr "Alle Filter zurücksetzen"
-
-# Main window – menu
-#~ msgid "&File"
-#~ msgstr "&Datei"
-
-#~ msgid "&Tools"
-#~ msgstr "&Extras"
-
-#~ msgid "&Help"
-#~ msgstr "&Hilfe"
-
-#~ msgid "&New"
-#~ msgstr "&Neu"
-
-# Main window – toolbar / actions
-#~ msgid "New file"
-#~ msgstr "Neue Datei"
-
-#~ msgid "&Open…"
-#~ msgstr "&Öffnen…"
-
-#~ msgid "Open a prompt file"
-#~ msgstr "Eine Prompt-Datei öffnen"
-
-#~ msgid "&Save"
-#~ msgstr "&Speichern"
-
-#~ msgid "Save the current file"
-#~ msgstr "Aktuelle Datei speichern"
-
-#~ msgid "Save &As…"
-#~ msgstr "Speichern &unter…"
-
-#~ msgid "Save to a new file"
-#~ msgstr "In eine neue Datei speichern"
-
-#~ msgid "&Close"
-#~ msgstr "&Schließen"
-
-#~ msgid "Close current file"
-#~ msgstr "Aktuelle Datei schließen"
-
-#~ msgid "&Quit"
-#~ msgstr "&Beenden"
-
-#~ msgid "Quit PBPrompt"
-#~ msgstr "PBPrompt beenden"
-
-#~ msgid "&Options…"
-#~ msgstr "&Optionen…"
-
-#~ msgid "Open settings dialog"
-#~ msgstr "Einstellungsdialog öffnen"
-
-#~ msgid "&About…"
-#~ msgstr "&Über…"
-
-#~ msgid "About PBPrompt"
-#~ msgstr "Über PBPrompt"
-
-#~ msgid "New Prompt"
-#~ msgstr "Neuer Prompt"
-
-#~ msgid "Add a new prompt entry"
-#~ msgstr "Einen neuen Prompt-Eintrag hinzufügen"
-
-# Duplicate action
-#~ msgid "Duplicate"
-#~ msgstr "Duplizieren"
-
-#~ msgid "Duplicate the current row"
-#~ msgstr "Aktuelle Zeile duplizieren"
-
-#~ msgid "Delete"
-#~ msgstr "Löschen"
-
-#~ msgid "Delete selected prompts"
-#~ msgstr "Ausgewählte Prompts löschen"
-
-#~ msgid "→ English"
-#~ msgstr "→ Englisch"
-
-#~ msgid "Translate selected rows to English"
-#~ msgstr "Ausgewählte Zeilen ins Englische übersetzen"
-
-#~ msgid "← Local"
-#~ msgstr "← Lokal"
-
-#~ msgid "Translate selected rows from English"
-#~ msgstr "Ausgewählte Zeilen aus dem Englischen übersetzen"
-
-# File menu – YAML import/export
-#~ msgid "Import &YAML"
-#~ msgstr "&YAML importieren"
-
-#~ msgid "Add entries…"
-#~ msgstr "Einträge hinzufügen…"
-
-#~ msgid "Import YAML file (append)"
-#~ msgstr "YAML-Datei importieren (anhängen)"
-
-#~ msgid "Replace all…"
-#~ msgstr "Alle ersetzen…"
-
-#~ msgid "Import YAML file (replace all)"
-#~ msgstr "YAML-Datei importieren (alle ersetzen)"
-
-#~ msgid "Export &YAML…"
-#~ msgstr "&YAML exportieren…"
-
-#~ msgid "Export YAML file"
-#~ msgstr "YAML-Datei exportieren"
-
-#~ msgid "Refresh Thumbnails"
-#~ msgstr "Miniaturbilder aktualisieren"
-
-#~ msgid "Regenerate all thumbnails from stored images"
-#~ msgstr "Alle Miniaturbilder aus gespeicherten Bildern neu erstellen"
-
-#~ msgid "Recent &Files"
-#~ msgstr "Zuletzt geöffnete &Dateien"
-
-#~ msgid "Copied: %s"
-#~ msgstr "Kopiert: %s"
-
-#~ msgid "New file created"
-#~ msgstr "Neue Datei erstellt"
-
-# Dialogs – file operations
-#~ msgid "Open Prompt File"
-#~ msgstr "Prompt-Datei öffnen"
-
-# Dialogs – file operations (SQLite)
-#~ msgid "PBPrompt database (*.sqlite);;All files (*.*)"
-#~ msgstr "PBPrompt-Datenbank (*.sqlite);;Alle Dateien (*.*)"
-
-#~ msgid "Loaded {n} entries from {path}"
-#~ msgstr "{n} Eintrag/Einträge aus {path} geladen"
-
-# Error opening a file passed on the command line
-#~ msgid "Error Opening File"
-#~ msgstr "Fehler beim Öffnen der Datei"
-
-#~ msgid ""
-#~ "Could not open file:\n"
-#~ "{path}\n"
-#~ "\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Datei konnte nicht geöffnet werden:\n"
-#~ "{path}\n"
-#~ "\n"
-#~ "{error}"
-
-# Dialogs – errors
-#~ msgid "Error"
-#~ msgstr "Fehler"
-
-#~ msgid ""
-#~ "Could not open file:\n"
-#~ "{path}"
-#~ msgstr ""
-#~ "Datei konnte nicht geöffnet werden:\n"
-#~ "{path}"
-
-#~ msgid "Save Prompt File"
-#~ msgstr "Prompt-Datei speichern"
-
-#~ msgid "File saved successfully"
-#~ msgstr "Datei erfolgreich gespeichert"
-
-#~ msgid ""
-#~ "Could not save file:\n"
-#~ "{path}"
-#~ msgstr ""
-#~ "Datei konnte nicht gespeichert werden:\n"
-#~ "{path}"
-
-#~ msgid "Import YAML"
-#~ msgstr "YAML importieren"
-
-#~ msgid "YAML files (*.yaml *.yml);;All files (*.*)"
-#~ msgstr "YAML-Dateien (*.yaml *.yml);;Alle Dateien (*.*)"
-
-# Status messages (YAML import/export)
-#~ msgid "Imported {n} entries from {path}"
-#~ msgstr "{n} Eintrag/Einträge aus {path} importiert"
-
-#~ msgid "({k} duplicate(s) skipped)"
-#~ msgstr "({k} Duplikat(e) übersprungen)"
-
-# Dialogs – errors (YAML import/export)
-#~ msgid ""
-#~ "Import failed:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Import fehlgeschlagen:\n"
-#~ "{error}"
-
-#~ msgid "Export YAML"
-#~ msgstr "YAML exportieren"
-
-#~ msgid "Exported {n} entries to {path}"
-#~ msgstr "{n} Eintrag/Einträge nach {path} exportiert"
-
-#~ msgid ""
-#~ "Export failed:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Export fehlgeschlagen:\n"
-#~ "{error}"
-
-#~ msgid "File closed"
-#~ msgstr "Datei geschlossen"
-
-# Dialogs – confirmation
-#~ msgid "Unsaved Changes"
-#~ msgstr "Nicht gespeicherte Änderungen"
-
-#~ msgid ""
-#~ "The document has been modified.\n"
-#~ "Do you want to save your changes?"
-#~ msgstr ""
-#~ "Das Dokument wurde geändert.\n"
-#~ "Möchten Sie Ihre Änderungen speichern?"
-
-#~ msgid "Row duplicated"
-#~ msgstr "Zeile dupliziert"
-
-#~ msgid "Confirm Delete"
-#~ msgstr "Löschen bestätigen"
-
-#~ msgid "Are you sure you want to delete {n} selected row(s)?"
-#~ msgstr "Sollen {n} ausgewählte Zeile(n) wirklich gelöscht werden?"
-
-#~ msgid "Deleted {n} row(s)"
-#~ msgstr "{n} Zeile(n) gelöscht"
-
-# Context menu
-#~ msgid "Copy"
-#~ msgstr "Kopieren"
-
-#~ msgid "Cut"
-#~ msgstr "Ausschneiden"
-
-#~ msgid "Paste"
-#~ msgstr "Einfügen"
-
-#~ msgid "Thumbnails refreshed: {n} image(s) updated"
-#~ msgstr "Miniaturbilder aktualisiert: {n} Bild(er) erneuert"
-
-#~ msgid "Unsupported Format"
-#~ msgstr "Nicht unterstütztes Format"
-
-#~ msgid "Unsupported image format"
-#~ msgstr "Nicht unterstütztes Bildformat"
-
-#~ msgid "Load image from file…"
-#~ msgstr "Bild aus Datei laden…"
-
-#~ msgid "Paste image"
-#~ msgstr "Bild einfügen"
-
-#~ msgid "Clear image"
-#~ msgstr "Bild löschen"
-
-#~ msgid "Confirm Clear Image"
-#~ msgstr "Bildlöschung bestätigen"
-
-#~ msgid "Clear the image from {n} selected row(s)?"
-#~ msgstr "Bild aus {n} ausgewählter Zeile(n) löschen?"
-
-#~ msgid "Load Image"
-#~ msgstr "Bild laden"
-
-#~ msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
-#~ msgstr "Bilddateien (*.jpg *.jpeg *.png);;Alle Dateien (*.*)"
-
-#~ msgid "No preview"
-#~ msgstr "Keine Vorschau"
-
-#~ msgid ""
-#~ "Could not read file:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Datei konnte nicht gelesen werden:\n"
-#~ "{error}"
-
-#~ msgid "No Image"
-#~ msgstr "Kein Bild"
-
-#~ msgid "No image in clipboard"
-#~ msgstr "Kein Bild in der Zwischenablage"
-
-#~ msgid "No rows selected"
-#~ msgstr "Keine Zeile ausgewählt"
-
-#~ msgid "Translation Error"
-#~ msgstr "Übersetzungsfehler"
-
-#~ msgid ""
-#~ "Could not initialise the translation service.\n"
-#~ "Check your API key in Options."
-#~ msgstr ""
-#~ "Der Übersetzungsdienst konnte nicht initialisiert werden.\n"
-#~ "Überprüfen Sie Ihren API-Schlüssel in den Optionen."
-
-#~ msgid ""
-#~ "Translation failed:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Übersetzung fehlgeschlagen:\n"
-#~ "{error}"
-
-#~ msgid "Translated {n} row(s)"
-#~ msgstr "{n} Zeile(n) übersetzt"
-
-#~ msgid "No recent files"
-#~ msgstr "Keine zuletzt geöffneten Dateien"
-
-#~ msgid "Clear list"
-#~ msgstr "Liste leeren"
-
-#~ msgid "File Not Found"
-#~ msgstr "Datei nicht gefunden"
-
-#~ msgid ""
-#~ "The file no longer exists:\n"
-#~ "{path}"
-#~ msgstr ""
-#~ "Die Datei existiert nicht mehr:\n"
-#~ "{path}"
-
-#~ msgid "Untitled"
-#~ msgstr "Ohne Titel"
+#, python-brace-format
+msgid "About {app}"
+msgstr "Über {app}"
+
+# ==AUTO== Automatically translated
+msgid "A program to register and categorize AI prompts to keep tries."
+msgstr "Ein Programm zur Erfassung und Kategorisierung von KI-Prompts."
+
+msgid "MIT License"
+msgstr "MIT-Lizenz"
+
+msgid "l"
+msgstr "b"
 
 # Image viewer toolbar
-#~ msgid "Fit"
-#~ msgstr "Anpassen"
+msgid "Fit"
+msgstr "Anpassen"
 
-#~ msgid "×1"
-#~ msgstr "×1"
+#, python-format
+msgid "Fit image to window (max ×%d)"
+msgstr "Bild an Fenster anpassen (max ×%d)"
 
-#~ msgid "Width"
-#~ msgstr "Breite"
+msgid "×1"
+msgstr "×1"
 
-#~ msgid "Height"
-#~ msgstr "Höhe"
+msgid "Actual size — 1 pixel = 1 displayed pixel  [1]"
+msgstr "Originalgröße — 1 Pixel = 1 angezeigter Pixel  [1]"
 
-#~ msgid "+50%"
-#~ msgstr "+50 %"
+msgid "Width"
+msgstr "Breite"
 
-#~ msgid "-50%"
-#~ msgstr "-50 %"
+#, python-format
+msgid "Fit image width to window  [%s]"
+msgstr "Bildbreite an Fenster anpassen  [%s]"
 
-#~ msgid "l"
-#~ msgstr "b"
+msgid "Height"
+msgstr "Höhe"
 
-#~ msgid "Fit image to window (max ×%d)"
-#~ msgstr "Bild an Fenster anpassen (max ×%d)"
+msgid "Fit image height to window  [H]"
+msgstr "Bildhöhe an Fenster anpassen  [H]"
 
-#~ msgid "Actual size — 1 pixel = 1 displayed pixel  [1]"
-#~ msgstr "Originalgröße — 1 Pixel = 1 angezeigter Pixel  [1]"
+# ==AUTO== Automatically translated
+#, python-format
+msgid "+%d%%"
+msgstr "+%d%%"
 
-#~ msgid "Fit image width to window  [%s]"
-#~ msgstr "Bildbreite an Fenster anpassen  [%s]"
+#, python-format
+msgid "Zoom in +%d%%  [+]"
+msgstr "Vergrößern +%d %%  [+]"
 
-#~ msgid "Fit image height to window  [H]"
-#~ msgstr "Bildhöhe an Fenster anpassen  [H]"
+# ==AUTO== Automatically translated
+#, python-format
+msgid "-%d%%"
+msgstr "-%d%%"
 
-#~ msgid "Zoom in +50%  [+]"
-#~ msgstr "Vergrößern +50 %  [+]"
+#, python-format
+msgid "Zoom out -%d%%  [−]"
+msgstr "Verkleinern -%d %%  [−]"
 
-#~ msgid "Zoom out -50%  [−]"
-#~ msgstr "Verkleinern -50 %  [−]"
+# Column headers
+msgid "AI"
+msgstr "KI"
 
-#~ msgid "(No image)"
-#~ msgstr "(Kein Bild)"
+msgid "Group"
+msgstr "Gruppe"
+
+msgid "Name"
+msgstr "Name"
+
+# IMAGE column
+msgid "Image"
+msgstr "Bild"
+
+msgid "English"
+msgstr "Englisch"
+
+# Column header tooltips
+msgid ""
+"Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
+"Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
+msgstr ""
+"Enter: bestätigen  ·  Strg+Enter oder Umschalt+Enter: neue Zeile einfügen"
+"\n"
+"Tab / Umschalt+Tab: benachbarte Zelle  ·  Esc: abbrechen"
+
+msgid ""
+"AI model name.\n"
+"Sort: primary AI → Group → Name"
+msgstr ""
+"Name des KI-Modells.\n"
+"Sortierung: primär KI → Gruppe → Name"
+
+msgid ""
+"Prompt group / category.\n"
+"Sort: primary Group → Name → AI"
+msgstr ""
+"Prompt-Gruppe / -Kategorie.\n"
+"Sortierung: primär Gruppe → Name → KI"
+
+msgid ""
+"Prompt title.\n"
+"Sort: primary Name → Group → AI"
+msgstr ""
+"Prompt-Titel.\n"
+"Sortierung: primär Name → Gruppe → KI"
+
+#, fuzzy
+msgid "Double-click to view · Right-click for options"
+msgstr ""
+"Doppelklick zum Anzeigen · Rechtsklick für Optionen\n"
+"Enter: aus Datei laden  ·  Strg+V: einfügen  ·  Rücktaste: löschen"
+
+msgid "Prompt in local language.\n"
+msgstr "Prompt in Landessprache.\n"
+
+msgid "Prompt in English.\n"
+msgstr "Prompt auf Englisch.\n"
+
+# Status messages
+msgid "Ready"
+msgstr "Bereit"
+
+# Main window – filters
+msgid "Filter:"
+msgstr "Filter:"
+
+msgid "AI…"
+msgstr "KI…"
+
+msgid "Filter the AI column. Supports regular expressions."
+msgstr "Filter für die KI-Spalte. Reguläre Ausdrücke werden unterstützt."
+
+msgid "Group…"
+msgstr "Gruppe…"
+
+msgid "Filter the Group column. Supports regular expressions."
+msgstr "Filter für die Spalte 'Gruppe'. Reguläre Ausdrücke werden unterstützt."
+
+msgid "Name…"
+msgstr "Name…"
+
+msgid "Filter the Name column. Supports regular expressions."
+msgstr "Filter für die Spalte 'Name'. Reguläre Ausdrücke werden unterstützt."
+
+msgid "Local language…"
+msgstr "Landessprache…"
+
+msgid "Filter the local language column. Supports regular expressions."
+msgstr ""
+"Filter für die Landessprachen-Spalte. Reguläre Ausdrücke werden "
+"unterstützt."
+
+msgid "English…"
+msgstr "Englisch…"
+
+msgid "Filter the English column. Supports regular expressions."
+msgstr "Filter für die Englisch-Spalte. Reguläre Ausdrücke werden unterstützt."
+
+msgid "Clear"
+msgstr "Zurücksetzen"
+
+msgid "Clear all filters"
+msgstr "Alle Filter zurücksetzen"
+
+# Main window – menu
+msgid "&File"
+msgstr "&Datei"
+
+msgid "&Tools"
+msgstr "&Extras"
+
+msgid "&Help"
+msgstr "&Hilfe"
+
+msgid "&New"
+msgstr "&Neu"
+
+# Main window – toolbar / actions
+msgid "New file"
+msgstr "Neue Datei"
+
+msgid "&Open…"
+msgstr "&Öffnen…"
+
+msgid "Open a prompt file"
+msgstr "Eine Prompt-Datei öffnen"
+
+msgid "&Save"
+msgstr "&Speichern"
+
+msgid "Save the current file"
+msgstr "Aktuelle Datei speichern"
+
+msgid "Save &As…"
+msgstr "Speichern &unter…"
+
+msgid "Save to a new file"
+msgstr "In eine neue Datei speichern"
+
+msgid "&Close"
+msgstr "&Schließen"
+
+msgid "Close current file"
+msgstr "Aktuelle Datei schließen"
+
+msgid "&Quit"
+msgstr "&Beenden"
+
+msgid "Quit PBPrompt"
+msgstr "PBPrompt beenden"
+
+msgid "&Options…"
+msgstr "&Optionen…"
+
+msgid "Open settings dialog"
+msgstr "Einstellungsdialog öffnen"
+
+msgid "&About…"
+msgstr "&Über…"
+
+msgid "About PBPrompt"
+msgstr "Über PBPrompt"
+
+msgid "New Prompt"
+msgstr "Neuer Prompt"
+
+msgid "Add a new prompt entry"
+msgstr "Einen neuen Prompt-Eintrag hinzufügen"
+
+# Duplicate action
+msgid "Duplicate"
+msgstr "Duplizieren"
+
+msgid "Duplicate the current row"
+msgstr "Aktuelle Zeile duplizieren"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Delete selected prompts"
+msgstr "Ausgewählte Prompts löschen"
+
+msgid "→ English"
+msgstr "→ Englisch"
+
+msgid "Translate selected rows to English"
+msgstr "Ausgewählte Zeilen ins Englische übersetzen"
+
+msgid "← Local"
+msgstr "← Lokal"
+
+msgid "Translate selected rows from English"
+msgstr "Ausgewählte Zeilen aus dem Englischen übersetzen"
+
+# File menu – YAML import/export
+msgid "Import &YAML"
+msgstr "&YAML importieren"
+
+msgid "Add entries…"
+msgstr "Einträge hinzufügen…"
+
+msgid "Import YAML file (append)"
+msgstr "YAML-Datei importieren (anhängen)"
+
+msgid "Replace all…"
+msgstr "Alle ersetzen…"
+
+msgid "Import YAML file (replace all)"
+msgstr "YAML-Datei importieren (alle ersetzen)"
+
+msgid "Export &YAML…"
+msgstr "&YAML exportieren…"
+
+msgid "Export YAML file"
+msgstr "YAML-Datei exportieren"
+
+msgid "Refresh Thumbnails"
+msgstr "Miniaturbilder aktualisieren"
+
+msgid "Regenerate all thumbnails from stored images"
+msgstr "Alle Miniaturbilder aus gespeicherten Bildern neu erstellen"
+
+msgid "Recent &Files"
+msgstr "Zuletzt geöffnete &Dateien"
+
+msgid ""
+"Double-click to view · Right-click for options\n"
+"Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
+msgstr ""
+"Doppelklick zum Anzeigen · Rechtsklick für Optionen\n"
+"Enter: aus Datei laden  ·  Strg+V: einfügen  ·  Rücktaste: löschen"
+
+#, python-format
+msgid "Copied: %s"
+msgstr "Kopiert: %s"
+
+msgid "New file created"
+msgstr "Neue Datei erstellt"
+
+# Dialogs – file operations
+msgid "Open Prompt File"
+msgstr "Prompt-Datei öffnen"
+
+# Dialogs – file operations (SQLite)
+msgid "PBPrompt database (*.sqlite);;All files (*.*)"
+msgstr "PBPrompt-Datenbank (*.sqlite);;Alle Dateien (*.*)"
+
+#, python-brace-format
+msgid "Loaded {n} entries from {path}"
+msgstr "{n} Eintrag/Einträge aus {path} geladen"
+
+# Error opening a file passed on the command line
+msgid "Error Opening File"
+msgstr "Fehler beim Öffnen der Datei"
+
+#, python-brace-format
+msgid ""
+"Could not open file:\n"
+"{path}\n"
+"\n"
+"{error}"
+msgstr ""
+"Datei konnte nicht geöffnet werden:\n"
+"{path}\n"
+"\n"
+"{error}"
+
+# Dialogs – errors
+msgid "Error"
+msgstr "Fehler"
+
+#, python-brace-format
+msgid ""
+"Could not open file:\n"
+"{path}"
+msgstr ""
+"Datei konnte nicht geöffnet werden:\n"
+"{path}"
+
+msgid "Save Prompt File"
+msgstr "Prompt-Datei speichern"
+
+msgid "File saved successfully"
+msgstr "Datei erfolgreich gespeichert"
+
+#, python-brace-format
+msgid ""
+"Could not save file:\n"
+"{path}"
+msgstr ""
+"Datei konnte nicht gespeichert werden:\n"
+"{path}"
+
+msgid "Import YAML"
+msgstr "YAML importieren"
+
+msgid "YAML files (*.yaml *.yml);;All files (*.*)"
+msgstr "YAML-Dateien (*.yaml *.yml);;Alle Dateien (*.*)"
+
+# Status messages (YAML import/export)
+#, python-brace-format
+msgid "Imported {n} entries from {path}"
+msgstr "{n} Eintrag/Einträge aus {path} importiert"
+
+#, python-brace-format
+msgid "({k} duplicate(s) skipped)"
+msgstr "({k} Duplikat(e) übersprungen)"
+
+# Dialogs – errors (YAML import/export)
+#, python-brace-format
+msgid ""
+"Import failed:\n"
+"{error}"
+msgstr ""
+"Import fehlgeschlagen:\n"
+"{error}"
+
+msgid "Export YAML"
+msgstr "YAML exportieren"
+
+#, python-brace-format
+msgid "Exported {n} entries to {path}"
+msgstr "{n} Eintrag/Einträge nach {path} exportiert"
+
+#, python-brace-format
+msgid ""
+"Export failed:\n"
+"{error}"
+msgstr ""
+"Export fehlgeschlagen:\n"
+"{error}"
+
+msgid "File closed"
+msgstr "Datei geschlossen"
+
+# Dialogs – confirmation
+msgid "Unsaved Changes"
+msgstr "Nicht gespeicherte Änderungen"
+
+msgid ""
+"The document has been modified.\n"
+"Do you want to save your changes?"
+msgstr ""
+"Das Dokument wurde geändert.\n"
+"Möchten Sie Ihre Änderungen speichern?"
+
+msgid "Row duplicated"
+msgstr "Zeile dupliziert"
+
+msgid "Confirm Delete"
+msgstr "Löschen bestätigen"
+
+#, python-brace-format
+msgid "Are you sure you want to delete {n} selected row(s)?"
+msgstr "Sollen {n} ausgewählte Zeile(n) wirklich gelöscht werden?"
+
+#, python-brace-format
+msgid "Deleted {n} row(s)"
+msgstr "{n} Zeile(n) gelöscht"
+
+# Context menu
+msgid "Copy"
+msgstr "Kopieren"
+
+msgid "Cut"
+msgstr "Ausschneiden"
+
+msgid "Paste"
+msgstr "Einfügen"
+
+#, python-brace-format
+msgid "Thumbnails refreshed: {n} image(s) updated"
+msgstr "Miniaturbilder aktualisiert: {n} Bild(er) erneuert"
+
+msgid "Unsupported Format"
+msgstr "Nicht unterstütztes Format"
+
+msgid "Unsupported image format"
+msgstr "Nicht unterstütztes Bildformat"
+
+msgid "Load image from file…"
+msgstr "Bild aus Datei laden…"
+
+msgid "Paste image"
+msgstr "Bild einfügen"
+
+msgid "Copy image"
+msgstr "Bild kopieren"
+
+msgid "Save image to file…"
+msgstr "Bild in Datei speichern…"
+
+msgid "Clear image"
+msgstr "Bild löschen"
+
+msgid "Load Image"
+msgstr "Bild laden"
+
+msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
+msgstr "Bilddateien (*.jpg *.jpeg *.png);;Alle Dateien (*.*)"
+
+msgid "No preview"
+msgstr "Keine Vorschau"
+
+#, python-brace-format
+msgid ""
+"Could not read file:\n"
+"{error}"
+msgstr ""
+"Datei konnte nicht gelesen werden:\n"
+"{error}"
+
+msgid "No Image"
+msgstr "Kein Bild"
+
+msgid "No image in clipboard"
+msgstr "Kein Bild in der Zwischenablage"
+
+msgid "JPEG image (*.jpg *.jpeg)"
+msgstr "JPEG-Bild (*.jpg *.jpeg)"
+
+msgid "PNG image (*.png)"
+msgstr "PNG-Bild (*.png)"
+
+msgid "Save Image"
+msgstr "Bild speichern"
+
+#, python-brace-format
+msgid ""
+"Could not save file:\n"
+"{error}"
+msgstr ""
+"Datei konnte nicht gespeichert werden:\n"
+"{error}"
+
+msgid "Confirm Clear Image"
+msgstr "Bildlöschung bestätigen"
+
+#, python-brace-format
+msgid "Clear the image from {n} selected row(s)?"
+msgstr "Bild aus {n} ausgewählter Zeile(n) löschen?"
+
+msgid "No rows selected"
+msgstr "Keine Zeile ausgewählt"
+
+msgid "Translation Error"
+msgstr "Übersetzungsfehler"
+
+msgid ""
+"Could not initialise the translation service.\n"
+"Check your API key in Options."
+msgstr ""
+"Der Übersetzungsdienst konnte nicht initialisiert werden.\n"
+"Überprüfen Sie Ihren API-Schlüssel in den Optionen."
+
+#, python-brace-format
+msgid ""
+"Translation failed:\n"
+"{error}"
+msgstr ""
+"Übersetzung fehlgeschlagen:\n"
+"{error}"
+
+#, python-brace-format
+msgid "Translated {n} row(s)"
+msgstr "{n} Zeile(n) übersetzt"
+
+msgid "No recent files"
+msgstr "Keine zuletzt geöffneten Dateien"
+
+msgid "Clear list"
+msgstr "Liste leeren"
+
+msgid "File Not Found"
+msgstr "Datei nicht gefunden"
+
+#, python-brace-format
+msgid ""
+"The file no longer exists:\n"
+"{path}"
+msgstr ""
+"Die Datei existiert nicht mehr:\n"
+"{path}"
+
+msgid "Untitled"
+msgstr "Ohne Titel"
+
+# Settings dialog
+msgid "Settings"
+msgstr "Einstellungen"
+
+msgid "Language"
+msgstr "Sprache"
+
+msgid "Display language:"
+msgstr "Anzeigesprache:"
+
+msgid ""
+"Language used for the user interface.\n"
+"'System default' uses the operating system locale."
+msgstr ""
+"Sprache der Benutzeroberfläche.\n"
+"'Systemstandard' verwendet die Systemsprache des Betriebssystems."
+
+msgid "Translation language:"
+msgstr "Übersetzungssprache:"
+
+msgid ""
+"Language of the 'Local language' column.\n"
+"Used as the source or target when translating prompts.\n"
+"'System default' uses the operating system locale."
+msgstr ""
+"Sprache der Spalte 'Landessprache'.\n"
+"Wird als Quelle oder Ziel beim Übersetzen von Prompts verwendet.\n"
+"'Systemstandard' verwendet die Systemsprache des Betriebssystems."
+
+msgid "Translation service"
+msgstr "Übersetzungsdienst"
+
+msgid "Service:"
+msgstr "Dienst:"
+
+msgid ""
+"Translation service used to fill the 'Local language' column\n"
+"automatically when clicking the Translate button."
+msgstr ""
+"Übersetzungsdienst zum automatischen Befüllen der Spalte 'Landessprache'\n"
+"beim Klicken auf die Schaltfläche 'Übersetzen'."
+
+msgid "API key:"
+msgstr "API-Schlüssel:"
+
+msgid ""
+"API key required by DeepL, Microsoft Translator, Yandex,\n"
+"QCRI and LibreTranslate.\n"
+"Leave blank for services that do not require one\n"
+"(Google, MyMemory, PONS, Linguee, Reverso…)."
+msgstr ""
+"API-Schlüssel erforderlich für DeepL, Microsoft Translator, Yandex,\n"
+"QCRI und LibreTranslate.\n"
+"Leer lassen für Dienste, die keinen Schlüssel benötigen\n"
+"(Google, MyMemory, PONS, Linguee, Reverso…)."
+
+msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+msgstr "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+
+msgid "App ID:"
+msgstr "App-ID:"
+
+msgid ""
+"Application identifier required by some services:\n"
+"• Baidu: appid\n"
+"• Papago: client_id"
+msgstr ""
+"Anwendungskennung für bestimmte Dienste erforderlich:\n"
+"• Baidu: appid\n"
+"• Papago: client_id"
+
+msgid "Baidu (appid) · Papago (client_id)"
+msgstr "Baidu (appid) · Papago (client_id)"
+
+msgid "App secret:"
+msgstr "App-Geheimnis:"
+
+msgid ""
+"Application secret required by some services:\n"
+"• Baidu: appkey\n"
+"• Papago: secret_key"
+msgstr ""
+"Anwendungsgeheimnis für bestimmte Dienste erforderlich:\n"
+"• Baidu: appkey\n"
+"• Papago: secret_key"
+
+msgid "Baidu (appkey) · Papago (secret_key)"
+msgstr "Baidu (appkey) · Papago (secret_key)"
+
+msgid "Logging"
+msgstr "Protokollierung"
+
+msgid "Log level:"
+msgstr "Protokollstufe:"
+
+msgid ""
+"Verbosity of the application log.\n"
+"DEBUG shows all messages; ERROR shows only critical failures.\n"
+"Effective after restarting the application."
+msgstr ""
+"Ausführlichkeit des Anwendungsprotokolls.\n"
+"DEBUG zeigt alle Meldungen; ERROR zeigt nur kritische Fehler.\n"
+"Wirksam nach dem Neustart der Anwendung."
+
+msgid "Files"
+msgstr "Dateien"
+
+msgid "Maximum recent files:"
+msgstr "Maximale Anzahl zuletzt geöffneter Dateien:"
+
+msgid "Maximum number of recently opened files shown in the File menu."
+msgstr "Maximale Anzahl zuletzt geöffneter Dateien im Menü 'Datei'."
+
+# Settings dialog – Images group
+msgid "Images"
+msgstr "Bilder"
+
+msgid "Thumbnail width (px):"
+msgstr "Miniaturbildbreite (px):"
+
+msgid ""
+"Maximum width (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
+msgstr ""
+"Maximale Breite (in Pixeln) des in der Datenbank gespeicherten "
+"Miniaturbilds.\n"
+"Größere Werte verbessern die Qualität, erhöhen aber die Datenbankgröße."
+
+msgid "Thumbnail height (px):"
+msgstr "Miniaturbildhöhe (px):"
+
+msgid ""
+"Maximum height (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
+msgstr ""
+"Maximale Höhe (in Pixeln) des in der Datenbank gespeicherten "
+"Miniaturbilds.\n"
+"Größere Werte verbessern die Qualität, erhöhen aber die Datenbankgröße."
 
 # Settings dialog – image viewer
-#~ msgid "Image viewer max zoom (×):"
-#~ msgstr "Max. Zoom der Bildanzeige (×):"
+msgid "Image viewer max zoom (×):"
+msgstr "Max. Zoom der Bildanzeige (×):"
 
-#~ msgid ""
-#~ "Maximum magnification in 'Fit' mode when the image is smaller\n"
-#~ "than the viewer window.\n"
-#~ "1× to 16× (default: 4×)."
-#~ msgstr ""
-#~ "Maximale Vergrößerung im Modus 'Anpassen', wenn das Bild\n"
-#~ "kleiner als das Anzeigefenster ist.\n"
-#~ "1× bis 16× (Standard: 4×)."
+msgid ""
+"Maximum magnification in 'Fit' mode when the image is smaller\n"
+"than the viewer window.\n"
+"1× to 16× (default: 4×)."
+msgstr ""
+"Maximale Vergrößerung im Modus 'Anpassen', wenn das Bild\n"
+"kleiner als das Anzeigefenster ist.\n"
+"1× bis 16× (Standard: 4×)."
 
-#~ msgid "Zoom step (%):"
-#~ msgstr "Zoomschritt (%):"
+msgid "Zoom step (%):"
+msgstr "Zoomschritt (%):"
 
-#~ msgid ""
-#~ "Percentage added or removed when clicking + or −,\n"
-#~ "or scrolling the mouse wheel in the image viewer.\n"
-#~ "1% to 50% (default: 10%)."
-#~ msgstr ""
-#~ "Prozentsatz, der beim Klicken auf + oder −\n"
-#~ "bzw. beim Scrollen des Mausrads in "
-#~ "der Bildanzeige hinzugefügt oder entfernt "
-#~ "wird.\n"
-#~ "1 % bis 50 % (Standard: 10 %)."
+msgid ""
+"Percentage added or removed when clicking + or −,\n"
+"or scrolling the mouse wheel in the image viewer.\n"
+"1% to 50% (default: 10%)."
+msgstr ""
+"Prozentsatz, der beim Klicken auf + oder −\n"
+"bzw. beim Scrollen des Mausrads in der Bildanzeige hinzugefügt oder "
+"entfernt wird.\n"
+"1 % bis 50 % (Standard: 10 %)."
 
-#~ msgid "Keep original dimensions"
-#~ msgstr "Originale Abmessungen beibehalten"
+msgid "Keep original dimensions"
+msgstr "Originale Abmessungen beibehalten"
 
-#~ msgid ""
-#~ "When checked, images are stored as-is regardless of their size.\n"
-#~ "When unchecked, images larger than the limits below are resized\n"
-#~ "proportionally before being stored in the database."
-#~ msgstr ""
-#~ "Wenn aktiviert, werden Bilder unabhängig "
-#~ "von ihrer Größe unverändert gespeichert.\n"
-#~ ""
-#~ "Wenn deaktiviert, werden Bilder, die die"
-#~ " unten angegebenen Grenzen überschreiten,\n"
-#~ "proportional skaliert, bevor sie in der Datenbank gespeichert werden."
+msgid ""
+"When checked, images are stored as-is regardless of their size.\n"
+"When unchecked, images larger than the limits below are resized\n"
+"proportionally before being stored in the database."
+msgstr ""
+"Wenn aktiviert, werden Bilder unabhängig von ihrer Größe unverändert "
+"gespeichert.\n"
+"Wenn deaktiviert, werden Bilder, die die unten angegebenen Grenzen "
+"überschreiten,\n"
+"proportional skaliert, bevor sie in der Datenbank gespeichert werden."
 
-#~ msgid "Max width (px):"
-#~ msgstr "Max. Breite (px):"
+msgid "Max width (px):"
+msgstr "Max. Breite (px):"
 
-#~ msgid ""
-#~ "Maximum width (in pixels) for images stored in the database.\n"
-#~ "Images wider than this value are resized proportionally."
-#~ msgstr ""
-#~ "Maximale Breite (in Pixeln) der in "
-#~ "der Datenbank gespeicherten Bilder.\n"
-#~ "Breitere Bilder werden proportional skaliert."
+msgid ""
+"Maximum width (in pixels) for images stored in the database.\n"
+"Images wider than this value are resized proportionally."
+msgstr ""
+"Maximale Breite (in Pixeln) der in der Datenbank gespeicherten Bilder.\n"
+"Breitere Bilder werden proportional skaliert."
 
-#~ msgid "Max height (px):"
-#~ msgstr "Max. Höhe (px):"
+msgid "Max height (px):"
+msgstr "Max. Höhe (px):"
 
-#~ msgid ""
-#~ "Maximum height (in pixels) for images stored in the database.\n"
-#~ "Images taller than this value are resized proportionally."
-#~ msgstr ""
-#~ "Maximale Höhe (in Pixeln) der in der Datenbank gespeicherten Bilder.\n"
-#~ "Höhere Bilder werden proportional skaliert."
+msgid ""
+"Maximum height (in pixels) for images stored in the database.\n"
+"Images taller than this value are resized proportionally."
+msgstr ""
+"Maximale Höhe (in Pixeln) der in der Datenbank gespeicherten Bilder.\n"
+"Höhere Bilder werden proportional skaliert."
 
-#~ msgid "Copy image"
-#~ msgstr "Bild kopieren"
-
-#~ msgid "Save image to file…"
-#~ msgstr "Bild in Datei speichern…"
-
-#~ msgid "Save Image"
-#~ msgstr "Bild speichern"
-
-#~ msgid "JPEG image (*.jpg *.jpeg)"
-#~ msgstr "JPEG-Bild (*.jpg *.jpeg)"
-
-#~ msgid "PNG image (*.png)"
-#~ msgstr "PNG-Bild (*.png)"
-
-#~ msgid ""
-#~ "Could not save file:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Datei konnte nicht gespeichert werden:\n"
-#~ "{error}"
+# Settings dialog – language selector
+msgid "System default"
+msgstr "Systemstandard"

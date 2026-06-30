@@ -6,7 +6,7 @@ import logging
 from enum import IntEnum
 from typing import TYPE_CHECKING, Any
 
-from PySide6.QtCore import QBuffer, QByteArray, QEvent, QIODeviceBase, QSize, Qt, QTimer
+from PySide6.QtCore import QBuffer, QByteArray, QEvent, QIODeviceBase, Qt, QTimer
 from PySide6.QtGui import QAction, QImage, QKeySequence, QPixmap
 from PySide6.QtWidgets import (
     QDialog,
@@ -283,7 +283,6 @@ class ImageViewDialog(QDialog):
         # ---- toolbar ----
         toolbar = QToolBar()
         toolbar.setMovable(False)
-        toolbar.setIconSize(QSize(22, 22))
         toolbar.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
         layout.addWidget(toolbar)
 
@@ -292,27 +291,27 @@ class ImageViewDialog(QDialog):
         # shadowed by this override (Python MRO) and therefore never called at runtime.
         width_key = _("l")
 
-        act_fit = QAction(get_icon("zoom_fit"), _("Fit"), self)
+        act_fit = QAction(get_icon("zoom-fit"), _("Fit"), self)
         act_fit.setCheckable(True)
         act_fit.setToolTip(_("Fit image to window (max ×%d)") % self._max_zoom)
         act_fit.triggered.connect(self._on_fit)
         toolbar.addAction(act_fit)
 
-        act_one = QAction(get_icon("zoom_original"), _("×1"), self)
+        act_one = QAction(get_icon("zoom-original"), _("×1"), self)
         act_one.setCheckable(True)
         act_one.setShortcut(QKeySequence("1"))
         act_one.setToolTip(_("Actual size — 1 pixel = 1 displayed pixel  [1]"))
         act_one.triggered.connect(self._on_one)
         toolbar.addAction(act_one)
 
-        act_width = QAction(get_icon("zoom_width"), _("Width"), self)
+        act_width = QAction(get_icon("zoom-width"), _("Width"), self)
         act_width.setCheckable(True)
         act_width.setShortcut(QKeySequence(width_key))
         act_width.setToolTip(_("Fit image width to window  [%s]") % width_key.upper())
         act_width.triggered.connect(self._on_width)
         toolbar.addAction(act_width)
 
-        act_height = QAction(get_icon("zoom_height"), _("Height"), self)
+        act_height = QAction(get_icon("zoom-height"), _("Height"), self)
         act_height.setCheckable(True)
         act_height.setShortcut(QKeySequence("h"))
         act_height.setToolTip(_("Fit image height to window  [H]"))
@@ -328,7 +327,7 @@ class ImageViewDialog(QDialog):
         toolbar.addSeparator()
 
         step_pct = round(self._zoom_step * 100)
-        act_in = QAction(get_icon("zoom_in"), _("+%d%%") % step_pct, self)
+        act_in = QAction(get_icon("zoom-in"), _("+%d%%") % step_pct, self)
         act_in.setShortcuts(
             [
                 QKeySequence(Qt.Key.Key_Plus),
@@ -341,7 +340,7 @@ class ImageViewDialog(QDialog):
         act_in.triggered.connect(self._on_zoom_in)
         toolbar.addAction(act_in)
 
-        act_out = QAction(get_icon("zoom_out"), _("-%d%%") % step_pct, self)
+        act_out = QAction(get_icon("zoom-out"), _("-%d%%") % step_pct, self)
         act_out.setShortcuts(
             [
                 QKeySequence(Qt.Key.Key_Minus),

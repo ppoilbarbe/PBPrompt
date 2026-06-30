@@ -40,3 +40,4 @@ Thumbs.db
 doc/_build/
 doc/changelog.rst
 *.po~
+*.pot

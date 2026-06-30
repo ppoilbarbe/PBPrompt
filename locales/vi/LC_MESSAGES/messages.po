@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PBPrompt 1.0.1\n"
+"Project-Id-Version:  PBPrompt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-01 21:08+0200\n"
+"POT-Creation-Date: 2001-01-01 00:00+0000\n"
 "PO-Revision-Date: 2026-01-01 00:00+0000\n"
 "Last-Translator: PBMou\n"
 "Language: vi\n"
@@ -17,736 +17,754 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#~ msgid "Copied to clipboard"
-#~ msgstr "Đã sao chép vào bộ nhớ tạm"
+# ==AUTO== Automatically translated
+msgid "Version:"
+msgstr "Phiên bản:"
 
-#~ msgid "Language used in the user interface"
-#~ msgstr "Ngôn ngữ sử dụng trong giao diện người dùng"
-
-#~ msgid "Source/target language for the local column"
-#~ msgstr "Ngôn ngữ nguồn/đích cho cột địa phương"
-
-#~ msgid "Version:"
-#~ msgstr "Phiên bản:"
-
-#~ msgid "Authors:"
-#~ msgstr "Tác giả:"
-
-#~ msgid "A program to register and categorize AI prompts to keep tries."
-#~ msgstr "Chương trình lưu trữ và phân loại các prompt AI."
+# ==AUTO== Automatically translated
+msgid "Authors:"
+msgstr "Tác giả:"
 
 # About dialog
-#~ msgid "About {app}"
-#~ msgstr "Giới thiệu về {app}"
-
-#~ msgid "MIT License"
-#~ msgstr "Giấy phép MIT"
-
-# Settings dialog
-#~ msgid "Settings"
-#~ msgstr "Cài đặt"
-
-#~ msgid "Language"
-#~ msgstr "Ngôn ngữ"
-
-#~ msgid "Display language:"
-#~ msgstr "Ngôn ngữ hiển thị:"
-
-#~ msgid ""
-#~ "Language used for the user interface.\n"
-#~ "'System default' uses the operating system locale."
-#~ msgstr ""
-#~ "Ngôn ngữ sử dụng cho giao diện người dùng.\n"
-#~ "'Mặc định hệ thống' sử dụng ngôn ngữ của hệ điều hành."
-
-#~ msgid "Translation language:"
-#~ msgstr "Ngôn ngữ dịch:"
-
-#~ msgid ""
-#~ "Language of the 'Local language' column.\n"
-#~ "Used as the source or target when translating prompts.\n"
-#~ "'System default' uses the operating system locale."
-#~ msgstr ""
-#~ "Ngôn ngữ của cột 'Ngôn ngữ địa phương'.\n"
-#~ "Dùng làm nguồn hoặc đích khi dịch các prompt.\n"
-#~ "'Mặc định hệ thống' sử dụng ngôn ngữ của hệ điều hành."
-
-#~ msgid "Translation service"
-#~ msgstr "Dịch vụ dịch thuật"
-
-#~ msgid "Service:"
-#~ msgstr "Dịch vụ:"
-
-#~ msgid ""
-#~ "Translation service used to fill the 'Local language' column\n"
-#~ "automatically when clicking the Translate button."
-#~ msgstr ""
-#~ "Dịch vụ dịch thuật dùng để điền cột 'Ngôn ngữ địa phương'\n"
-#~ "tự động khi nhấp vào nút Dịch."
-
-#~ msgid "API key:"
-#~ msgstr "Khóa API:"
-
-#~ msgid ""
-#~ "API key required by DeepL, Microsoft Translator, Yandex,\n"
-#~ "QCRI and LibreTranslate.\n"
-#~ "Leave blank for services that do not require one\n"
-#~ "(Google, MyMemory, PONS, Linguee, Reverso…)."
-#~ msgstr ""
-#~ "Khóa API yêu cầu bởi DeepL, Microsoft Translator, Yandex,\n"
-#~ "QCRI và LibreTranslate.\n"
-#~ "Để trống cho các dịch vụ không yêu cầu\n"
-#~ "(Google, MyMemory, PONS, Linguee, Reverso…)."
-
-#~ msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
-#~ msgstr "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
-
-#~ msgid "App ID:"
-#~ msgstr "ID ứng dụng:"
-
-#~ msgid ""
-#~ "Application identifier required by some services:\n"
-#~ "• Baidu: appid\n"
-#~ "• Papago: client_id"
-#~ msgstr ""
-#~ "Mã định danh ứng dụng yêu cầu bởi một số dịch vụ:\n"
-#~ "• Baidu: appid\n"
-#~ "• Papago: client_id"
-
-#~ msgid "Baidu (appid) · Papago (client_id)"
-#~ msgstr "Baidu (appid) · Papago (client_id)"
-
-#~ msgid "App secret:"
-#~ msgstr "Bí mật ứng dụng:"
-
-#~ msgid ""
-#~ "Application secret required by some services:\n"
-#~ "• Baidu: appkey\n"
-#~ "• Papago: secret_key"
-#~ msgstr ""
-#~ "Bí mật ứng dụng yêu cầu bởi một số dịch vụ:\n"
-#~ "• Baidu: appkey\n"
-#~ "• Papago: secret_key"
-
-#~ msgid "Baidu (appkey) · Papago (secret_key)"
-#~ msgstr "Baidu (appkey) · Papago (secret_key)"
-
-#~ msgid "Logging"
-#~ msgstr "Nhật ký"
-
-#~ msgid "Log level:"
-#~ msgstr "Cấp độ nhật ký:"
-
-#~ msgid ""
-#~ "Verbosity of the application log.\n"
-#~ "DEBUG shows all messages; ERROR shows only critical failures.\n"
-#~ "Effective after restarting the application."
-#~ msgstr ""
-#~ "Mức độ chi tiết của nhật ký ứng dụng.\n"
-#~ "DEBUG hiển thị tất cả thông báo; ERROR chỉ hiển thị lỗi nghiêm trọng.\n"
-#~ "Có hiệu lực sau khi khởi động lại ứng dụng."
-
-#~ msgid "Files"
-#~ msgstr "Tệp"
-
-#~ msgid "Maximum recent files:"
-#~ msgstr "Số tệp gần đây tối đa:"
-
-#~ msgid "Maximum number of recently opened files shown in the File menu."
-#~ msgstr "Số tối đa các tệp đã mở gần đây hiển thị trong menu Tệp."
-
-# Settings dialog – Images group
-#~ msgid "Images"
-#~ msgstr "Hình ảnh"
-
-#~ msgid "Thumbnail width (px):"
-#~ msgstr "Chiều rộng hình thu nhỏ (px):"
-
-#~ msgid ""
-#~ "Maximum width (in pixels) of the thumbnail stored in the database.\n"
-#~ "Larger values improve quality but increase database size."
-#~ msgstr ""
-#~ "Chiều rộng tối đa (tính bằng "
-#~ "pixel) của hình thu nhỏ lưu trong"
-#~ " cơ sở dữ liệu.\n"
-#~ "Giá trị lớn hơn cải thiện chất "
-#~ "lượng nhưng tăng kích thước cơ sở"
-#~ " dữ liệu."
-
-#~ msgid "Thumbnail height (px):"
-#~ msgstr "Chiều cao hình thu nhỏ (px):"
-
-#~ msgid ""
-#~ "Maximum height (in pixels) of the thumbnail stored in the database.\n"
-#~ "Larger values improve quality but increase database size."
-#~ msgstr ""
-#~ "Chiều cao tối đa (tính bằng pixel)"
-#~ " của hình thu nhỏ lưu trong cơ"
-#~ " sở dữ liệu.\n"
-#~ "Giá trị lớn hơn cải thiện chất "
-#~ "lượng nhưng tăng kích thước cơ sở"
-#~ " dữ liệu."
-
-# Settings dialog – language selector
-#~ msgid "System default"
-#~ msgstr "Mặc định hệ thống"
-
-# Column headers
-#~ msgid "AI"
-#~ msgstr "AI"
-
-#~ msgid "Group"
-#~ msgstr "Nhóm"
-
-#~ msgid "Name"
-#~ msgstr "Tên"
-
-# IMAGE column
-#~ msgid "Image"
-#~ msgstr "Hình ảnh"
-
-#~ msgid "English"
-#~ msgstr "Tiếng Anh"
-
-# Column header tooltips
-#~ msgid ""
-#~ "Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
-#~ "Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
-#~ msgstr ""
-#~ "Enter: xác nhận  ·  Ctrl+Enter hoặc Shift+Enter: chèn dòng mới\n"
-#~ "Tab / Shift+Tab: ô tiếp theo / trước  ·  Esc: hủy"
-
-#~ msgid ""
-#~ "AI model name.\n"
-#~ "Sort: primary AI → Group → Name"
-#~ msgstr ""
-#~ "Tên mô hình AI.\n"
-#~ "Sắp xếp: AI → Nhóm → Tên"
-
-#~ msgid ""
-#~ "Prompt group / category.\n"
-#~ "Sort: primary Group → Name → AI"
-#~ msgstr ""
-#~ "Nhóm / danh mục prompt.\n"
-#~ "Sắp xếp: Nhóm → Tên → AI"
-
-#~ msgid ""
-#~ "Prompt title.\n"
-#~ "Sort: primary Name → Group → AI"
-#~ msgstr ""
-#~ "Tiêu đề prompt.\n"
-#~ "Sắp xếp: Tên → Nhóm → AI"
-
-#~ msgid ""
-#~ "Double-click to view · Right-click for options\n"
-#~ "Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
-#~ msgstr ""
-#~ "Nhấp đúp để xem · Nhấp phải cho tùy chọn\n"
-#~ "Enter: tải từ tệp  ·  Ctrl+V: dán  ·  Backspace: xóa"
-
-#~ msgid "Prompt in local language.\n"
-#~ msgstr "Prompt bằng ngôn ngữ địa phương.\n"
-
-#~ msgid "Prompt in English.\n"
-#~ msgstr "Prompt bằng tiếng Anh.\n"
-
-# Status messages
-#~ msgid "Ready"
-#~ msgstr "Sẵn sàng"
-
-# Main window – filters
-#~ msgid "Filter:"
-#~ msgstr "Lọc:"
-
-#~ msgid "AI…"
-#~ msgstr "AI…"
-
-#~ msgid "Filter the AI column. Supports regular expressions."
-#~ msgstr "Lọc cột AI. Hỗ trợ biểu thức chính quy."
-
-#~ msgid "Filter the Group column. Supports regular expressions."
-#~ msgstr "Lọc cột Nhóm. Hỗ trợ biểu thức chính quy."
-
-#~ msgid "Filter the Name column. Supports regular expressions."
-#~ msgstr "Lọc cột Tên. Hỗ trợ biểu thức chính quy."
-
-#~ msgid "Filter the local language column. Supports regular expressions."
-#~ msgstr "Lọc cột ngôn ngữ địa phương. Hỗ trợ biểu thức chính quy."
-
-#~ msgid "Filter the English column. Supports regular expressions."
-#~ msgstr "Lọc cột Tiếng Anh. Hỗ trợ biểu thức chính quy."
-
-#~ msgid "Group…"
-#~ msgstr "Nhóm…"
-
-#~ msgid "Name…"
-#~ msgstr "Tên…"
-
-#~ msgid "Local language…"
-#~ msgstr "Ngôn ngữ địa phương…"
-
-#~ msgid "English…"
-#~ msgstr "Tiếng Anh…"
-
-#~ msgid "Clear"
-#~ msgstr "Xóa bộ lọc"
-
-#~ msgid "Clear all filters"
-#~ msgstr "Xóa tất cả bộ lọc"
-
-# Main window – menu
-#~ msgid "&File"
-#~ msgstr "&Tệp"
-
-#~ msgid "&Tools"
-#~ msgstr "&Công cụ"
-
-#~ msgid "&Help"
-#~ msgstr "&Trợ giúp"
-
-#~ msgid "&New"
-#~ msgstr "&Mới"
-
-# Main window – toolbar / actions
-#~ msgid "New file"
-#~ msgstr "Tệp mới"
-
-#~ msgid "&Open…"
-#~ msgstr "&Mở…"
-
-#~ msgid "Open a prompt file"
-#~ msgstr "Mở tệp prompt"
-
-#~ msgid "&Save"
-#~ msgstr "&Lưu"
-
-#~ msgid "Save the current file"
-#~ msgstr "Lưu tệp hiện tại"
-
-#~ msgid "Save &As…"
-#~ msgstr "Lưu &thành…"
-
-#~ msgid "Save to a new file"
-#~ msgstr "Lưu vào tệp mới"
-
-#~ msgid "&Close"
-#~ msgstr "&Đóng"
-
-#~ msgid "Close current file"
-#~ msgstr "Đóng tệp hiện tại"
-
-#~ msgid "&Quit"
-#~ msgstr "&Thoát"
-
-#~ msgid "Quit PBPrompt"
-#~ msgstr "Thoát PBPrompt"
-
-#~ msgid "&Options…"
-#~ msgstr "&Tùy chọn…"
-
-#~ msgid "Open settings dialog"
-#~ msgstr "Mở hộp thoại cài đặt"
-
-#~ msgid "&About…"
-#~ msgstr "&Giới thiệu…"
-
-#~ msgid "About PBPrompt"
-#~ msgstr "Giới thiệu về PBPrompt"
-
-#~ msgid "New Prompt"
-#~ msgstr "Prompt mới"
-
-#~ msgid "Add a new prompt entry"
-#~ msgstr "Thêm prompt mới"
-
-#~ msgid "Duplicate"
-#~ msgstr "Nhân bản"
-
-#~ msgid "Duplicate the current row"
-#~ msgstr "Nhân bản hàng hiện tại"
-
-#~ msgid "Delete"
-#~ msgstr "Xóa"
-
-#~ msgid "Delete selected prompts"
-#~ msgstr "Xóa các prompt đã chọn"
-
-#~ msgid "→ English"
-#~ msgstr "→ Tiếng Anh"
-
-#~ msgid "Translate selected rows to English"
-#~ msgstr "Dịch các hàng đã chọn sang tiếng Anh"
-
-#~ msgid "← Local"
-#~ msgstr "← Ngôn ngữ địa phương"
-
-#~ msgid "Translate selected rows from English"
-#~ msgstr "Dịch các hàng đã chọn từ tiếng Anh"
-
-# File menu – YAML import/export
-#~ msgid "Import &YAML"
-#~ msgstr "Nhập &YAML"
-
-#~ msgid "Add entries…"
-#~ msgstr "Thêm mục…"
-
-#~ msgid "Import YAML file (append)"
-#~ msgstr "Nhập tệp YAML (thêm vào)"
-
-#~ msgid "Replace all…"
-#~ msgstr "Thay thế tất cả…"
-
-#~ msgid "Import YAML file (replace all)"
-#~ msgstr "Nhập tệp YAML (thay thế tất cả)"
-
-#~ msgid "Export &YAML…"
-#~ msgstr "Xuất &YAML…"
-
-#~ msgid "Export YAML file"
-#~ msgstr "Xuất tệp YAML"
-
-#~ msgid "Refresh Thumbnails"
-#~ msgstr "Làm mới hình thu nhỏ"
-
-#~ msgid "Regenerate all thumbnails from stored images"
-#~ msgstr "Tạo lại tất cả hình thu nhỏ từ ảnh đã lưu"
-
-#~ msgid "Recent &Files"
-#~ msgstr "Tệp &gần đây"
-
-#~ msgid "Copied: %s"
-#~ msgstr "Đã sao chép: %s"
-
-#~ msgid "New file created"
-#~ msgstr "Tệp mới đã được tạo"
-
-# Dialogs – file operations
-#~ msgid "Open Prompt File"
-#~ msgstr "Mở tệp prompt"
-
-# Dialogs – file operations (SQLite)
-#~ msgid "PBPrompt database (*.sqlite);;All files (*.*)"
-#~ msgstr "Cơ sở dữ liệu PBPrompt (*.sqlite);;Tất cả tệp (*.*)"
-
-#~ msgid "Loaded {n} entries from {path}"
-#~ msgstr "Đã tải {n} mục từ {path}"
-
-#~ msgid "Error Opening File"
-#~ msgstr "Lỗi mở tệp"
-
-#~ msgid ""
-#~ "Could not open file:\n"
-#~ "{path}\n"
-#~ "\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Không thể mở tệp:\n"
-#~ "{path}\n"
-#~ "\n"
-#~ "{error}"
-
-# Dialogs – errors
-#~ msgid "Error"
-#~ msgstr "Lỗi"
-
-#~ msgid ""
-#~ "Could not open file:\n"
-#~ "{path}"
-#~ msgstr ""
-#~ "Không thể mở tệp:\n"
-#~ "{path}"
-
-#~ msgid "Save Prompt File"
-#~ msgstr "Lưu tệp prompt"
-
-#~ msgid "File saved successfully"
-#~ msgstr "Tệp đã được lưu thành công"
-
-#~ msgid ""
-#~ "Could not save file:\n"
-#~ "{path}"
-#~ msgstr ""
-#~ "Không thể lưu tệp:\n"
-#~ "{path}"
-
-#~ msgid "Import YAML"
-#~ msgstr "Nhập YAML"
-
-#~ msgid "YAML files (*.yaml *.yml);;All files (*.*)"
-#~ msgstr "Tệp YAML (*.yaml *.yml);;Tất cả tệp (*.*)"
-
-# Status messages (YAML import/export)
-#~ msgid "Imported {n} entries from {path}"
-#~ msgstr "Đã nhập {n} mục từ {path}"
-
-#~ msgid "({k} duplicate(s) skipped)"
-#~ msgstr "({k} bản trùng lặp bị bỏ qua)"
-
-# Dialogs – errors (YAML import/export)
-#~ msgid ""
-#~ "Import failed:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Nhập thất bại:\n"
-#~ "{error}"
-
-#~ msgid "Export YAML"
-#~ msgstr "Xuất YAML"
-
-#~ msgid "Exported {n} entries to {path}"
-#~ msgstr "Đã xuất {n} mục vào {path}"
-
-#~ msgid ""
-#~ "Export failed:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Xuất thất bại:\n"
-#~ "{error}"
-
-#~ msgid "File closed"
-#~ msgstr "Tệp đã đóng"
-
-# Dialogs – confirmation
-#~ msgid "Unsaved Changes"
-#~ msgstr "Thay đổi chưa lưu"
-
-#~ msgid ""
-#~ "The document has been modified.\n"
-#~ "Do you want to save your changes?"
-#~ msgstr ""
-#~ "Tài liệu đã được sửa đổi.\n"
-#~ "Bạn có muốn lưu các thay đổi không?"
-
-#~ msgid "Row duplicated"
-#~ msgstr "Đã nhân bản hàng"
-
-#~ msgid "Confirm Delete"
-#~ msgstr "Xác nhận xóa"
-
-#~ msgid "Are you sure you want to delete {n} selected row(s)?"
-#~ msgstr "Bạn có chắc chắn muốn xóa {n} hàng đã chọn không?"
-
-#~ msgid "Deleted {n} row(s)"
-#~ msgstr "Đã xóa {n} hàng"
-
-# Context menu
-#~ msgid "Copy"
-#~ msgstr "Sao chép"
-
-#~ msgid "Cut"
-#~ msgstr "Cắt"
-
-#~ msgid "Paste"
-#~ msgstr "Dán"
-
-#~ msgid "Thumbnails refreshed: {n} image(s) updated"
-#~ msgstr "Đã làm mới hình thu nhỏ: {n} ảnh được cập nhật"
-
-#~ msgid "Unsupported Format"
-#~ msgstr "Định dạng không được hỗ trợ"
-
-#~ msgid "Unsupported image format"
-#~ msgstr "Định dạng hình ảnh không được hỗ trợ"
-
-#~ msgid "Load image from file…"
-#~ msgstr "Tải ảnh từ tệp…"
-
-#~ msgid "Paste image"
-#~ msgstr "Dán hình ảnh"
-
-#~ msgid "Clear image"
-#~ msgstr "Xóa hình ảnh"
-
-#~ msgid "Confirm Clear Image"
-#~ msgstr "Xác nhận xóa ảnh"
-
-#~ msgid "Clear the image from {n} selected row(s)?"
-#~ msgstr "Xóa ảnh khỏi {n} hàng được chọn?"
-
-#~ msgid "Load Image"
-#~ msgstr "Tải ảnh"
-
-#~ msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
-#~ msgstr "Tệp ảnh (*.jpg *.jpeg *.png);;Tất cả tệp (*.*)"
-
-#~ msgid "No preview"
-#~ msgstr "Không có xem trước"
-
-#~ msgid ""
-#~ "Could not read file:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Không thể đọc tệp:\n"
-#~ "{error}"
-
-#~ msgid "No Image"
-#~ msgstr "Không có ảnh"
-
-#~ msgid "No image in clipboard"
-#~ msgstr "Không có hình ảnh trong clipboard"
-
-#~ msgid "No rows selected"
-#~ msgstr "Chưa chọn hàng nào"
-
-#~ msgid "Translation Error"
-#~ msgstr "Lỗi dịch thuật"
-
-#~ msgid ""
-#~ "Could not initialise the translation service.\n"
-#~ "Check your API key in Options."
-#~ msgstr ""
-#~ "Không thể khởi tạo dịch vụ dịch thuật.\n"
-#~ "Kiểm tra khóa API trong Tùy chọn."
-
-#~ msgid ""
-#~ "Translation failed:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Dịch thất bại:\n"
-#~ "{error}"
-
-#~ msgid "Translated {n} row(s)"
-#~ msgstr "Đã dịch {n} hàng"
-
-#~ msgid "No recent files"
-#~ msgstr "Không có tệp gần đây"
-
-#~ msgid "Clear list"
-#~ msgstr "Xóa danh sách"
-
-#~ msgid "File Not Found"
-#~ msgstr "Không tìm thấy tệp"
-
-#~ msgid ""
-#~ "The file no longer exists:\n"
-#~ "{path}"
-#~ msgstr ""
-#~ "Tệp không còn tồn tại:\n"
-#~ "{path}"
-
-#~ msgid "Untitled"
-#~ msgstr "Chưa đặt tên"
+#, python-brace-format
+msgid "About {app}"
+msgstr "Giới thiệu về {app}"
+
+# ==AUTO== Automatically translated
+msgid "A program to register and categorize AI prompts to keep tries."
+msgstr "Chương trình để đăng ký và phân loại các prompt AI."
+
+msgid "MIT License"
+msgstr "Giấy phép MIT"
+
+msgid "l"
+msgstr "r"
 
 # Image viewer toolbar
-#~ msgid "Fit"
-#~ msgstr "Vừa khung"
+msgid "Fit"
+msgstr "Vừa khung"
 
-#~ msgid "×1"
-#~ msgstr "×1"
+#, python-format
+msgid "Fit image to window (max ×%d)"
+msgstr "Vừa khung cửa sổ (tối đa ×%d)"
 
-#~ msgid "Width"
-#~ msgstr "Chiều rộng"
+msgid "×1"
+msgstr "×1"
 
-#~ msgid "Height"
-#~ msgstr "Chiều cao"
+msgid "Actual size — 1 pixel = 1 displayed pixel  [1]"
+msgstr "Kích thước thực — 1 pixel = 1 pixel hiển thị  [1]"
 
-#~ msgid "+50%"
-#~ msgstr "+50%"
+msgid "Width"
+msgstr "Chiều rộng"
 
-#~ msgid "-50%"
-#~ msgstr "-50%"
+#, python-format
+msgid "Fit image width to window  [%s]"
+msgstr "Vừa chiều rộng cửa sổ  [%s]"
 
-#~ msgid "l"
-#~ msgstr "r"
+msgid "Height"
+msgstr "Chiều cao"
 
-#~ msgid "Fit image to window (max ×%d)"
-#~ msgstr "Vừa khung cửa sổ (tối đa ×%d)"
+msgid "Fit image height to window  [H]"
+msgstr "Vừa chiều cao cửa sổ  [H]"
 
-#~ msgid "Actual size — 1 pixel = 1 displayed pixel  [1]"
-#~ msgstr "Kích thước thực — 1 pixel = 1 pixel hiển thị  [1]"
+# ==AUTO== Automatically translated
+#, python-format
+msgid "+%d%%"
+msgstr "+%d%%"
 
-#~ msgid "Fit image width to window  [%s]"
-#~ msgstr "Vừa chiều rộng cửa sổ  [%s]"
+#, python-format
+msgid "Zoom in +%d%%  [+]"
+msgstr "Phóng to +%d%%  [+]"
 
-#~ msgid "Fit image height to window  [H]"
-#~ msgstr "Vừa chiều cao cửa sổ  [H]"
+# ==AUTO== Automatically translated
+#, python-format
+msgid "-%d%%"
+msgstr "-%d%%"
 
-#~ msgid "Zoom in +50%  [+]"
-#~ msgstr "Phóng to +50%  [+]"
+#, python-format
+msgid "Zoom out -%d%%  [−]"
+msgstr "Thu nhỏ -%d%%  [−]"
 
-#~ msgid "Zoom out -50%  [−]"
-#~ msgstr "Thu nhỏ -50%  [−]"
+# Column headers
+msgid "AI"
+msgstr "AI"
 
-#~ msgid "(No image)"
-#~ msgstr "(Không có ảnh)"
+msgid "Group"
+msgstr "Nhóm"
+
+msgid "Name"
+msgstr "Tên"
+
+# IMAGE column
+msgid "Image"
+msgstr "Hình ảnh"
+
+msgid "English"
+msgstr "Tiếng Anh"
+
+# Column header tooltips
+msgid ""
+"Enter: confirm  ·  Ctrl+Enter or Shift+Enter: insert new line\n"
+"Tab / Shift+Tab: move to adjacent cell  ·  Esc: cancel"
+msgstr ""
+"Enter: xác nhận  ·  Ctrl+Enter hoặc Shift+Enter: chèn dòng mới\n"
+"Tab / Shift+Tab: ô tiếp theo / trước  ·  Esc: hủy"
+
+msgid ""
+"AI model name.\n"
+"Sort: primary AI → Group → Name"
+msgstr ""
+"Tên mô hình AI.\n"
+"Sắp xếp: AI → Nhóm → Tên"
+
+msgid ""
+"Prompt group / category.\n"
+"Sort: primary Group → Name → AI"
+msgstr ""
+"Nhóm / danh mục prompt.\n"
+"Sắp xếp: Nhóm → Tên → AI"
+
+msgid ""
+"Prompt title.\n"
+"Sort: primary Name → Group → AI"
+msgstr ""
+"Tiêu đề prompt.\n"
+"Sắp xếp: Tên → Nhóm → AI"
+
+#, fuzzy
+msgid "Double-click to view · Right-click for options"
+msgstr ""
+"Nhấp đúp để xem · Nhấp phải cho tùy chọn\n"
+"Enter: tải từ tệp  ·  Ctrl+V: dán  ·  Backspace: xóa"
+
+msgid "Prompt in local language.\n"
+msgstr "Prompt bằng ngôn ngữ địa phương.\n"
+
+msgid "Prompt in English.\n"
+msgstr "Prompt bằng tiếng Anh.\n"
+
+# Status messages
+msgid "Ready"
+msgstr "Sẵn sàng"
+
+# Main window – filters
+msgid "Filter:"
+msgstr "Lọc:"
+
+msgid "AI…"
+msgstr "AI…"
+
+msgid "Filter the AI column. Supports regular expressions."
+msgstr "Lọc cột AI. Hỗ trợ biểu thức chính quy."
+
+msgid "Group…"
+msgstr "Nhóm…"
+
+msgid "Filter the Group column. Supports regular expressions."
+msgstr "Lọc cột Nhóm. Hỗ trợ biểu thức chính quy."
+
+msgid "Name…"
+msgstr "Tên…"
+
+msgid "Filter the Name column. Supports regular expressions."
+msgstr "Lọc cột Tên. Hỗ trợ biểu thức chính quy."
+
+msgid "Local language…"
+msgstr "Ngôn ngữ địa phương…"
+
+msgid "Filter the local language column. Supports regular expressions."
+msgstr "Lọc cột ngôn ngữ địa phương. Hỗ trợ biểu thức chính quy."
+
+msgid "English…"
+msgstr "Tiếng Anh…"
+
+msgid "Filter the English column. Supports regular expressions."
+msgstr "Lọc cột Tiếng Anh. Hỗ trợ biểu thức chính quy."
+
+msgid "Clear"
+msgstr "Xóa bộ lọc"
+
+msgid "Clear all filters"
+msgstr "Xóa tất cả bộ lọc"
+
+# Main window – menu
+msgid "&File"
+msgstr "&Tệp"
+
+msgid "&Tools"
+msgstr "&Công cụ"
+
+msgid "&Help"
+msgstr "&Trợ giúp"
+
+msgid "&New"
+msgstr "&Mới"
+
+# Main window – toolbar / actions
+msgid "New file"
+msgstr "Tệp mới"
+
+msgid "&Open…"
+msgstr "&Mở…"
+
+msgid "Open a prompt file"
+msgstr "Mở tệp prompt"
+
+msgid "&Save"
+msgstr "&Lưu"
+
+msgid "Save the current file"
+msgstr "Lưu tệp hiện tại"
+
+msgid "Save &As…"
+msgstr "Lưu &thành…"
+
+msgid "Save to a new file"
+msgstr "Lưu vào tệp mới"
+
+msgid "&Close"
+msgstr "&Đóng"
+
+msgid "Close current file"
+msgstr "Đóng tệp hiện tại"
+
+msgid "&Quit"
+msgstr "&Thoát"
+
+msgid "Quit PBPrompt"
+msgstr "Thoát PBPrompt"
+
+msgid "&Options…"
+msgstr "&Tùy chọn…"
+
+msgid "Open settings dialog"
+msgstr "Mở hộp thoại cài đặt"
+
+msgid "&About…"
+msgstr "&Giới thiệu…"
+
+msgid "About PBPrompt"
+msgstr "Giới thiệu về PBPrompt"
+
+msgid "New Prompt"
+msgstr "Prompt mới"
+
+msgid "Add a new prompt entry"
+msgstr "Thêm prompt mới"
+
+msgid "Duplicate"
+msgstr "Nhân bản"
+
+msgid "Duplicate the current row"
+msgstr "Nhân bản hàng hiện tại"
+
+msgid "Delete"
+msgstr "Xóa"
+
+msgid "Delete selected prompts"
+msgstr "Xóa các prompt đã chọn"
+
+msgid "→ English"
+msgstr "→ Tiếng Anh"
+
+msgid "Translate selected rows to English"
+msgstr "Dịch các hàng đã chọn sang tiếng Anh"
+
+msgid "← Local"
+msgstr "← Ngôn ngữ địa phương"
+
+msgid "Translate selected rows from English"
+msgstr "Dịch các hàng đã chọn từ tiếng Anh"
+
+# File menu – YAML import/export
+msgid "Import &YAML"
+msgstr "Nhập &YAML"
+
+msgid "Add entries…"
+msgstr "Thêm mục…"
+
+msgid "Import YAML file (append)"
+msgstr "Nhập tệp YAML (thêm vào)"
+
+msgid "Replace all…"
+msgstr "Thay thế tất cả…"
+
+msgid "Import YAML file (replace all)"
+msgstr "Nhập tệp YAML (thay thế tất cả)"
+
+msgid "Export &YAML…"
+msgstr "Xuất &YAML…"
+
+msgid "Export YAML file"
+msgstr "Xuất tệp YAML"
+
+msgid "Refresh Thumbnails"
+msgstr "Làm mới hình thu nhỏ"
+
+msgid "Regenerate all thumbnails from stored images"
+msgstr "Tạo lại tất cả hình thu nhỏ từ ảnh đã lưu"
+
+msgid "Recent &Files"
+msgstr "Tệp &gần đây"
+
+msgid ""
+"Double-click to view · Right-click for options\n"
+"Enter: load from file  ·  Ctrl+V: paste  ·  Backspace: clear"
+msgstr ""
+"Nhấp đúp để xem · Nhấp phải cho tùy chọn\n"
+"Enter: tải từ tệp  ·  Ctrl+V: dán  ·  Backspace: xóa"
+
+#, python-format
+msgid "Copied: %s"
+msgstr "Đã sao chép: %s"
+
+msgid "New file created"
+msgstr "Tệp mới đã được tạo"
+
+# Dialogs – file operations
+msgid "Open Prompt File"
+msgstr "Mở tệp prompt"
+
+# Dialogs – file operations (SQLite)
+msgid "PBPrompt database (*.sqlite);;All files (*.*)"
+msgstr "Cơ sở dữ liệu PBPrompt (*.sqlite);;Tất cả tệp (*.*)"
+
+#, python-brace-format
+msgid "Loaded {n} entries from {path}"
+msgstr "Đã tải {n} mục từ {path}"
+
+msgid "Error Opening File"
+msgstr "Lỗi mở tệp"
+
+#, python-brace-format
+msgid ""
+"Could not open file:\n"
+"{path}\n"
+"\n"
+"{error}"
+msgstr ""
+"Không thể mở tệp:\n"
+"{path}\n"
+"\n"
+"{error}"
+
+# Dialogs – errors
+msgid "Error"
+msgstr "Lỗi"
+
+#, python-brace-format
+msgid ""
+"Could not open file:\n"
+"{path}"
+msgstr ""
+"Không thể mở tệp:\n"
+"{path}"
+
+msgid "Save Prompt File"
+msgstr "Lưu tệp prompt"
+
+msgid "File saved successfully"
+msgstr "Tệp đã được lưu thành công"
+
+#, python-brace-format
+msgid ""
+"Could not save file:\n"
+"{path}"
+msgstr ""
+"Không thể lưu tệp:\n"
+"{path}"
+
+msgid "Import YAML"
+msgstr "Nhập YAML"
+
+msgid "YAML files (*.yaml *.yml);;All files (*.*)"
+msgstr "Tệp YAML (*.yaml *.yml);;Tất cả tệp (*.*)"
+
+# Status messages (YAML import/export)
+#, python-brace-format
+msgid "Imported {n} entries from {path}"
+msgstr "Đã nhập {n} mục từ {path}"
+
+#, python-brace-format
+msgid "({k} duplicate(s) skipped)"
+msgstr "({k} bản trùng lặp bị bỏ qua)"
+
+# Dialogs – errors (YAML import/export)
+#, python-brace-format
+msgid ""
+"Import failed:\n"
+"{error}"
+msgstr ""
+"Nhập thất bại:\n"
+"{error}"
+
+msgid "Export YAML"
+msgstr "Xuất YAML"
+
+#, python-brace-format
+msgid "Exported {n} entries to {path}"
+msgstr "Đã xuất {n} mục vào {path}"
+
+#, python-brace-format
+msgid ""
+"Export failed:\n"
+"{error}"
+msgstr ""
+"Xuất thất bại:\n"
+"{error}"
+
+msgid "File closed"
+msgstr "Tệp đã đóng"
+
+# Dialogs – confirmation
+msgid "Unsaved Changes"
+msgstr "Thay đổi chưa lưu"
+
+msgid ""
+"The document has been modified.\n"
+"Do you want to save your changes?"
+msgstr ""
+"Tài liệu đã được sửa đổi.\n"
+"Bạn có muốn lưu các thay đổi không?"
+
+msgid "Row duplicated"
+msgstr "Đã nhân bản hàng"
+
+msgid "Confirm Delete"
+msgstr "Xác nhận xóa"
+
+#, python-brace-format
+msgid "Are you sure you want to delete {n} selected row(s)?"
+msgstr "Bạn có chắc chắn muốn xóa {n} hàng đã chọn không?"
+
+#, python-brace-format
+msgid "Deleted {n} row(s)"
+msgstr "Đã xóa {n} hàng"
+
+# Context menu
+msgid "Copy"
+msgstr "Sao chép"
+
+msgid "Cut"
+msgstr "Cắt"
+
+msgid "Paste"
+msgstr "Dán"
+
+#, python-brace-format
+msgid "Thumbnails refreshed: {n} image(s) updated"
+msgstr "Đã làm mới hình thu nhỏ: {n} ảnh được cập nhật"
+
+msgid "Unsupported Format"
+msgstr "Định dạng không được hỗ trợ"
+
+msgid "Unsupported image format"
+msgstr "Định dạng hình ảnh không được hỗ trợ"
+
+msgid "Load image from file…"
+msgstr "Tải ảnh từ tệp…"
+
+msgid "Paste image"
+msgstr "Dán hình ảnh"
+
+msgid "Copy image"
+msgstr "Sao chép ảnh"
+
+msgid "Save image to file…"
+msgstr "Lưu ảnh vào tệp…"
+
+msgid "Clear image"
+msgstr "Xóa hình ảnh"
+
+msgid "Load Image"
+msgstr "Tải ảnh"
+
+msgid "Image files (*.jpg *.jpeg *.png);;All files (*.*)"
+msgstr "Tệp ảnh (*.jpg *.jpeg *.png);;Tất cả tệp (*.*)"
+
+msgid "No preview"
+msgstr "Không có xem trước"
+
+#, python-brace-format
+msgid ""
+"Could not read file:\n"
+"{error}"
+msgstr ""
+"Không thể đọc tệp:\n"
+"{error}"
+
+msgid "No Image"
+msgstr "Không có ảnh"
+
+msgid "No image in clipboard"
+msgstr "Không có hình ảnh trong clipboard"
+
+msgid "JPEG image (*.jpg *.jpeg)"
+msgstr "Ảnh JPEG (*.jpg *.jpeg)"
+
+msgid "PNG image (*.png)"
+msgstr "Ảnh PNG (*.png)"
+
+msgid "Save Image"
+msgstr "Lưu ảnh"
+
+#, python-brace-format
+msgid ""
+"Could not save file:\n"
+"{error}"
+msgstr ""
+"Không thể lưu tệp:\n"
+"{error}"
+
+msgid "Confirm Clear Image"
+msgstr "Xác nhận xóa ảnh"
+
+#, python-brace-format
+msgid "Clear the image from {n} selected row(s)?"
+msgstr "Xóa ảnh khỏi {n} hàng được chọn?"
+
+msgid "No rows selected"
+msgstr "Chưa chọn hàng nào"
+
+msgid "Translation Error"
+msgstr "Lỗi dịch thuật"
+
+msgid ""
+"Could not initialise the translation service.\n"
+"Check your API key in Options."
+msgstr ""
+"Không thể khởi tạo dịch vụ dịch thuật.\n"
+"Kiểm tra khóa API trong Tùy chọn."
+
+#, python-brace-format
+msgid ""
+"Translation failed:\n"
+"{error}"
+msgstr ""
+"Dịch thất bại:\n"
+"{error}"
+
+#, python-brace-format
+msgid "Translated {n} row(s)"
+msgstr "Đã dịch {n} hàng"
+
+msgid "No recent files"
+msgstr "Không có tệp gần đây"
+
+msgid "Clear list"
+msgstr "Xóa danh sách"
+
+msgid "File Not Found"
+msgstr "Không tìm thấy tệp"
+
+#, python-brace-format
+msgid ""
+"The file no longer exists:\n"
+"{path}"
+msgstr ""
+"Tệp không còn tồn tại:\n"
+"{path}"
+
+msgid "Untitled"
+msgstr "Chưa đặt tên"
+
+# Settings dialog
+msgid "Settings"
+msgstr "Cài đặt"
+
+msgid "Language"
+msgstr "Ngôn ngữ"
+
+msgid "Display language:"
+msgstr "Ngôn ngữ hiển thị:"
+
+msgid ""
+"Language used for the user interface.\n"
+"'System default' uses the operating system locale."
+msgstr ""
+"Ngôn ngữ sử dụng cho giao diện người dùng.\n"
+"'Mặc định hệ thống' sử dụng ngôn ngữ của hệ điều hành."
+
+msgid "Translation language:"
+msgstr "Ngôn ngữ dịch:"
+
+msgid ""
+"Language of the 'Local language' column.\n"
+"Used as the source or target when translating prompts.\n"
+"'System default' uses the operating system locale."
+msgstr ""
+"Ngôn ngữ của cột 'Ngôn ngữ địa phương'.\n"
+"Dùng làm nguồn hoặc đích khi dịch các prompt.\n"
+"'Mặc định hệ thống' sử dụng ngôn ngữ của hệ điều hành."
+
+msgid "Translation service"
+msgstr "Dịch vụ dịch thuật"
+
+msgid "Service:"
+msgstr "Dịch vụ:"
+
+msgid ""
+"Translation service used to fill the 'Local language' column\n"
+"automatically when clicking the Translate button."
+msgstr ""
+"Dịch vụ dịch thuật dùng để điền cột 'Ngôn ngữ địa phương'\n"
+"tự động khi nhấp vào nút Dịch."
+
+msgid "API key:"
+msgstr "Khóa API:"
+
+msgid ""
+"API key required by DeepL, Microsoft Translator, Yandex,\n"
+"QCRI and LibreTranslate.\n"
+"Leave blank for services that do not require one\n"
+"(Google, MyMemory, PONS, Linguee, Reverso…)."
+msgstr ""
+"Khóa API yêu cầu bởi DeepL, Microsoft Translator, Yandex,\n"
+"QCRI và LibreTranslate.\n"
+"Để trống cho các dịch vụ không yêu cầu\n"
+"(Google, MyMemory, PONS, Linguee, Reverso…)."
+
+msgid "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+msgstr "DeepL, Microsoft, Yandex, QCRI, LibreTranslate"
+
+msgid "App ID:"
+msgstr "ID ứng dụng:"
+
+msgid ""
+"Application identifier required by some services:\n"
+"• Baidu: appid\n"
+"• Papago: client_id"
+msgstr ""
+"Mã định danh ứng dụng yêu cầu bởi một số dịch vụ:\n"
+"• Baidu: appid\n"
+"• Papago: client_id"
+
+msgid "Baidu (appid) · Papago (client_id)"
+msgstr "Baidu (appid) · Papago (client_id)"
+
+msgid "App secret:"
+msgstr "Bí mật ứng dụng:"
+
+msgid ""
+"Application secret required by some services:\n"
+"• Baidu: appkey\n"
+"• Papago: secret_key"
+msgstr ""
+"Bí mật ứng dụng yêu cầu bởi một số dịch vụ:\n"
+"• Baidu: appkey\n"
+"• Papago: secret_key"
+
+msgid "Baidu (appkey) · Papago (secret_key)"
+msgstr "Baidu (appkey) · Papago (secret_key)"
+
+msgid "Logging"
+msgstr "Nhật ký"
+
+msgid "Log level:"
+msgstr "Cấp độ nhật ký:"
+
+msgid ""
+"Verbosity of the application log.\n"
+"DEBUG shows all messages; ERROR shows only critical failures.\n"
+"Effective after restarting the application."
+msgstr ""
+"Mức độ chi tiết của nhật ký ứng dụng.\n"
+"DEBUG hiển thị tất cả thông báo; ERROR chỉ hiển thị lỗi nghiêm trọng.\n"
+"Có hiệu lực sau khi khởi động lại ứng dụng."
+
+msgid "Files"
+msgstr "Tệp"
+
+msgid "Maximum recent files:"
+msgstr "Số tệp gần đây tối đa:"
+
+msgid "Maximum number of recently opened files shown in the File menu."
+msgstr "Số tối đa các tệp đã mở gần đây hiển thị trong menu Tệp."
+
+# Settings dialog – Images group
+msgid "Images"
+msgstr "Hình ảnh"
+
+msgid "Thumbnail width (px):"
+msgstr "Chiều rộng hình thu nhỏ (px):"
+
+msgid ""
+"Maximum width (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
+msgstr ""
+"Chiều rộng tối đa (tính bằng pixel) của hình thu nhỏ lưu trong cơ sở dữ "
+"liệu.\n"
+"Giá trị lớn hơn cải thiện chất lượng nhưng tăng kích thước cơ sở dữ liệu."
+
+msgid "Thumbnail height (px):"
+msgstr "Chiều cao hình thu nhỏ (px):"
+
+msgid ""
+"Maximum height (in pixels) of the thumbnail stored in the database.\n"
+"Larger values improve quality but increase database size."
+msgstr ""
+"Chiều cao tối đa (tính bằng pixel) của hình thu nhỏ lưu trong cơ sở dữ "
+"liệu.\n"
+"Giá trị lớn hơn cải thiện chất lượng nhưng tăng kích thước cơ sở dữ liệu."
 
 # Settings dialog – image viewer
-#~ msgid "Image viewer max zoom (×):"
-#~ msgstr "Zoom tối đa của trình xem (×):"
+msgid "Image viewer max zoom (×):"
+msgstr "Zoom tối đa của trình xem (×):"
 
-#~ msgid ""
-#~ "Maximum magnification in 'Fit' mode when the image is smaller\n"
-#~ "than the viewer window.\n"
-#~ "1× to 16× (default: 4×)."
-#~ msgstr ""
-#~ "Phóng đại tối đa trong chế độ 'Vừa khung' khi ảnh\n"
-#~ "nhỏ hơn cửa sổ xem.\n"
-#~ "Từ 1× đến 16× (mặc định: 4×)."
+msgid ""
+"Maximum magnification in 'Fit' mode when the image is smaller\n"
+"than the viewer window.\n"
+"1× to 16× (default: 4×)."
+msgstr ""
+"Phóng đại tối đa trong chế độ 'Vừa khung' khi ảnh\n"
+"nhỏ hơn cửa sổ xem.\n"
+"Từ 1× đến 16× (mặc định: 4×)."
 
-#~ msgid "Zoom step (%):"
-#~ msgstr "Bước thu phóng (%):"
+msgid "Zoom step (%):"
+msgstr "Bước thu phóng (%):"
 
-#~ msgid ""
-#~ "Percentage added or removed when clicking + or −,\n"
-#~ "or scrolling the mouse wheel in the image viewer.\n"
-#~ "1% to 50% (default: 10%)."
-#~ msgstr ""
-#~ "Phần trăm được thêm hoặc bớt khi nhấn + hoặc −,\n"
-#~ "hoặc cuộn bánh xe chuột trong trình xem ảnh.\n"
-#~ "Từ 1% đến 50% (mặc định: 10%)."
+msgid ""
+"Percentage added or removed when clicking + or −,\n"
+"or scrolling the mouse wheel in the image viewer.\n"
+"1% to 50% (default: 10%)."
+msgstr ""
+"Phần trăm được thêm hoặc bớt khi nhấn + hoặc −,\n"
+"hoặc cuộn bánh xe chuột trong trình xem ảnh.\n"
+"Từ 1% đến 50% (mặc định: 10%)."
 
-#~ msgid "Keep original dimensions"
-#~ msgstr "Giữ kích thước gốc"
+msgid "Keep original dimensions"
+msgstr "Giữ kích thước gốc"
 
-#~ msgid ""
-#~ "When checked, images are stored as-is regardless of their size.\n"
-#~ "When unchecked, images larger than the limits below are resized\n"
-#~ "proportionally before being stored in the database."
-#~ msgstr ""
-#~ "Khi được chọn, ảnh được lưu nguyên trạng bất kể kích thước.\n"
-#~ "Khi không được chọn, ảnh vượt quá"
-#~ " giới hạn bên dưới sẽ được thay"
-#~ " đổi kích thước\n"
-#~ "theo tỷ lệ trước khi lưu vào cơ sở dữ liệu."
+msgid ""
+"When checked, images are stored as-is regardless of their size.\n"
+"When unchecked, images larger than the limits below are resized\n"
+"proportionally before being stored in the database."
+msgstr ""
+"Khi được chọn, ảnh được lưu nguyên trạng bất kể kích thước.\n"
+"Khi không được chọn, ảnh vượt quá giới hạn bên dưới sẽ được thay đổi kích"
+" thước\n"
+"theo tỷ lệ trước khi lưu vào cơ sở dữ liệu."
 
-#~ msgid "Max width (px):"
-#~ msgstr "Chiều rộng tối đa (px):"
+msgid "Max width (px):"
+msgstr "Chiều rộng tối đa (px):"
 
-#~ msgid ""
-#~ "Maximum width (in pixels) for images stored in the database.\n"
-#~ "Images wider than this value are resized proportionally."
-#~ msgstr ""
-#~ "Chiều rộng tối đa (tính bằng pixel) của ảnh lưu trong cơ sở dữ liệu.\n"
-#~ "Các ảnh rộng hơn giá trị này sẽ được thay đổi kích thước theo tỷ lệ."
+msgid ""
+"Maximum width (in pixels) for images stored in the database.\n"
+"Images wider than this value are resized proportionally."
+msgstr ""
+"Chiều rộng tối đa (tính bằng pixel) của ảnh lưu trong cơ sở dữ liệu.\n"
+"Các ảnh rộng hơn giá trị này sẽ được thay đổi kích thước theo tỷ lệ."
 
-#~ msgid "Max height (px):"
-#~ msgstr "Chiều cao tối đa (px):"
+msgid "Max height (px):"
+msgstr "Chiều cao tối đa (px):"
 
-#~ msgid ""
-#~ "Maximum height (in pixels) for images stored in the database.\n"
-#~ "Images taller than this value are resized proportionally."
-#~ msgstr ""
-#~ "Chiều cao tối đa (tính bằng pixel) của ảnh lưu trong cơ sở dữ liệu.\n"
-#~ "Các ảnh cao hơn giá trị này sẽ được thay đổi kích thước theo tỷ lệ."
+msgid ""
+"Maximum height (in pixels) for images stored in the database.\n"
+"Images taller than this value are resized proportionally."
+msgstr ""
+"Chiều cao tối đa (tính bằng pixel) của ảnh lưu trong cơ sở dữ liệu.\n"
+"Các ảnh cao hơn giá trị này sẽ được thay đổi kích thước theo tỷ lệ."
 
-#~ msgid "Copy image"
-#~ msgstr "Sao chép ảnh"
-
-#~ msgid "Save image to file…"
-#~ msgstr "Lưu ảnh vào tệp…"
-
-#~ msgid "Save Image"
-#~ msgstr "Lưu ảnh"
-
-#~ msgid "JPEG image (*.jpg *.jpeg)"
-#~ msgstr "Ảnh JPEG (*.jpg *.jpeg)"
-
-#~ msgid "PNG image (*.png)"
-#~ msgstr "Ảnh PNG (*.png)"
-
-#~ msgid ""
-#~ "Could not save file:\n"
-#~ "{error}"
-#~ msgstr ""
-#~ "Không thể lưu tệp:\n"
-#~ "{error}"
+# Settings dialog – language selector
+msgid "System default"
+msgstr "Mặc định hệ thống"

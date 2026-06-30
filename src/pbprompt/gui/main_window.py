@@ -334,23 +334,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def _apply_icons(self) -> None:
         """Assign icons to actions and window."""
-        self.setWindowIcon(get_icon("app"))
+        self.setWindowIcon(get_icon("pbprompt"))
         self.actionFileNew.setIcon(get_icon("new"))
         self.actionFileOpen.setIcon(get_icon("open"))
         self.actionFileSave.setIcon(get_icon("save"))
-        self.actionFileSaveAs.setIcon(get_icon("save_as"))
+        self.actionFileSaveAs.setIcon(get_icon("save-as"))
         self.actionFileQuit.setIcon(get_icon("quit"))
-        self.actionNewPrompt.setIcon(get_icon("new_prompt"))
+        self.actionNewPrompt.setIcon(get_icon("new-prompt"))
         self.actionDuplicatePrompt.setIcon(get_icon("duplicate"))
         self.actionDeletePrompts.setIcon(get_icon("delete"))
-        self.actionToolsOptions.setIcon(get_icon("options"))
-        self.actionHelpAbout.setIcon(get_icon("about"))
-        self.actionTranslateToEnglish.setIcon(get_icon("translate_right"))
-        self.actionTranslateFromEnglish.setIcon(get_icon("translate_left"))
-        self.actionImportYamlAdd.setIcon(get_icon("import_yaml"))
-        self.actionImportYamlReplace.setIcon(get_icon("import_yaml"))
-        self.actionExportYaml.setIcon(get_icon("export_yaml"))
-        self.actionRefreshThumbnails.setIcon(get_icon("refresh_thumbnails"))
+        self.actionToolsOptions.setIcon(get_icon("preferences-system"))
+        self.actionHelpAbout.setIcon(get_icon("help-about"))
+        self.actionTranslateToEnglish.setIcon(get_icon("translate-right"))
+        self.actionTranslateFromEnglish.setIcon(get_icon("translate-left"))
+        self.actionImportYamlAdd.setIcon(get_icon("import-yaml-merged"))
+        self.actionImportYamlReplace.setIcon(get_icon("import-yaml"))
+        self.actionExportYaml.setIcon(get_icon("export-yaml"))
+        self.actionRefreshThumbnails.setIcon(get_icon("refresh-icons"))
 
     # ------------------------------------------------------------------
     # Signal connections

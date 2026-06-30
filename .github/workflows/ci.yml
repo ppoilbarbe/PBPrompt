@@ -9,6 +9,11 @@ on:
   pull_request:
     branches: ["main"]
 
+# Cancel in-flight runs for the same ref when a newer push arrives.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 # Opt into Node.js 24 early for all actions (Node.js 20 deprecated June 2026).
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
@@ -58,15 +63,40 @@ jobs:
         run: make all NOCONDA=1
         shell: bash -el {0}
 
-      - name: Run pre-commit hooks
+      - name: Run tests
+        run: make test NOCONDA=1
+        shell: bash -el {0}
+
+  # -------------------------------------------------------------------------
+  # Pre-commit hooks  – run in parallel with test
+  # -------------------------------------------------------------------------
+  hooks:
+    name: Pre-commit hooks
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up micromamba environment
+        uses: mamba-org/setup-micromamba@v3
+        with:
+          environment-file: environment.yml
+          micromamba-version: "2.5.0-2"
+          create-args: --channel-priority strict
+          init-shell: bash
+          cache-environment: true
+
+      - name: Cache pre-commit hook environments
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+
+      - name: Run hooks on all files
         run: pre-commit run --all-files
         shell: bash -el {0}
         env:
           SKIP: no-commit-to-branch
-
-      - name: Run tests
-        run: make test NOCONDA=1
-        shell: bash -el {0}
 
   # -------------------------------------------------------------------------
   # Documentation  – branch pushes only (skip on tag releases)
@@ -116,7 +146,7 @@ jobs:
   build-linux:
     name: Build – Linux (amd64)
     runs-on: ubuntu-latest
-    needs: test
+    needs: [test, hooks]
 
     steps:
       - uses: actions/checkout@v5
@@ -149,7 +179,7 @@ jobs:
   build-windows:
     name: Build – Windows (amd64)
     runs-on: windows-latest
-    needs: test
+    needs: [test, hooks]
 
     steps:
       - uses: actions/checkout@v5
@@ -187,7 +217,7 @@ jobs:
     # on all Apple Silicon Macs (M1/M2/M3).
     runs-on: macos-14
     timeout-minutes: 30
-    needs: test
+    needs: [test, hooks]
 
     steps:
       - uses: actions/checkout@v5

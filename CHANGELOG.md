@@ -6,7 +6,45 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+- **`tools/fix_po_files.py`**: normalises `.po` files after `pybabel update`
+  (resets `POT-Creation-Date`, strips version from `Project-Id-Version`, removes
+  obsolete `#~` entries and `#:` location comments). Called automatically by
+  `make merge-po`.
+- **`tools/po_check.py`**: `.po` inspection tool using the Babel API (statistics,
+  untranslated entries, regex search, two-language diff). Replaces ad-hoc greps.
+
+### Changed
+- **Icons — kebab-case filenames**: all SVG icon filenames normalised to
+  kebab-case; specific renames: `about.svg`→`help-about.svg`,
+  `app_color.svg`→`pbprompt.svg`, `options.svg`→`preferences-system.svg`,
+  `refresh-thumbnails.svg`→`refresh-icons.svg`.
+- **Icons — unused SVGs removed**: `app_dark.svg`, `app_light.svg`, `close.svg`
+  deleted.
+- **Icons — lookup mechanic** (`gui/icons.py`): rewritten to match PBPicat:
+  `svg_name` parameter is the bare filename (no extension); single lookup chain
+  FreeDesktop theme → package SVG file → Qt standard fallback. Removed
+  `_FILE_NAME_MAP` and `_color`/`_light`/`_dark` variant logic.
+- **Toolbars**: removed explicit `setIconSize(QSize(22, 22))` — icon sizes
+  now follow the system/desktop default.
+- **Import YAML "Add entries" action**: icon changed to `import-yaml-merged.svg`.
+- **`babel.cfg`**: fixed glob pattern from `[python: src/**.py]` to
+  `[python: **.py]`; the previous form caused pybabel to look for
+  `src/src/**.py` when called with `--input-dirs=src`, leaving the `.pot`
+  empty and making all translations obsolete.
+- **`make merge-po`**: now runs `tools/fix_po_files.py` after `pybabel update`.
+- **`.gitignore`**: added `*.pot` (generated artifact, not tracked).
+- **CI** (`.github/workflows/ci.yml`): added `concurrency: cancel-in-progress`;
+  `hooks` job extracted as a parallel job with its own pre-commit cache;
+  `build-linux`, `build-windows`, `build-macos` now `needs: [test, hooks]`.
+
 ### Fixed
+- **Translations broken**: `babel.cfg` bug (see above) caused all `.po` entries
+  to move to the obsolete section. Translations restored from last good commit;
+  four fuzzy zoom-format entries (`+%d%%`, `-%d%%`) corrected via Babel API.
+- **About dialog not translated**: `_(__description__)` (variable reference,
+  invisible to pybabel) replaced by the string literal; missing translations for
+  `"Version:"`, `"Authors:"` and the description string added to all 8 catalogs.
 - **ReadTheDocs changelog**: `doc/changelog.rst` is now generated automatically
   from `CHANGELOG.md` at Sphinx build time (`doc/conf.py`), replacing the
   static RST file that had stalled at version 1.0.6. `doc/changelog.rst` is

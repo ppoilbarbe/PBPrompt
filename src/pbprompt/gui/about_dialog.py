@@ -5,7 +5,7 @@ from __future__ import annotations
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QDialog
 
-from pbprompt import __app_name__, __description__, __version__
+from pbprompt import __app_name__, __version__
 from pbprompt.gui.about_dialog_ui import Ui_AboutDialog
 from pbprompt.gui.icons import get_icon
 from pbprompt.i18n import get_translate
@@ -26,7 +26,7 @@ class AboutDialog(QDialog, Ui_AboutDialog):
         self.retranslateUi(self)
 
         # Application icon
-        icon = get_icon("app")
+        icon = get_icon("pbprompt")
         if not icon.isNull():
             pixmap: QPixmap = icon.pixmap(64, 64)
             self.iconLabel.setPixmap(pixmap)
@@ -42,7 +42,9 @@ class AboutDialog(QDialog, Ui_AboutDialog):
         _ = get_translate()
         widget.setWindowTitle(_("About {app}").format(app=__app_name__))
         self.appNameLabel.setText(__app_name__)
-        self.descriptionLabel.setText(_(__description__))
+        self.descriptionLabel.setText(
+            _("A program to register and categorize AI prompts to keep tries.")
+        )
         self.licenseLabel.setText(
             '<a href="https://opensource.org/licenses/MIT">' + _("MIT License") + "</a>"
         )
