@@ -30,13 +30,17 @@ the conda workflow.
 1. Fork the repository and create a branch from `main`.
 2. Make your changes; add or update tests as appropriate.
 3. Ensure the test suite passes:
+
    ```bash
    make test
    ```
+
 4. Ensure the linter is happy:
+
    ```bash
    make lint
    ```
+
 5. Open a pull request against `main` with a clear description of what
    changed and why.
 
@@ -63,7 +67,7 @@ the conda workflow.
 
 Use short imperative-mood subject lines, e.g.
 
-```
+```text
 Add Vietnamese translation
 Fix setContentsMargins TypeError on PySide6
 Bump version to 1.0.2

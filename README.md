@@ -131,12 +131,12 @@ make run                        # run from source tree (no install needed)
 
 ### Command-line options
 
-```
+```text
 usage: pbprompt [-h] [--version] [--log-level LEVEL] [FILE]
 ```
 
 | Option | Description |
-|---|---|
+| --- | --- |
 | `FILE` | SQLite file to open at startup. **Takes priority over the last-used file** (auto-load is skipped). If the file cannot be read, an error dialog shows the reason and an empty list is loaded. |
 | `--version` | Print version number and exit. |
 | `--log-level LEVEL` | Override the log level from the config file. Values: `DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`. |
@@ -147,7 +147,7 @@ usage: pbprompt [-h] [--version] [--log-level LEVEL] [FILE]
 ## Keyboard shortcuts
 
 | Action | Shortcut |
-|---|---|
+| --- | --- |
 | New file | Ctrl+N |
 | Open… | Ctrl+O |
 | Save | Ctrl+S |
@@ -233,7 +233,7 @@ python tools/bump_version.py {major|minor|patch}
 
 It updates both files atomically and prints a confirmation line such as:
 
-```
+```text
 Version bumped (minor): 1.0.1 → 1.1.0
 ```
 
@@ -270,7 +270,7 @@ REM Output: dist\pbprompt.exe
 
 ## Project structure
 
-```
+```text
 PBPrompt/
 ├── src/pbprompt/          # Main package
 │   ├── __main__.py        # Entry point
@@ -315,7 +315,7 @@ PBPrompt/
 Each `pbprompt/platform/*.py` module exposes one function used by the app:
 
 | Function | Purpose |
-|---|---|
+| --- | --- |
 | `get_config_dir()` | Returns `Path` to the config directory |
 
 To add a new platform, create `pbprompt/platform/myos.py` implementing
@@ -330,7 +330,7 @@ versions in the Read the Docs dropdown.  The retention rules are (given the
 current latest tag **X.Y.Z**):
 
 | Scope | Rule |
-|---|---|
+| --- | --- |
 | **Older major versions** (< X) | Keep the single latest release of each of the 3 most recent major versions |
 | **Current major X, older minor versions** (< Y) | Keep the single latest patch of each of the 3 most recent minor versions |
 | **Current major X, current minor Y, older patches** (< Z) | Keep the 3 most recent patches |

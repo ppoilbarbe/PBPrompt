@@ -7,6 +7,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+
 - **`tools/fix_po_files.py`**: normalises `.po` files after `pybabel update`
   (resets `POT-Creation-Date`, strips version from `Project-Id-Version`, removes
   obsolete `#~` entries and `#:` location comments). Called automatically by
@@ -15,6 +16,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
   untranslated entries, regex search, two-language diff). Replaces ad-hoc greps.
 
 ### Changed
+
 - **Icons — kebab-case filenames**: all SVG icon filenames normalised to
   kebab-case; specific renames: `about.svg`→`help-about.svg`,
   `app_color.svg`→`pbprompt.svg`, `options.svg`→`preferences-system.svg`,
@@ -39,6 +41,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
   `build-linux`, `build-windows`, `build-macos` now `needs: [test, hooks]`.
 
 ### Fixed
+
 - **Translations broken**: `babel.cfg` bug (see above) caused all `.po` entries
   to move to the obsolete section. Translations restored from last good commit;
   four fuzzy zoom-format entries (`+%d%%`, `-%d%%`) corrected via Babel API.
@@ -53,6 +56,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.8.2] – 2026-06-24
 
 ### Added
+
 - **Portable font bundling in PyInstaller builds**: `fonts-conda-ecosystem`
   (Ubuntu, DejaVu, Inconsolata, SourceCodePro) added to `environment.yml` and
   bundled into the frozen binary via `pbprompt.spec`. A runtime hook
@@ -67,18 +71,21 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
   target machines, so font selection cannot rely on fontconfig.
 
 ### Fixed
+
 - **Sphinx docs**: Makefile target table completed and corrected; all RST grid
   tables converted to `.. list-table::` to avoid Sphinx parse errors.
 
 ## [1.8.1] – 2026-06-24
 
 ### Added
+
 - **`src/pbprompt/icons/`**: SVG icons moved into the Python package; loaded
   directly via the new `get_icon_dir()` helper in `gui/icons.py`, which resolves
   the correct path both in normal execution and in PyInstaller one-file bundles
   (`sys._MEIPASS / "pbprompt" / "icons"`). No QRC compilation required.
 
 ### Changed
+
 - **UI definition files** (`*_ui.py`): Qt Designer `.ui` files replaced by
   source-controlled pure-Python files (`main_window_ui.py`, `about_dialog_ui.py`,
   `settings_dialog_ui.py`). The `make ui` and `make resources` targets are removed;
@@ -101,6 +108,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
   `*_ui.py` and Icons sections; dropped `gettext`/`msgfmt` from requirements.
 
 ### Removed
+
 - **`resources/` directory** (QRC sources and compiled icons): superseded by
   `src/pbprompt/icons/` (direct file loading).
 - **`src/pbprompt/gui/resources_rc.py`**: compiled QRC module no longer needed.
@@ -108,6 +116,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.8.0] – 2026-06-01
 
 ### Added
+
 - **`tools/git_version.sh`**: new script that outputs the semver string from the
   current Git tag (`v1.2.3` → `1.2.3`) or `dev` when HEAD is untagged or the
   working tree is dirty; called by the `dist` and `srcdist` Makefile targets so
@@ -119,6 +128,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
   `image_viewer_x/y/width/height`).
 
 ### Changed
+
 - **`scripts/` renamed to `tools/`**: all build and maintenance scripts moved to
   `tools/` (`build_linux.sh`, `build_macos.sh`, `build_windows.bat`, `build_qm.sh`,
   `compile_translations.sh`, `bump_version.py`, `extract_changelog.py`,
@@ -126,6 +136,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 - **ruff pre-commit hook** bumped to v0.15.13.
 
 ### Fixed
+
 - **Image viewer — wheel zoom crash (PySide6 6.x)**: `QWheelEvent.pos()` was removed in
   recent PySide6 releases; replaced with `.position().toPoint()`.
 - **CI build — artifact upload failures**: `upload-artifact` paths were hardcoded to
@@ -140,6 +151,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.7.1] – 2026-05-17
 
 ### Fixed
+
 - **Settings dialog — language change ignored (PySide6 6.11)**: accessing a Qt enum
   member via a dialog instance (`dlg.Accepted`) raises `AttributeError` in PySide6 6.11
   because enum members are no longer accessible through instance attribute lookup.  The
@@ -150,12 +162,14 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.7.0] – 2026-05-13
 
 ### Added
+
 - **`pbprompt.spec`**: PyInstaller spec file committed to the repository; preserved by
   `make clean` (`.gitignore` updated with `!pbprompt.spec` exception).
 - **`hooks/rthook_ssl.py`**: PyInstaller runtime hook that points `SSL_CERT_FILE` and
   `REQUESTS_CA_BUNDLE` to the bundled certifi CA bundle in frozen builds.
 
 ### Changed
+
 - **Makefile — `bundle` renamed `dist`**: the PyInstaller standalone-binary target is
   now called `dist`; the old `bundle` target is removed.
 - **Makefile — `dist` renamed `srcdist`**: the source-archive target (`.tar.gz` / `.zip`)
@@ -165,6 +179,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 - **`CLAUDE.md`**: command table updated to reflect `dist` / `srcdist` renaming.
 
 ### Removed
+
 - **`scripts/make_png.py`** and **`pbprompt.png`**: app-icon PNG generation removed;
   the `png` Makefile target, `PNG_OUT` and `SVG_SRC` variables, and the `png`
   dependency in `make all` are all removed.
@@ -172,6 +187,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.6.0] – 2026-05-05
 
 ### Changed
+
 - **Migration PyQt5 → PySide6**: the entire codebase now uses PySide6 (LGPL v3) instead
   of PyQt5 (GPL v3).  All scoped enums updated, `pyqtSignal` replaced by `Signal`,
   `exec_()` replaced by `exec()`, `QAction` imported from `QtGui`, build tools updated
@@ -192,22 +208,26 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 - **`environment.yml`**: `defaults` channel removed; only `conda-forge` used.
 
 ### Fixed
+
 - **Image viewer — keypad shortcuts**: `Ctrl+KP+` / `Ctrl+KP−` raised `TypeError` in
   PySide6 because `int(KeyboardModifier)` is not supported; fixed by using `.value`.
 
 ### Added
+
 - **`scripts/make_png.py`**: generates `pbprompt.png` (128×128 app icon) from the SVG
   source via PySide6; integrated into `make all` as the `png` target.
 
 ## [1.5.1] – 2026-05-03
 
 ### Added
+
 - **German translation (`de`)**: complete UI translation; `LOCALE_LANGS` updated in
   Makefile to include `de`.
 
 ## [1.5.0] – 2026-04-20
 
 ### Added
+
 - **Image viewer — zoom to cursor**: mouse wheel zoom now keeps the pixel under the
   cursor centred in the viewport (best approximation when scrollbar limits apply).
 - **Image context menu — Copy image**: copies the full stored image to the system
@@ -219,6 +239,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
   contains no image.
 
 ### Fixed
+
 - **Makefile `translations` target**: was declared `.PHONY` without file dependencies,
   causing all `.mo` files to be recompiled on every `make all` even when no `.po` had
   changed.  Now uses a pattern rule (`%.mo: %.po`) so only modified locales are rebuilt.
@@ -226,6 +247,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.4.0] – 2026-04-18
 
 ### Added
+
 - **Persistent column filters**: filter field values are saved to `AppConfig.column_filters`
   on close and restored on next launch (keys: `ai`, `group`, `name`, `local`, `english`).
 - **CI: auto-deactivate old RTD versions**: `.github/workflows/ci.yml` now calls
@@ -240,34 +262,41 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.3.2] – 2026-04-13
 
 ### Changed
+
 - README: clarify project goal.
 
 ### Fixed
+
 - ReadTheDocs build: pin Sphinx version to fix versioning issues.
 
 ## [1.3.1] – 2026-04-13
 
 ### Added
+
 - **CLAUDE.md**: operational instructions for Claude Code (commands, critical rules,
   git workflow, i18n, RST/Sphinx, maintenance of reference files).
 
 ### Fixed
+
 - **ReadTheDocs build**: add `gettext` to `apt_packages` in `.readthedocs.yaml` so
   that `msgfmt` is available when `make translations` runs in the pre-build step.
 
 ## [1.3.0] – 2026-04-13
 
 ### Added
+
 - **Multi-row image clear**: clearing an image now applies to all selected rows;
   falls back to the current row when nothing is selected.
 - **Image clear confirmation**: a `QMessageBox.question` dialog (default: No)
   asks for confirmation before clearing, showing the number of affected rows.
 
 ### Changed
+
 - Image-clear keyboard shortcut changed from `Del` to `Backspace` to eliminate
   the conflict with `Del` (delete row); context menu hint updated accordingly.
 
 ### Fixed
+
 - CI release pipeline: `extract_changelog.py` was silently writing to
   `$GITHUB_OUTPUT` instead of stdout (the env var is always set on GitHub
   runners), so `--notes-file` received an empty stream. Script simplified to
@@ -277,6 +306,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.2.0] – 2026-04-13
 
 ### Added
+
 - **Persistent last-used directories**: the application now remembers the last
   directory used for YAML import (`last_import_dir`), YAML export
   (`last_export_dir`), and image loading (`last_image_dir`); the stored path is
@@ -290,6 +320,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
   round-trip persistence in `AppConfig` (87 tests total).
 
 ### Fixed
+
 - Image delegate: clearing the `HasDecoration` feature flag instead of assigning
   a null `QPixmap` prevents `QPainter::begin` errors on some platforms.
 - Image preview in file dialog: `max(size − 8, 1)` guard prevents a zero-size
@@ -302,6 +333,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.1.0] – 2026-04-12
 
 ### Added
+
 - **Test suite**: comprehensive coverage for `pbprompt.config` (28 tests, 100 %)
   and `pbprompt.data` (41 tests, 100 %); 83 tests total, all green.
 - `pytest-xvfb >= 3.0` added to dev extras — starts a private Xvfb virtual
@@ -309,6 +341,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
   `xvfb-run` or `QT_QPA_PLATFORM=offscreen`.
 
 ### Changed
+
 - CI: GitLab CI configuration (`.gitlab-ci.yml`) removed; GitHub Actions is the
   sole CI pipeline.
 - Documentation installation (conda): `pytest-xvfb` now installed via
@@ -317,6 +350,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
   `pytest-xvfb` rationale.
 
 ### Fixed
+
 - **Sphinx documentation** (`make clean all docs` now produces 0 warnings, 0 errors):
   - `doc/_static/` directory created to suppress the `html_static_path` warning.
   - `platform/windows.py`: unexpected indentation in module docstring corrected.
@@ -329,6 +363,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.0.6] – 2026-04-12
 
 ### Changed
+
 - Organisation renamed from **PBSoft** to **PBMou** throughout all source files,
   licences, translations, and documentation.
 - Copyright year corrected to 2026 in all project-owned files.
@@ -344,6 +379,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 - `doc/_build/` added to `.gitignore`.
 
 ### Fixed
+
 - **Thumbnail column**: when a thumbnail was narrower than the column, the image
   appeared twice — once left-aligned (drawn by `CE_ItemViewItem` from the
   `DecorationRole` pixmap) and once centred (drawn manually by the delegate).
@@ -354,6 +390,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.0.5] – 2026-04-11
 
 ### Fixed
+
 - Switch macOS CI runner from `macos-13` (Intel x86_64, being deprecated on the
   free tier) to `macos-14` (Apple Silicon arm64/M1), which is faster and more
   reliably available.  The macOS release binary is now `pbprompt-vX.Y.Z-macos-arm64`.
@@ -363,6 +400,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.0.4] – 2026-04-11
 
 ### Fixed
+
 - `PromptCollection.__init__()` now accepts an optional `entries` parameter
   (`list[PromptEntry] | None`), restoring the API expected by the test suite.
 - `test_save_and_load` updated to use `.sqlite` extension (consistent with the
@@ -374,6 +412,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.0.3] – 2026-04-11
 
 ### Fixed
+
 - Apply all pending ruff format and lint fixes that were missing from the 1.0.2
   release: import ordering (`detect_image_format`, `generate_thumbnail`), line
   wrapping for long expressions, blank lines after local imports, and inline
@@ -385,6 +424,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.0.2] – 2026-04-11
 
 ### Fixed
+
 - Pre-commit hooks updated (`pre-commit-hooks` v6.0.0, `ruff` v0.15.10); all
   ruff lint and format errors corrected (E501 lines shortened, auto-formatted
   files committed).
@@ -392,6 +432,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.0.1] – 2026-04-11
 
 ### Added
+
 - **Automated multi-platform releases** – pushing a `vX.Y.Z` tag now triggers
   a full release pipeline on both GitHub Actions and GitLab CI: tests run,
   standalone executables are built for Linux (amd64), Windows (amd64), and
@@ -405,6 +446,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.0.0] – 2026-04-11
 
 ### Added
+
 - **Six-column prompt table** – AI, Group, Name, Image, Local language, English.
 - **IMAGE column** – thumbnail display in the grid; double-click shows full image;
   right-click context menu: Load from file, Paste, Clear; drag & drop supported.
@@ -454,6 +496,7 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 - `CONTRIBUTING.md` contributor guide.
 
 ### Fixed
+
 - `setContentsMargins` called with a single argument (Qt6-only form) caused a
   `TypeError` at startup; fixed by using four separate margin properties in the
   `.ui` file.
