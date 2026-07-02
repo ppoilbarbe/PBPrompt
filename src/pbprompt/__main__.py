@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import logging
 import sys
+from pathlib import Path
 
 from PySide6.QtWidgets import QApplication
 
@@ -35,6 +36,14 @@ def _parse_args() -> argparse.Namespace:
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
         help="override the log level set in the configuration file "
         "(DEBUG, INFO, WARNING, ERROR, CRITICAL)",
+    )
+    parser.add_argument(
+        "--config",
+        metavar="DIR",
+        default=None,
+        help="use DIR as the configuration directory instead of the platform "
+        "default (e.g. ~/.config/pbprompt on Linux); config.yaml is read from "
+        "and written to DIR",
     )
     parser.add_argument(
         "file",
@@ -101,6 +110,8 @@ def main() -> None:
     app.setApplicationVersion(__version__)
 
     # Load configuration (provides log level, language, etc.)
+    if args.config:
+        AppConfig.set_config_dir(Path(args.config))
     config = AppConfig.load()
 
     # Configure logging (CLI flag overrides config file)
@@ -116,8 +127,6 @@ def main() -> None:
     setup_i18n(config.display_language)
 
     # Import GUI *after* i18n so all translatable strings are ready
-    from pathlib import Path  # noqa: PLC0415
-
     from pbprompt.gui.main_window import MainWindow  # noqa: PLC0415
 
     initial_file = Path(args.file) if args.file else None

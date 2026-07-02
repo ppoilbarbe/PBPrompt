@@ -293,11 +293,11 @@ class MultiFilterProxyModel(QSortFilterProxyModel):
             self._filters[column] = pattern
         else:
             self._filters.pop(column, None)
-        self.invalidateFilter()
+        self.invalidate()
 
     def clear_filters(self) -> None:
         self._filters.clear()
-        self.invalidateFilter()
+        self.invalidate()
 
     def filterAcceptsRow(self, source_row: int, source_parent: QModelIndex) -> bool:
         model = self.sourceModel()

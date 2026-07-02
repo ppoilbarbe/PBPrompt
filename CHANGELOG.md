@@ -4,6 +4,43 @@ All notable changes to PBPrompt are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/) and
 the format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Added
+
+- **`--config DIR`** CLI flag: use an alternate configuration directory instead
+  of the platform default (`AppConfig.set_config_dir()` / `config_path()`).
+- **`make run ARGS="..."`**: pass extra command-line arguments to the
+  application, e.g. `make run ARGS="--config /tmp/x --log-level DEBUG"`.
+- Test suite: added `tests/test_image_utils.py` (`gui/image_utils.py`: 0% →
+  99% coverage), `tests/test_gui_basic.py`, `tests/test_i18n.py`,
+  `tests/test_main.py`, `tests/test_main_window.py`,
+  `tests/test_platform_extended.py`, `tests/test_translate_extended.py`, and a
+  `TestColumnFilters` class in `tests/test_config.py`. Overall coverage raised
+  from ~14% to 82% (357 tests, all green).
+- **`tests/conftest.py`**: autouse `_isolated_config_dir` fixture redirects
+  `AppConfig.config_path()` to a temporary directory for every test.
+
+### Changed
+
+- **`pyproject.toml`**: pytest `addopts` now enables coverage reporting by
+  default (`--cov=pbprompt --cov-report=term-missing`) instead of verbose
+  (`-v`) mode.
+- **`.pre-commit-config.yaml`**: bumped `ruff-pre-commit` to v0.15.20.
+
+### Fixed
+
+- **`gui/models.py`**: replaced deprecated
+  `QSortFilterProxyModel.invalidateFilter()` with `invalidate()` (the
+  suggested `invalidateRowsFilter()` replacement is itself deprecated in this
+  Qt version).
+- **`gui/image_utils.py`**: replaced deprecated `QMouseEvent.pos()` with
+  `event.position().toPoint()`.
+- The real user configuration file (`~/.config/pbprompt/config.yaml`) was
+  being overwritten by the test suite, because several tests instantiated
+  `AppConfig()` directly without redirecting `config_path()`. Fixed by the
+  autouse isolation fixture above.
+
 ## [1.8.3] – 2026-06-30
 
 ### Added

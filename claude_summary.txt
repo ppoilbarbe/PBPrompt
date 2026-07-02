@@ -1,7 +1,7 @@
 PBPrompt — Implementation Summary
 ==================================
 Version: 1.8.3
-Last updated: 2026-06-30
+Last updated: 2026-07-02
 
 
 Overview
@@ -456,9 +456,55 @@ png target removed: make_png.py script and pbprompt.png deleted.
 
 Test suite
 ----------
-87 tests total, all green.
-  pbprompt.config: 100% coverage (includes last_*_dir and column_filters round-trips)
-  pbprompt.data:   100% coverage
+357 tests total, all green.  Coverage: 82% (2438 / 2960 statements).
+Last updated: 2026-07-02.
+
+Modules at 100%:
+  __init__.py, config.py, data.py, i18n.py
+  platform/{__init__,linux,macos,windows}.py
+  gui/{__init__,about_dialog,about_dialog_ui,icons,main_window_ui,settings_dialog_ui}.py
+  translate/{__init__,base,google,mymemory,deepl,microsoft,yandex,libretranslate,
+             baidu,papago,qcri,pons,linguee,reverso}.py
+
+Near 100%:
+  image_utils.py         99%  — only 4 lines uncovered (404, 471, 559, 562:
+                                a defensive screen-geometry branch and two
+                                narrow QImage.scaled null-guard lines)
+  settings_dialog.py     99%  — all lines covered
+
+Partially covered:
+  __main__.py            63%  — main() function (lines 95-127, 131) not tested
+  main_window.py         59%  — image handlers, translate, context menu still 0%
+  models.py              55%  — delegate classes (painting code) still 0%
+
+Test files:
+  tests/conftest.py                — shared fixtures; QT_QPA_PLATFORM=offscreen at top
+  tests/test_config.py             — AppConfig (100%)
+  tests/test_data.py               — PromptEntry, PromptCollection (100%)
+  tests/test_i18n.py               — i18n module (100%)
+  tests/test_image_utils.py        — image_utils.py (99%): pure functions mocked
+                                     at the QImage/QPixmap boundary for failure
+                                     branches; ImageViewDialog zoom modes, event
+                                     filter (double-click, wheel), close/show events
+  tests/test_translate_extended.py — all translator back-ends (100%)
+  tests/test_platform_extended.py  — linux/macos/windows platform (100%)
+  tests/test_main.py               — __main__ non-GUI paths (63%)
+  tests/test_gui_basic.py          — icons, models, about_dialog, settings_dialog,
+                                     main_window smoke tests
+  tests/test_main_window.py        — MainWindow behaviours (48 tests)
+
+Key testing patterns:
+  - QT_QPA_PLATFORM=offscreen must be set at TOP of conftest.py (before any PySide6 import).
+  - Use qtbot.addWidget(w, before_close_func=...) NOT qapp; before_close_func must reset
+    w._collection.modified=False and stub w._config.save to prevent teardown dialogs.
+  - Blocking Qt dialogs (QMessageBox.question/warning/critical, QFileDialog.*) must be
+    patched with patch.object(QMessageBox, "warning", return_value=None) etc.
+    patch.object works on PySide6 static methods when used inside a with-block that
+    contains the call site (patching is undone by teardown, which then runs closeEvent).
+  - For closeEvent: patch win._config.save to prevent disk writes during test teardown.
+  - NEVER pass MagicMock() to C++ Qt methods (segfault); use real Qt objects or call
+    high-level methods that produce real events (e.g. win.show() for showEvent).
+
 pytest-xvfb >= 3.0: auto-starts a private Xvfb display on Linux for headless Qt tests.
 
 

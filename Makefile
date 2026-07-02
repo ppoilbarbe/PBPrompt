@@ -43,8 +43,8 @@ pyvenv:  ## Create Python virtual environment 'pypbprompt' with all deps via pip
 # ---------------------------------------------------------------------------
 # Run without installing
 # ---------------------------------------------------------------------------
-run:  ## Run the application without installing (uses src/ layout)
-	PYTHONPATH=src $(CONDA_RUN) python -m pbprompt
+run:  ## Run the application without installing (uses src/ layout); pass args via ARGS="..."
+	PYTHONPATH=src $(CONDA_RUN) python -m pbprompt $(ARGS)
 
 # ---------------------------------------------------------------------------
 # Compile gettext translations (.po → .mo)

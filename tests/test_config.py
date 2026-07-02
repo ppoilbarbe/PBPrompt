@@ -212,6 +212,56 @@ class TestLastDirs:
         assert cfg.last_import_dir == ""
 
 
+class TestColumnFilters:
+    def test_save_active_filters(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        path = tmp_path / "cfg.yaml"
+        monkeypatch.setattr(AppConfig, "config_path", staticmethod(lambda: path))
+        cfg = AppConfig()
+        cfg.column_filters = {"ai": "ChatGPT", "group": ""}
+        cfg.save()
+        # "group" is empty → filtered out; "ai" must appear in file
+        content = path.read_text(encoding="utf-8")
+        assert "ai" in content
+        assert "ChatGPT" in content
+
+    def test_reload_preserves_active_filters(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        path = tmp_path / "cfg.yaml"
+        monkeypatch.setattr(AppConfig, "config_path", staticmethod(lambda: path))
+        cfg = AppConfig()
+        cfg.column_filters = {"ai": "ChatGPT", "name": "Summary"}
+        cfg.save()
+        loaded = AppConfig.load()
+        assert loaded.column_filters.get("ai") == "ChatGPT"
+        assert loaded.column_filters.get("name") == "Summary"
+
+    def test_all_empty_filters_not_written(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        path = tmp_path / "cfg.yaml"
+        monkeypatch.setattr(AppConfig, "config_path", staticmethod(lambda: path))
+        cfg = AppConfig()
+        cfg.column_filters = {"ai": "", "group": ""}
+        cfg.save()
+        content = path.read_text(encoding="utf-8")
+        assert "column_filters" not in content
+
+    def test_invalid_column_key_ignored_on_load(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        path = tmp_path / "cfg.yaml"
+        path.write_text(
+            "column_filters:\n  ai: Bot\n  unknown_col: x\n", encoding="utf-8"
+        )
+        monkeypatch.setattr(AppConfig, "config_path", staticmethod(lambda: path))
+        cfg = AppConfig.load()
+        assert "ai" in cfg.column_filters
+        assert "unknown_col" not in cfg.column_filters
+
+
 class TestHelpers:
     def test_str_or_returns_default_for_non_string(self) -> None:
         assert AppConfig._str_or({"k": 42}, "k", "default") == "default"

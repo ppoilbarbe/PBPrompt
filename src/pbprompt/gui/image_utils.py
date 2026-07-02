@@ -419,7 +419,7 @@ class ImageViewDialog(QDialog):
             and event.type() == QEvent.Type.MouseButtonDblClick
             and event.button() == Qt.MouseButton.LeftButton
         ):
-            self._zoom_to_point(event.pos())
+            self._zoom_to_point(event.position().toPoint())
             return True
         if obj is self._scroll.viewport() and event.type() == QEvent.Type.Wheel:
             # Fraction of the image under the cursor before zoom (anchor point).

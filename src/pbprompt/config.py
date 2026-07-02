@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, ClassVar
 
 from ruamel.yaml import YAML
 
@@ -81,14 +81,31 @@ class AppConfig:
     column_filters: dict[str, str] = field(default_factory=dict)
     _extra: dict[str, Any] = field(default_factory=dict, repr=False, compare=False)
 
+    # Overrides the platform default config directory when set (--config CLI flag,
+    # test isolation). Not a dataclass field: shared across all instances.
+    _config_dir_override: ClassVar[Path | None] = None
+
     # ------------------------------------------------------------------
     # Persistence
     # ------------------------------------------------------------------
 
     @classmethod
+    def set_config_dir(cls, path: Path | None) -> None:
+        """Override the configuration directory used by config_path().
+
+        ``None`` restores the platform default (see ``get_config_dir()``).
+        """
+        cls._config_dir_override = path
+
+    @classmethod
     def config_path(cls) -> Path:
         """Return the platform-appropriate path for the config file."""
-        return get_config_dir() / CONFIG_FILENAME
+        base = (
+            cls._config_dir_override
+            if cls._config_dir_override is not None
+            else get_config_dir()
+        )
+        return base / CONFIG_FILENAME
 
     @classmethod
     def load(cls) -> AppConfig:
