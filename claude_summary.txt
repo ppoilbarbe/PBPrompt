@@ -288,8 +288,8 @@ PromptTableModel(QAbstractTableModel)
   IMAGE column: data() returns QPixmap via Qt.DecorationRole (from thumbnail bytes).
   set_image(source_row, full_image, thumbnail) — sets both, emits dataChanged+DecorationRole.
   Signals:
-    collection_modified = pyqtSignal()  — emitted when the data changes
-    cell_copied = pyqtSignal(str)       — emitted after Ctrl+C copy
+    collection_modified = Signal()  — emitted when the data changes
+    cell_copied = Signal(str)       — emitted after Ctrl+C copy
 
 ImageDelegate(CurrentCellHighlightDelegate)
   Delegate for Column.IMAGE.
@@ -326,11 +326,11 @@ PromptTableView(QTableView)
   Handles Ctrl+C/X/V for clipboard operations.
   Context menu: dispatches to image menu for IMAGE col, otherwise Copy/Cut/Paste.
   Signals:
-    image_activated = pyqtSignal(QModelIndex)       — double-click on IMAGE col
-    image_drop_requested = pyqtSignal(object, object)  — drop: (source_idx, mime_data)
-    image_load_requested = pyqtSignal(QModelIndex)  — Return/Enter key on IMAGE col
-    image_paste_requested = pyqtSignal(QModelIndex) — Ctrl+V key on IMAGE col
-    image_clear_requested = pyqtSignal(QModelIndex) — Backspace key on IMAGE col
+    image_activated = Signal(QModelIndex)       — double-click on IMAGE col
+    image_drop_requested = Signal(object, object)  — drop: (source_idx, mime_data)
+    image_load_requested = Signal(QModelIndex)  — Return/Enter key on IMAGE col
+    image_paste_requested = Signal(QModelIndex) — Ctrl+V key on IMAGE col
+    image_clear_requested = Signal(QModelIndex) — Backspace key on IMAGE col
   keyPressEvent(): handles image shortcuts (Return → load, Ctrl+V → paste,
     Backspace → clear) when IMAGE column is current.
   mouseDoubleClickEvent(): emits image_activated for IMAGE column.

@@ -507,8 +507,9 @@ Critical points for tests:
   * Do not write a test for a function (e.g. notify()) that is not exported in
     pbprompt/platform/__init__.__all__. Such a test fails with ImportError.
   * import_yaml() and export_yaml() use the YAML format (ruamel.yaml), NOT SQLite.
-    The conftest tmp_yaml fixture is poorly named: it creates a SQLite file. Do not
-    use it to test YAML import/export; use export_yaml() directly.
+    The conftest fixture that saves a PromptCollection to a temp file (tmp_sqlite)
+    creates a SQLite file, not YAML. Do not use it to test YAML import/export;
+    use export_yaml() directly.
   * To test the except branch of from_dict() (invalid base64), use monkeypatch on
     pbprompt.data.base64.b64decode rather than forging a genuinely invalid payload
     (the behaviour of b64decode with validate=False is ambiguous).
@@ -791,8 +792,8 @@ Display and interactions:
   * Fixed column width: thumbnail_width + 12 px.
 
 PromptTableView signals:
-  * image_activated = pyqtSignal(QModelIndex) — double-click on IMAGE column
-  * image_drop_requested = pyqtSignal(object, object) — drop mime data
+  * image_activated = Signal(QModelIndex) — double-click on IMAGE column
+  * image_drop_requested = Signal(object, object) — drop mime data
 
 Model:
   * PromptTableModel.set_image(source_row, full_image, thumbnail):

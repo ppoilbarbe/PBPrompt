@@ -27,6 +27,16 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
   default (`--cov=pbprompt --cov-report=term-missing`) instead of verbose
   (`-v`) mode.
 - **`.pre-commit-config.yaml`**: bumped `ruff-pre-commit` to v0.15.20.
+- **`README.md`**: replaced stale PyQt5 references (`pyqt` conda package,
+  `pyuic5`/`pyrcc5`, `make ui resources`, `ui_*.py`/`resources_rc.py`) with
+  the current PySide6 setup; `claude_prompt.txt`/`claude_summary.txt`
+  updated from `pyqtSignal` to `Signal` to match the source.
+- **`__main__.py`**: CLI `--help` epilog and `FILE` argument description
+  said "YAML file"; corrected to "SQLite file" to match the actual primary
+  storage format.
+- **`tests/conftest.py`**: renamed the `tmp_yaml` fixture to `tmp_sqlite`
+  (it saves a `PromptCollection` via `.save()`, which always writes SQLite,
+  not YAML — the old name was misleading).
 
 ### Fixed
 
@@ -45,6 +55,12 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
   `"en"`, causing `test_i18n.py::TestSystemLanguage::test_returns_string` to
   fail intermittently in CI. Added a regression test
   (`test_fallback_on_posix_c_locale`).
+- **`data.py`**: `_connect()` leaked the SQLite connection object (unclosed
+  `ResourceWarning`) when opening a non-SQLite file, because
+  `PRAGMA journal_mode=WAL` raised `sqlite3.DatabaseError` after
+  `sqlite3.connect()` had already succeeded but before the connection was
+  returned to `load()`/`save()`'s `try`/`finally`. The connection is now
+  closed before the exception is re-raised.
 
 ## [1.8.3] – 2026-06-30
 

@@ -66,9 +66,9 @@ def sample_collection(sample_entries: list[PromptEntry]) -> PromptCollection:
 
 
 @pytest.fixture
-def tmp_yaml(sample_collection: PromptCollection, tmp_path: Path) -> Path:
-    """Save sample_collection to a temp YAML file and return the path."""
-    path = tmp_path / "prompts.yaml"
+def tmp_sqlite(sample_collection: PromptCollection, tmp_path: Path) -> Path:
+    """Save sample_collection to a temp SQLite file and return the path."""
+    path = tmp_path / "prompts.sqlite"
     sample_collection.save(path)
     return path
 

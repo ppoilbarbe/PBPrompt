@@ -109,8 +109,12 @@ class PromptEntry:
 def _connect(path: Path) -> sqlite3.Connection:
     """Open (or create) a SQLite database with WAL mode and Row factory."""
     conn = sqlite3.connect(str(path))
-    conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA journal_mode=WAL")
+    try:
+        conn.row_factory = sqlite3.Row
+        conn.execute("PRAGMA journal_mode=WAL")
+    except sqlite3.DatabaseError:
+        conn.close()
+        raise
     return conn
 
 

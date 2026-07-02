@@ -65,7 +65,7 @@ conda activate pbprompt
 
 # Install all conda-available dependencies
 conda install -c conda-forge \
-    pyqt "ruamel.yaml" platformdirs requests \
+    pyside6 "ruamel.yaml" platformdirs requests \
     pytest pytest-qt ruff pre-commit mypy \
     sphinx sphinx-rtd-theme
 
@@ -77,15 +77,10 @@ pip install -e . --no-deps
 
 # Compile translations
 make translations          # or: ./tools/compile_translations.sh
-
-# Generate UI Python (requires pyuic5 / pyrcc5)
-make ui resources          # or: ./tools/build_qm.sh
 ```
 
-> **Note for conda users**: `pyuic5` and `pyrcc5` are provided by the
-> `pyqt` conda package.  Pre-generated `ui_*.py` files are also included
-> in the repository so you can skip `make ui resources` if you haven't
-> modified any `.ui` file.
+> Alternatively, use `make venv` to create the conda environment directly
+> from `environment.yml`.
 
 ### With venv / pip
 
@@ -102,15 +97,9 @@ pip install -e ".[dev]"
 
 # Compile translations
 make translations          # or: ./tools/compile_translations.sh
-
-# Generate UI Python (requires pyuic5 / pyrcc5)
-make ui resources          # or: ./tools/build_qm.sh
 ```
 
-### Quick start (without compiling UI)
-
-The repository ships pre-generated `ui_*.py` files so you can run the
-application without `pyuic5` installed:
+### Quick start
 
 ```bash
 pip install -e .
@@ -374,8 +363,6 @@ The script requires a `READTHEDOCS_TOKEN` secret configured in the repository
 - **Reverso** uses an undocumented public REST endpoint.
 - **DeepL** and **Yandex** require API keys configured in Options.
 - `.mo` compiled translation files must be generated with `make translations`.
-- `ui_*.py` and `resources_rc.py` should be regenerated with `make all`
-  when `.ui` files or icons change.
 - `deep-translator` is not available on conda-forge; install it with pip.
 - When installing with pip in a conda environment, use
   `pip install -e . --no-deps` (not `pip install -e .`) to avoid

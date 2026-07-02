@@ -19,7 +19,7 @@ def _parse_args() -> argparse.Namespace:
         prog="pbprompt",
         description=__description__,
         epilog=(
-            "Prompts are stored in a YAML file and can be translated via multiple "
+            "Prompts are stored in a SQLite file and can be translated via multiple "
             "online services (Google, DeepL, MyMemory, …). "
             "Use File › Open to load an existing file or File › New to start fresh."
         ),
@@ -50,7 +50,7 @@ def _parse_args() -> argparse.Namespace:
         nargs="?",
         metavar="FILE",
         help=(
-            "YAML prompt file to open on startup. "
+            "SQLite prompt file to open on startup. "
             "Takes priority over the last-used file (auto-load is skipped). "
             "If the file cannot be read, an error dialog explains the reason "
             "and an empty list is loaded."
