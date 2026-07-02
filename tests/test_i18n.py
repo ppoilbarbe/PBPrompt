@@ -145,6 +145,15 @@ class TestSystemLanguage:
             result = i18n.system_language()
         assert result == "en"
 
+    def test_fallback_on_posix_c_locale(self) -> None:
+        """Regression test: CI runners without LANG report locale "C",
+        which must not be returned as-is (len("C") == 1)."""
+        from pbprompt import i18n
+
+        with patch("pbprompt.i18n.locale.getlocale", return_value=("C", None)):
+            result = i18n.system_language()
+        assert result == "en"
+
 
 class TestLanguageCandidates:
     def test_short_code(self) -> None:

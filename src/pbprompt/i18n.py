@@ -170,7 +170,9 @@ def system_language() -> str:
     try:
         lang, _ = locale.getlocale()
         if lang:
-            return lang.split("_")[0]
+            short = lang.split("_")[0]
+            if len(short) >= 2:
+                return short
     except Exception:  # noqa: BLE001
         pass
     return "en"

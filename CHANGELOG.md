@@ -40,6 +40,11 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
   being overwritten by the test suite, because several tests instantiated
   `AppConfig()` directly without redirecting `config_path()`. Fixed by the
   autouse isolation fixture above.
+- **`i18n.py`**: `system_language()` returned the raw POSIX locale code
+  (`"C"`) as-is on CI runners without `LANG` set, instead of falling back to
+  `"en"`, causing `test_i18n.py::TestSystemLanguage::test_returns_string` to
+  fail intermittently in CI. Added a regression test
+  (`test_fallback_on_posix_c_locale`).
 
 ## [1.8.3] – 2026-06-30
 
