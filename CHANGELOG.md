@@ -6,6 +6,8 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [1.9.0] – 2026-07-02
+
 ### Added
 
 - **`--config DIR`** CLI flag: use an alternate configuration directory instead
