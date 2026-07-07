@@ -6,6 +6,11 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+
+- `README.md`: link to the published documentation on
+  [Read the Docs](https://pbprompt.readthedocs.io).
+
 ### Changed
 
 - Renamed the `doc/` directory to `docs/` for consistency with other

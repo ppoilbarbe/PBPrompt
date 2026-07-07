@@ -20,6 +20,8 @@ and translating AI prompts.  Prompts are stored in a **SQLite database** (`.sqli
 and can be translated via Google Translate, DeepL, MyMemory, Yandex, LibreTranslate,
 or Reverso.  YAML import/export is available for interoperability.
 
+📖 Full documentation: **[pbprompt.readthedocs.io](https://pbprompt.readthedocs.io)**
+
 ---
 
 ## Features
