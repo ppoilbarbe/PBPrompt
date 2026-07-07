@@ -22,8 +22,8 @@ class AboutDialog(QDialog, Ui_AboutDialog):
 
     def __init__(self, parent: None = None) -> None:
         super().__init__(parent)
-        self.setupUi(self)
-        self.retranslateUi(self)
+        self.setup_ui(self)
+        self.retranslate_ui(self)
 
         # Application icon
         icon = get_icon("pbprompt")
@@ -38,7 +38,7 @@ class AboutDialog(QDialog, Ui_AboutDialog):
         self.versionLabel.setText(f"{_('Version:')} {__version__}")
         self.authorLabel.setText(f"{_('Authors:')} PBMou, Claude (Anthropic)")
 
-    def retranslateUi(self, widget: QDialog) -> None:  # type: ignore[override]  # noqa: N802
+    def retranslate_ui(self, widget: QDialog) -> None:  # type: ignore[override]
         _ = get_translate()
         widget.setWindowTitle(_("About {app}").format(app=__app_name__))
         self.appNameLabel.setText(__app_name__)

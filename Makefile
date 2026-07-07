@@ -98,14 +98,14 @@ test-cov:  ## Run pytest with coverage
 # Documentation
 # ---------------------------------------------------------------------------
 docs:  ## Build Sphinx documentation
-	$(CONDA_RUN) sphinx-build -b html doc doc/_build/html
+	$(CONDA_RUN) sphinx-build -b html docs docs/_build/html
 
 # ---------------------------------------------------------------------------
 # Cleanup
 # ---------------------------------------------------------------------------
 clean:  ## Remove generated artefacts (.mo, dist, caches)
 	find $(LOCALES) -name "*.mo" -delete
-	rm -rf doc/_build $(DIST_DIR)
+	rm -rf docs/_build $(DIST_DIR)
 	rm -rf .ruff_cache .pytest_cache htmlcov .coverage
 	rm -rf build
 	find . -name "*.spec" -not -path "./.git/*" -not -name "pbprompt.spec" -delete
@@ -127,7 +127,7 @@ srcdist: all  ## Build dist/pbprompt-x.y.z.tar.gz and dist/pbprompt-x.y.z.zip
 	    ! -path '*/__pycache__' ! -path '*/__pycache__/*' \
 	    ! -name '*.pyc' ! -name '*.pyo' \
 	    ! -path '*.egg-info' ! -path '*.egg-info/*' \
-	    ! -path './doc/_build' ! -path './doc/_build/*' \
+	    ! -path './docs/_build' ! -path './docs/_build/*' \
 	    ! -path './.ruff_cache' ! -path './.ruff_cache/*' \
 	    ! -path './build' ! -path './build/*' \
 	    ! -name '*.spec' \

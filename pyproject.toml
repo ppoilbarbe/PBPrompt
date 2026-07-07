@@ -64,9 +64,8 @@ ignore = []
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["ANN", "S"]
-# Qt API imposes camelCase method names and Ui_ class name prefix
+# Qt API imposes camelCase method names
 "src/pbprompt/gui/models.py" = ["N802"]
-"src/pbprompt/gui/*_ui.py" = ["N801", "N802", "N803"]
 
 [tool.ruff.format]
 quote-style = "double"

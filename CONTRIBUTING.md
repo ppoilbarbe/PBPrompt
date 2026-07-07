@@ -22,7 +22,7 @@ pre-commit install
 make all
 ```
 
-See [doc/development.rst](doc/development.rst) for full details including
+See [docs/development.rst](docs/development.rst) for full details including
 the conda workflow.
 
 ## Pull request workflow
@@ -50,8 +50,9 @@ the conda workflow.
   to auto-fix formatting.
 - **Type hints**: all public functions and methods must be typed.
 - **Docstrings**: Google-style, English only.
-- **Qt files**: edit the `.ui` source files, never the generated `ui_*.py`.
-  See the rules in [doc/development.rst](doc/development.rst).
+- **Qt files**: edit the `*_ui.py` source files directly (there is no `.ui`
+  file or code generation step). See the rules in
+  [docs/development.rst](docs/development.rst).
 
 ## Adding a new language
 

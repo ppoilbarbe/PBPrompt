@@ -71,7 +71,7 @@ PBPrompt/
 ├── locales/
 │   └── {en,fr,es,it,ru,vi,zh_CN}/LC_MESSAGES/messages.{po,mo}
 ├── tests/                     # pytest suite (87 tests, all green)
-├── doc/                       # Sphinx docs (conf.py, *.rst, api/)
+├── docs/                      # Sphinx docs (conf.py, *.rst, api/)
 ├── hooks/
 │   ├── rthook_ssl.py          # PyInstaller runtime hook: SSL cert path
 │   └── rthook_fonts.py        # PyInstaller runtime hook: portable fontconfig on Linux
@@ -182,29 +182,29 @@ Signature: __init__(config, initial_file=None, parent=None)
 
 Key design points:
 
-1. MRO shadowing of retranslateUi — CRITICAL:
-   Python's MRO makes MainWindow.retranslateUi() shadow Ui_MainWindow.retranslateUi().
-   setupUi() calls self.retranslateUi() → always dispatches to the override.
+1. MRO shadowing of retranslate_ui — CRITICAL:
+   Python's MRO makes MainWindow.retranslate_ui() shadow Ui_MainWindow.retranslate_ui().
+   setup_ui() calls self.retranslate_ui() → always dispatches to the override.
    Consequence: ALL setShortcut() calls in the generated ui_main_window.py are DEAD CODE
    and are never executed at runtime.
-   Fix: all QKeySequence shortcuts are set inside MainWindow.retranslateUi() with a
+   Fix: all QKeySequence shortcuts are set inside MainWindow.retranslate_ui() with a
    comment explaining the reason. They are re-applied on every language change.
 
-2. Keyboard shortcuts (set in retranslateUi):
+2. Keyboard shortcuts (set in retranslate_ui):
    Ctrl+N/O/S/Shift+S/W/Q, Ctrl+,, Ins, Ctrl+D, Del, F6, F7,
    Ctrl+I, Ctrl+Shift+I, Ctrl+E, Ctrl+R (Refresh Thumbnails), F1 (About)
 
 3. Status bar tips (_update_status_tips()):
    Qt shows QAction.statusTip() in the status bar when hovering menu items/toolbar.
    _update_status_tips() iterates all findChildren(QAction), builds statusTip from
-   toolTip() + shortcut().toString(), sets it.  Called at end of retranslateUi().
+   toolTip() + shortcut().toString(), sets it.  Called at end of retranslate_ui().
 
-4. retranslateUi() override uses gettext via get_translate().
+4. retranslate_ui() override uses gettext via get_translate().
    self._ shorthand is set here and reused throughout.
 
-5. _source_model (PromptTableModel) is created AFTER setupUi/retranslateUi, so
+5. _source_model (PromptTableModel) is created AFTER setup_ui/retranslate_ui, so
    set_header_labels() and set_header_tooltips() are called explicitly in __init__()
-   after model creation (retranslateUi guard: hasattr(self, "_source_model")).
+   after model creation (retranslate_ui guard: hasattr(self, "_source_model")).
 
 6. Startup file loading:
    - initial_file (CLI arg) → _open_initial_file()
@@ -383,7 +383,7 @@ language_label(code) → "Native name (code)" e.g. "Français (fr)".
 get_locale_dir() → Path to locales/, PyInstaller-aware (sys._MEIPASS).
 
 Language change without restart:
-  SettingsDialog saves new display_language → MainWindow calls retranslateUi().
+  SettingsDialog saves new display_language → MainWindow calls retranslate_ui().
 
 Available locales: en, fr, es, it, ru, vi, zh_CN.
 

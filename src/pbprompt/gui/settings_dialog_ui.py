@@ -1,5 +1,5 @@
 # UI definition for the Settings dialog.
-# Source file — do NOT regenerate from settings_dialog.ui via pyside6-uic.
+# Source-controlled file — edit directly, there is no .ui file to regenerate from.
 
 from PySide6.QtCore import QCoreApplication, QMetaObject, Qt
 from PySide6.QtWidgets import (
@@ -19,17 +19,17 @@ from PySide6.QtWidgets import (
 
 
 class Ui_SettingsDialog:  # noqa: N801
-    def setupUi(self, SettingsDialog: QDialog) -> None:  # noqa: N802
-        if not SettingsDialog.objectName():
-            SettingsDialog.setObjectName("SettingsDialog")
-        SettingsDialog.resize(440, 440)
-        SettingsDialog.setModal(True)
+    def setup_ui(self, settings_dialog: QDialog) -> None:
+        if not settings_dialog.objectName():
+            settings_dialog.setObjectName("SettingsDialog")
+        settings_dialog.resize(440, 440)
+        settings_dialog.setModal(True)
 
-        self.verticalLayout = QVBoxLayout(SettingsDialog)
+        self.verticalLayout = QVBoxLayout(settings_dialog)
         self.verticalLayout.setObjectName("verticalLayout")
 
         # --- Language group ---
-        self.groupLanguage = QGroupBox(SettingsDialog)
+        self.groupLanguage = QGroupBox(settings_dialog)
         self.groupLanguage.setObjectName("groupLanguage")
         self.formLayoutLang = QFormLayout(self.groupLanguage)
         self.formLayoutLang.setObjectName("formLayoutLang")
@@ -61,7 +61,7 @@ class Ui_SettingsDialog:  # noqa: N801
         self.verticalLayout.addWidget(self.groupLanguage)
 
         # --- Translation service group ---
-        self.groupTranslation = QGroupBox(SettingsDialog)
+        self.groupTranslation = QGroupBox(settings_dialog)
         self.groupTranslation.setObjectName("groupTranslation")
         self.formLayoutTranslation = QFormLayout(self.groupTranslation)
         self.formLayoutTranslation.setObjectName("formLayoutTranslation")
@@ -119,7 +119,7 @@ class Ui_SettingsDialog:  # noqa: N801
         self.verticalLayout.addWidget(self.groupTranslation)
 
         # --- Logging group ---
-        self.groupLogging = QGroupBox(SettingsDialog)
+        self.groupLogging = QGroupBox(settings_dialog)
         self.groupLogging.setObjectName("groupLogging")
         self.formLayoutLog = QFormLayout(self.groupLogging)
         self.formLayoutLog.setObjectName("formLayoutLog")
@@ -139,7 +139,7 @@ class Ui_SettingsDialog:  # noqa: N801
         self.verticalLayout.addWidget(self.groupLogging)
 
         # --- Files group ---
-        self.groupFiles = QGroupBox(SettingsDialog)
+        self.groupFiles = QGroupBox(settings_dialog)
         self.groupFiles.setObjectName("groupFiles")
         self.formLayoutFiles = QFormLayout(self.groupFiles)
         self.formLayoutFiles.setObjectName("formLayoutFiles")
@@ -162,7 +162,7 @@ class Ui_SettingsDialog:  # noqa: N801
         self.verticalLayout.addWidget(self.groupFiles)
 
         # --- Images group ---
-        self.groupImages = QGroupBox(SettingsDialog)
+        self.groupImages = QGroupBox(settings_dialog)
         self.groupImages.setObjectName("groupImages")
         self.formLayoutImages = QFormLayout(self.groupImages)
         self.formLayoutImages.setObjectName("formLayoutImages")
@@ -276,7 +276,7 @@ class Ui_SettingsDialog:  # noqa: N801
         )
         self.verticalLayout.addItem(self.verticalSpacer)
 
-        self.buttonBox = QDialogButtonBox(SettingsDialog)
+        self.buttonBox = QDialogButtonBox(settings_dialog)
         self.buttonBox.setObjectName("buttonBox")
         self.buttonBox.setOrientation(Qt.Horizontal)
         self.buttonBox.setStandardButtons(
@@ -284,14 +284,14 @@ class Ui_SettingsDialog:  # noqa: N801
         )
         self.verticalLayout.addWidget(self.buttonBox)
 
-        self.retranslateUi(SettingsDialog)
-        self.buttonBox.accepted.connect(SettingsDialog.accept)
-        self.buttonBox.rejected.connect(SettingsDialog.reject)
-        QMetaObject.connectSlotsByName(SettingsDialog)
+        self.retranslate_ui(settings_dialog)
+        self.buttonBox.accepted.connect(settings_dialog.accept)
+        self.buttonBox.rejected.connect(settings_dialog.reject)
+        QMetaObject.connectSlotsByName(settings_dialog)
 
-    def retranslateUi(self, SettingsDialog: QDialog) -> None:  # noqa: N802
+    def retranslate_ui(self, settings_dialog: QDialog) -> None:
         tr = QCoreApplication.translate
-        SettingsDialog.setWindowTitle(tr("SettingsDialog", "Settings"))
+        settings_dialog.setWindowTitle(tr("SettingsDialog", "Settings"))
         self.groupLanguage.setTitle(tr("SettingsDialog", "Language"))
         self.labelDisplayLang.setText(tr("SettingsDialog", "Display language:"))
         self.labelTranslationLang.setText(tr("SettingsDialog", "Translation language:"))

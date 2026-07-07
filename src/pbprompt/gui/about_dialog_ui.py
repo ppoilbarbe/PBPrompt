@@ -1,5 +1,5 @@
 # UI definition for the About dialog.
-# Source file — do NOT regenerate from about_dialog.ui via pyside6-uic.
+# Source-controlled file — edit directly, there is no .ui file to regenerate from.
 
 from PySide6.QtCore import QCoreApplication, QMetaObject, QSize, Qt
 from PySide6.QtGui import QFont
@@ -15,20 +15,20 @@ from PySide6.QtWidgets import (
 
 
 class Ui_AboutDialog:  # noqa: N801
-    def setupUi(self, AboutDialog: QDialog) -> None:  # noqa: N802
-        if not AboutDialog.objectName():
-            AboutDialog.setObjectName("AboutDialog")
-        AboutDialog.resize(360, 260)
-        AboutDialog.setModal(True)
+    def setup_ui(self, about_dialog: QDialog) -> None:
+        if not about_dialog.objectName():
+            about_dialog.setObjectName("AboutDialog")
+        about_dialog.resize(360, 260)
+        about_dialog.setModal(True)
 
-        self.verticalLayout = QVBoxLayout(AboutDialog)
+        self.verticalLayout = QVBoxLayout(about_dialog)
         self.verticalLayout.setObjectName("verticalLayout")
 
         # Header: app icon on the left, name/version/author on the right
         self.headerLayout = QHBoxLayout()
         self.headerLayout.setObjectName("headerLayout")
 
-        self.iconLabel = QLabel(AboutDialog)
+        self.iconLabel = QLabel(about_dialog)
         self.iconLabel.setObjectName("iconLabel")
         self.iconLabel.setMinimumSize(QSize(64, 64))
         self.iconLabel.setMaximumSize(QSize(64, 64))
@@ -38,7 +38,7 @@ class Ui_AboutDialog:  # noqa: N801
         self.infoLayout = QVBoxLayout()
         self.infoLayout.setObjectName("infoLayout")
 
-        self.appNameLabel = QLabel(AboutDialog)
+        self.appNameLabel = QLabel(about_dialog)
         self.appNameLabel.setObjectName("appNameLabel")
         font = QFont()
         font.setPointSize(14)
@@ -46,15 +46,15 @@ class Ui_AboutDialog:  # noqa: N801
         self.appNameLabel.setFont(font)
         self.infoLayout.addWidget(self.appNameLabel)
 
-        self.versionLabel = QLabel(AboutDialog)
+        self.versionLabel = QLabel(about_dialog)
         self.versionLabel.setObjectName("versionLabel")
         self.infoLayout.addWidget(self.versionLabel)
 
-        self.authorLabel = QLabel(AboutDialog)
+        self.authorLabel = QLabel(about_dialog)
         self.authorLabel.setObjectName("authorLabel")
         self.infoLayout.addWidget(self.authorLabel)
 
-        self.descriptionLabel = QLabel(AboutDialog)
+        self.descriptionLabel = QLabel(about_dialog)
         self.descriptionLabel.setObjectName("descriptionLabel")
         self.descriptionLabel.setWordWrap(True)
         self.infoLayout.addWidget(self.descriptionLabel)
@@ -63,7 +63,7 @@ class Ui_AboutDialog:  # noqa: N801
         self.verticalLayout.addLayout(self.headerLayout)
 
         # License link (centered)
-        self.licenseLabel = QLabel(AboutDialog)
+        self.licenseLabel = QLabel(about_dialog)
         self.licenseLabel.setObjectName("licenseLabel")
         self.licenseLabel.setOpenExternalLinks(True)
         self.licenseLabel.setAlignment(Qt.AlignCenter)
@@ -74,19 +74,19 @@ class Ui_AboutDialog:  # noqa: N801
         )
         self.verticalLayout.addItem(self.verticalSpacer)
 
-        self.buttonBox = QDialogButtonBox(AboutDialog)
+        self.buttonBox = QDialogButtonBox(about_dialog)
         self.buttonBox.setObjectName("buttonBox")
         self.buttonBox.setOrientation(Qt.Horizontal)
         self.buttonBox.setStandardButtons(QDialogButtonBox.Close)
         self.verticalLayout.addWidget(self.buttonBox)
 
-        self.retranslateUi(AboutDialog)
-        self.buttonBox.rejected.connect(AboutDialog.reject)
-        QMetaObject.connectSlotsByName(AboutDialog)
+        self.retranslate_ui(about_dialog)
+        self.buttonBox.rejected.connect(about_dialog.reject)
+        QMetaObject.connectSlotsByName(about_dialog)
 
-    def retranslateUi(self, AboutDialog: QDialog) -> None:  # noqa: N802
+    def retranslate_ui(self, about_dialog: QDialog) -> None:
         tr = QCoreApplication.translate
-        AboutDialog.setWindowTitle(tr("AboutDialog", "About PBPrompt"))
+        about_dialog.setWindowTitle(tr("AboutDialog", "About PBPrompt"))
         self.iconLabel.setText("")
         self.appNameLabel.setText(tr("AboutDialog", "PBPrompt"))
         self.versionLabel.setText(tr("AboutDialog", "Version: 1.0.0"))

@@ -55,8 +55,8 @@ class TestMainWindowInit:
         assert w.filterAi.text() == "ChatGPT"
 
     def test_retranslate_updates_headers(self, win) -> None:
-        """Calling retranslateUi after init exercises the hasattr guard branch."""
-        win.retranslateUi(win)
+        """Calling retranslate_ui after init exercises the hasattr guard branch."""
+        win.retranslate_ui(win)
 
     def test_initial_file_nonexistent(self, qtbot) -> None:
         """initial_file that doesn't exist → error handled."""

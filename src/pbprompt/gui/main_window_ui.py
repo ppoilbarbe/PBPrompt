@@ -1,5 +1,5 @@
 # UI definition for the main application window.
-# Source file — do NOT regenerate from main_window.ui via pyside6-uic.
+# Source-controlled file — edit directly, there is no .ui file to regenerate from.
 
 from PySide6.QtCore import QCoreApplication, QMetaObject, QRect, Qt
 from PySide6.QtGui import QAction
@@ -22,49 +22,49 @@ from pbprompt.gui.models import PromptTableView
 
 
 class Ui_MainWindow:  # noqa: N801
-    def setupUi(self, MainWindow: QMainWindow) -> None:  # noqa: N802
-        if not MainWindow.objectName():
-            MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1100, 700)
+    def setup_ui(self, main_window: QMainWindow) -> None:
+        if not main_window.objectName():
+            main_window.setObjectName("MainWindow")
+        main_window.resize(1100, 700)
 
         # --- Actions ---
-        self.actionFileNew = QAction(MainWindow)
+        self.actionFileNew = QAction(main_window)
         self.actionFileNew.setObjectName("actionFileNew")
-        self.actionFileOpen = QAction(MainWindow)
+        self.actionFileOpen = QAction(main_window)
         self.actionFileOpen.setObjectName("actionFileOpen")
-        self.actionFileSave = QAction(MainWindow)
+        self.actionFileSave = QAction(main_window)
         self.actionFileSave.setObjectName("actionFileSave")
-        self.actionFileSaveAs = QAction(MainWindow)
+        self.actionFileSaveAs = QAction(main_window)
         self.actionFileSaveAs.setObjectName("actionFileSaveAs")
-        self.actionFileClose = QAction(MainWindow)
+        self.actionFileClose = QAction(main_window)
         self.actionFileClose.setObjectName("actionFileClose")
-        self.actionFileQuit = QAction(MainWindow)
+        self.actionFileQuit = QAction(main_window)
         self.actionFileQuit.setObjectName("actionFileQuit")
-        self.actionToolsOptions = QAction(MainWindow)
+        self.actionToolsOptions = QAction(main_window)
         self.actionToolsOptions.setObjectName("actionToolsOptions")
-        self.actionHelpAbout = QAction(MainWindow)
+        self.actionHelpAbout = QAction(main_window)
         self.actionHelpAbout.setObjectName("actionHelpAbout")
-        self.actionNewPrompt = QAction(MainWindow)
+        self.actionNewPrompt = QAction(main_window)
         self.actionNewPrompt.setObjectName("actionNewPrompt")
-        self.actionDuplicatePrompt = QAction(MainWindow)
+        self.actionDuplicatePrompt = QAction(main_window)
         self.actionDuplicatePrompt.setObjectName("actionDuplicatePrompt")
-        self.actionDeletePrompts = QAction(MainWindow)
+        self.actionDeletePrompts = QAction(main_window)
         self.actionDeletePrompts.setObjectName("actionDeletePrompts")
-        self.actionTranslateToEnglish = QAction(MainWindow)
+        self.actionTranslateToEnglish = QAction(main_window)
         self.actionTranslateToEnglish.setObjectName("actionTranslateToEnglish")
-        self.actionTranslateFromEnglish = QAction(MainWindow)
+        self.actionTranslateFromEnglish = QAction(main_window)
         self.actionTranslateFromEnglish.setObjectName("actionTranslateFromEnglish")
-        self.actionImportYamlAdd = QAction(MainWindow)
+        self.actionImportYamlAdd = QAction(main_window)
         self.actionImportYamlAdd.setObjectName("actionImportYamlAdd")
-        self.actionImportYamlReplace = QAction(MainWindow)
+        self.actionImportYamlReplace = QAction(main_window)
         self.actionImportYamlReplace.setObjectName("actionImportYamlReplace")
-        self.actionExportYaml = QAction(MainWindow)
+        self.actionExportYaml = QAction(main_window)
         self.actionExportYaml.setObjectName("actionExportYaml")
-        self.actionRefreshThumbnails = QAction(MainWindow)
+        self.actionRefreshThumbnails = QAction(main_window)
         self.actionRefreshThumbnails.setObjectName("actionRefreshThumbnails")
 
         # --- Central widget ---
-        self.centralwidget = QWidget(MainWindow)
+        self.centralwidget = QWidget(main_window)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.verticalLayout.setSpacing(4)
@@ -123,10 +123,10 @@ class Ui_MainWindow:  # noqa: N801
         self.tableView.setWordWrap(False)
         self.verticalLayout.addWidget(self.tableView)
 
-        MainWindow.setCentralWidget(self.centralwidget)
+        main_window.setCentralWidget(self.centralwidget)
 
         # --- Menu bar ---
-        self.menubar = QMenuBar(MainWindow)
+        self.menubar = QMenuBar(main_window)
         self.menubar.setObjectName("menubar")
         self.menubar.setGeometry(QRect(0, 0, 1100, 24))
 
@@ -140,7 +140,7 @@ class Ui_MainWindow:  # noqa: N801
         self.menuTools.setObjectName("menuTools")
         self.menuHelp = QMenu(self.menubar)
         self.menuHelp.setObjectName("menuHelp")
-        MainWindow.setMenuBar(self.menubar)
+        main_window.setMenuBar(self.menubar)
 
         # File menu structure
         self.menubar.addAction(self.menuFile.menuAction())
@@ -167,9 +167,9 @@ class Ui_MainWindow:  # noqa: N801
         self.menuHelp.addAction(self.actionHelpAbout)
 
         # --- Toolbar ---
-        self.mainToolBar = QToolBar(MainWindow)
+        self.mainToolBar = QToolBar(main_window)
         self.mainToolBar.setObjectName("mainToolBar")
-        MainWindow.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.mainToolBar)
+        main_window.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.mainToolBar)
         self.mainToolBar.addAction(self.actionFileNew)
         self.mainToolBar.addAction(self.actionFileOpen)
         self.mainToolBar.addAction(self.actionFileSave)
@@ -182,18 +182,18 @@ class Ui_MainWindow:  # noqa: N801
         self.mainToolBar.addAction(self.actionTranslateFromEnglish)
 
         # --- Status bar ---
-        self.statusbar = QStatusBar(MainWindow)
+        self.statusbar = QStatusBar(main_window)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        main_window.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslate_ui(main_window)
+        QMetaObject.connectSlotsByName(main_window)
 
-    def retranslateUi(self, MainWindow: QMainWindow) -> None:  # noqa: N802
-        # Shortcuts omitted: MainWindow.retranslateUi() in main_window.py overrides
+    def retranslate_ui(self, main_window: QMainWindow) -> None:
+        # Shortcuts omitted: MainWindow.retranslate_ui() in main_window.py overrides
         # this method via Python MRO and sets all shortcuts there.
         tr = QCoreApplication.translate
-        MainWindow.setWindowTitle(tr("MainWindow", "PBPrompt"))
+        main_window.setWindowTitle(tr("MainWindow", "PBPrompt"))
         self.actionFileNew.setText(tr("MainWindow", "&New"))
         self.actionFileNew.setToolTip(tr("MainWindow", "New file"))
         self.actionFileOpen.setText(tr("MainWindow", "&Open…"))

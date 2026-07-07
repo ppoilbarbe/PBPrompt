@@ -88,7 +88,7 @@ def setup_i18n(language: str | None = None) -> None:
 
 
 def reload_i18n(language: str) -> None:
-    """Switch to *language* at runtime; call ``retranslateUi()`` on windows yourself."""
+    """Switch to *language* at runtime; call ``retranslate_ui()`` on windows."""
     setup_i18n(language)
 
 

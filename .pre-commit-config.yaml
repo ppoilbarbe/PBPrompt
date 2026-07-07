@@ -11,7 +11,6 @@ repos:
       - id: check-yaml
       - id: check-toml
       - id: check-json
-      - id: check-xml          # covers .ui files
       - id: debug-statements   # Python only
 
   - repo: https://github.com/astral-sh/ruff-pre-commit

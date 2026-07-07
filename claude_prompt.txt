@@ -35,7 +35,7 @@ Required features:
   config.save().
 - Each filter field (QLineEdit) shows a tooltip stating that regular expressions are
   accepted (e.g. "Filter the AI column. Supports regular expressions.").
-  Tooltips are defined in retranslateUi() and translated via i18n.
+  Tooltips are defined in retranslate_ui() and translated via i18n.
 - There are buttons in the toolbar:
   - New prompt (to create a new empty row, shortcut Ins),
   - Duplicate (to duplicate the current row and insert it immediately below,
@@ -133,7 +133,7 @@ Required features:
   Tooltips are translated via the i18n system (gettext).
   Implementation: PromptTableModel.headerData() handles Qt.ToolTipRole via a
   _header_tooltips (list[str]) field and a set_header_tooltips(tooltips: list[str])
-  method symmetric to set_header_labels(). Tooltips are set in retranslateUi() and
+  method symmetric to set_header_labels(). Tooltips are set in retranslate_ui() and
   in __init__() (after creating _source_model), exactly like set_header_labels().
 
 
@@ -230,7 +230,7 @@ not be hard-coded.
   * On close (closeEvent, after unsaved-changes confirmation):
     save self.x(), self.y(), self.width(), self.height() into AppConfig then call
     self._config.save().
-  * On startup (in __init__, after setupUi): if window_width and window_height are set
+  * On startup (in __init__, after setup_ui): if window_width and window_height are set
     in the config, call self.resize(w, h); if window_x and window_y are set, call
     self.move(x, y). Do nothing if values are None (first launch: Qt picks defaults).
 - The main window and the Settings and About dialogs are defined in the gui/ folder
@@ -239,16 +239,16 @@ not be hard-coded.
 
 Critical points for keyboard shortcuts — Python MRO bug:
   * MainWindow inherits from both QMainWindow and Ui_MainWindow.
-    Python's Method Resolution Order (MRO) causes MainWindow.retranslateUi()
-    to SHADOW Ui_MainWindow.retranslateUi(): when setupUi() calls self.retranslateUi(),
-    Python dispatches to MainWindow.retranslateUi() and NEVER calls
-    Ui_MainWindow.retranslateUi().
-  * Consequence: all setShortcut() calls in Ui_MainWindow.retranslateUi() are dead
+    Python's Method Resolution Order (MRO) causes MainWindow.retranslate_ui()
+    to SHADOW Ui_MainWindow.retranslate_ui(): when setup_ui() calls self.retranslate_ui(),
+    Python dispatches to MainWindow.retranslate_ui() and NEVER calls
+    Ui_MainWindow.retranslate_ui().
+  * Consequence: all setShortcut() calls in Ui_MainWindow.retranslate_ui() are dead
     code — shortcuts defined in *_ui.py are NEVER installed at runtime.
   * Fix: place ALL setShortcut(QKeySequence(...)) calls directly in
-    MainWindow.retranslateUi() with an explanatory comment:
+    MainWindow.retranslate_ui() with an explanatory comment:
 
-    # Keyboard shortcuts — set here because Ui_MainWindow.retranslateUi is
+    # Keyboard shortcuts — set here because Ui_MainWindow.retranslate_ui is
     # shadowed by this override (Python MRO) and therefore never called at runtime.
     self.actionFileNew.setShortcut(QKeySequence("Ctrl+N"))
     self.actionFileOpen.setShortcut(QKeySequence("Ctrl+O"))
@@ -273,7 +273,7 @@ Critical points for the status bar and action tooltips:
     hovers over a menu item OR a toolbar button. (toolTip is reserved for floating
     button tooltips.)
   * To show tooltip + shortcut in the status bar, add the method _update_status_tips()
-    to MainWindow and call it at the end of retranslateUi():
+    to MainWindow and call it at the end of retranslate_ui():
 
     def _update_status_tips(self) -> None:
         for action in self.findChildren(QAction):
@@ -410,7 +410,7 @@ description (grep on ## in the Makefile).
 - The "Local language" column header must display the translation language name from
   startup (e.g. "Français (fr)"), not "Local language". This requires an explicit call
   to set_header_labels() right after creating _source_model in MainWindow.__init__(),
-  independently of retranslateUi() which runs before the model exists.
+  independently of retranslate_ui() which runs before the model exists.
 - The display name for each language follows the format "Native name (code)"
   (e.g. "Français (fr)", "中文(简体) (zh_CN)"). Centralise this formatting in a
   function language_label(code: str) -> str in i18n.py, using a _LANGUAGE_NAMES dict
@@ -584,8 +584,12 @@ Critical points for PyInstaller artefacts in CI:
 - package-data: "pbprompt" = ["py.typed", "icons/*.svg"]
 - [tool.ruff.lint.per-file-ignores]:
   * "src/pbprompt/gui/models.py" = ["N802"] (camelCase methods imposed by PySide6)
-  * "src/pbprompt/gui/*_ui.py" = ["N801", "N802", "N803"] (Qt naming conventions)
-  * Add # noqa: N802 on retranslateUi() and closeEvent() in main_window.py etc.
+  * *_ui.py files keep only inline `# noqa: N801` on the Ui_* class definitions
+    (the conventional Qt Designer "Ui_" class name prefix); setup_ui()/
+    retranslate_ui() and their arguments are plain snake_case, so no other
+    ignore is needed.
+  * Add # noqa: N802 on Qt event overrides (closeEvent, showEvent, ...) in
+    main_window.py etc.
   * In translate/*.py, deferred imports `from deep_translator import XxxTranslator
     as _XT` must have # noqa: PLC0415, N814
 - Dev dependencies:
@@ -625,7 +629,7 @@ Critical points for PyInstaller artefacts in CI:
   Bundles: locales/, src/pbprompt/icons/, certifi CA bundle, $CONDA_PREFIX/fonts/
   (conda font packages — requires fonts-conda-ecosystem in the conda environment).
   Runtime hooks: hooks/rthook_ssl.py, hooks/rthook_fonts.py.
-- Sphinx documentation in doc/.
+- Sphinx documentation in docs/.
 - Makefile with targets: all, translations, pot, merge-po, run, lint, format, test,
   test-cov, docs, dist, srcdist, clean, version, bump-patch, bump-minor, bump-major,
   help, venv, pyvenv, hooks.
@@ -671,14 +675,14 @@ Critical points for PyInstaller artefacts in CI:
     This pattern works whether __version__ uses single or double quotes.
   * Use a staging directory (dist/.tmp-pbprompt-x.y.z/) then tar/zip from it.
   * Exclude from find: .git, dist/, __pycache__, *.pyc, *.pyo, *.egg-info,
-    doc/_build, .ruff_cache, build/, *.spec
+    docs/_build, .ruff_cache, build/, *.spec
   * Do not use read -d '' (a bash option, not available in /bin/sh/dash).
     Use instead: find ... -type f | sort | while IFS= read -r f; do ... done
   * make clean must delete dist/ in addition to the usual artefacts.
 
   clean target — must remove ALL generated artefacts:
     find $(LOCALES) -name "*.mo" -delete
-    rm -rf doc/_build $(DIST_DIR)
+    rm -rf docs/_build $(DIST_DIR)
     rm -rf .ruff_cache .pytest_cache htmlcov .coverage
     rm -rf build
     find . -name "*.spec" -not -path "./.git/*" -not -name "pbprompt.spec" -delete

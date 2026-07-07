@@ -530,12 +530,12 @@ class TestAboutDialog:
         assert __version__ in dlg.versionLabel.text()
 
     def test_ui_retranslate_direct(self, qtbot) -> None:
-        """Call Ui_AboutDialog.retranslateUi directly to cover MRO-shadowed lines."""
+        """Call Ui_AboutDialog.retranslate_ui directly to cover MRO-shadowed lines."""
         from pbprompt.gui.about_dialog import AboutDialog
         from pbprompt.gui.about_dialog_ui import Ui_AboutDialog
 
         dlg = AboutDialog()
-        Ui_AboutDialog.retranslateUi(dlg, dlg)  # bypasses MRO shadowing
+        Ui_AboutDialog.retranslate_ui(dlg, dlg)  # bypasses MRO shadowing
 
     def test_settings_dialog_creates(self, qtbot) -> None:
         from pbprompt.config import AppConfig
@@ -558,7 +558,7 @@ class TestAboutDialog:
         from pbprompt.gui.settings_dialog_ui import Ui_SettingsDialog
 
         dlg = SettingsDialog(AppConfig())
-        Ui_SettingsDialog.retranslateUi(dlg, dlg)
+        Ui_SettingsDialog.retranslate_ui(dlg, dlg)
 
     def test_settings_dialog_accept(self, qtbot) -> None:
         """accept() persists values to the underlying config."""
@@ -622,7 +622,7 @@ class TestAboutDialog:
         from pbprompt.gui.main_window_ui import Ui_MainWindow
 
         win = MainWindow(AppConfig())
-        Ui_MainWindow.retranslateUi(win, win)
+        Ui_MainWindow.retranslate_ui(win, win)
         win.close()
 
     def test_dialog_null_icon_fallback(self, qtbot) -> None:

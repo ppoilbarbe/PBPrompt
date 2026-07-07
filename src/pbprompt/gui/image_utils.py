@@ -287,7 +287,7 @@ class ImageViewDialog(QDialog):
         layout.addWidget(toolbar)
 
         # Width shortcut key: translatable ("l" in French, "w" in English, …)
-        # Keyboard shortcuts — set here because Ui_MainWindow.retranslateUi is
+        # Keyboard shortcuts — set here because Ui_MainWindow.retranslate_ui is
         # shadowed by this override (Python MRO) and therefore never called at runtime.
         width_key = _("l")
 

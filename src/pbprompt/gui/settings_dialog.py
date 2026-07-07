@@ -108,8 +108,8 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
 
     def __init__(self, config: AppConfig, parent: None = None) -> None:
         super().__init__(parent)
-        self.setupUi(self)
-        self.retranslateUi(self)
+        self.setup_ui(self)
+        self.retranslate_ui(self)
 
         # Work on a copy so we can discard changes on Cancel
         self._config = AppConfig(
@@ -146,10 +146,10 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
         return self._config
 
     # ------------------------------------------------------------------
-    # retranslateUi override
+    # retranslate_ui override
     # ------------------------------------------------------------------
 
-    def retranslateUi(self, widget: QDialog) -> None:  # type: ignore[override]  # noqa: N802
+    def retranslate_ui(self, widget: QDialog) -> None:  # type: ignore[override]
         _ = get_translate()
         widget.setWindowTitle(_("Settings"))
 

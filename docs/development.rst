@@ -125,9 +125,8 @@ UI definition files
 
 Widget layouts are defined in pure-Python ``*_ui.py`` files in
 ``src/pbprompt/gui/``.  These files are **source-controlled** — edit them
-directly.  Qt Designer ``.ui`` XML files are kept as reference only and are
-no longer compiled; the ``make ui`` and ``make resources`` targets have been
-removed.
+directly.  Qt Designer ``.ui`` XML files have been removed; the ``make ui``
+and ``make resources`` targets have been removed as well.
 
 Icons
 -----
@@ -185,4 +184,4 @@ Building documentation locally
 
    pip install sphinx sphinx-rtd-theme
    make docs
-   # HTML output: doc/_build/html/index.html
+   # HTML output: docs/_build/html/index.html

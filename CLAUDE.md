@@ -41,7 +41,7 @@ make bump-patch/minor/major  # bump semver version
 **UI definition files — `*_ui.py`:**
 - `src/pbprompt/gui/main_window_ui.py`, `about_dialog_ui.py`, `settings_dialog_ui.py`
   are **source-controlled files** — edit them directly.
-- `.ui` files (Qt Designer) are kept as reference but are no longer compiled.
+- There are no `.ui` (Qt Designer) files anymore, and no code generation step.
   The `make ui` and `make resources` targets no longer exist.
 - All `QAction` instances are defined in the `*_ui.py` files, never in
   `main_window.py` or other behaviour files.
@@ -60,10 +60,10 @@ Always quote it in every SQL query: `"group"`.
 
 **MRO bug — keyboard shortcuts:**
 `MainWindow` inherits from both `QMainWindow` and `Ui_MainWindow`. Python MRO causes
-`MainWindow.retranslateUi()` to shadow `Ui_MainWindow.retranslateUi()` → all
+`MainWindow.retranslate_ui()` to shadow `Ui_MainWindow.retranslate_ui()` → all
 `setShortcut()` calls in the `*_ui.py` files are dead code.
-→ All shortcuts must be defined in `MainWindow.retranslateUi()` with the comment:
-`# Keyboard shortcuts — set here because Ui_MainWindow.retranslateUi is`
+→ All shortcuts must be defined in `MainWindow.retranslate_ui()` with the comment:
+`# Keyboard shortcuts — set here because Ui_MainWindow.retranslate_ui is`
 `# shadowed by this override (Python MRO) and therefore never called at runtime.`
 
 **Proxy model — `Column(IntEnum)`:**

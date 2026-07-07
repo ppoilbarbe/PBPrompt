@@ -58,10 +58,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._config = config
 
         # Set up the UI from Ui_MainWindow
-        self.setupUi(self)
+        self.setup_ui(self)
 
-        # Override retranslateUi strings with gettext immediately
-        self.retranslateUi(self)
+        # Override retranslate_ui strings with gettext immediately
+        self.retranslate_ui(self)
 
         # Data layer
         self._collection = PromptCollection()
@@ -72,7 +72,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._proxy_model.setSourceModel(self._source_model)
         self.tableView.setModel(self._proxy_model)
 
-        # Set column headers now that _source_model exists (retranslateUi ran
+        # Set column headers now that _source_model exists (retranslate_ui ran
         # before the model was created, so the local-language header must be
         # applied explicitly here).
         self._source_model.set_header_labels(
@@ -169,10 +169,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self._autoload_last_file()
 
     # ------------------------------------------------------------------
-    # retranslateUi override – uses gettext
+    # retranslate_ui override – uses gettext
     # ------------------------------------------------------------------
 
-    def retranslateUi(self, widget: QMainWindow) -> None:  # type: ignore[override]  # noqa: N802
+    def retranslate_ui(self, widget: QMainWindow) -> None:  # type: ignore[override]
         """Override the generated retranslate to use gettext strings."""
         _ = get_translate()
         self._ = _  # convenient shorthand
@@ -251,10 +251,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.menuRecentFiles.setTitle(_("Recent &Files"))
 
-        # Keyboard shortcuts — set here because Ui_MainWindow.retranslateUi is
+        # Keyboard shortcuts — set here because Ui_MainWindow.retranslate_ui is
         # shadowed by this override (Python MRO) and therefore never called at
         # runtime.  Shortcuts are language-independent but must be applied on
-        # every retranslateUi call so they survive a language change.
+        # every retranslate_ui call so they survive a language change.
         self.actionFileNew.setShortcut(QKeySequence("Ctrl+N"))
         self.actionFileOpen.setShortcut(QKeySequence("Ctrl+O"))
         self.actionFileSave.setShortcut(QKeySequence("Ctrl+S"))
@@ -1221,7 +1221,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             from pbprompt.i18n import reload_i18n  # noqa: PLC0415
 
             reload_i18n(self._config.display_language)
-            self.retranslateUi(self)
+            self.retranslate_ui(self)
             # Update image delegate size
             self._image_delegate.update_size(
                 self._config.thumbnail_width,

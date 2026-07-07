@@ -295,7 +295,7 @@ PBPrompt/
 ├── locales/                   # gettext catalogs: de, en, es, fr, it, ru, vi, zh_CN
 │   └── {lang}/LC_MESSAGES/messages.{po,mo}
 ├── tests/                     # pytest suite (4 modules, 87 tests)
-├── doc/                       # Sphinx documentation
+├── docs/                      # Sphinx documentation
 ├── hooks/                     # PyInstaller runtime hooks
 │   ├── rthook_ssl.py          # SSL certificate path for frozen builds
 │   └── rthook_fonts.py        # Portable fontconfig on Linux (frozen builds)

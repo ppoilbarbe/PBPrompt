@@ -6,6 +6,29 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Changed
+
+- Renamed the `doc/` directory to `docs/` for consistency with other
+  projects; updated all references (`Makefile`, `.readthedocs.yaml`, CI
+  workflow, `README.md`, `CONTRIBUTING.md`, reference files).
+- Removed the Qt Designer `.ui` files (`about_dialog.ui`, `main_window.ui`,
+  `settings_dialog.ui`); the `*_ui.py` files remain the single
+  source-controlled UI definitions and are no longer regenerated from them.
+- Renamed `setupUi`/`retranslateUi` to `setup_ui`/`retranslate_ui`, and their
+  `MainWindow`/`AboutDialog`/`SettingsDialog` arguments to snake_case, across
+  the `*_ui.py` files, `main_window.py`, `about_dialog.py`,
+  `settings_dialog.py`, and tests. Removed the `N801`/`N802`/`N803`
+  per-file-ignore for `src/pbprompt/gui/*_ui.py` in `pyproject.toml`; only an
+  inline `# noqa: N801` remains on the `Ui_*` class names (Qt Designer naming
+  convention).
+
+### Removed
+
+- `tools/build_qm.sh`: obsolete script compiling `.ui`/`.qrc` files that no
+  longer exist.
+- `check-xml` pre-commit hook, which only covered the now-removed `.ui`
+  files; no other XML file remains in the repository.
+
 ## [1.9.0] – 2026-07-02
 
 ### Added
