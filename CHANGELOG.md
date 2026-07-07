@@ -34,6 +34,15 @@ the format is based on [Keep a Changelog](https://keepachangelog.com/).
 - `check-xml` pre-commit hook, which only covered the now-removed `.ui`
   files; no other XML file remains in the repository.
 
+### Fixed
+
+- `docs/conf.py`: the `## [Unreleased]` section of `CHANGELOG.md` was
+  dropped by the RST changelog generator except for its orphaned
+  `### Added`/`### Changed`/... subheadings, which were emitted without
+  content and at an incorrect nesting level. `[Unreleased]` is now
+  recognised like a dated release and included only when it has actual
+  content.
+
 ## [1.9.0] – 2026-07-02
 
 ### Added
